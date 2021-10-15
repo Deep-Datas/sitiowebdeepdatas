@@ -25,9 +25,15 @@ mail = Mail(app)
 @app.route("/")
 def index():
 	print('hola1')
-	send_email()
 	return render_template('index.html')
 
+@app.route("/mail")
+def mail():
+	send_email()
+
+	return 'enviado'
+
+	
 
 #@app.route("/form", methods=["POST"])
 def send_email():
