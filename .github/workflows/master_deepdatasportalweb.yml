@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'DeepDatasPortalWeb'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8E2BAB2A376341128D69C1DBB1F2182D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3695E4807655437B99B6F9C3808A2937 }}
