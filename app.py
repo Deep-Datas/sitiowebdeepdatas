@@ -1,94 +1,131 @@
-from flask import Flask, render_template, request
-from flask_bootstrap import Bootstrap
+import logging
+import os
+import re
+from datetime import date
+
+from flask import Flask, Response, jsonify, redirect, render_template, request, url_for
 from flask_mail import Mail, Message
-import smtplib, ssl
-
-
-
 
 
 app = Flask(__name__)
-bootstrap = Bootstrap(app)
+logger = logging.getLogger(__name__)
 
 
-app.config['MAIL_SERVER']='smtp.office365.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'contacto@deepdatas.com'
-app.config['MAIL_PASSWORD'] = 'Kav12067'
-#app.config['MAIL_USE_TLS'] = False
+def env_flag(name, default):
+	return os.environ.get(name, str(default)).strip().lower() in ('1', 'true', 'yes', 'si')
+
+
+# Las credenciales de correo se leen de variables de entorno (Azure App Service >
+# Configuración > Application settings). Nunca deben quedar escritas en el código.
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.office365.com')
+app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = env_flag('MAIL_USE_TLS', True)
+app.config['MAIL_USE_SSL'] = env_flag('MAIL_USE_SSL', False)
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'contacto@deepdatas.com')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_SENDER', app.config['MAIL_USERNAME'])
+app.config['CONTACT_RECIPIENTS'] = [
+	r.strip() for r in os.environ.get('CONTACT_RECIPIENTS', 'contacto@deepdatas.com').split(',') if r.strip()
+]
+app.config['SITE_URL'] = os.environ.get('SITE_URL', 'https://deepdatas.com').rstrip('/')
 mail = Mail(app)
 
+EMAIL_RE = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
+CONTACT_FIELDS = {
+	# campo: (obligatorio, largo máximo)
+	'name': (True, 120),
+	'email': (True, 254),
+	'company': (False, 120),
+	'subject': (True, 160),
+	'message': (True, 5000),
+}
 
+
+@app.context_processor
+def inject_globals():
+	return {'current_year': date.today().year, 'site_url': app.config['SITE_URL']}
 
 
 @app.route("/")
 def index():
-	print('hola1')
 	return render_template('index.html')
 
-@app.route("/mail")
-def mail():
-	send_email()
 
-	return 'enviado'
+@app.route("/contacto", methods=["POST"])
+def contacto():
+	wants_json = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
-	
+	# Campo trampa: los humanos no lo ven, los bots suelen completarlo.
+	if request.form.get('website'):
+		return contact_response(wants_json, True)
 
-#@app.route("/form", methods=["POST"])
-def send_email():
-	
-	#nombre = request.form.get("name")
-	#email = request.form.get("email")
-	#subject = request.form.get("subject")
-	#mensaje = request.form.get("message")
+	data = {field: (request.form.get(field) or '').strip() for field in CONTACT_FIELDS}
+	error = validate_contact(data)
+	if error:
+		return contact_response(wants_json, False, error, 400)
 
-	msg = Message('Hello from the other side!', 
-		sender = 'contacto@deepdatas.com', 
-		recipients = ['fbloise@deepdatas.com','mgarcia@deepdatas.com','itorres@deepdatas.com'])
-	print('msg')
+	if not app.config['MAIL_PASSWORD']:
+		logger.error('Formulario de contacto: MAIL_PASSWORD no está configurado.')
+		return contact_response(wants_json, False,
+			'No pudimos enviar tu mensaje en este momento. Escribinos a contacto@deepdatas.com.', 503)
 
-	msg.body = "Hey Paul, sending you this email from my Flask app, lmk if it works"
-	print('body')
+	try:
+		send_contact_email(data)
+	except Exception:
+		logger.exception('Formulario de contacto: error al enviar el correo.')
+		return contact_response(wants_json, False,
+			'No pudimos enviar tu mensaje en este momento. Escribinos a contacto@deepdatas.com.', 502)
+
+	return contact_response(wants_json, True)
+
+
+def validate_contact(data):
+	for field, (required, max_length) in CONTACT_FIELDS.items():
+		if required and not data[field]:
+			return 'Completá todos los campos obligatorios.'
+		if len(data[field]) > max_length:
+			return 'Uno de los campos es demasiado largo.'
+	if not EMAIL_RE.match(data['email']):
+		return 'Ingresá un email válido.'
+	return None
+
+
+def send_contact_email(data):
+	subject = ' '.join(data['subject'].split())
+	msg = Message(
+		f'[deepdatas.com] {subject}',
+		recipients=app.config['CONTACT_RECIPIENTS'],
+		reply_to=data['email'],
+	)
+	msg.body = (
+		'Nueva consulta desde el formulario de contacto del sitio web.\n\n'
+		f"Nombre: {data['name']}\n"
+		f"Email: {data['email']}\n"
+		f"Empresa: {data['company'] or '-'}\n"
+		f"Asunto: {subject}\n\n"
+		f"{data['message']}\n"
+	)
 	mail.send(msg)
-	print('send')
-
-	return "Message sent!"
 
 
-"""
-	port = 587  # For starttls
-	smtp_server = "smtp.gmail.com"
-	sender_email = "my@gmail.com"
-	receiver_email = "your@gmail.com"
-	password = input("Type your password and press enter:")
-	message = " Subject: Hi there. This message is sent from Python."
-
-	context = ssl.create_default_context()
-	with smtplib.SMTP(smtp_server, port) as server:
-	    server.ehlo()  # Can be omitted
-	    server.starttls(context=context)
-	    server.ehlo()  # Can be omitted
-	    server.login(sender_email, password)
-	    server.sendmail(sender_email, receiver_email, message)
+def contact_response(wants_json, ok, error=None, status=200):
+	if wants_json:
+		return jsonify(ok=ok, error=error), status
+	return redirect(url_for('index', contacto='enviado' if ok else 'error', _anchor='contacto'))
 
 
+@app.route("/robots.txt")
+def robots():
+	body = f"User-agent: *\nAllow: /\n\nSitemap: {app.config['SITE_URL']}/sitemap.xml\n"
+	return Response(body, mimetype='text/plain')
 
 
-@app.route("/form", methods=["POST"])
-def form():
-	nombre = request.form.get("name")
-	email = request.form.get("email")
-	subject = request.form.get("subject")
-	mensaje = request.form.get("message")
-
-    msg = mail.send_message(
-        mensaje,
-        sender='ri******a@gmail.com',
-        recipients=['ri*********07@msn.com'],
-        body="Congratulations you've succeeded!"
-    )
-    return 'Mail sent'
-
-"""
-
+@app.route("/sitemap.xml")
+def sitemap():
+	body = (
+		'<?xml version="1.0" encoding="UTF-8"?>\n'
+		'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+		f"  <url><loc>{app.config['SITE_URL']}/</loc><changefreq>monthly</changefreq></url>\n"
+		'</urlset>\n'
+	)
+	return Response(body, mimetype='application/xml')

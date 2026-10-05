@@ -1,720 +1,645 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Deepdatas - Soluciones de Inteligencia</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>DeepDatas | Inteligencia de negocios y ciencia de datos</title>
+  <meta name="description" content="DeepDatas convierte tus datos en decisiones: ingesta, limpieza, análisis predictivo y dashboards de gestión para empresas. Equipo con más de 10 años de experiencia en Buenos Aires, Argentina.">
+  <meta name="keywords" content="inteligencia de negocios, business intelligence, ciencia de datos, data science, dashboards, análisis predictivo, KPIs, Buenos Aires, Argentina">
+  <meta name="theme-color" content="#0b1020">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="canonical" href="{{ site_url }}/">
+
+  <!-- Open Graph / redes sociales -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="DeepDatas">
+  <meta property="og:title" content="DeepDatas | Inteligencia de negocios y ciencia de datos">
+  <meta property="og:description" content="Recopilamos, limpiamos y analizamos tus datos para ayudarte a tomar mejores decisiones sobre tu negocio.">
+  <meta property="og:url" content="{{ site_url }}/">
+  <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='assets/img/brand/og-image.png') }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- Favicons -->
-  <link href="{{ url_for('static', filename='assets/img/logo.png') }}" rel="icon">
-  <link href="{{ url_for('static', filename='assets/img/logo.png') }}" rel="apple-touch-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='assets/img/brand/favicon-32.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='assets/img/brand/apple-touch-icon.png') }}">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <!-- <link href="assets/css/style.css" rel="stylesheet"> -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- Main CSS File -->
+  <link href="{{ url_for('static', filename='assets/css/deepdatas.css') }}" rel="stylesheet">
 
-
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "DeepDatas",
+    "url": "{{ site_url }}/",
+    "logo": "{{ site_url }}{{ url_for('static', filename='assets/img/brand/icon-512.png') }}",
+    "email": "contacto@deepdatas.com",
+    "telephone": "+54 9 11 6152-7387",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bernardo de Irigoyen 330",
+      "addressLocality": "Ciudad Autónoma de Buenos Aires",
+      "postalCode": "C1072",
+      "addressCountry": "AR"
+    }
+  }
+  </script>
 </head>
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center">
+  <a class="skip-link" href="#main">Saltar al contenido</a>
 
-      <h1 class="logo me-auto"><a href="#inicio">Deepdatas</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!--<a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
+  <!-- ======= HEADER ======= -->
+  <header id="header" class="site-header">
+    <div class="container header-inner">
 
-      <nav id="navbar" class="navbar">
+      <a href="#inicio" class="brand" aria-label="DeepDatas, ir al inicio">
+        <img src="{{ url_for('static', filename='assets/img/brand/logo-mark-white.png') }}" alt="" width="28" height="32">
+        <span>DeepDatas</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-controls="navbar" aria-expanded="false" aria-label="Abrir menú">
+        <i class="bi bi-list" aria-hidden="true"></i>
+      </button>
+
+      <nav id="navbar" class="site-nav" aria-label="Navegación principal">
         <ul>
-          <li><a class="nav-link scrollto active" href="#inicio">Inicio</a></li>
-          <li><a class="nav-link scrollto" href="#servicios">Servicios</a></li>
-          <li><a class="nav-link scrollto" href="#nosotros">Sobre nosotros</a></li>
-          <!--li><a class="nav-link scrollto" href="#premisas">Premisas</a></li-->
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Equipo</a></li>
-          <li><a class="nav-link scrollto" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx">Portal</a></li>
-          <!-- DropDown Navbar
-          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-            </ul>
-          </li>
-        -->
-          <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
+          <li><a class="nav-link" href="#servicios">Servicios</a></li>
+          <li><a class="nav-link" href="#soluciones">Soluciones</a></li>
+          <li><a class="nav-link" href="#nosotros">Nosotros</a></li>
+          <li><a class="nav-link" href="#casos">Casos</a></li>
+          <li><a class="nav-link" href="#equipo">Equipo</a></li>
+          <li><a class="nav-link" href="#contacto">Contacto</a></li>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+        <div class="nav-actions">
+          <a class="btn-dd btn-dd-ghost" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">
+            Portal <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+          </a>
+          <a class="btn-dd btn-dd-primary" href="#contacto">Agendar demo</a>
+        </div>
+      </nav>
 
     </div>
-  </header><!-- End Header -->
-
-  <!-- ======= Inicio Section ======= -->
-  <section id="Inicio" class="d-flex align-items-center">
-
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-          <h1>Soluciones de Inteligencia de Negocios</h1>
-          <h2>Somos un equipo con talento para el descubrimiento de oportunidades.</h2>
-          <div class="d-flex justify-content-center justify-content-lg-start">
-            <a href="#nosotros" class="btn-get-started scrollto">Empezar!</a>
-            <!--
-            <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Ver Video</span></a>
-            -->
-          </div>
-        </div>
-        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-          <img src="{{ url_for('static', filename='assets/img/hero-img.png') }}" class="img-fluid animated" alt="">
-        </div>
-      </div>
-    </div>
-
-  </section><!-- End Inicio -->
+  </header><!-- END HEADER -->
 
   <main id="main">
 
-    <!-- ======= LOGOS CLIENTES Section ======= -->
-    <section id="cliens" class="cliens section-bg">
+    <!-- ======= INICIO (HERO) ======= -->
+    <section id="inicio" class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container">
+        <div class="row align-items-center gy-5">
+
+          <div class="col-lg-6" data-aos="fade-up">
+            <p class="eyebrow eyebrow-dark">Inteligencia de negocios · Ciencia de datos</p>
+            <h1>Convertimos tus datos en <span class="text-gradient">decisiones que agregan valor</span></h1>
+            <p class="lead">
+              Somos un equipo con talento para el análisis de datos y el descubrimiento de oportunidades.
+              Recopilamos, limpiamos y analizamos tu información para ayudarte a reducir costos y mejorar la rentabilidad de tu negocio.
+            </p>
+            <div class="hero-actions">
+              <a href="#contacto" class="btn-dd btn-dd-primary btn-dd-lg">Agendar una demo <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+              <a href="#servicios" class="btn-dd btn-dd-ghost btn-dd-lg">Ver servicios</a>
+            </div>
+            <ul class="hero-facts">
+              <li><strong>+10 años</strong><span>de experiencia del equipo</span></li>
+              <li><strong>End-to-end</strong><span>de la ingesta al dashboard</span></li>
+              <li><strong>Multiplataforma</strong><span>sin atarte a un proveedor</span></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-left" data-aos-delay="150">
+            <!-- Ilustración decorativa de un tablero de gestión (los valores son ilustrativos) -->
+            <div class="hero-visual" aria-hidden="true">
+              <div class="dash">
+                <div class="dash-head">
+                  <span class="dots"><i></i><i></i><i></i></span>
+                  <span class="dash-title">Panel comercial</span>
+                  <span class="dash-live"><i></i> En vivo</span>
+                </div>
+                <div class="dash-kpis">
+                  <div class="kpi"><span>Facturación</span><strong>$ 1,44 M</strong><em class="up">+12,4%</em></div>
+                  <div class="kpi"><span>Clientes</span><strong>2.318</strong><em class="up">+5,1%</em></div>
+                  <div class="kpi"><span>Ticket prom.</span><strong>$ 622</strong><em class="down">-1,3%</em></div>
+                </div>
+                <div class="dash-chart">
+                  <div class="bars">
+                    <i style="--h:42%"></i><i style="--h:55%"></i><i style="--h:48%"></i><i style="--h:63%"></i>
+                    <i style="--h:58%"></i><i style="--h:71%"></i><i style="--h:66%"></i><i style="--h:79%"></i>
+                    <i style="--h:74%"></i><i style="--h:86%"></i><i class="forecast" style="--h:90%"></i><i class="forecast" style="--h:95%"></i>
+                  </div>
+                  <svg class="trend" viewBox="0 0 300 100" preserveAspectRatio="none">
+                    <path d="M0 78 L27 66 L54 70 L82 55 L109 60 L136 44 L164 48 L191 33 L218 37 L245 22 L273 16 L300 9" />
+                  </svg>
+                </div>
+                <div class="dash-legend"><span><i class="lg-real"></i>Real</span><span><i class="lg-forecast"></i>Pronóstico</span></div>
+              </div>
+              <div class="float-chip chip-a"><i class="bi bi-lightning-charge"></i> Pronóstico de demanda</div>
+              <div class="float-chip chip-b"><i class="bi bi-shield-check"></i> Datos limpios y validados</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- END INICIO -->
+
+    <!-- ======= LOGOS CLIENTES ======= -->
+    <section id="clientes" class="clients" aria-label="Clientes">
+      <div class="container">
+        <p class="clients-title">Empresas que confiaron en nosotros</p>
+        <div class="clients-row">
+          <img src="{{ url_for('static', filename='assets/img/clients/client-1.png') }}" alt="McCain" loading="lazy">
+          <img src="{{ url_for('static', filename='assets/img/clients/client-2.png') }}" alt="Kellogg's" loading="lazy">
+          <img src="{{ url_for('static', filename='assets/img/clients/client-3.png') }}" alt="Café M" class="logo-tall" loading="lazy">
+          <img src="{{ url_for('static', filename='assets/img/clients/client-4.png') }}" alt="Lilly" loading="lazy">
+          <img src="{{ url_for('static', filename='assets/img/clients/client-5.png') }}" alt="Citrus" loading="lazy">
+          <img src="{{ url_for('static', filename='assets/img/clients/client-6.png') }}" alt="Trustly" loading="lazy">
+        </div>
+      </div>
+    </section><!-- END LOGOS CLIENTES -->
+
+    <!-- ======= SERVICIOS ======= -->
+    <section id="servicios" class="section section-soft">
       <div class="container">
 
-        <div class="row" data-aos="zoom-in">
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='assets/img/clients/client-1.png') }}" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='assets/img/clients/client-2.png') }}" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='assets/img/clients/client-3.png') }}" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='assets/img/clients/ncc_logo.png') }}" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='assets/img/clients/client-5.png') }}" class="img-fluid" alt="">
-          </div>
-
-          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="{{ url_for('static', filename='assets/img/clients/client-6.png') }}" class="img-fluid" alt="">
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End LOGOS CLIENTES Section -->
-
-    <!-- ======= ACCESO PORTAL DISTRIBUIDORES SECTION ======= -->
-    <section id="cta" class="cta">
-      <div class="container" data-aos="zoom-in">
-
-        <div class="row">
-          <div class="col-lg-9 text-center text-lg-start">
-            <h3>Acceso Portal</h3>
-            <p> Acceso al portal distribuidores.</p>
-          </div>
-          <div class="col-lg-1 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx">Portal</a>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- END ACCESO PORTAL DISTRIBUIDORES SECTION -->
-    
-    <!-- ======= SERVICIOS SECTION ======= -->
-    <section id="servicios" class="services section-bg">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Servicios</h2>
+        <div class="section-head" data-aos="fade-up">
+          <p class="eyebrow">Servicios</p>
+          <h2>Todo el ciclo de vida de tus datos, en un solo equipo</h2>
           <p>Recopilamos, limpiamos y analizamos datos para ayudarte a tomar decisiones sobre tu negocio.</p>
         </div>
 
-        <div class="row">
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4><a href="">1.Ingesta de Datos</a></h4>
-              <p>Pipelines optimizados para ejecutarse en múltiples plataformas</p>
-            </div>
+        <div class="row g-4">
+          <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="0">
+            <article class="service-card">
+              <span class="step-num" aria-hidden="true">01</span>
+              <div class="icon"><i class="bi bi-hdd-network" aria-hidden="true"></i></div>
+              <h3>Ingesta de datos</h3>
+              <p>Pipelines optimizados para ejecutarse en múltiples plataformas, que integran tus fuentes en un único origen confiable.</p>
+            </article>
           </div>
-
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4><a href="">2.Limpieza de Datos</a></h4>
-              <p>Técnicas de Machine Learning de avanzada</p>
-            </div>
+          <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="100">
+            <article class="service-card">
+              <span class="step-num" aria-hidden="true">02</span>
+              <div class="icon"><i class="bi bi-funnel" aria-hidden="true"></i></div>
+              <h3>Limpieza y preparación</h3>
+              <p>Técnicas de Machine Learning de avanzada para depurar, normalizar y enriquecer la información.</p>
+            </article>
           </div>
-
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="300">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4><a href="">3.Analisis</a></h4>
-              <p>Desarrollo de indicadores valiosos</p>
-            </div>
+          <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="200">
+            <article class="service-card">
+              <span class="step-num" aria-hidden="true">03</span>
+              <div class="icon"><i class="bi bi-graph-up" aria-hidden="true"></i></div>
+              <h3>Análisis</h3>
+              <p>Desarrollo de indicadores valiosos: KPIs estándar, KPIs exclusivos y modelos predictivos a medida.</p>
+            </article>
           </div>
-
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-layer"></i></div>
-              <h4><a href="">4.Visualización</a></h4>
-              <p>Dashboards dinámicos para la gestión</p>
-            </div>
+          <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="300">
+            <article class="service-card">
+              <span class="step-num" aria-hidden="true">04</span>
+              <div class="icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+              <h3>Visualización</h3>
+              <p>Dashboards dinámicos para la gestión, con la información clave a un clic para todo tu equipo.</p>
+            </article>
           </div>
-
         </div>
 
       </div>
-    </section><!-- END SERVICIOS SECTION -->
+    </section><!-- END SERVICIOS -->
 
-    <!-- ======= SOBRE NOSOTROS SECTION ======= -->
-    <section id="nosotros" class="about">
-      <div class="container" data-aos="fade-up">
+    <!-- ======= SOLUCIONES (NIVELES DE ANÁLISIS) ======= -->
+    <section id="soluciones" class="section section-dark">
+      <div class="container">
+        <div class="row align-items-center gy-5">
 
-        <div class="section-title">
-          <h2>Sobre Nosotros</h2>
-        </div>
-
-        <div class="section-title">
-          <h3>Nuestra misión es ofrecer las mejores estrategias para resolver los desafíos más complejos de las organizaciones.</h3>
-        </div>
-
-        <div class="row content">
-          <div class="col-lg-6">
-            <p>
-               Nuestra misión es ofrecer las mejores estrategias para resolver los desafíos más complejos de las organizaciones.
+          <div class="col-lg-5" data-aos="fade-up">
+            <p class="eyebrow eyebrow-dark">Soluciones</p>
+            <h2>Soluciones que agregan valor, reducen costos y mejoran la rentabilidad</h2>
+            <p class="muted-dark">
+              Acompañamos a cada organización según su madurez analítica: desde entender qué está pasando
+              hasta anticipar lo que viene. Brindamos soluciones integrales enfocadas a cada necesidad.
             </p>
-            <ul>
-              <li><i class="ri-check-double-line"></i> Ingesta de Datos</li>
-              <li><i class="ri-check-double-line"></i> Limpieza y Preparación de Datos</li>
-              <li><i class="ri-check-double-line"></i> Análisis</li>
+            <a href="#contacto" class="btn-dd btn-dd-primary mt-2">Contanos tu desafío <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+          </div>
+
+          <div class="col-lg-7">
+            <ol class="levels">
+              <li class="level" data-aos="fade-up" data-aos-delay="0">
+                <span class="level-num">01</span>
+                <div>
+                  <h3>Análisis descriptivo con KPIs estándar</h3>
+                  <p>Indicadores probados para conocer, en un solo lugar, qué está pasando en tu negocio.</p>
+                </div>
+                <span class="level-bar" style="--w:40%"></span>
+              </li>
+              <li class="level" data-aos="fade-up" data-aos-delay="100">
+                <span class="level-num">02</span>
+                <div>
+                  <h3>Análisis descriptivo con KPIs exclusivos</h3>
+                  <p>Métricas diseñadas para tu industria y tu modelo de negocio, que revelan oportunidades ocultas.</p>
+                </div>
+                <span class="level-bar" style="--w:70%"></span>
+              </li>
+              <li class="level" data-aos="fade-up" data-aos-delay="200">
+                <span class="level-num">03</span>
+                <div>
+                  <h3>Análisis predictivo con KPIs desarrollados a medida</h3>
+                  <p>Modelos que anticipan la demanda y el comportamiento de tus clientes para decidir antes.</p>
+                </div>
+                <span class="level-bar" style="--w:100%"></span>
+              </li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- END SOLUCIONES -->
+
+    <!-- ======= SOBRE NOSOTROS ======= -->
+    <section id="nosotros" class="section">
+      <div class="container">
+        <div class="row gy-5">
+
+          <div class="col-lg-5" data-aos="fade-up">
+            <p class="eyebrow">Sobre nosotros</p>
+            <h2>Hacemos que la ciencia de datos sea accesible para todos</h2>
+            <p>
+              Nuestra misión es ofrecer las mejores estrategias para resolver los desafíos más complejos de las
+              organizaciones, utilizando el poder de la ciencia de datos.
+            </p>
+            <p>
+              Somos un equipo fan de la ciencia de datos, guiado por el propósito de convertir esta poderosa herramienta
+              en accesible para todos. Nuestras soluciones son multiplataforma: evaluamos el contexto y la necesidad para
+              ofrecer la propuesta ideal.
+            </p>
+            <ul class="chips" aria-label="Especialidades">
+              <li>Cloud Computing</li>
+              <li>Big Data</li>
+              <li>Data Science</li>
+              <li>Machine Learning</li>
+              <li>Visualización</li>
             </ul>
           </div>
-          <div class="col-lg-6 pt-4 pt-lg-0">
-            <p>
-              Somos un equipo fan de la ciencia de datos y guiado con el propósito de convertir esta poderosa herramienta en accesible para todos.
-            </p>
-            <a href="#" class="btn-learn-more">Ver mas</a>
+
+          <div class="col-lg-6 offset-lg-1">
+            <div class="pillars">
+              <article class="pillar" data-aos="fade-up" data-aos-delay="0">
+                <div class="icon"><i class="bi bi-sliders" aria-hidden="true"></i></div>
+                <div>
+                  <h3>Flexibilidad</h3>
+                  <p>Creemos que la capacidad de adaptación es nuestro mayor diferencial. El entendimiento de la problemática y la propuesta de valor son los componentes principales de nuestras soluciones.</p>
+                </div>
+              </article>
+              <article class="pillar" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon"><i class="bi bi-diagram-3" aria-hidden="true"></i></div>
+                <div>
+                  <h3>Escalabilidad</h3>
+                  <p>Planificamos la solución más allá de mañana. El dimensionamiento futuro permite generar soluciones de mejora continua.</p>
+                </div>
+              </article>
+              <article class="pillar" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon"><i class="bi bi-shield-check" aria-hidden="true"></i></div>
+                <div>
+                  <h3>Seguridad</h3>
+                  <p>Cuidamos la información con las mejores tecnologías. La correcta adecuación a protocolos y regulaciones es imprescindible.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- END SOBRE NOSOTROS -->
+
+    <!-- ======= CÓMO TRABAJAMOS ======= -->
+    <section id="proceso" class="section section-soft">
+      <div class="container">
+
+        <div class="section-head" data-aos="fade-up">
+          <p class="eyebrow">Cómo trabajamos</p>
+          <h2>Un proceso claro, de la primera reunión a los resultados</h2>
+        </div>
+
+        <ol class="process">
+          <li data-aos="fade-up" data-aos-delay="0">
+            <div class="icon"><i class="bi bi-search" aria-hidden="true"></i></div>
+            <h3>Diagnóstico</h3>
+            <p>Entendemos tu problemática, tus objetivos y las fuentes de datos con las que contás hoy.</p>
+          </li>
+          <li data-aos="fade-up" data-aos-delay="100">
+            <div class="icon"><i class="bi bi-compass" aria-hidden="true"></i></div>
+            <h3>Propuesta</h3>
+            <p>Diseñamos la solución ideal para tu contexto: arquitectura, indicadores y entregables.</p>
+          </li>
+          <li data-aos="fade-up" data-aos-delay="200">
+            <div class="icon"><i class="bi bi-gear" aria-hidden="true"></i></div>
+            <h3>Implementación</h3>
+            <p>Construimos los pipelines, modelos y tableros, y los ponemos en manos de tu equipo.</p>
+          </li>
+          <li data-aos="fade-up" data-aos-delay="300">
+            <div class="icon"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></div>
+            <h3>Mejora continua</h3>
+            <p>Acompañamos la evolución de la solución a medida que crece tu negocio.</p>
+          </li>
+        </ol>
+
+      </div>
+    </section><!-- END CÓMO TRABAJAMOS -->
+
+    <!-- ======= CASOS DE ÉXITO (PORTFOLIO) ======= -->
+    <section id="casos" class="section">
+      <div class="container">
+
+        <div class="section-head" data-aos="fade-up">
+          <p class="eyebrow">Casos de éxito</p>
+          <h2>Tableros que hoy usan nuestros clientes para decidir</h2>
+          <p>Algunos ejemplos de soluciones implementadas. Los datos sensibles fueron ocultados por confidencialidad.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-6" data-aos="fade-up">
+            <article class="case-card">
+              <a href="{{ url_for('static', filename='assets/img/portfolio/portfolio-1.jpg') }}" class="case-media case-lightbox" data-gallery="casos" data-title="Supply Chain: performance de distribuidores">
+                <img src="{{ url_for('static', filename='assets/img/portfolio/portfolio-1.jpg') }}" alt="Tablero de facturación, kilos y canales de venta por distribuidor" loading="lazy" width="1886" height="1033">
+                <span class="zoom"><i class="bi bi-arrows-angle-expand" aria-hidden="true"></i><span class="visually-hidden">Ampliar imagen</span></span>
+              </a>
+              <div class="case-body">
+                <span class="tag">Supply Chain</span>
+                <h3>Performance de distribuidores</h3>
+                <p>Análisis de los distribuidores dentro de la cadena de suministro: facturación, volumen, drop size y canales, con filtros por país, período, categoría y producto.</p>
+              </div>
+            </article>
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <article class="case-card">
+              <a href="{{ url_for('static', filename='assets/img/portfolio/portfolio-2.jpg') }}" class="case-media case-lightbox" data-gallery="casos" data-title="Supply Chain: cobertura de puntos de venta">
+                <img src="{{ url_for('static', filename='assets/img/portfolio/portfolio-2.jpg') }}" alt="Tablero de cobertura de puntos de venta por línea de producto" loading="lazy" width="1590" height="849">
+                <span class="zoom"><i class="bi bi-arrows-angle-expand" aria-hidden="true"></i><span class="visually-hidden">Ampliar imagen</span></span>
+              </a>
+              <div class="case-body">
+                <span class="tag">Supply Chain</span>
+                <h3>Cobertura de puntos de venta</h3>
+                <p>Penetración de cada línea de producto en los puntos de venta, por distribuidor y vendedor, para detectar oportunidades de venta cruzada.</p>
+              </div>
+            </article>
           </div>
         </div>
 
       </div>
-    </section><!-- END SOBRE NOSOTROS SECTION -->
+    </section><!-- END CASOS DE ÉXITO -->
 
-    <!-- ======= PREMISAS SECTION ======= 
-    <section id="premisas" class="why-us section-bg">
-      <div class="container-fluid" data-aos="fade-up">
+    <!-- ======= EQUIPO ======= -->
+    <section id="equipo" class="section section-soft">
+      <div class="container">
 
-        <div class="row">
+        <div class="section-head" data-aos="fade-up">
+          <p class="eyebrow">Equipo</p>
+          <h2>Profesionales con más de 10 años de experiencia</h2>
+          <p>Somos una startup de especialistas en datos que combina experiencia técnica con visión de negocio.</p>
+        </div>
 
-          <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+            <article class="member">
+              <img src="{{ url_for('static', filename='assets/img/team/team-1.jpg') }}" alt="Fernando Bloise" loading="lazy" width="640" height="640">
+              <h3>Fernando Bloise</h3>
+              <span class="role">Líder de Implementación</span>
+              <p>Diseño de arquitectura y ciclo de vida de aplicaciones.</p>
+            </article>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <article class="member">
+              <img src="{{ url_for('static', filename='assets/img/team/team-2.jpg') }}" alt="Martin Garcia" loading="lazy" width="640" height="640">
+              <h3>Martin Garcia</h3>
+              <span class="role">Líder de Gobierno de Datos</span>
+              <p>Desarrollo de pipelines y técnicas de Machine Learning.</p>
+            </article>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <article class="member">
+              <img src="{{ url_for('static', filename='assets/img/team/team-3.jpg') }}" alt="Ivan Torres" loading="lazy" width="640" height="640">
+              <h3>Ivan Torres</h3>
+              <span class="role">Líder de Ingeniería de Datos</span>
+              <p>Desarrollo de pipelines y técnicas de Machine Learning.</p>
+            </article>
+          </div>
+        </div>
 
-            <div class="content">
-              <h3> <strong>Nuestras Soluciones</strong></h3>
-              <p>
-                Brindamos soluciones integrales enfocadas a cada necesidad. Flexibilidad, Escalabilidad y Seguridad son nuestros pilares fundamentales.
-              </p>
+      </div>
+    </section><!-- END EQUIPO -->
+
+    <!-- ======= PREGUNTAS FRECUENTES ======= -->
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="fade-up">
+            <p class="eyebrow">Preguntas frecuentes</p>
+            <h2>Las preguntas que más nos hacen</h2>
+            <p>¿No encontrás lo que buscás? <a href="#contacto">Escribinos</a> y te respondemos a la brevedad.</p>
+          </div>
+
+          <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+            <div class="faq-list">
+              <details open>
+                <summary>¿Necesito tener mis datos ordenados para empezar?</summary>
+                <p>No. Parte de nuestro trabajo es la ingesta, limpieza y preparación de los datos: partimos de las fuentes que ya tenés (sistemas, planillas, bases de datos) y las convertimos en información confiable.</p>
+              </details>
+              <details>
+                <summary>¿Con qué plataformas trabajan?</summary>
+                <p>Nuestras soluciones son multiplataforma. Evaluamos el contexto, la infraestructura y la necesidad de cada organización para ofrecer la propuesta ideal, sin atarte a un único proveedor.</p>
+              </details>
+              <details>
+                <summary>¿Qué tipo de empresas pueden trabajar con DeepDatas?</summary>
+                <p>Trabajamos con organizaciones de distintos tamaños e industrias, desde consumo masivo hasta salud y tecnología, que necesitan transformar sus datos en decisiones.</p>
+              </details>
+              <details>
+                <summary>¿Cómo cuidan la seguridad de la información?</summary>
+                <p>La seguridad es uno de nuestros pilares: utilizamos las mejores tecnologías y respetamos los protocolos y regulaciones aplicables a cada industria y a cada cliente.</p>
+              </details>
+              <details>
+                <summary>¿Qué es el Portal?</summary>
+                <p>Es el espacio privado donde nuestros clientes y distribuidores acceden a sus tableros e informes. Podés ingresar desde el botón «Portal» del menú con tus credenciales.</p>
+              </details>
+              <details>
+                <summary>¿Cuál es el primer paso?</summary>
+                <p>Agendá una demo: conversamos sobre tus desafíos, revisamos tus fuentes de datos y te presentamos una propuesta a medida.</p>
+              </details>
             </div>
+          </div>
 
-            <div class="accordion-list">
+        </div>
+      </div>
+    </section><!-- END PREGUNTAS FRECUENTES -->
+
+    <!-- ======= CTA DEMO ======= -->
+    <section class="cta-band" aria-label="Agendar una demo">
+      <div class="container" data-aos="zoom-in">
+        <div class="cta-inner">
+          <div>
+            <h2>¿Querés programar una demo?</h2>
+            <p>Contanos tu desafío y te mostramos cómo podemos ayudarte a tomar mejores decisiones con tus datos.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn-dd btn-dd-light btn-dd-lg" href="#contacto">Agendar demo</a>
+            <a class="btn-dd btn-dd-ghost btn-dd-lg" href="https://wa.me/5491161527387" target="_blank" rel="noopener"><i class="bi bi-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section><!-- END CTA DEMO -->
+
+    <!-- ======= CONTACTO ======= -->
+    <section id="contacto" class="section">
+      <div class="container">
+
+        <div class="section-head" data-aos="fade-up">
+          <p class="eyebrow">Contacto</p>
+          <h2>Hablemos de tus datos</h2>
+          <p>Dejanos tu consulta y nos contactaremos a la brevedad.</p>
+        </div>
+
+        <div class="row g-4">
+
+          <div class="col-lg-5" data-aos="fade-up">
+            <div class="contact-info">
               <ul>
                 <li>
-                  <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span> Flexibilidad <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
-                    <p>
-                      Creemos que la capacidad de adaptación es nuestro mayor diferencial. El entendimiento de la problemática y la propuesta de valor son los componentes principales de nuestras soluciones.  
-                    </p>
-                  </div>
+                  <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
+                  <div><h3>Ubicación</h3><p>Bernardo de Irigoyen 330, CABA, Argentina</p></div>
                 </li>
-
                 <li>
-                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> Escalabilidad <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
-                    <p>
-                      Planificamos la solución más allá de mañana. El dimensionamiento futuro permite generar soluciones de mejora continua.    
-                    </p>
-                  </div>
+                  <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                  <div><h3>Email</h3><p><a href="mailto:contacto@deepdatas.com">contacto@deepdatas.com</a></p></div>
                 </li>
-
                 <li>
-                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-3" class="collapsed"><span>03</span> Seguridad <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-                  <div id="accordion-list-3" class="collapse" data-bs-parent=".accordion-list">
-                    <p>
-                      Cuidamos la información con las mejores tecnologías. La correcta adecuación a protocolos y regulaciones son imprescindibles.  
-                    </p>
-                  </div>
+                  <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+                  <div><h3>Teléfono</h3><p><a href="tel:+5491161527387">+54 9 11 6152-7387</a></p></div>
                 </li>
-
+                <li>
+                  <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                  <div><h3>WhatsApp</h3><p><a href="https://wa.me/5491161527387" target="_blank" rel="noopener">Escribinos por WhatsApp</a></p></div>
+                </li>
               </ul>
+              <iframe class="map" title="Mapa: Bernardo de Irigoyen 330, CABA" src="https://maps.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-
           </div>
 
-          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" sytle='background-image: url("assets/img/portfolio-3.png");' data-aos="zoom-in" data-aos-delay="150">&nbsp;</div>
-        </div>
-
-      </div>
-    </section>
-    END PREMISAS SECTION -->
-
-    <!-- ======= SKILLS SECTIONS======= -->
-    <section id="skills" class="skills">
-      <div class="container" data-aos="fade-up">
-
-        <div class="row">
-          <div class="col-lg-6 d-flex align-items-center" data-aos="fade-right" data-aos-delay="100">
-            <img src="{{ url_for('static', filename='assets/img/skills.png') }}" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left" data-aos-delay="100">
-            <h3>Productos</h3>
-            <p class="fst-italic">
-              Nuestras soluciones son multiplataforma. Evaluamos el contexto y la necesidad para ofrecer la propuesta ideal.               
-            </p>
-
-            <div class="skills-content">
-
-              <div class="progress">
-                <span class="skill">CLOUD COMPUTING <i class="val">100%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+            <form action="{{ url_for('contacto') }}" method="post" class="contact-form">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="name">Nombre *</label>
+                  <input type="text" name="name" id="name" autocomplete="name" maxlength="120" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="email">Email *</label>
+                  <input type="email" name="email" id="email" autocomplete="email" maxlength="254" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="company">Empresa</label>
+                  <input type="text" name="company" id="company" autocomplete="organization" maxlength="120">
+                </div>
+                <div class="col-md-6">
+                  <label for="subject">Asunto *</label>
+                  <input type="text" name="subject" id="subject" maxlength="160" required>
+                </div>
+                <div class="col-12">
+                  <label for="message">Mensaje *</label>
+                  <textarea name="message" id="message" rows="6" maxlength="5000" required placeholder="Contanos brevemente tu desafío o qué te gustaría resolver con tus datos."></textarea>
+                </div>
+                <!-- Campo trampa anti-spam: debe quedar vacío -->
+                <div class="hp-field" aria-hidden="true">
+                  <label for="website">No completar este campo</label>
+                  <input type="text" name="website" id="website" tabindex="-1" autocomplete="off">
+                </div>
+                <div class="col-12 form-footer">
+                  <div class="form-status" role="status" aria-live="polite">
+                    {% if request.args.get('contacto') == 'enviado' %}
+                      <span class="ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> ¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.</span>
+                    {% elif request.args.get('contacto') == 'error' %}
+                      <span class="error"><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i> No pudimos enviar tu mensaje. Revisá los datos o escribinos a contacto@deepdatas.com.</span>
+                    {% endif %}
+                  </div>
+                  <button type="submit" class="btn-dd btn-dd-primary btn-dd-lg">Enviar mensaje <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
                 </div>
               </div>
-
-              <div class="progress">
-                <span class="skill">BIG DATA <i class="val">90%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="96" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-
-              <div class="progress">
-                <span class="skill">DATA SCIENCE <i class="val">75%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-
-              <div class="progress">
-                <span class="skill">VISUALIZATION <i class="val">55%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section><!-- END SKILLS SECTION -->
-    
-    <!-- ======= CONTACTO (DEMO) SECTION ======= -->
-    <section id="cta" class="cta">
-      <div class="container" data-aos="zoom-in">
-
-        <div class="row">
-          <div class="col-lg-9 text-center text-lg-start">
-            <h3>¿Quiere programar una Demo?</h3>
-            <p> Póngase en contacto con nuestra oficina comercial.</p>
-          </div>
-          <div class="col-lg-3 cta-btn-container text-center">
-            <a class="cta-btn align-middle" href="contact">Contacto</a>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- END CONTACTO (DEMO) SECTION -->
-
-    <!-- ======= PORTFOLIO SECTION ======= -->
-    <section id="portfolio" class="portfolio">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Portfolio</h2>
-          <p>Casos de éxito.</p>
-        </div>
-
-        <ul id="portfolio-flters" class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-          <li data-filter="*" class="filter-active">All</li>
-          <li data-filter=".filter-app">App</li>
-          <li data-filter=".filter-card">Card</li>
-          <li data-filter=".filter-web">Web</li>
-        </ul>
-
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-img"><img src="{{ url_for('static', filename='assets/img/portfolio/portfolio-1.jpg') }}" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>Solución para Supply Chain</h4>
-              <p>Análisis de los distribuidores dentro de la cadena de suministro</p>
-              <a href="{{ url_for('static', filename='assets/img/portfolio/portfolio-1.jpg') }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-img"><img src="{{ url_for('static', filename='assets/img/portfolio/portfolio-2.jpg') }}" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>Solución para Supply Chain</h4>
-              <p>Análisis de los distribuidores dentro de la cadena de suministro</p>
-              <a href="{{ url_for('static', filename='assets/img/portfolio/portfolio-2.jpg') }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-img"><img src="{{ url_for('static', filename='assets/img/portfolio/portfolio-3.jpg') }}" class="img-fluid" alt=""></div>
-            <div class="portfolio-info">
-              <h4>Solución para Supply Chain</h4>
-              <p>Análisis de los distribuidores dentro de la cadena de suministro</p>
-              <a href="{{ url_for('static', filename='assets/img/portfolio/portfolio-3.jpg') }}" data-gallery="portfolioGallery" class="portfolio-lightbox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.html" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          
-
-        </div>
-
-      </div>
-    </section><!-- END PORTFOLIO SECTION -->
-
-    <!-- ======= EQUIPO SECTION ======= -->
-    <section id="team" class="team section-bg">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Equipo</h2>
-          <p>Somos una startup de profesionales con más de 10 años de experiencia</p>
-        </div>
-
-        <div class="row">
-
-          <div class="col-lg-6">
-            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
-              <div class="pic"><img src="{{ url_for('static', filename='assets/img/team/team-1.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Fernando Bloise</h4>
-                <span>Líder de Implementación</span>
-                <p>Diseño de arquitectura y ciclo de vida de aplicaciones</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4 mt-lg-0">
-            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="200">
-              <div class="pic"><img src="{{ url_for('static', filename='assets/img/team/team-2.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Martin Garcia</h4>
-                <span>Líder de Gobierno de Datos</span>
-                <p>Desarrollo de Pipelines y técnicas de ML</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4">
-            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="300">
-              <div class="pic"><img src="{{ url_for('static', filename='assets/img/team/team-3.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Ivan Torres</h4>
-                <span>Líder de Ingeniería de Datos</span>
-                <p>Desarrollo de Pipelines y técnicas de ML</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
+            </form>
           </div>
 
         </div>
 
       </div>
-    </section>
-    <!-- END EQUIPO SECTION-->
+    </section><!-- END CONTACTO -->
 
-    <!-- 
-      ======= PREGUNTAS FRECUENTES SECTION ======= 
-    <section id="faq" class="faq section-bg">
-      <div class="container" data-aos="fade-up">
+  </main><!-- End #main -->
 
-        <div class="section-title">
-          <h2>Preguntas Frecuentes</h2>
-          <p>Las preguntas que más nos hacen</p>
+  <!-- ======= FOOTER ======= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row gy-4">
+
+        <div class="col-lg-5">
+          <a href="#inicio" class="brand">
+            <img src="{{ url_for('static', filename='assets/img/brand/logo-mark-white.png') }}" alt="" width="28" height="32">
+            <span>DeepDatas</span>
+          </a>
+          <p class="footer-about">Soluciones de inteligencia de negocios y ciencia de datos para organizaciones que quieren decidir mejor.</p>
         </div>
 
-        <div class="faq-list">
-          <ul>
-            <li data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1">Non consectetur a erat nam at lectus urna duis? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
-                <p>
-                  Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
-                </p>
-              </div>
-            </li>
+        <div class="col-6 col-lg-3">
+          <h2 class="footer-title">Navegación</h2>
+          <ul class="footer-links">
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#soluciones">Soluciones</a></li>
+            <li><a href="#nosotros">Sobre nosotros</a></li>
+            <li><a href="#casos">Casos de éxito</a></li>
+            <li><a href="#equipo">Equipo</a></li>
+            <li><a href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">Portal</a></li>
+          </ul>
+        </div>
 
-            <li data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed">Feugiat scelerisque varius morbi enim nunc? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed">Dolor sit amet consectetur adipiscing elit? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="400">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-4" class="collapsed">Tempus quam pellentesque nec nam aliquam sem et tortor consequat? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-4" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="500">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-5" class="collapsed">Tortor vitae purus faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-5" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque.
-                </p>
-              </div>
-            </li>
-
+        <div class="col-6 col-lg-4">
+          <h2 class="footer-title">Contacto</h2>
+          <ul class="footer-links">
+            <li>Bernardo de Irigoyen 330<br>C1072 CABA, Argentina</li>
+            <li><a href="mailto:contacto@deepdatas.com">contacto@deepdatas.com</a></li>
+            <li><a href="tel:+5491161527387">+54 9 11 6152-7387</a></li>
           </ul>
         </div>
 
       </div>
-    </section>
-    -->
-    <!-- END PREGUNTAS FRECUENTES SECTION -->
 
-    <!-- ======= CONTACTO SECTION ======= -->
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Contacto</h2>
-          <p>Dejanos tu consulta y nos contactaremos a la brevedad.</p>
-        </div>
-
-        <div class="row">
-
-          <div class="col-lg-5 d-flex align-items-stretch">
-            <div class="info">
-              <div class="address">
-                <i href="https://maps.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&t=&z=13&ie=UTF8&iwloc=&output=embed" class="bi bi-geo-alt"></i>
-                <h4>Ubicación:</h4>
-                <p>Bernardo de Irigoyen 330, CABA, Argentina</p>
-              </div>
-<!--test-->
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p>contacto@deepdatas.com</p>
-              </div>
-
-              <div class="phone">
-                <i class="bi bi-phone"></i>
-                <h4>Teléfono:</h4>
-                <p>+54 9 11 61527387</p>
-              </div>
-              
-              <iframe src="https://maps.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
-            </div>
-
-          </div>
-
-          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-
-            <form action="/form" method="post" role="form" class="php-email-form">
-
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label for="name">Nombre</label>
-                  <input type="text" name="name" class="form-control" id="name" required>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="name">Email</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="name">Asunto</label>
-                <input type="text" class="form-control" name="subject" id="subject" required>
-              </div>
-              <div class="form-group">
-                <label for="name">Mensaje</label>
-                <textarea class="form-control" name="message" rows="10" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- END CONTACTO SECTION -->
-
-  </main><!-- End #main -->
-
-
-  <!-- ======= FOOTER ======= -->
-  <footer id="footer">
-
-    <div class="footer-newsletter">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-6">
-            <h4>Suscribirse a nuestro Newsletter</h4>
-            <p>Te mantendremos informado de las últimas novedades</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-          </div>
-        </div>
+      <div class="footer-bottom">
+        <span>&copy; {{ current_year }} DeepDatas. Todos los derechos reservados.</span>
+        <a href="#inicio">Volver arriba <i class="bi bi-arrow-up-short" aria-hidden="true"></i></a>
       </div>
     </div>
+  </footer><!-- END FOOTER -->
 
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>DeepDatas</h3>
-            <p>
-              Bernardo de Irigoyen 330<br>
-              CABA, 1072<br>
-              Argentina <br><br>
-              <strong>Telefono:</strong> +54 9 11 61527387<br>
-              <strong>Email:</strong> contacto@deepdatas.com<br>
-            </p>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#inicio">Inicio</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#nosotros">Sobre Nosotros</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#servicios">Nuestos Servicios</a></li>
-            </ul>
-          </div>
-
-          <!--<div class="col-lg-3 col-md-6 footer-links">
-            <h4>Nuestros Servicios</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Diseño Web</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-            </ul>
-          </div>
--->
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Seguinos en nuestras Redes</h4>
-            <p>Mantente actualizado de las últimas novedades</p>
-            <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="container footer-bottom clearfix">
-
-    </div>
-  </footer>
-
-  <!-- END FOOTER-->
-
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#inicio" class="back-to-top" aria-label="Volver arriba"><i class="bi bi-arrow-up-short" aria-hidden="true"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
-  <script src="{{ url_for('static', filename='assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
 
-  <!-- Template Main JS File -->
-  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
-
-
+  <!-- Main JS File -->
+  <script src="{{ url_for('static', filename='assets/js/deepdatas.js') }}"></script>
 
 </body>
 
