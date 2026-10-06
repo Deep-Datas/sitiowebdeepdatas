@@ -42,7 +42,7 @@
       <p class="lead-sm">{{ c.summary }}</p>
     </header>
 
-    <dl class="case-results reveal">
+    <dl class="case-results case-results-{{ c.results | length }} reveal">
       {% for number, label in c.results %}
       <div>
         <dt>{{ label }}</dt>
@@ -82,10 +82,12 @@
         <h3 class="case-meta-title">Tecnología</h3>
         <ul class="case-chips">{% for s in c.stack %}<li>{{ s }}</li>{% endfor %}</ul>
       </div>
+      {% if c.duration %}
       <div>
         <h3 class="case-meta-title">Duración</h3>
         <p>{{ value(c.duration) }}</p>
       </div>
+      {% endif %}
       {% if c.example %}
       <a class="plan-link case-link" href="/ejemplos/#{{ c.example }}">Ver un tablero de ejemplo similar {{ icon('arrow-right') }}</a>
       {% endif %}

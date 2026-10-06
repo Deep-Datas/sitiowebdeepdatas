@@ -3911,8 +3911,17 @@ ol {
 }
 
 @media (min-width: 768px) {
-  .case-results {
+  .case-results-3 {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .case-results-2 {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 760px;
+  }
+
+  .case-results-1 {
+    max-width: 380px;
   }
 }
 
@@ -4023,7 +4032,7 @@ ol {
 
 @media (min-width: 900px) {
   .case-cards {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 

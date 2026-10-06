@@ -7,7 +7,8 @@ False es un borrador: no aparece en el sitio, pero se puede revisar con
 
 que genera una vista previa en vista-previa/ (esa carpeta no se sube).
 
-Los resultados deben ser reales y verificables: si el cliente no autoriza
+Cada caso lleva de uno a tres resultados, que deben ser reales y verificables.
+'duration' es opcional (None para no mostrarla). Además, si el cliente no autoriza
 su nombre, usá una descripción ('Empresa multinacional de consumo masivo')
 y dejá 'logo' en None.
 """
@@ -17,23 +18,21 @@ PENDIENTE = '[completar]'
 CASES = [
     {
         'id': 'distribuidores',
-        'publicado': False,
-        'client': 'Empresa multinacional de consumo masivo',
+        'publicado': True,
+        'client': 'Empresa de consumo masivo líder en la comercialización de papas fritas',
         'logo': None,                       # por ejemplo 'clientes/mccain.png' si el cliente lo autoriza
         'industry': 'Consumo masivo',
         'title': 'Una sola versión de las ventas para toda la red de distribuidores',
         'summary': 'Unificamos las ventas que cada distribuidor informaba en su propia planilla en un tablero que se actualiza solo.',
         'results': [
-            (PENDIENTE, 'días para consolidar el cierre mensual, antes ' + PENDIENTE),
-            (PENDIENTE, 'distribuidores integrados en un único modelo'),
-            (PENDIENTE, 'usuarios consultan el tablero cada semana'),
+            ('40', 'distribuidores integrados en un único modelo'),
         ],
         'challenge': 'Cada distribuidor enviaba sus ventas en planillas con formatos y criterios propios. Consolidarlas llevaba días de trabajo manual y la dirección no confiaba del todo en el número final.',
         'solution': 'Automatizamos la recepción de los archivos, unificamos códigos de producto y cliente, y publicamos un tablero de performance con filtros por región, canal y categoría.',
         'outcome': 'La dirección y el equipo comercial trabajan con el mismo número y detectan a tiempo qué distribuidor o canal se aleja del objetivo.',
         'sources': ['Excel y planillas', 'Archivos .txt y .csv', 'ERP'],
         'stack': ['Power BI', 'Azure', 'SQL'],
-        'duration': PENDIENTE,
+        'duration': None,
         'quote': None,                      # ('Texto del testimonio', 'Nombre Apellido', 'Cargo, Empresa')
         'example': 'distribuidores',        # tablero de ejemplo relacionado en /ejemplos/
     },
@@ -61,23 +60,21 @@ CASES = [
     },
     {
         'id': 'pronostico',
-        'publicado': False,
+        'publicado': True,
         'client': 'Distribuidora mayorista',
         'logo': None,
         'industry': 'Distribución y retail',
         'title': 'Compras planificadas con un pronóstico de demanda',
         'summary': 'Un modelo predictivo que anticipa la demanda semanal y sugiere qué reponer antes de que falte.',
         'results': [
-            (PENDIENTE, 'menos quiebres de stock'),
-            (PENDIENTE, 'menos capital inmovilizado en sobrestock'),
-            (PENDIENTE, 'precisión del pronóstico semanal'),
+            ('12%', 'menos quiebres de stock'),
         ],
         'challenge': 'Las compras se planificaban con promedios históricos: algunos productos se quedaban sin stock en los picos y otros se acumulaban en el depósito.',
         'solution': 'Entrenamos un modelo que combina el historial de ventas con la estacionalidad y las promociones, y lo integramos en un tablero de reposición semanal.',
         'outcome': 'El equipo de compras sabe qué reponer y cuánto antes de que falte.',
         'sources': ['ERP', 'APIs y e-commerce'],
         'stack': ['Python', 'Azure', 'Power BI'],
-        'duration': PENDIENTE,
+        'duration': None,
         'quote': None,
         'example': 'pronostico',
     },
