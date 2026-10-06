@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DeepDatas - estilos del sitio
+   DeepDatas - estilos del sitio (variante: Negro y naranja)
    ========================================================================== */
 
 @font-face {
@@ -11,54 +11,54 @@
 }
 
 @font-face {
-  font-family: "Fraunces";
+  font-family: "Space Grotesk";
   font-style: normal;
-  font-weight: 500 700;
+  font-weight: 300 700;
   font-display: swap;
-  src: url("../fonts/fraunces-latin.woff2") format("woff2");
+  src: url("../fonts/space-grotesk-latin.woff2") format("woff2");
 }
 
 :root {
   /* Marca */
-  --ink-950: #06112a;
-  --ink-900: #0b1b3d;
-  --ink-800: #12295a;
-  --ink-700: #1d3b7a;
-  --primary-600: #2353d6;
-  --primary-500: #3b6af0;
-  --primary-50: #edf1fd;
-  --accent-500: #f26a2e;
-  --accent-600: #e4581c;
-  --accent-700: #b5420e;
-  --accent-50: #fdf0e9;
-  --accent-300: #ffb38a;
-  --accent-400: #ff9a5c;
-  --primary-300: #9db6ff;
+  --ink-950: #000000;
+  --ink-900: #050505;
+  --ink-800: #1a1a1a;
+  --ink-700: #2a2a2a;
+  --primary-600: #ff8a4c;
+  --primary-500: #ff9a5c;
+  --primary-50: #242424;
+  --accent-500: #ff6b1a;
+  --accent-600: #f2550a;
+  --accent-700: #ff8a4c;
+  --accent-50: #2a1608;
+  --accent-300: #ffb07a;
+  --accent-400: #ff8a4c;
+  --primary-300: #fdba74;
 
   /* Superficies y texto */
-  --bg: #fbfaf7;
-  --paper: #f3f0e8;
-  --surface: #ffffff;
-  --text: #0b1b3d;
-  --text-700: var(--ink-700);
-  --text-800: var(--ink-800);
-  --on-accent: var(--ink-950);
-  --border-hover: var(--ink-900);
-  --muted: #55607a;
-  --line: #e6e1d6;
-  --line-strong: #d6d0c2;
+  --bg: #0e0e0e;
+  --paper: #151515;
+  --surface: #1b1b1b;
+  --text: #f5f5f5;
+  --text-700: #ffffff;
+  --text-800: #e5e5e5;
+  --on-accent: #000000;
+  --border-hover: #ff6b1a;
+  --muted: #a3a3a3;
+  --line: #2a2a2a;
+  --line-strong: #3a3a3a;
   --on-dark: #ffffff;
-  --muted-dark: #a9b4cc;
-  --on-dark-soft: #d8deeb;
-  --grid: #ebe7de;
+  --muted-dark: #a3a3a3;
+  --on-dark-soft: #d4d4d4;
+  --grid: #2a2a2a;
   --line-dark: rgba(255, 255, 255, 0.12);
 
   /* Estados */
-  --good: #1e7a4c;
-  --bad: #b42318;
+  --good: #4ade80;
+  --bad: #f87171;
 
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --radius: 18px;
   --radius-sm: 12px;
@@ -4431,4 +4431,49 @@ ol {
 
 .pl-stop-end {
   stop-color: var(--accent-600);
+}
+
+/* Variante oscura: ajustes de elementos pensados para fondo claro */
+.brand img {
+  filter: brightness(0) invert(1);
+}
+
+/* Logos de clientes en claro sobre fondo oscuro */
+.logos-row img,
+.logos-grid img,
+.logos-row img:hover,
+.logos-grid li:hover img {
+  filter: grayscale(1) invert(1) brightness(1.4);
+}
+
+.field input,
+.field select,
+.field textarea {
+  background-color: var(--paper);
+  color: var(--text);
+}
+
+.field .is-invalid,
+.field .is-invalid:focus {
+  background-color: color-mix(in srgb, var(--bad) 12%, transparent);
+}
+
+.form-status:has(.ok) {
+  background: color-mix(in srgb, var(--good) 14%, transparent);
+}
+
+.form-status:has(.error) {
+  background: color-mix(in srgb, var(--bad) 14%, transparent);
+}
+
+.db {
+  --st-good: #4ade80;
+  --st-warning: #fbbf24;
+  --st-critical: #f87171;
+}
+
+.status-good,
+.status-warning,
+.status-critical {
+  background: rgba(255, 255, 255, 0.06);
 }
