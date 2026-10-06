@@ -19,6 +19,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markupsafe import Markup
 
+from blog import load_posts, long_date
 from casos import CASES, PENDIENTE
 from dashboards import EXAMPLES
 from pipeline import pipeline
@@ -252,6 +253,18 @@ def published_cases(drafts):
 def build(drafts=False):
     cases = published_cases(drafts)
     pages = [p for p in PAGES if cases or not p.get('requires_cases')]
+    posts = load_posts(include_future=drafts)
+    if posts:
+        pages.append({
+            'template': 'blog.html', 'path': '/blog/', 'nav': 'blog',
+            'title': 'Blog: datos, tableros e inteligencia artificial para empresas | DeepDatas',
+            'description': 'Guías prácticas sobre integración y calidad de datos, tableros de gestión, Power BI e inteligencia artificial aplicada a empresas.',
+        })
+        for post in posts:
+            pages.append({
+                'template': 'articulo.html', 'path': f'/blog/{post["slug"]}/', 'nav': 'blog', 'post': post,
+                'title': f'{post["title"]} | DeepDatas', 'description': post['description'],
+            })
     if OUT.exists():
         shutil.rmtree(OUT)
     shutil.copytree(SRC / 'assets', OUT / 'assets')
@@ -265,7 +278,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
 
     def render_all():

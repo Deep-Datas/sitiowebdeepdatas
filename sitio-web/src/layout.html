@@ -26,7 +26,7 @@
   {% endif %}
   <meta name="theme-color" content="#0b1b3d">
 
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{{ 'article' if page.get('post') else 'website' }}">
   <meta property="og:locale" content="es_AR">
   <meta property="og:site_name" content="DeepDatas">
   <meta property="og:title" content="{{ page.title }}">
@@ -133,6 +133,7 @@
             {% if cases %}<li><a href="/casos/">Casos de éxito</a></li>{% endif %}
             <li><a href="/ejemplos/">Ejemplos de tableros</a></li>
             <li><a href="/nosotros/">Nosotros</a></li>
+            {% if posts %}<li><a href="/blog/">Blog</a></li>{% endif %}
             <li><a href="/contacto/">Contacto</a></li>
             <li><a href="{{ portal_url }}" target="_blank" rel="noopener">Portal clientes</a></li>
           </ul>

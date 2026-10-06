@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+  <div class="container">
+    <p class="eyebrow">Blog</p>
+    <h1>Ideas para decidir con datos</h1>
+    <p class="lead">Guías prácticas sobre integración y calidad de datos, tableros de gestión e inteligencia artificial aplicada a empresas.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container">
+    <ul class="post-grid">
+      {% for p in posts %}
+      <li>
+        <article class="post-card">
+          <ul class="tags">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>
+          <h2 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h2>
+          <p>{{ p.description }}</p>
+          <p class="post-meta"><time datetime="{{ p.date.isoformat() }}">{{ long_date(p.date) }}</time> · {{ p.minutes }} min de lectura</p>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

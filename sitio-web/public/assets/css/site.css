@@ -4244,3 +4244,174 @@ ol {
 .ai-hero .actions {
   margin-top: 28px;
 }
+
+/* ---------- Blog ---------- */
+.post-grid {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .post-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .post-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.post-grid > li {
+  display: flex;
+}
+
+.post-card {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  border-color: var(--orange-500);
+  box-shadow: var(--shadow);
+}
+
+.post-card .tags {
+  margin-bottom: 14px;
+}
+
+.post-card-title {
+  margin: 0 0 10px;
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+
+.post-card-title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Toda la tarjeta es clicable */
+.post-card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.post-card p {
+  color: var(--muted);
+}
+
+.post-meta {
+  margin: auto 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.post-container {
+  max-width: 760px;
+}
+
+.post-hero h1 {
+  max-width: none;
+  font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+
+.post-hero .eyebrow a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-hero .post-meta {
+  margin-top: 20px;
+}
+
+.prose {
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.prose h2 {
+  margin: 2em 0 0.6em;
+  font-size: 1.6rem;
+}
+
+.prose h3 {
+  margin: 1.6em 0 0.5em;
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1em;
+}
+
+.prose li {
+  margin-bottom: 0.4em;
+}
+
+.prose a {
+  color: var(--blue-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose strong {
+  color: var(--navy-900);
+}
+
+.post-cta {
+  margin-top: 48px;
+  padding: 32px;
+  border-radius: var(--radius);
+  background: var(--navy-900);
+  color: var(--on-dark);
+}
+
+.post-cta h2 {
+  color: var(--on-dark);
+}
+
+.post-cta p {
+  color: var(--muted-dark);
+}
+
+.post-share {
+  margin-top: 24px;
+}
+
+.prose p,
+.prose li {
+  color: var(--text);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li::marker {
+  color: var(--orange-600);
+}

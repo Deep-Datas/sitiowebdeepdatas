@@ -351,4 +351,30 @@
     </div>
   </div>
 </section>
+
+{% if posts %}
+<!-- ======= BLOG ======= -->
+<section class="section section-tight" aria-labelledby="blog-title">
+  <div class="container">
+    <div class="section-head section-head-split reveal">
+      <div>
+        <p class="eyebrow">Blog</p>
+        <h2 id="blog-title">Ideas para decidir con datos</h2>
+      </div>
+      <a class="btn btn-secondary" href="/blog/">Ver todos los artículos {{ icon('arrow-right') }}</a>
+    </div>
+    <ul class="post-grid">
+      {% for p in posts[:3] %}
+      <li>
+        <article class="post-card">
+          <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>
+          <p>{{ p.description }}</p>
+          <p class="post-meta">{{ p.minutes }} min de lectura</p>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
 {% endblock %}

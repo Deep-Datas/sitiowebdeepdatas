@@ -8,6 +8,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | --- | --- |
 | `/` | Propuesta de valor, clientes, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, servicios, caso destacado, proceso, industrias |
 | `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
+| `/blog/` | Artículos (uno por archivo en `blog/`), cada uno en `/blog/<archivo>/` |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
 | `/ejemplos/` | Tres tableros interactivos de ejemplo (datos ficticios) con el desafío, la solución y el beneficio |
@@ -20,6 +21,9 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 
 ```
 build.py                 Genera el sitio en public/ a partir de src/
+blog.py                  Lee los artículos de blog/ (Markdown)
+blog/                    Artículos del blog, uno por archivo .md
+contenido/linkedin.md    Publicaciones sugeridas para LinkedIn (no se publica en el sitio)
 casos.py                 Casos de éxito (se publican al marcarlos como publicados)
 dashboards.py            Datos ficticios de los tableros de ejemplo
 pipeline.py              Textos y geometría del gráfico «Del dato disperso al agente de IA»
@@ -80,6 +84,22 @@ La función `api/contacto` valida la consulta, descarta spam con un campo trampa
 | `CONTACT_RECIPIENTS` | Opcional. Destinatarios separados por coma (por defecto, el mismo buzón) |
 
 Mientras no esté configurado, el formulario muestra un aviso con el email de contacto en lugar de fallar en silencio.
+
+## Blog
+
+Para publicar un artículo, creá un archivo `.md` en `blog/` (por ejemplo `blog/mi-articulo.md`, que se publica en `/blog/mi-articulo/`) con este encabezado y el texto en Markdown debajo:
+
+```
+---
+title: Título del artículo
+description: Resumen de unas 25 palabras para Google y LinkedIn
+date: 2026-10-20
+tags: Power BI, Tableros de gestión
+cta: diagnostico
+---
+```
+
+`cta` define el llamado a la acción del final: `diagnostico`, `casos` o `ia`. Los artículos con fecha futura no se publican hasta que se vuelva a generar el sitio en esa fecha. Cada artículo se suma solo al blog, al inicio, al sitemap y a los artículos relacionados.
 
 ## Casos de éxito
 
