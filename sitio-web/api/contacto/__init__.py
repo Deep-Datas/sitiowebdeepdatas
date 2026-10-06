@@ -8,7 +8,7 @@ Variables de entorno (Static Web App > Configuración / Environment variables):
   GRAPH_TENANT_ID      Id. del directorio (tenant) de Microsoft Entra ID
   GRAPH_CLIENT_ID      Id. de la aplicación registrada
   GRAPH_CLIENT_SECRET  Secreto de cliente de esa aplicación
-  MAIL_SENDER          Buzón que envía los mensajes (default: contacto@deepdatas.com)
+  MAIL_SENDER          Buzón que envía los mensajes (default: fbloise@deepdatas.com)
   CONTACT_RECIPIENTS   Destinatarios separados por coma (default: MAIL_SENDER)
 """
 import json
@@ -32,7 +32,7 @@ FIELDS = {
     'interest': (False, 80),
     'message': (True, 5000),
 }
-FALLBACK_ERROR = 'No pudimos enviar tu mensaje en este momento. Escribinos a contacto@deepdatas.com.'
+FALLBACK_ERROR = 'No pudimos enviar tu mensaje en este momento. Escribinos a fbloise@deepdatas.com.'
 TIMEOUT = 10
 
 
@@ -81,7 +81,7 @@ def validate(data):
 
 
 def send_mail(data, GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET):
-    sender = os.environ.get('MAIL_SENDER', 'contacto@deepdatas.com').strip()
+    sender = os.environ.get('MAIL_SENDER', 'fbloise@deepdatas.com').strip()
     recipients = [r.strip() for r in os.environ.get('CONTACT_RECIPIENTS', sender).split(',') if r.strip()]
     topic = data['interest'] or 'Consulta general'
     subject = ' '.join(f"{topic} - {data['company'] or data['name']}".split())

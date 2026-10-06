@@ -215,7 +215,7 @@
             form.reset();
             showStatus('ok', '¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.');
           } else {
-            showStatus('error', data.error || 'No pudimos enviar tu mensaje. Escribinos a contacto@deepdatas.com.');
+            showStatus('error', data.error || 'No pudimos enviar tu mensaje. Escribinos a fbloise@deepdatas.com.');
           }
         })
         .catch(function () {

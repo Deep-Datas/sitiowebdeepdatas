@@ -62,7 +62,7 @@ La función `api/contacto` valida la consulta, descarta spam con un campo trampa
 1. En el [portal de Azure](https://portal.azure.com) > **Microsoft Entra ID** > **Registros de aplicaciones** > **Nuevo registro**.
 2. **Permisos de API** > **Microsoft Graph** > **Permisos de aplicación** > `Mail.Send` > **Conceder consentimiento de administrador**.
 3. **Certificados y secretos** > **Nuevo secreto de cliente**. Copiá el valor y anotá su vencimiento.
-4. Recomendado: limitá la aplicación para que solo pueda enviar desde `contacto@deepdatas.com` ([RBAC para aplicaciones en Exchange Online](https://learn.microsoft.com/exchange/permissions-exo/application-rbac)).
+4. Recomendado: limitá la aplicación para que solo pueda enviar desde `fbloise@deepdatas.com` ([RBAC para aplicaciones en Exchange Online](https://learn.microsoft.com/exchange/permissions-exo/application-rbac)).
 5. En la Static Web App > **Configuración** > **Variables de entorno**:
 
 | Variable | Valor |
@@ -70,7 +70,7 @@ La función `api/contacto` valida la consulta, descarta spam con un campo trampa
 | `GRAPH_TENANT_ID` | Id. de directorio (inquilino) |
 | `GRAPH_CLIENT_ID` | Id. de aplicación (cliente) |
 | `GRAPH_CLIENT_SECRET` | Valor del secreto del paso 3 |
-| `MAIL_SENDER` | Opcional. Buzón que envía (por defecto `contacto@deepdatas.com`) |
+| `MAIL_SENDER` | Opcional. Buzón que envía (por defecto `fbloise@deepdatas.com`) |
 | `CONTACT_RECIPIENTS` | Opcional. Destinatarios separados por coma (por defecto, el mismo buzón) |
 
 Mientras no esté configurado, el formulario muestra un aviso con el email de contacto en lugar de fallar en silencio.
