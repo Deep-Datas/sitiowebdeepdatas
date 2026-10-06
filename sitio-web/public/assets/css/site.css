@@ -4477,3 +4477,128 @@ ol {
 .status-critical {
   background: rgba(255, 255, 255, 0.06);
 }
+
+/* ---------- Objetos 3D de vidrio (src/assets/img/glass, generados con tools/glass_icons.py) ---------- */
+.glass-icon {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: -12px 0 8px -12px;
+  filter: drop-shadow(0 12px 22px color-mix(in srgb, var(--accent-500) 22%, transparent));
+  transition: transform 0.35s ease;
+}
+
+.glass-icon-lg {
+  width: 112px;
+  height: 112px;
+}
+
+.service-card:hover .glass-icon,
+.plan-card:hover .glass-icon {
+  transform: translateY(-4px) rotate(-3deg);
+}
+
+.glass-deco {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Inicio: cubo flotando detrás del tablero */
+.glass-deco-hero {
+  top: -110px;
+  left: -30px;
+  width: 190px;
+  height: auto;
+  opacity: 0.95;
+}
+
+.hero-visual .dash-card,
+.hero-visual .float-card {
+  z-index: 1;
+}
+
+/* IA: esfera detrás de la conversación */
+.chat-wrap {
+  position: relative;
+}
+
+.chat-wrap .chat-demo {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-deco-ia {
+  top: -130px;
+  right: -40px;
+  width: 230px;
+  height: auto;
+}
+
+/* Franja final: anillo en el borde */
+.glass-deco-cta {
+  right: -70px;
+  bottom: -110px;
+  width: 300px;
+  height: auto;
+  opacity: 0.7;
+}
+
+.cta-inner > :not(.glass-deco) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Encabezados de página con un objeto a la derecha */
+.glass-hero::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: max(16px, calc(50% - 600px));
+  z-index: -1;
+  width: 300px;
+  height: 300px;
+  background: center / contain no-repeat;
+  transform: translateY(-50%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.glass-hero-base-de-datos::after { background-image: url("../img/glass/base-de-datos-512.webp"); }
+.glass-hero-barras::after { background-image: url("../img/glass/barras-512.webp"); }
+.glass-hero-cubo::after { background-image: url("../img/glass/cubo-512.webp"); }
+.glass-hero-esfera::after { background-image: url("../img/glass/esfera-512.webp"); }
+
+@media (max-width: 1199px) {
+  .glass-hero::after {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .glass-deco-hero,
+  .glass-deco-ia {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glass-deco-hero,
+  .glass-deco-ia {
+    animation: glass-float 7s ease-in-out infinite;
+  }
+}
+
+@keyframes glass-float {
+  50% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+}
+
+.pl-agent-glass {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: -8px auto 6px;
+}

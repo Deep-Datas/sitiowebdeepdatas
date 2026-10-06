@@ -35,6 +35,7 @@ src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y ag
 src/pages/               Contenido de cada página
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
+tools/                   Generador de los íconos 3D de vidrio (src/assets/img/glass/)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo

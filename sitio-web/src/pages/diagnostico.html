@@ -17,13 +17,13 @@
 ] %}
 
 {% set deliverables = [
-  ('diagram-3', 'Mapa de tus datos',
+  ('base-de-datos', 'Mapa de tus datos',
    'Qué fuentes tenés (sistemas, planillas, mensajes, archivos), qué información guarda cada una y cómo circula entre áreas.'),
-  ('shield-check', 'Evaluación de calidad',
+  ('embudo', 'Evaluación de calidad',
    'Un puntaje por fuente: completitud, duplicados, consistencia y actualización. Sabés exactamente dónde están los problemas.'),
-  ('robot', 'Preparación para IA',
+  ('esfera', 'Preparación para IA',
    'Qué casos de inteligencia artificial son viables hoy con tus datos, cuáles no todavía y qué falta para llegar.'),
-  ('compass', 'Hoja de ruta priorizada',
+  ('anillo', 'Hoja de ruta priorizada',
    'Las oportunidades de mayor impacto, ordenadas por beneficio y esfuerzo, con plazos estimados para cada una.'),
 ] %}
 
@@ -134,7 +134,7 @@
     <div class="dx-grid">
       {% for ic, title, text in deliverables %}
       <article class="plan-card reveal">
-        <span class="plan-icon">{{ icon(ic) }}</span>
+        <img class="glass-icon" src="/assets/img/glass/{{ ic }}-256.webp" alt="" width="96" height="96" loading="lazy">
         <h3>{{ title }}</h3>
         <p>{{ text }}</p>
       </article>

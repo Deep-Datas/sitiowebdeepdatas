@@ -3,7 +3,7 @@
 
 {% set services = [
   {
-    'id': 'ingenieria', 'num': '01', 'icon': 'hdd-network',
+    'id': 'ingenieria', 'num': '01', 'icon': 'hdd-network', 'glass': 'cubo',
     'title': 'Ingeniería de datos',
     'lead': 'Conectamos todas tus fuentes de información y automatizamos su actualización, para que los datos lleguen solos a donde se necesitan.',
     'includes': [
@@ -15,7 +15,7 @@
     'outcome': 'Una única fuente de verdad que se actualiza sin intervención manual.',
   },
   {
-    'id': 'calidad', 'num': '02', 'icon': 'funnel',
+    'id': 'calidad', 'num': '02', 'icon': 'funnel', 'glass': 'embudo',
     'title': 'Calidad y preparación de datos',
     'lead': 'Datos confiables antes que nada: detectamos errores, duplicados y faltantes, y los corregimos con reglas de negocio y técnicas de Machine Learning.',
     'includes': [
@@ -27,7 +27,7 @@
     'outcome': 'Números en los que todas las áreas confían, con criterios documentados.',
   },
   {
-    'id': 'analitica', 'num': '03', 'icon': 'graph-up-arrow',
+    'id': 'analitica', 'num': '03', 'icon': 'graph-up-arrow', 'glass': 'esfera',
     'title': 'Analítica y modelos predictivos',
     'lead': 'Diseñamos los indicadores que mejor explican tu negocio y modelos que anticipan lo que viene, para pasar de reaccionar a planificar.',
     'includes': [
@@ -39,7 +39,7 @@
     'outcome': 'Indicadores que muestran dónde actuar y pronósticos para decidir antes.',
   },
   {
-    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line',
+    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line', 'glass': 'barras',
     'title': 'Tableros de gestión',
     'lead': 'Dashboards dinámicos e interactivos para cada área, desde la dirección hasta el equipo comercial, con la información clave a un clic.',
     'includes': [
@@ -53,7 +53,7 @@
 ] %}
 
 {% block content %}
-<section class="page-hero">
+<section class="page-hero glass-hero glass-hero-base-de-datos">
   <div class="container">
     <p class="eyebrow">Servicios</p>
     <h1>Un solo equipo para todo el ciclo de vida de tus datos</h1>
@@ -72,7 +72,7 @@
     <article class="service-detail reveal" id="{{ s.id }}">
       <div class="service-detail-head">
         <span class="service-num">{{ s.num }}</span>
-        <span class="service-icon service-icon-lg">{{ icon(s.icon) }}</span>
+        <img class="glass-icon glass-icon-lg" src="/assets/img/glass/{{ s.glass }}-256.webp" alt="" width="112" height="112" loading="lazy">
         <h2>{{ s.title }}</h2>
         <p class="lead-sm">{{ s.lead }}</p>
       </div>
