@@ -1,11 +1,13 @@
 {# Estructura común a todas las páginas. Cada página extiende esta plantilla. #}
-{% set nav_items = [
+{% set all_nav_items = [
   ('servicios', '/servicios/', 'Servicios'),
   ('diagnostico', '/diagnostico/', 'Diagnóstico'),
+  ('casos', '/casos/', 'Casos'),
   ('ejemplos', '/ejemplos/', 'Ejemplos'),
   ('nosotros', '/nosotros/', 'Nosotros'),
   ('contacto', '/contacto/', 'Contacto'),
 ] %}
+{% set nav_items = all_nav_items if cases else all_nav_items | rejectattr(0, 'eq', 'casos') | list %}
 {% set portal_url = 'https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx' %}
 {% set whatsapp_url = 'https://wa.me/5491161527387' %}
 <!DOCTYPE html>
@@ -123,6 +125,7 @@
         <div>
           <h2 class="footer-title">Empresa</h2>
           <ul class="footer-links">
+            {% if cases %}<li><a href="/casos/">Casos de éxito</a></li>{% endif %}
             <li><a href="/ejemplos/">Ejemplos de tableros</a></li>
             <li><a href="/nosotros/">Nosotros</a></li>
             <li><a href="/contacto/">Contacto</a></li>

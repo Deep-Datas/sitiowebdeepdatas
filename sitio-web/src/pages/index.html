@@ -255,6 +255,32 @@
   </div>
 </section>
 
+{% if cases %}
+<!-- ======= CASOS DE ÉXITO ======= -->
+<section class="section section-paper" aria-labelledby="casos-title">
+  <div class="container">
+    <div class="section-head section-head-split reveal">
+      <div>
+        <p class="eyebrow">Casos de éxito</p>
+        <h2 id="casos-title">Resultados que se pueden medir</h2>
+      </div>
+      <a class="btn btn-secondary" href="/casos/">Ver todos los casos {{ icon('arrow-right') }}</a>
+    </div>
+    <div class="case-cards">
+      {% for c in cases[:3] %}
+      <a class="case-card reveal" href="/casos/#{{ c.id }}">
+        <span class="case-card-industry">{{ c.industry }}</span>
+        <strong class="case-card-number">{{ c.results[0][0] }}</strong>
+        <span class="case-card-label">{{ c.results[0][1] }}</span>
+        <span class="case-card-title">{{ c.title }}</span>
+        <span class="case-card-more">Leer el caso {{ icon('arrow-right') }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <!-- ======= CÓMO TRABAJAMOS ======= -->
 <section class="section">
   <div class="container">

@@ -1,0 +1,96 @@
+{% extends 'layout.html' %}
+
+{% macro value(text) -%}
+{% if text == pending %}<span class="is-pending">{{ text }}</span>{% else %}{{ text }}{% endif %}
+{%- endmacro %}
+
+{% block content %}
+{% if drafts %}
+<div class="draft-banner" role="note">
+  <div class="container">{{ icon('exclamation-circle-fill') }} Vista previa con borradores: los casos con «{{ pending }}» no se publican hasta completarlos.</div>
+</div>
+{% endif %}
+
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Casos de éxito</p>
+    <h1>Resultados reales de empresas que decidieron con datos</h1>
+    <p class="lead">Proyectos de integración de datos, tableros de gestión y modelos predictivos, contados con los números que importan a cada cliente.</p>
+    {% if cases | length > 1 %}
+    <nav class="pill-nav" aria-label="Casos">
+      {% for c in cases %}
+      <a href="#{{ c.id }}">{{ c.industry }}: {{ c.title | truncate(42) }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </div>
+</section>
+
+{% for c in cases %}
+<section class="section section-tight{{ ' section-paper' if loop.index is even }}" id="{{ c.id }}" aria-labelledby="{{ c.id }}-title">
+  <article class="container case">
+    <header class="case-head reveal">
+      <div class="case-client">
+        {% if c.logo %}<img src="/assets/img/{{ c.logo }}" alt="{{ c.client }}" height="48" loading="lazy">{% endif %}
+        <ul class="tags">
+          <li>{{ c.industry }}</li>
+          {% if not c.publicado %}<li class="tag-draft">Borrador</li>{% endif %}
+        </ul>
+        {% if not c.logo %}<p class="case-client-name">{{ c.client }}</p>{% endif %}
+      </div>
+      <h2 id="{{ c.id }}-title">{{ c.title }}</h2>
+      <p class="lead-sm">{{ c.summary }}</p>
+    </header>
+
+    <dl class="case-results reveal">
+      {% for number, label in c.results %}
+      <div>
+        <dt>{{ label }}</dt>
+        <dd>{{ value(number) }}</dd>
+      </div>
+      {% endfor %}
+    </dl>
+
+    <div class="case-story">
+      <div>
+        <h3 class="mini-title">{{ icon('bullseye') }} El desafío</h3>
+        <p>{{ c.challenge }}</p>
+      </div>
+      <div>
+        <h3 class="mini-title">{{ icon('gear') }} Qué hicimos</h3>
+        <p>{{ c.solution }}</p>
+      </div>
+      <div>
+        <h3 class="mini-title">{{ icon('graph-up-arrow') }} El resultado</h3>
+        <p>{{ c.outcome }}</p>
+      </div>
+    </div>
+
+    {% if c.quote %}
+    <figure class="case-quote reveal">
+      <blockquote><p>«{{ c.quote[0] }}»</p></blockquote>
+      <figcaption><strong>{{ c.quote[1] }}</strong> {{ c.quote[2] }}</figcaption>
+    </figure>
+    {% endif %}
+
+    <div class="case-meta">
+      <div>
+        <h3 class="case-meta-title">Fuentes integradas</h3>
+        <ul class="case-chips">{% for s in c.sources %}<li>{{ s }}</li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h3 class="case-meta-title">Tecnología</h3>
+        <ul class="case-chips">{% for s in c.stack %}<li>{{ s }}</li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h3 class="case-meta-title">Duración</h3>
+        <p>{{ value(c.duration) }}</p>
+      </div>
+      {% if c.example %}
+      <a class="plan-link case-link" href="/ejemplos/#{{ c.example }}">Ver un tablero de ejemplo similar {{ icon('arrow-right') }}</a>
+      {% endif %}
+    </div>
+  </article>
+</section>
+{% endfor %}
+{% endblock %}

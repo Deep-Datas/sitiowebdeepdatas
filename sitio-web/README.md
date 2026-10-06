@@ -19,6 +19,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 
 ```
 build.py                 Genera el sitio en public/ a partir de src/
+casos.py                 Casos de éxito (se publican al marcarlos como publicados)
 dashboards.py            Datos ficticios de los tableros de ejemplo
 pipeline.py              Textos y geometría del gráfico «Del dato disperso al agente de IA»
 requirements.txt         Dependencias para generar el sitio (Jinja2)
@@ -78,6 +79,16 @@ La función `api/contacto` valida la consulta, descarta spam con un campo trampa
 | `CONTACT_RECIPIENTS` | Opcional. Destinatarios separados por coma (por defecto, el mismo buzón) |
 
 Mientras no esté configurado, el formulario muestra un aviso con el email de contacto en lugar de fallar en silencio.
+
+## Casos de éxito
+
+Los casos están en `casos.py`. Cada uno tiene `'publicado': False` hasta que se completen sus datos reales:
+
+1. Reemplazá cada `[completar]` por el dato real (resultados, duración) y, si el cliente lo autoriza, agregá su logo y un testimonio.
+2. Revisalo con `python build.py --borradores` y abrí la carpeta `vista-previa/` (no se sube al repositorio).
+3. Cambiá `'publicado'` a `True` y ejecutá `python build.py`.
+
+Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos» del menú y la sección de casos del inicio. `build.py` no deja publicar un caso que todavía tenga datos `[completar]`.
 
 ## Contenido a revisar
 

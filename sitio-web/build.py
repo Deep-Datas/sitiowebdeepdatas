@@ -10,12 +10,14 @@ en cada ejecución: no editar archivos dentro de public/.
 """
 import hashlib
 import shutil
+import sys
 from datetime import date
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markupsafe import Markup
 
+from casos import CASES, PENDIENTE
 from dashboards import EXAMPLES
 from pipeline import pipeline
 
@@ -41,6 +43,11 @@ PAGES = [
         'template': 'diagnostico.html', 'path': '/diagnostico/', 'nav': 'diagnostico',
         'title': 'Diagnóstico de datos | DeepDatas',
         'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
+    },
+    {
+        'template': 'casos.html', 'path': '/casos/', 'nav': 'casos', 'requires_cases': True,
+        'title': 'Casos de éxito | DeepDatas',
+        'description': 'Proyectos reales de integración de datos, tableros de gestión y modelos predictivos, con los resultados que obtuvieron nuestros clientes.',
     },
     {
         'template': 'ejemplos.html', 'path': '/ejemplos/', 'nav': 'ejemplos',
@@ -183,7 +190,18 @@ def output_file(path):
     return OUT / path.lstrip('/') / 'index.html'
 
 
-def build():
+def published_cases(drafts):
+    """Casos a mostrar. Un caso publicado no puede tener datos pendientes."""
+    cases = [c for c in CASES if c['publicado'] or drafts]
+    for case in cases:
+        if case['publicado'] and PENDIENTE in repr(case):
+            raise SystemExit(f'El caso "{case["id"]}" está publicado pero tiene datos {PENDIENTE}.')
+    return cases
+
+
+def build(drafts=False):
+    cases = published_cases(drafts)
+    pages = [p for p in PAGES if cases or not p.get('requires_cases')]
     if OUT.exists():
         shutil.rmtree(OUT)
     shutil.copytree(SRC / 'assets', OUT / 'assets')
@@ -198,11 +216,11 @@ def build():
     )
     pos = Positions()
     env.globals.update(icon=icon, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
-                       site_url=SITE_URL, year=date.today().year)
+                       cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
 
     def render_all():
         return [(page, env.get_template(page['template']).render(page=page))
-                for page in ({'noindex': False, **p} for p in PAGES)]
+                for page in ({'noindex': drafts, **p} for p in pages)]
 
     # Primera pasada: junta las posiciones de los gráficos para escribir charts.css.
     # Segunda pasada: las páginas ya pueden enlazar charts.css con su versión.
@@ -214,7 +232,7 @@ def build():
         target.write_text(html, encoding='utf-8')
         print(f'  {page["path"]:<14} -> {target.relative_to(ROOT)}')
 
-    indexable = [p for p in PAGES if not p.get('noindex')]
+    indexable = [p for p in pages if not p.get('noindex')]
     urls = '\n'.join(f'  <url><loc>{SITE_URL}{p["path"]}</loc></url>' for p in indexable)
     (OUT / 'sitemap.xml').write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -225,4 +243,9 @@ def build():
 
 
 if __name__ == '__main__':
-    build()
+    if '--borradores' in sys.argv:
+        # Vista previa con los casos en borrador: no se publica.
+        OUT = ROOT / 'vista-previa'
+        build(drafts=True)
+    else:
+        build()

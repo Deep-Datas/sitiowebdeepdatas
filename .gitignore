@@ -93,3 +93,6 @@ ENV/
 # Visual Studio Code
 .vscode/
 
+
+# Vista previa con borradores (python build.py --borradores)
+sitio-web/vista-previa/
