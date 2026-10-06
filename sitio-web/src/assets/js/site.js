@@ -205,7 +205,7 @@
         var start = wide ? { x: w * 0.72, y: h * 0.5 } : { x: w * 0.5, y: h * 0.79 };
         // Plano final: la pantalla del monitor cubre toda la vista
         var s1 = Math.max(w / SCREEN.w, (h - 0) / SCREEN.h) * 1.04;
-        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 } };
+        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 }, header: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64 };
       }
 
       function setSteps(count) {
@@ -229,7 +229,7 @@
         var total = hero.offsetHeight - view.h;
         var p = clamp(-rect.top / total, 0, 1);
 
-        var t = ease(ramp(0.06, 0.5, p));
+        var t = ease(ramp(0.06, 0.46, p));
         var s = view.s0 * Math.pow(view.s1 / view.s0, t);
         var ax = lerp(view.start.x, view.end.x, t);
         var ay = lerp(view.start.y, view.end.y, t);
@@ -247,14 +247,27 @@
         hint.style.opacity = (1 - ramp(0, 0.05, p)).toFixed(3);
         shade.style.opacity = (1 - ramp(0.04, 0.22, p)).toFixed(3);
 
-        var appIn = ramp(0.485, 0.515, p);
-        frame.style.opacity = (1 - ramp(0.505, 0.53, p)).toFixed(3);
+        var appIn = ramp(0.44, 0.49, p);
+        frame.style.opacity = (1 - ramp(0.47, 0.5, p)).toFixed(3);
         app.style.opacity = appIn.toFixed(3);
-        app.style.transform = 'scale(' + (1.04 - 0.04 * appIn).toFixed(4) + ')';
         app.classList.toggle('is-active', appIn > 0.5);
         hero.classList.toggle('is-app', appIn > 0.5);
 
-        var revealed = Math.round(ramp(0.55, 0.93, p) * steps.length);
+        // Cierre: la ventana se encoge hasta quedar enmarcada sobre el fondo del sitio
+        var settle = ease(ramp(0.88, 0.98, p));
+        var side = Math.min(48, Math.max(16, view.w * 0.03)) * settle;
+        app.style.top = (view.header + 16 * settle).toFixed(1) + 'px';
+        app.style.left = side.toFixed(1) + 'px';
+        app.style.right = side.toFixed(1) + 'px';
+        app.style.bottom = (40 * settle).toFixed(1) + 'px';
+        app.style.borderRadius = (20 * settle).toFixed(1) + 'px';
+        app.style.boxShadow = settle > 0 ? '0 0 0 1px rgba(255,255,255,' + (0.14 * settle).toFixed(3) + '), 0 40px 90px -40px rgba(0,0,0,' + (0.8 * settle).toFixed(3) + ')' : '';
+        app.style.transform = appIn < 1 ? 'scale(' + (1.04 - 0.04 * appIn).toFixed(4) + ')' : '';
+        hero.classList.toggle('is-done', p > 0.88);
+
+        document.body.classList.toggle('hero-copy-visible', p < 0.06);
+
+        var revealed = Math.round(ramp(0.52, 0.86, p) * steps.length);
         setSteps(revealed);
       }
 
@@ -274,7 +287,8 @@
           render();
           window.addEventListener('scroll', onScroll, { passive: true });
         } else {
-          hero.classList.remove('is-animated', 'is-app');
+          hero.classList.remove('is-animated', 'is-app', 'is-done');
+          document.body.classList.remove('hero-copy-visible');
           window.removeEventListener('scroll', onScroll);
           [scene, front, copy, hint, shade, frame, app, thread].forEach(function (el) { el.removeAttribute('style'); });
           steps.forEach(function (step) { step.classList.remove('is-in'); });
@@ -365,6 +379,19 @@
 
     // Validamos con mensajes propios en español.
     form.setAttribute('novalidate', '');
+
+    // Preselecciona el interés cuando se llega desde un botón (por ejemplo, ?interes=ia)
+    var interestMap = {
+      diagnostico: 'Diagnóstico de datos',
+      ia: 'Inteligencia artificial',
+      tableros: 'Tableros de gestión',
+      ingenieria: 'Ingeniería de datos',
+      calidad: 'Calidad y preparación de datos',
+      analitica: 'Analítica y modelos predictivos'
+    };
+    var wanted = interestMap[new URLSearchParams(window.location.search).get('interes')];
+    var select = form.querySelector('#interest');
+    if (wanted && select && !select.value) select.value = wanted;
 
     var showStatus = function (type, message) {
       status.textContent = '';

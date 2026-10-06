@@ -1,0 +1,24 @@
+{# Formas de trabajo: se usan en el inicio y en Servicios. #}
+{% macro plans() %}
+<div class="plan-grid">
+  <article class="plan-card plan-card-featured reveal">
+    <span class="chip-recommended">Recomendado para empezar</span>
+    <span class="label">2 semanas</span>
+    <h3>Diagnóstico de datos</h3>
+    <p>En dos semanas sabés qué datos tenés, qué falta y por dónde empezar, con un plan priorizado.</p>
+    <a class="link-arrow plan-link" href="/diagnostico/">Conocé el diagnóstico {{ icon('arrow-right') }}</a>
+  </article>
+  <article class="plan-card reveal">
+    <span class="label">Proyecto</span>
+    <h3>Proyecto a medida</h3>
+    <p>Integramos tus fuentes y construimos tableros, modelos o agentes de IA con alcance, plazos y entregables definidos.</p>
+    <a class="link-arrow plan-link" href="{{ booking_url('proyecto') }}">Hablemos de tu proyecto {{ icon('arrow-right') }}</a>
+  </article>
+  <article class="plan-card reveal">
+    <span class="label">Mes a mes</span>
+    <h3>Acompañamiento continuo</h3>
+    <p>Tu equipo de datos externo: mantenemos, mejoramos y ampliamos tus soluciones mes a mes.</p>
+    <a class="link-arrow plan-link" href="{{ booking_url('acompanamiento') }}">Consultar por acompañamiento {{ icon('arrow-right') }}</a>
+  </article>
+</div>
+{% endmacro %}

@@ -25,9 +25,9 @@
 
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/site.css?v=f372839aae">
+  <link rel="stylesheet" href="/assets/css/site.css?v=58648cf3eb">
   <link rel="stylesheet" href="/assets/css/charts.css?v=02bf847b81">
-  <script src="/assets/js/site.js?v=12cce6b4e2" defer></script>
+  <script src="/assets/js/site.js?v=6dddfcf654" defer></script>
   <script src="/assets/js/analytics.js?v=7bf7ec8be1" data-clarity="ytmns2p931" defer></script>
 </head>
 
@@ -41,7 +41,7 @@
         <span>DeepDatas</span>
       </a>
 
-      <a class="btn btn-primary nav-cta-mobile" href="/contacto/">Agendar</a>
+      <a class="btn btn-primary nav-cta-mobile" href="/contacto/?interes=llamada">Hablemos</a>
 
       <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
         <span class="visually-hidden">Abrir menú</span>
@@ -52,32 +52,31 @@
       <nav class="site-nav" id="menu" aria-label="Principal">
         <ul>
           <li><a href="/servicios/" aria-current="page">Servicios</a></li>
-          <li><a href="/inteligencia-artificial/">IA</a></li>
+          <li><a href="/inteligencia-artificial/">IA para empresas</a></li>
           <li><a href="/diagnostico/">Diagnóstico</a></li>
           <li><a href="/casos/">Casos</a></li>
-          <li><a href="/ejemplos/">Ejemplos</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/nosotros/">Nosotros</a></li>
         </ul>
         <div class="nav-actions">
           <a class="nav-portal" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">Portal clientes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>
-          <a class="btn btn-primary" href="/contacto/">Agendar reunión</a>
+          <a class="btn btn-primary nav-cta" href="/contacto/?interes=llamada">Coordinar llamada</a>
         </div>
       </nav>
     </div>
   </header>
 
   <main id="contenido">
-<section class="page-hero glass-hero glass-hero-base-de-datos">
+<section class="page-hero">
   <div class="container">
     <p class="eyebrow">Servicios</p>
     <h1>Un solo equipo para todo el ciclo de vida de tus datos</h1>
-    <p class="lead">Recopilamos, limpiamos y analizamos tus datos, y los ponemos en manos de quienes deciden. Podés contratar el recorrido completo o solo la etapa que necesites.</p>
+    <p class="lead">Integramos, limpiamos y analizamos tus datos. Contratá el recorrido completo o solo la etapa que necesitás.</p>
     <nav class="pill-nav" aria-label="Servicios">
-      <a href="#ingenieria"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /> <rect width="20" height="8" x="2" y="14" rx="2" ry="2" /> <line x1="6" x2="6.01" y1="6" y2="6" /> <line x1="6" x2="6.01" y1="18" y2="18" /></svg> Ingeniería de datos</a>
-      <a href="#calidad"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg> Calidad y preparación de datos</a>
-      <a href="#analitica"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /> <polyline points="16 7 22 7 22 13" /></svg> Analítica y modelos predictivos</a>
-      <a href="#tableros"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="M18 17V9" /> <path d="M13 17V5" /> <path d="M8 17v-3" /></svg> Tableros de gestión</a>
+      <a href="#ingenieria">Ingeniería</a>
+      <a href="#calidad">Calidad</a>
+      <a href="#analitica">Analítica</a>
+      <a href="#tableros">Tableros</a>
     </nav>
   </div>
 </section>
@@ -99,7 +98,9 @@
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Modelo de datos centralizado, listo para el análisis</li>
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Monitoreo de las cargas y alertas ante errores</li>
         </ul>
-        <p class="outcome"><strong>Resultado:</strong> Una única fuente de verdad que se actualiza sin intervención manual.</p>
+        <p class="outcome"><span class="label">Resultado</span>Una única fuente de verdad que se actualiza sin intervención manual.</p>
+        <p class="service-links">
+<a class="link-arrow" href="/casos/#distribuidores">Caso relacionado <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>        </p>
       </div>
     </article>
     <article class="service-detail reveal" id="calidad">
@@ -107,7 +108,7 @@
         <span class="service-num">02</span>
         <img class="glass-icon glass-icon-lg" src="/assets/img/glass/embudo-256.webp" alt="" width="112" height="112" loading="lazy">
         <h2>Calidad y preparación de datos</h2>
-        <p class="lead-sm">Datos confiables antes que nada: detectamos errores, duplicados y faltantes, y los corregimos con reglas de negocio y técnicas de Machine Learning.</p>
+        <p class="lead-sm">Datos confiables antes que nada: detectamos errores, duplicados y faltantes, y los corregimos con reglas de negocio y modelos de aprendizaje automático.</p>
       </div>
       <div class="service-detail-body">
         <h3 class="mini-title">Qué incluye</h3>
@@ -117,33 +118,35 @@
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Unificación de maestros de clientes, productos y distribuidores</li>
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Gobierno de datos: definiciones, responsables y criterios comunes</li>
         </ul>
-        <p class="outcome"><strong>Resultado:</strong> Números en los que todas las áreas confían, con criterios documentados.</p>
+        <p class="outcome"><span class="label">Resultado</span>Números en los que todas las áreas confían, con criterios documentados.</p>
       </div>
     </article>
     <article class="service-detail reveal" id="analitica">
       <div class="service-detail-head">
         <span class="service-num">03</span>
-        <img class="glass-icon glass-icon-lg" src="/assets/img/glass/esfera-256.webp" alt="" width="112" height="112" loading="lazy">
+        <img class="glass-icon glass-icon-lg" src="/assets/img/glass/barras-256.webp" alt="" width="112" height="112" loading="lazy">
         <h2>Analítica y modelos predictivos</h2>
         <p class="lead-sm">Diseñamos los indicadores que mejor explican tu negocio y modelos que anticipan lo que viene, para pasar de reaccionar a planificar.</p>
       </div>
       <div class="service-detail-body">
         <h3 class="mini-title">Qué incluye</h3>
         <ul class="check-list">
-          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> KPIs estándar de la industria</li>
-          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> KPIs exclusivos, diseñados para tu modelo de negocio</li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Indicadores (KPIs) estándar de la industria</li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Indicadores propios de tu negocio</li>
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Modelos predictivos de demanda, ventas y comportamiento de clientes</li>
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Segmentación de clientes y puntos de venta</li>
         </ul>
-        <p class="outcome"><strong>Resultado:</strong> Indicadores que muestran dónde actuar y pronósticos para decidir antes.</p>
+        <p class="outcome"><span class="label">Resultado</span>Indicadores que muestran dónde actuar y pronósticos para decidir antes.</p>
+        <p class="service-links">
+<a class="link-arrow" href="/casos/#pronostico">Caso relacionado <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>        </p>
       </div>
     </article>
     <article class="service-detail reveal" id="tableros">
       <div class="service-detail-head">
         <span class="service-num">04</span>
-        <img class="glass-icon glass-icon-lg" src="/assets/img/glass/barras-256.webp" alt="" width="112" height="112" loading="lazy">
+        <img class="glass-icon glass-icon-lg" src="/assets/img/glass/esfera-256.webp" alt="" width="112" height="112" loading="lazy">
         <h2>Tableros de gestión</h2>
-        <p class="lead-sm">Dashboards dinámicos e interactivos para cada área, desde la dirección hasta el equipo comercial, con la información clave a un clic.</p>
+        <p class="lead-sm">Tableros para cada área, desde la dirección hasta el equipo comercial, con la información clave a un clic.</p>
       </div>
       <div class="service-detail-body">
         <h3 class="mini-title">Qué incluye</h3>
@@ -153,43 +156,28 @@
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Portal privado para que clientes y distribuidores consulten sus datos</li>
           <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Capacitación a usuarios y documentación</li>
         </ul>
-        <p class="outcome"><strong>Resultado:</strong> Cada persona ve lo que necesita para decidir, actualizado y desde cualquier dispositivo.</p>
+        <p class="outcome"><span class="label">Resultado</span>Cada persona ve lo que necesita para decidir, actualizado y desde cualquier dispositivo.</p>
+        <p class="service-links">
+<a class="link-arrow" href="/casos/#distribuidores">Caso relacionado <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a><a class="link-arrow" href="/ejemplos/">Ver tableros de ejemplo <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>        </p>
       </div>
     </article>
   </div>
 </section>
 
-<!-- ======= NIVELES DE ANALÍTICA ======= -->
-<section class="section section-dark">
-  <div class="container split split-center">
-    <div class="reveal">
-      <p class="eyebrow eyebrow-light">Soluciones</p>
-      <h2>Soluciones que agregan valor, reducen costos y mejoran la rentabilidad</h2>
-      <p class="muted-light">Acompañamos a cada organización según su madurez analítica: desde entender qué está pasando hasta anticipar lo que viene.</p>
+<!-- ======= MADUREZ ANALÍTICA ======= -->
+<section class="section section-stage" aria-labelledby="madurez-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Madurez analítica</p>
+      <h2 id="madurez-title">De mirar el pasado a <em>saber qué hacer mañana.</em></h2>
     </div>
-    <ol class="levels reveal">
-      <li>
-        <span class="level-num">1</span>
-        <div>
-          <h3>Análisis descriptivo con KPIs estándar</h3>
-          <p>Indicadores probados para saber, en un solo lugar, qué está pasando en tu negocio.</p>
-        </div>
-      </li>
-      <li>
-        <span class="level-num">2</span>
-        <div>
-          <h3>Análisis descriptivo con KPIs exclusivos</h3>
-          <p>Métricas diseñadas para tu industria y tu modelo de negocio, que revelan oportunidades ocultas.</p>
-        </div>
-      </li>
-      <li>
-        <span class="level-num">3</span>
-        <div>
-          <h3>Análisis predictivo con KPIs a medida</h3>
-          <p>Modelos que anticipan la demanda y el comportamiento de tus clientes para decidir antes.</p>
-        </div>
-      </li>
+    <ol class="hairline-grid hairline-grid-4 maturity reveal">
+      <li><span class="label">01</span><h3>Ver qué pasó</h3><p>Indicadores estándar en un solo tablero.</p></li>
+      <li><span class="label">02</span><h3>Entender por qué</h3><p>Indicadores propios de tu negocio.</p></li>
+      <li><span class="label">03</span><h3>Anticipar</h3><p>Modelos que predicen la demanda y las bajas de clientes.</p></li>
+      <li class="maturity-top"><span class="label">04 · Lo que viste en el inicio</span><h3>Saber qué hacer</h3><p>Recomendaciones con IA sobre tus datos.</p></li>
     </ol>
+    <p class="section-foot"><a class="link-arrow" href="/diagnostico/">¿Dónde está tu empresa hoy? Averigualo con el diagnóstico <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a></p>
   </div>
 </section>
 
@@ -202,26 +190,27 @@
       <p>Nos adaptamos al momento de tu empresa: desde un primer diagnóstico hasta un equipo de datos que te acompaña mes a mes.</p>
     </div>
     <div class="plan-grid">
-      <article class="plan-card reveal">
-        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8" /> <path d="m21 21-4.3-4.3" /></svg></span>
-        <h3>Diagnóstico de datos</h3>
-        <p>Relevamos tus fuentes, procesos e indicadores actuales y te entregamos un mapa de oportunidades priorizado.</p>
-        <p class="plan-for"><strong>Ideal para:</strong> dar el primer paso con claridad.</p>
-        <a class="plan-link" href="/diagnostico/">Conocé el diagnóstico <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-      </article>
-      <article class="plan-card plan-card-featured reveal">
-        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <circle cx="12" cy="12" r="6" /> <circle cx="12" cy="12" r="2" /></svg></span>
-        <h3>Proyecto a medida</h3>
-        <p>Implementamos una solución completa, de la ingesta al tablero, con alcance, plazos y entregables definidos.</p>
-        <p class="plan-for"><strong>Ideal para:</strong> resolver un desafío concreto de punta a punta.</p>
-      </article>
-      <article class="plan-card reveal">
-        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></svg></span>
-        <h3>Acompañamiento continuo</h3>
-        <p>Un equipo de datos externo que mantiene, mejora y amplía tus tableros y modelos mes a mes.</p>
-        <p class="plan-for"><strong>Ideal para:</strong> crecer sin armar un área de datos propia.</p>
-      </article>
-    </div>
+  <article class="plan-card plan-card-featured reveal">
+    <span class="chip-recommended">Recomendado para empezar</span>
+    <span class="label">2 semanas</span>
+    <h3>Diagnóstico de datos</h3>
+    <p>En dos semanas sabés qué datos tenés, qué falta y por dónde empezar, con un plan priorizado.</p>
+    <a class="link-arrow plan-link" href="/diagnostico/">Conocé el diagnóstico <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+  </article>
+  <article class="plan-card reveal">
+    <span class="label">Proyecto</span>
+    <h3>Proyecto a medida</h3>
+    <p>Integramos tus fuentes y construimos tableros, modelos o agentes de IA con alcance, plazos y entregables definidos.</p>
+    <a class="link-arrow plan-link" href="/contacto/?interes=proyecto">Hablemos de tu proyecto <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+  </article>
+  <article class="plan-card reveal">
+    <span class="label">Mes a mes</span>
+    <h3>Acompañamiento continuo</h3>
+    <p>Tu equipo de datos externo: mantenemos, mejoramos y ampliamos tus soluciones mes a mes.</p>
+    <a class="link-arrow plan-link" href="/contacto/?interes=acompanamiento">Consultar por acompañamiento <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+  </article>
+</div>
+
   </div>
 </section>
 
@@ -544,7 +533,7 @@ tabindex="0" role="button" aria-label="Automatización: Tareas repetitivas">
   <div class="container tools reveal">
     <div>
       <p class="eyebrow">Tecnología</p>
-      <h2 class="h3-like">Trabajamos con las plataformas que ya usás</h2>
+      <h2>Trabajamos con las plataformas que ya usás</h2>
       <p>Evaluamos el contexto y la infraestructura de cada empresa para recomendar la herramienta adecuada, sin atarte a un único proveedor.</p>
     </div>
     <ul class="tool-list" aria-label="Plataformas">
@@ -562,12 +551,12 @@ tabindex="0" role="button" aria-label="Automatización: Tareas repetitivas">
       <div class="container">
         <div class="cta-inner reveal">
           <div>
-            <h2 id="cta-title">Empecemos por una <em>conversación.</em></h2>
-            <p>Contanos tu desafío y armamos juntos el primer paso. Sin costo ni compromiso.</p>
+            <h2 id="cta-title">Contanos por qué etapa <em>querés empezar.</em></h2>
+            <p>Una llamada alcanza para definir el primer paso. Sin costo ni compromiso.</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-            <a class="btn btn-secondary btn-lg" href="https://wa.me/5491161527387?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%20y%20quiero%20consultar%20por%20sus%20servicios." target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> WhatsApp</a>
+            <a class="btn btn-primary btn-lg" href="/contacto/?interes=llamada">Coordinar una llamada <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+            <a class="btn btn-secondary btn-lg" href="https://wa.me/5491161527387?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%20y%20quiero%20consultar%20por%20sus%20servicios." target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> Escribinos por WhatsApp</a>
           </div>
         </div>
       </div>
@@ -619,7 +608,7 @@ tabindex="0" role="button" aria-label="Automatización: Tareas repetitivas">
       </div>
 
       <div class="footer-bottom">
-        <span>&copy; <span data-year>2026</span> DeepDatas. Todos los derechos reservados.</span>
+        <span>&copy; <span data-year>2026</span> DeepDatas · <a href="/privacidad/">Privacidad</a></span>
         <span>Hecho en Buenos Aires</span>
       </div>
     </div>

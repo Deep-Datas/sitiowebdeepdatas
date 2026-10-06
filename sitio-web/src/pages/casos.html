@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import 'charts.html' as charts %}
 
 {% macro value(text) -%}
 {% if text == pending %}<span class="is-pending">{{ text }}</span>{% else %}{{ text }}{% endif %}
@@ -11,7 +12,7 @@
 </div>
 {% endif %}
 
-<section class="page-hero glass-hero glass-hero-barras">
+<section class="page-hero">
   <div class="container">
     <p class="eyebrow">Casos de éxito</p>
     <h1>Resultados reales de empresas que decidieron con datos</h1>
@@ -19,7 +20,7 @@
     {% if cases | length > 1 %}
     <nav class="pill-nav" aria-label="Casos">
       {% for c in cases %}
-      <a href="#{{ c.id }}">{{ c.industry }}: {{ c.title | truncate(42) }}</a>
+      <a href="#{{ c.id }}">{{ c.short }}</a>
       {% endfor %}
     </nav>
     {% endif %}
@@ -27,72 +28,68 @@
 </section>
 
 {% for c in cases %}
-<section class="section section-tight{{ ' section-paper' if loop.index is even }}" id="{{ c.id }}" aria-labelledby="{{ c.id }}-title">
-  <article class="container case">
-    <header class="case-head reveal">
-      <div class="case-client">
-        {% if c.logo %}<img src="/assets/img/{{ c.logo }}" alt="{{ c.client }}" height="48" loading="lazy">{% endif %}
+{% set example = examples | selectattr('id', 'eq', c.example) | first if c.example else none %}
+<section class="section section-tight case-section" id="{{ c.id }}" aria-labelledby="{{ c.id }}-title">
+  <article class="container case case-layout">
+    <div class="case-main">
+      <header class="case-head reveal">
         <ul class="tags">
           <li>{{ c.industry }}</li>
           {% if not c.publicado %}<li class="tag-draft">Borrador</li>{% endif %}
         </ul>
-        {% if not c.logo %}<p class="case-client-name">{{ c.client }}</p>{% endif %}
-      </div>
-      <h2 id="{{ c.id }}-title">{{ c.title }}</h2>
-      <p class="lead-sm">{{ c.summary }}</p>
-    </header>
+        <h2 id="{{ c.id }}-title">{{ c.title }}</h2>
+        <p class="case-client-name">{{ c.client }}</p>
+      </header>
 
-    <dl class="case-results case-results-{{ c.results | length }} reveal">
-      {% for number, label in c.results %}
-      <div>
-        <dt>{{ label }}</dt>
-        <dd>{{ value(number) }}</dd>
-      </div>
-      {% endfor %}
-    </dl>
+      <dl class="case-results reveal">
+        {% for number, label in c.results %}
+        <div>
+          <dt>{{ label }}</dt>
+          <dd>{{ value(number) }}</dd>
+        </div>
+        {% endfor %}
+      </dl>
 
-    <div class="case-story">
-      <div>
-        <h3 class="mini-title">{{ icon('bullseye') }} El desafío</h3>
-        <p>{{ c.challenge }}</p>
-      </div>
-      <div>
-        <h3 class="mini-title">{{ icon('gear') }} Qué hicimos</h3>
-        <p>{{ c.solution }}</p>
-      </div>
-      <div>
-        <h3 class="mini-title">{{ icon('graph-up-arrow') }} El resultado</h3>
-        <p>{{ c.outcome }}</p>
+      <dl class="case-story">
+        <div><dt class="label">El desafío</dt><dd>{{ c.challenge }}</dd></div>
+        <div><dt class="label">Qué hicimos</dt><dd>{{ c.solution }}</dd></div>
+        <div><dt class="label">El resultado</dt><dd>{{ c.outcome }}</dd></div>
+      </dl>
+
+      {% if c.quote %}
+      <figure class="case-quote reveal">
+        <blockquote><p>«{{ c.quote[0] }}»</p></blockquote>
+        <figcaption><strong>{{ c.quote[1] }}</strong> {{ c.quote[2] }}</figcaption>
+      </figure>
+      {% endif %}
+
+      <div class="case-meta">
+        <div>
+          <p class="label">Fuentes integradas</p>
+          <ul class="case-chips">{% for s in c.sources %}<li>{{ s }}</li>{% endfor %}</ul>
+        </div>
+        <div>
+          <p class="label">Tecnología</p>
+          <ul class="case-chips">{% for s in c.stack %}<li>{{ s }}</li>{% endfor %}</ul>
+        </div>
+        {% if c.duration %}
+        <div>
+          <p class="label">Duración</p>
+          <p>{{ value(c.duration) }}</p>
+        </div>
+        {% endif %}
       </div>
     </div>
 
-    {% if c.quote %}
-    <figure class="case-quote reveal">
-      <blockquote><p>«{{ c.quote[0] }}»</p></blockquote>
-      <figcaption><strong>{{ c.quote[1] }}</strong> {{ c.quote[2] }}</figcaption>
+    {% if example %}
+    <figure class="case-visual reveal">
+      {{ charts.dashboard(example, panels=[0]) }}
+      <figcaption class="screen-caption">Tablero ilustrativo con datos ficticios, similar al implementado. <a class="link-arrow" href="/ejemplos/#{{ c.example }}">Ver el tablero interactivo {{ icon('arrow-right') }}</a></figcaption>
     </figure>
     {% endif %}
-
-    <div class="case-meta">
-      <div>
-        <h3 class="case-meta-title">Fuentes integradas</h3>
-        <ul class="case-chips">{% for s in c.sources %}<li>{{ s }}</li>{% endfor %}</ul>
-      </div>
-      <div>
-        <h3 class="case-meta-title">Tecnología</h3>
-        <ul class="case-chips">{% for s in c.stack %}<li>{{ s }}</li>{% endfor %}</ul>
-      </div>
-      {% if c.duration %}
-      <div>
-        <h3 class="case-meta-title">Duración</h3>
-        <p>{{ value(c.duration) }}</p>
-      </div>
-      {% endif %}
-      {% if c.example %}
-      <a class="plan-link case-link" href="/ejemplos/#{{ c.example }}">Ver un tablero de ejemplo similar {{ icon('arrow-right') }}</a>
-      {% endif %}
-    </div>
   </article>
 </section>
 {% endfor %}
 {% endblock %}
+
+{% block cta_title %}¿Querés resultados como estos <em>en tu empresa?</em>{% endblock %}

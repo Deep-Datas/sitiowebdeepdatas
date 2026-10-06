@@ -18,6 +18,7 @@ PENDIENTE = '[completar]'
 CASES = [
     {
         'id': 'distribuidores',
+        'short': 'Red de distribuidores',
         'publicado': True,
         'client': 'Empresa de consumo masivo líder en la comercialización de papas fritas',
         'logo': None,                       # por ejemplo 'clientes/mccain.png' si el cliente lo autoriza
@@ -38,6 +39,7 @@ CASES = [
     },
     {
         'id': 'cobertura',
+        'short': 'Cobertura y venta cruzada',
         'publicado': False,
         'client': 'Empresa de alimentos',
         'logo': None,
@@ -60,6 +62,7 @@ CASES = [
     },
     {
         'id': 'pronostico',
+        'short': 'Pronóstico de demanda',
         'publicado': True,
         'client': 'Distribuidora mayorista',
         'logo': None,

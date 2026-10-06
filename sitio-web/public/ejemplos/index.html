@@ -25,9 +25,9 @@
 
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/site.css?v=f372839aae">
+  <link rel="stylesheet" href="/assets/css/site.css?v=58648cf3eb">
   <link rel="stylesheet" href="/assets/css/charts.css?v=02bf847b81">
-  <script src="/assets/js/site.js?v=12cce6b4e2" defer></script>
+  <script src="/assets/js/site.js?v=6dddfcf654" defer></script>
   <script src="/assets/js/analytics.js?v=7bf7ec8be1" data-clarity="ytmns2p931" defer></script>
 </head>
 
@@ -41,7 +41,7 @@
         <span>DeepDatas</span>
       </a>
 
-      <a class="btn btn-primary nav-cta-mobile" href="/contacto/">Agendar</a>
+      <a class="btn btn-primary nav-cta-mobile" href="/contacto/?interes=llamada">Hablemos</a>
 
       <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
         <span class="visually-hidden">Abrir menú</span>
@@ -52,31 +52,30 @@
       <nav class="site-nav" id="menu" aria-label="Principal">
         <ul>
           <li><a href="/servicios/">Servicios</a></li>
-          <li><a href="/inteligencia-artificial/">IA</a></li>
+          <li><a href="/inteligencia-artificial/">IA para empresas</a></li>
           <li><a href="/diagnostico/">Diagnóstico</a></li>
           <li><a href="/casos/">Casos</a></li>
-          <li><a href="/ejemplos/" aria-current="page">Ejemplos</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/nosotros/">Nosotros</a></li>
         </ul>
         <div class="nav-actions">
           <a class="nav-portal" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">Portal clientes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>
-          <a class="btn btn-primary" href="/contacto/">Agendar reunión</a>
+          <a class="btn btn-primary nav-cta" href="/contacto/?interes=llamada">Coordinar llamada</a>
         </div>
       </nav>
     </div>
   </header>
 
   <main id="contenido">
-<section class="page-hero glass-hero glass-hero-barras">
+<section class="page-hero">
   <div class="container">
-    <p class="eyebrow">Ejemplos</p>
+    <p class="eyebrow">Tableros de ejemplo</p>
     <h1>Así se ven las soluciones que construimos</h1>
-    <p class="lead">Tres tableros de ejemplo, con datos ficticios, inspirados en los desafíos que resolvemos todos los días. Pasá el mouse por los gráficos para ver el detalle, o abrí "Ver datos" para consultar los números.</p>
+    <p class="lead">Tres tableros con datos ficticios, inspirados en desafíos reales. Pasá el mouse por los gráficos o abrí «Ver datos» para consultar los números.</p>
     <nav class="pill-nav" aria-label="Ejemplos">
-      <a href="#distribuidores">Performance de distribuidores</a>
-      <a href="#cobertura">Cobertura y venta cruzada</a>
-      <a href="#pronostico">Pronóstico de demanda</a>
+      <a href="#distribuidores">Tablero de performance de distribuidores</a>
+      <a href="#cobertura">Tablero de cobertura y venta cruzada</a>
+      <a href="#pronostico">Tablero de pronóstico y reposición</a>
     </nav>
   </div>
 </section>
@@ -86,7 +85,7 @@
     <header class="example-head reveal">
       <ul class="tags">
 <li>Consumo masivo</li><li>Ventas y distribución</li>      </ul>
-      <h2 id="distribuidores-title">Performance de distribuidores</h2>
+      <h2 id="distribuidores-title">Tablero de performance de distribuidores</h2>
       <p class="lead-sm">Una sola versión de los números para toda la red: facturación, volumen y cumplimiento del objetivo de cada distribuidor, mes a mes.</p>
     </header>
 
@@ -117,7 +116,7 @@
     </dd>
   </div>
   <div class="db-kpi">
-    <dt>Drop size promedio</dt>
+    <dt>Tamaño promedio de pedido</dt>
     <dd>
       <strong>412 kg</strong>
       <span class="db-delta is-bad">▼ 2,3% vs. 2024</span>
@@ -432,7 +431,7 @@
     <header class="example-head reveal">
       <ul class="tags">
 <li>Consumo masivo</li><li>Fuerza de ventas</li>      </ul>
-      <h2 id="cobertura-title">Cobertura y venta cruzada</h2>
+      <h2 id="cobertura-title">Tablero de cobertura y venta cruzada</h2>
       <p class="lead-sm">Qué líneas de producto compra cada punto de venta y dónde están las oportunidades de venta cruzada, por distribuidor y por vendedor.</p>
     </header>
 
@@ -657,7 +656,7 @@
     <header class="example-head reveal">
       <ul class="tags">
 <li>Distribución y retail</li><li>Modelos predictivos</li>      </ul>
-      <h2 id="pronostico-title">Pronóstico de demanda</h2>
+      <h2 id="pronostico-title">Tablero de pronóstico y reposición</h2>
       <p class="lead-sm">Un modelo de Machine Learning que anticipa la demanda de las próximas semanas y recomienda cuánto reponer de cada producto.</p>
     </header>
 
@@ -905,22 +904,20 @@
   </div>
 </section>
 
-<section class="section section-tight">
+<section class="logos logos-section" aria-labelledby="logos-title">
   <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">Clientes</p>
-      <h2>Empresas que confiaron en nosotros</h2>
-      <p>Compañías de consumo masivo, salud, tecnología, gastronomía y retail.</p>
-    </div>
-    <ul class="logos-grid reveal">
-      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
-      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
-    </ul>
+    <h2 class="logos-title" id="logos-title">Confían en DeepDatas</h2>
+<ul class="logos-row">
+  <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
+  <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
+  <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
+  <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
+  <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
+  <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
+  <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
+</ul>
+<p class="logos-caption">Consumo masivo · Salud · Tecnología · Distribución · Retail</p>
+
   </div>
 </section>
 
@@ -932,8 +929,8 @@
             <p>Contanos tu desafío y armamos juntos el primer paso. Sin costo ni compromiso.</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-            <a class="btn btn-secondary btn-lg" href="https://wa.me/5491161527387?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%2C%20vi%20los%20tableros%20de%20ejemplo%20y%20quiero%20consultar%20por%20uno%20para%20mi%20empresa." target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> WhatsApp</a>
+            <a class="btn btn-primary btn-lg" href="/contacto/?interes=llamada">Coordinar una llamada <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+            <a class="btn btn-secondary btn-lg" href="https://wa.me/5491161527387?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%2C%20vi%20los%20tableros%20de%20ejemplo%20y%20quiero%20consultar%20por%20uno%20para%20mi%20empresa." target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> Escribinos por WhatsApp</a>
           </div>
         </div>
       </div>
@@ -985,7 +982,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>&copy; <span data-year>2026</span> DeepDatas. Todos los derechos reservados.</span>
+        <span>&copy; <span data-year>2026</span> DeepDatas · <a href="/privacidad/">Privacidad</a></span>
         <span>Hecho en Buenos Aires</span>
       </div>
     </div>

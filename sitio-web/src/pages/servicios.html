@@ -1,9 +1,10 @@
 {% extends 'layout.html' %}
 {% import 'pipeline.html' as pipeline_chart %}
+{% import 'plans.html' as plans with context %}
 
 {% set services = [
   {
-    'id': 'ingenieria', 'num': '01', 'icon': 'hdd-network', 'glass': 'cubo',
+    'id': 'ingenieria', 'num': '01', 'icon': 'hdd-network', 'glass': 'cubo', 'short': 'Ingeniería', 'case': 'distribuidores',
     'title': 'Ingeniería de datos',
     'lead': 'Conectamos todas tus fuentes de información y automatizamos su actualización, para que los datos lleguen solos a donde se necesitan.',
     'includes': [
@@ -15,9 +16,9 @@
     'outcome': 'Una única fuente de verdad que se actualiza sin intervención manual.',
   },
   {
-    'id': 'calidad', 'num': '02', 'icon': 'funnel', 'glass': 'embudo',
+    'id': 'calidad', 'num': '02', 'icon': 'funnel', 'glass': 'embudo', 'short': 'Calidad', 'case': None,
     'title': 'Calidad y preparación de datos',
-    'lead': 'Datos confiables antes que nada: detectamos errores, duplicados y faltantes, y los corregimos con reglas de negocio y técnicas de Machine Learning.',
+    'lead': 'Datos confiables antes que nada: detectamos errores, duplicados y faltantes, y los corregimos con reglas de negocio y modelos de aprendizaje automático.',
     'includes': [
       'Diagnóstico de calidad de cada fuente',
       'Limpieza, deduplicación y normalización',
@@ -27,21 +28,21 @@
     'outcome': 'Números en los que todas las áreas confían, con criterios documentados.',
   },
   {
-    'id': 'analitica', 'num': '03', 'icon': 'graph-up-arrow', 'glass': 'esfera',
+    'id': 'analitica', 'num': '03', 'icon': 'graph-up-arrow', 'glass': 'barras', 'short': 'Analítica', 'case': 'pronostico',
     'title': 'Analítica y modelos predictivos',
     'lead': 'Diseñamos los indicadores que mejor explican tu negocio y modelos que anticipan lo que viene, para pasar de reaccionar a planificar.',
     'includes': [
-      'KPIs estándar de la industria',
-      'KPIs exclusivos, diseñados para tu modelo de negocio',
+      'Indicadores (KPIs) estándar de la industria',
+      'Indicadores propios de tu negocio',
       'Modelos predictivos de demanda, ventas y comportamiento de clientes',
       'Segmentación de clientes y puntos de venta',
     ],
     'outcome': 'Indicadores que muestran dónde actuar y pronósticos para decidir antes.',
   },
   {
-    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line', 'glass': 'barras',
+    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line', 'glass': 'esfera', 'short': 'Tableros', 'case': 'distribuidores',
     'title': 'Tableros de gestión',
-    'lead': 'Dashboards dinámicos e interactivos para cada área, desde la dirección hasta el equipo comercial, con la información clave a un clic.',
+    'lead': 'Tableros para cada área, desde la dirección hasta el equipo comercial, con la información clave a un clic.',
     'includes': [
       'Diseño de tableros orientados a decisiones, no a decorar',
       'Desarrollo en Power BI u otras plataformas de visualización',
@@ -53,14 +54,14 @@
 ] %}
 
 {% block content %}
-<section class="page-hero glass-hero glass-hero-base-de-datos">
+<section class="page-hero">
   <div class="container">
     <p class="eyebrow">Servicios</p>
     <h1>Un solo equipo para todo el ciclo de vida de tus datos</h1>
-    <p class="lead">Recopilamos, limpiamos y analizamos tus datos, y los ponemos en manos de quienes deciden. Podés contratar el recorrido completo o solo la etapa que necesites.</p>
+    <p class="lead">Integramos, limpiamos y analizamos tus datos. Contratá el recorrido completo o solo la etapa que necesitás.</p>
     <nav class="pill-nav" aria-label="Servicios">
       {% for s in services %}
-      <a href="#{{ s.id }}">{{ icon(s.icon) }} {{ s.title }}</a>
+      <a href="#{{ s.id }}">{{ s.short }}</a>
       {% endfor %}
     </nav>
   </div>
@@ -83,44 +84,34 @@
           <li>{{ icon('check2') }} {{ item }}</li>
           {% endfor %}
         </ul>
-        <p class="outcome"><strong>Resultado:</strong> {{ s.outcome }}</p>
+        <p class="outcome"><span class="label">Resultado</span>{{ s.outcome }}</p>
+        {% set related = cases | selectattr('id', 'eq', s.case) | list if s.case else [] %}
+        {% if related or s.id == 'tableros' %}
+        <p class="service-links">
+          {% if related %}<a class="link-arrow" href="/casos/#{{ s.case }}">Caso relacionado {{ icon('arrow-right') }}</a>{% endif %}
+          {% if s.id == 'tableros' %}<a class="link-arrow" href="/ejemplos/">Ver tableros de ejemplo {{ icon('arrow-right') }}</a>{% endif %}
+        </p>
+        {% endif %}
       </div>
     </article>
     {% endfor %}
   </div>
 </section>
 
-<!-- ======= NIVELES DE ANALÍTICA ======= -->
-<section class="section section-dark">
-  <div class="container split split-center">
-    <div class="reveal">
-      <p class="eyebrow eyebrow-light">Soluciones</p>
-      <h2>Soluciones que agregan valor, reducen costos y mejoran la rentabilidad</h2>
-      <p class="muted-light">Acompañamos a cada organización según su madurez analítica: desde entender qué está pasando hasta anticipar lo que viene.</p>
+<!-- ======= MADUREZ ANALÍTICA ======= -->
+<section class="section section-stage" aria-labelledby="madurez-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Madurez analítica</p>
+      <h2 id="madurez-title">De mirar el pasado a <em>saber qué hacer mañana.</em></h2>
     </div>
-    <ol class="levels reveal">
-      <li>
-        <span class="level-num">1</span>
-        <div>
-          <h3>Análisis descriptivo con KPIs estándar</h3>
-          <p>Indicadores probados para saber, en un solo lugar, qué está pasando en tu negocio.</p>
-        </div>
-      </li>
-      <li>
-        <span class="level-num">2</span>
-        <div>
-          <h3>Análisis descriptivo con KPIs exclusivos</h3>
-          <p>Métricas diseñadas para tu industria y tu modelo de negocio, que revelan oportunidades ocultas.</p>
-        </div>
-      </li>
-      <li>
-        <span class="level-num">3</span>
-        <div>
-          <h3>Análisis predictivo con KPIs a medida</h3>
-          <p>Modelos que anticipan la demanda y el comportamiento de tus clientes para decidir antes.</p>
-        </div>
-      </li>
+    <ol class="hairline-grid hairline-grid-4 maturity reveal">
+      <li><span class="label">01</span><h3>Ver qué pasó</h3><p>Indicadores estándar en un solo tablero.</p></li>
+      <li><span class="label">02</span><h3>Entender por qué</h3><p>Indicadores propios de tu negocio.</p></li>
+      <li><span class="label">03</span><h3>Anticipar</h3><p>Modelos que predicen la demanda y las bajas de clientes.</p></li>
+      <li class="maturity-top"><span class="label">04 · Lo que viste en el inicio</span><h3>Saber qué hacer</h3><p>Recomendaciones con IA sobre tus datos.</p></li>
     </ol>
+    <p class="section-foot"><a class="link-arrow" href="/diagnostico/">¿Dónde está tu empresa hoy? Averigualo con el diagnóstico {{ icon('arrow-right') }}</a></p>
   </div>
 </section>
 
@@ -132,27 +123,7 @@
       <h2>Empezá por donde más te sirva</h2>
       <p>Nos adaptamos al momento de tu empresa: desde un primer diagnóstico hasta un equipo de datos que te acompaña mes a mes.</p>
     </div>
-    <div class="plan-grid">
-      <article class="plan-card reveal">
-        <span class="plan-icon">{{ icon('search') }}</span>
-        <h3>Diagnóstico de datos</h3>
-        <p>Relevamos tus fuentes, procesos e indicadores actuales y te entregamos un mapa de oportunidades priorizado.</p>
-        <p class="plan-for"><strong>Ideal para:</strong> dar el primer paso con claridad.</p>
-        <a class="plan-link" href="/diagnostico/">Conocé el diagnóstico {{ icon('arrow-right') }}</a>
-      </article>
-      <article class="plan-card plan-card-featured reveal">
-        <span class="plan-icon">{{ icon('bullseye') }}</span>
-        <h3>Proyecto a medida</h3>
-        <p>Implementamos una solución completa, de la ingesta al tablero, con alcance, plazos y entregables definidos.</p>
-        <p class="plan-for"><strong>Ideal para:</strong> resolver un desafío concreto de punta a punta.</p>
-      </article>
-      <article class="plan-card reveal">
-        <span class="plan-icon">{{ icon('arrow-repeat') }}</span>
-        <h3>Acompañamiento continuo</h3>
-        <p>Un equipo de datos externo que mantiene, mejora y amplía tus tableros y modelos mes a mes.</p>
-        <p class="plan-for"><strong>Ideal para:</strong> crecer sin armar un área de datos propia.</p>
-      </article>
-    </div>
+    {{ plans.plans() }}
   </div>
 </section>
 
@@ -176,7 +147,7 @@
   <div class="container tools reveal">
     <div>
       <p class="eyebrow">Tecnología</p>
-      <h2 class="h3-like">Trabajamos con las plataformas que ya usás</h2>
+      <h2>Trabajamos con las plataformas que ya usás</h2>
       <p>Evaluamos el contexto y la infraestructura de cada empresa para recomendar la herramienta adecuada, sin atarte a un único proveedor.</p>
     </div>
     <ul class="tool-list" aria-label="Plataformas">
@@ -190,3 +161,6 @@
   </div>
 </section>
 {% endblock %}
+
+{% block cta_title %}Contanos por qué etapa <em>querés empezar.</em>{% endblock %}
+{% block cta_text %}Una llamada alcanza para definir el primer paso. Sin costo ni compromiso.{% endblock %}

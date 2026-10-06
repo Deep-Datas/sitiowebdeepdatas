@@ -73,6 +73,11 @@ PAGES = [
         'description': 'Contanos tu desafío y coordinamos una reunión de diagnóstico sin costo. Bernardo de Irigoyen 330, CABA, Argentina.',
     },
     {
+        'template': 'privacidad.html', 'path': '/privacidad/', 'nav': None,
+        'title': 'Política de privacidad | DeepDatas',
+        'description': 'Qué datos recibe DeepDatas a través de su sitio, para qué los usa y cómo ejercer tus derechos según la Ley 25.326.',
+    },
+    {
         'template': 'gracias.html', 'path': '/gracias/', 'nav': None, 'noindex': True,
         'title': 'Mensaje enviado | DeepDatas',
         'description': 'Gracias por escribirnos.',
@@ -142,6 +147,14 @@ def swa_config():
                 rules[i] = f'{rule} {CLARITY_CSP[name]}'
         headers['Content-Security-Policy'] = '; '.join(rules)
     return json.dumps(config, ensure_ascii=False, indent=2) + '\n'
+
+
+# Enlace para agendar una llamada (por ejemplo, Microsoft Bookings). Vacío = formulario de contacto.
+BOOKING_URL = ''
+
+
+def booking_url(interest='llamada'):
+    return BOOKING_URL or f'/contacto/?interes={interest}'
 
 
 WHATSAPP_NUMBER = '5491161527387'
@@ -292,7 +305,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, booking_url=booking_url, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
 
     def render_all():

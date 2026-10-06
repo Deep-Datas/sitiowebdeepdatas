@@ -1,6 +1,8 @@
 {% extends 'layout.html' %}
 {% import 'charts.html' as charts %}
 {% import 'hero.html' as hero %}
+{% import 'plans.html' as plans with context %}
+{% import 'logos.html' as logos %}
 {% import 'pipeline.html' as pipeline_chart %}
 
 {% block head %}
@@ -34,31 +36,41 @@
 {{ hero.scene() }}
 
 <!-- ======= PUENTE: qué acabás de ver ======= -->
-<section class="section section-bridge" aria-labelledby="puente-title">
-  <div class="container bridge">
-    <p class="eyebrow">Lo que acabás de ver</p>
-    <h2 id="puente-title">Así trabaja la IA cuando tus datos <em>están listos.</em></h2>
-    <p class="lead">Conectamos tus sistemas, planillas y mensajes; curamos y ordenamos la información, y la ponemos al servicio de tableros y agentes de IA que responden con números confiables.</p>
-    <div class="actions">
-      <a class="btn btn-primary btn-lg" href="/diagnostico/">Pedir un diagnóstico de datos {{ icon('arrow-right') }}</a>
-      <a class="btn btn-secondary btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+<section class="section section-bridge section-stage" aria-labelledby="puente-title">
+  <div class="container">
+    <div class="bridge">
+      <p class="eyebrow">Lo que acabás de ver</p>
+      <h2 id="puente-title">Así trabaja la IA cuando tus datos <em>están listos.</em></h2>
+      <p class="lead">Detrás de cada respuesta hay cuatro pasos que hacemos por vos. Son nuestros servicios.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="{{ booking_url() }}">Coordinar una llamada {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" href="/diagnostico/">Conocé el diagnóstico</a>
+      </div>
     </div>
+
+    <ol class="hairline-grid hairline-grid-4 journey">
+      {% for num, service, verb, text, href, glass in [
+        ('01', 'Ingeniería de datos', 'Integrar', 'Conectamos ERP, CRM, planillas y APIs en un único modelo que se actualiza solo.', '/servicios/#ingenieria', 'cubo'),
+        ('02', 'Calidad de datos', 'Curar', 'Limpiamos, unificamos códigos y validamos cada número con reglas de negocio.', '/servicios/#calidad', 'embudo'),
+        ('03', 'Analítica', 'Modelar', 'Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.', '/servicios/#analitica', 'barras'),
+        ('04', 'Tableros e IA', 'Recomendar', 'Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.', '/inteligencia-artificial/', 'esfera'),
+      ] %}
+      <li class="reveal">
+        <img class="journey-glass" src="/assets/img/glass/{{ glass }}-256.webp" alt="" width="88" height="88" loading="lazy">
+        <span class="label">{{ num }} · {{ service }}</span>
+        <h3>{{ verb }}</h3>
+        <p>{{ text }}</p>
+        <a class="link-arrow" href="{{ href }}">{{ 'Ver soluciones de IA' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
+      </li>
+      {% endfor %}
+    </ol>
   </div>
 </section>
 
 <!-- ======= CLIENTES Y CIFRAS ======= -->
 <section class="logos" aria-labelledby="logos-title">
   <div class="container">
-    <h2 class="logos-title" id="logos-title">Confían en DeepDatas</h2>
-    <ul class="logos-row">
-      <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
-      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
-    </ul>
+    {{ logos.wall() }}
     <dl class="stats">
       <div><dt>distribuidores integrados en un único modelo para una empresa líder de consumo masivo</dt><dd>40</dd></div>
       <div><dt>menos quiebres de stock con un pronóstico de demanda</dt><dd>12<span>%</span></dd></div>
@@ -78,19 +90,16 @@
 
     <div class="pain-grid">
       <article class="pain-card reveal">
-        <span class="pain-icon">{{ icon('file-earmark-spreadsheet') }}</span>
         <h3>Información dispersa</h3>
         <p>Ventas en el ERP, stock en una planilla, objetivos en otra. Cada área tiene su propia versión de los números.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Un único modelo de datos que se actualiza solo.</p>
       </article>
       <article class="pain-card reveal">
-        <span class="pain-icon">{{ icon('clock-history') }}</span>
         <h3>Reportes que llegan tarde</h3>
         <p>Cada cierre implica días de copiar, pegar y validar datos a mano. Cuando el informe está listo, ya es tarde para actuar.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Tableros listos el primer día del mes, no el quinto.</p>
       </article>
       <article class="pain-card reveal">
-        <span class="pain-icon">{{ icon('eye') }}</span>
         <h3>Decisiones a ciegas</h3>
         <p>Sin indicadores claros es difícil saber qué cliente, producto o canal está dejando de rendir, y por qué.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Alertas y recomendaciones cuando algo se desvía.</p>
@@ -112,50 +121,6 @@
       <p>¿Querés saber qué tan listos están tus datos?</p>
       <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>
       <a class="btn btn-ghost-light btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
-    </div>
-  </div>
-</section>
-
-<!-- ======= SERVICIOS ======= -->
-<section class="section">
-  <div class="container">
-    <div class="section-head section-head-split reveal">
-      <div>
-        <p class="eyebrow">Servicios</p>
-        <h2>Todo el ciclo de vida de tus datos, en un solo equipo.</h2>
-      </div>
-      <a class="link-arrow" href="/servicios/">Ver todos los servicios {{ icon('arrow-right') }}</a>
-    </div>
-
-    <div class="service-grid">
-      <a class="service-card reveal" href="/servicios/#ingenieria">
-        <span class="service-num">01</span>
-        <img class="glass-icon" src="/assets/img/glass/cubo-256.webp" alt="" width="96" height="96" loading="lazy">
-        <h3>Ingeniería de datos</h3>
-        <p>Pipelines automatizados que integran ERP, CRM, planillas y APIs en un único repositorio confiable.</p>
-        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
-      </a>
-      <a class="service-card reveal" href="/servicios/#calidad">
-        <span class="service-num">02</span>
-        <img class="glass-icon" src="/assets/img/glass/embudo-256.webp" alt="" width="96" height="96" loading="lazy">
-        <h3>Calidad y preparación</h3>
-        <p>Depuración, normalización y enriquecimiento de datos con reglas de negocio y técnicas de Machine Learning.</p>
-        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
-      </a>
-      <a class="service-card reveal" href="/servicios/#analitica">
-        <span class="service-num">03</span>
-        <img class="glass-icon" src="/assets/img/glass/esfera-256.webp" alt="" width="96" height="96" loading="lazy">
-        <h3>Analítica y modelos predictivos</h3>
-        <p>KPIs estándar, KPIs exclusivos para tu negocio y modelos que anticipan la demanda y el comportamiento de tus clientes.</p>
-        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
-      </a>
-      <a class="service-card reveal" href="/servicios/#tableros">
-        <span class="service-num">04</span>
-        <img class="glass-icon" src="/assets/img/glass/barras-256.webp" alt="" width="96" height="96" loading="lazy">
-        <h3>Tableros de gestión</h3>
-        <p>Dashboards dinámicos e interactivos, con la información clave a un clic para cada área de la empresa.</p>
-        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
-      </a>
     </div>
   </div>
 </section>
@@ -186,52 +151,24 @@
 </section>
 {% endif %}
 
-<!-- ======= CÓMO TRABAJAMOS ======= -->
-<section class="section">
+<!-- ======= CÓMO EMPEZAR ======= -->
+<section class="section" aria-labelledby="empezar-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">Cómo trabajamos</p>
-      <h2>De la primera conversación a resultados medibles</h2>
+      <p class="eyebrow">Cómo empezar</p>
+      <h2 id="empezar-title">Tres formas de empezar, según dónde estés hoy</h2>
     </div>
-    <ol class="steps">
-      <li class="reveal">
-        <span class="step-icon">{{ icon('search') }}</span>
-        <h3>Diagnóstico</h3>
-        <p>Entendemos tu negocio, tus objetivos y las fuentes de datos con las que contás hoy.</p>
-      </li>
-      <li class="reveal">
-        <span class="step-icon">{{ icon('compass') }}</span>
-        <h3>Propuesta</h3>
-        <p>Diseñamos la solución ideal para tu contexto: arquitectura, indicadores, plazos y entregables.</p>
-      </li>
-      <li class="reveal">
-        <span class="step-icon">{{ icon('gear') }}</span>
-        <h3>Implementación</h3>
-        <p>Construimos pipelines, modelos y tableros, y capacitamos a tu equipo para usarlos.</p>
-      </li>
-      <li class="reveal">
-        <span class="step-icon">{{ icon('arrow-repeat') }}</span>
-        <h3>Mejora continua</h3>
-        <p>Acompañamos la evolución de la solución a medida que crece tu negocio.</p>
-      </li>
-    </ol>
+    {{ plans.plans() }}
   </div>
 </section>
 
-<!-- ======= INDUSTRIAS Y DIFERENCIALES ======= -->
-<section class="section" aria-labelledby="industrias-title">
+<!-- ======= POR QUÉ DEEPDATAS ======= -->
+<section class="section" aria-labelledby="porque-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">Industrias</p>
-      <h2 id="industrias-title">Experiencia en sectores donde cada punto de margen cuenta</h2>
+      <p class="eyebrow">Por qué DeepDatas</p>
+      <h2 id="porque-title">Tus datos, siempre <em>bajo tu control.</em></h2>
     </div>
-    <ul class="industry-strip reveal">
-      <li>{{ icon('cart3') }} Consumo masivo</li>
-      <li>{{ icon('truck') }} Distribución y logística</li>
-      <li>{{ icon('heart-pulse') }} Salud y farmacéutica</li>
-      <li>{{ icon('shop') }} Retail y gastronomía</li>
-      <li>{{ icon('cpu') }} Tecnología y servicios</li>
-    </ul>
     <dl class="reasons-list reveal">
       <div><dt>Soluciones a medida</dt><dd>Trabajamos con las plataformas que ya usás, sin atarte a un proveedor.</dd></div>
       <div><dt>Confidencialidad</dt><dd>Accesos de solo lectura y permisos por rol: cada persona ve solo lo que le corresponde.</dd></div>

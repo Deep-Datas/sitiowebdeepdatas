@@ -50,10 +50,10 @@
     <header class="cw-top">
       <span class="cw-top-brand">Claude</span>
       <span class="cw-top-title">Análisis de ventas del 3.er trimestre</span>
-      <span class="cw-top-chip">{{ icon('database') }} Datos de la empresa</span>
+      <span class="cw-top-chip"><img src="/assets/img/brand/logo-mark.png" alt="" width="12" height="14"> Datos curados por DeepDatas</span>
     </header>
 
-    <div class="cw-scroll">
+    <div class="cw-scroll"{% if full %} tabindex="0" role="region" aria-label="Conversación de ejemplo"{% endif %}>
       <div class="cw-thread">
         <div class="cw-msg-user">
           <span class="cw-avatar">MG</span>
@@ -106,7 +106,7 @@
             <li class="cw-step" data-step>
               <span class="cw-rec-num">{{ loop.index }}</span>
               <div>
-                <p class="cw-rec-title">{{ title }} <span class="cw-when">{{ when }}</span></p>
+                <p class="cw-rec-title">{{ title }} <span class="cw-when{{ ' cw-when-urgent' if when == 'Urgente' }}">{{ when }}</span></p>
                 <p class="cw-rec-detail">{{ detail }}</p>
                 <p class="cw-impact">{{ icon('graph-up-arrow') }} {{ impact }}</p>
               </div>
@@ -138,7 +138,7 @@
 
 {% macro scene() %}
 <section class="hs" id="inicio" aria-labelledby="hs-title" data-hero-scene>
-  <a class="hs-skip" href="#despues-del-inicio">Saltar la animación</a>
+  <a class="hs-skip" href="#despues-del-inicio">Saltar la animación {{ icon('arrow-right') }}</a>
   <div class="hs-stage">
     <div class="hs-frame">
       <div class="hs-scene" aria-hidden="true">
@@ -160,10 +160,10 @@
       <div class="container">
         <p class="eyebrow">Consultora de datos e IA · Buenos Aires</p>
         <h1 id="hs-title">Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
-        <p class="lead">Integramos y ordenamos la información de tu empresa para que tus tableros y tus agentes de IA te digan qué hacer, con datos confiables.</p>
+        <p class="lead">Integramos tu ERP, tu CRM y tus planillas en datos confiables, y construimos tableros y agentes de IA que te dicen dónde estás perdiendo ventas y qué hacer.</p>
         <div class="actions">
-          <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión {{ icon('arrow-right') }}</a>
-          <a class="btn btn-ghost-light btn-lg" href="/diagnostico/">Conocé el diagnóstico</a>
+          <a class="btn btn-primary btn-lg" href="{{ booking_url() }}">Coordinar una llamada {{ icon('arrow-right') }}</a>
+          <a class="btn btn-secondary btn-lg hs-secondary" href="/diagnostico/">Conocé el diagnóstico</a>
         </div>
       </div>
     </div>

@@ -200,14 +200,14 @@ def build_examples():
         {
             'id': 'distribuidores',
             'tags': ['Consumo masivo', 'Ventas y distribución'],
-            'title': 'Performance de distribuidores',
+            'title': 'Tablero de performance de distribuidores',
             'summary': 'Una sola versión de los números para toda la red: facturación, volumen y cumplimiento del objetivo de cada distribuidor, mes a mes.',
             'app_title': 'Performance comercial · Red de distribuidores',
             'filters': [('Período', 'Ene–Dic 2025'), ('Región', 'Todas'), ('Canal', 'Todos')],
             'kpis': [
                 {'label': 'Facturación neta', 'value': money_m(sum(revenue)), 'delta': '▲ 9,2% vs. 2024', 'good': True},
                 {'label': 'Volumen vendido', 'value': '1.284 t', 'delta': '▲ 4,1% vs. 2024', 'good': True},
-                {'label': 'Drop size promedio', 'value': '412 kg', 'delta': '▼ 2,3% vs. 2024', 'good': False},
+                {'label': 'Tamaño promedio de pedido', 'value': '412 kg', 'delta': '▼ 2,3% vs. 2024', 'good': False},
                 {'label': 'Clientes activos', 'value': '6.940', 'delta': '▲ 3,8% vs. 2024', 'good': True},
             ],
             'panels': [
@@ -230,7 +230,7 @@ def build_examples():
         {
             'id': 'cobertura',
             'tags': ['Consumo masivo', 'Fuerza de ventas'],
-            'title': 'Cobertura y venta cruzada',
+            'title': 'Tablero de cobertura y venta cruzada',
             'summary': 'Qué líneas de producto compra cada punto de venta y dónde están las oportunidades de venta cruzada, por distribuidor y por vendedor.',
             'app_title': 'Cobertura de puntos de venta · Ciclo junio 2025',
             'filters': [('Ciclo', 'Junio 2025'), ('Distribuidor', 'Todos'), ('Vendedor', 'Todos')],
@@ -261,7 +261,7 @@ def build_examples():
         {
             'id': 'pronostico',
             'tags': ['Distribución y retail', 'Modelos predictivos'],
-            'title': 'Pronóstico de demanda',
+            'title': 'Tablero de pronóstico y reposición',
             'summary': 'Un modelo de Machine Learning que anticipa la demanda de las próximas semanas y recomienda cuánto reponer de cada producto.',
             'app_title': 'Pronóstico de demanda · Depósito central',
             'filters': [('Horizonte', '8 semanas'), ('Categoría', 'Todas'), ('Depósito', 'Central')],
