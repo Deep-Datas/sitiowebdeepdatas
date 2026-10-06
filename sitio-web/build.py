@@ -101,7 +101,7 @@ def icon_svg(name, x, y, size, cls=''):
 
 # Analítica de visitas con Microsoft Clarity. Vacío = desactivada (no se carga
 # ningún script externo y la política de seguridad no se modifica).
-CLARITY_ID = ''
+CLARITY_ID = 'ytmns2p931'
 CLARITY_CSP = {
     'script-src': 'https://www.clarity.ms https://scripts.clarity.ms',
     'connect-src': 'https://*.clarity.ms https://c.bing.com',
