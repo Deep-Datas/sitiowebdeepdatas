@@ -56,6 +56,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         send_mail(data, **config)
+    except GraphError as error:
+        logging.exception('Formulario de contacto: error al enviar el correo.')
+        # El código (paso y estado HTTP, sin datos sensibles) ayuda a diagnosticar la configuración.
+        return respond(wants_json, False, f'{FALLBACK_ERROR} (código: {error.code})', 502)
     except Exception:
         logging.exception('Formulario de contacto: error al enviar el correo.')
         return respond(wants_json, False, FALLBACK_ERROR, 502)
@@ -124,6 +128,12 @@ def send_mail(data, GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET):
     )
 
 
+class GraphError(Exception):
+    def __init__(self, step, status, detail):
+        super().__init__(f'{step} respondió {status}: {detail}')
+        self.code = f'{step}-{status}'
+
+
 def request_json(url, body, headers):
     request = urllib.request.Request(url, data=body, headers=headers, method='POST')
     try:
@@ -131,7 +141,8 @@ def request_json(url, body, headers):
             payload = response.read()
     except urllib.error.HTTPError as error:
         detail = error.read().decode('utf-8', errors='replace')[:500]
-        raise RuntimeError(f'{url} respondió {error.code}: {detail}') from None
+        step = 'token' if 'login.microsoftonline.com' in url else 'envio'
+        raise GraphError(step, error.code, detail) from None
     return json.loads(payload) if payload else {}
 
 
