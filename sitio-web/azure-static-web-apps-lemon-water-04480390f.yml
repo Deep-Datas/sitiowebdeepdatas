@@ -1,0 +1,38 @@
+name: Azure Static Web Apps CI/CD
+
+pr:
+  branches:
+    include:
+      - main
+      - dev      
+      - release
+trigger:
+  branches:
+    include:
+      - main
+      - dev
+      - release
+
+jobs:
+- job: build_and_deploy_job
+  displayName: Build and Deploy Job
+  condition: or(eq(variables['Build.Reason'], 'Manual'),or(eq(variables['Build.Reason'], 'PullRequest'),eq(variables['Build.Reason'], 'IndividualCI')))
+  pool:
+    vmImage: ubuntu-latest
+  variables:
+  - group: Azure-Static-Web-Apps-deepdatas-variable-group
+  steps:
+  - checkout: self
+    submodules: true
+  - task: AzureStaticWebApp@0
+    inputs:
+      azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN_LEMON_WATER_04480390F)
+###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+# For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+      app_location: "public" # Sitio generado con build.py
+      api_location: "api" # Api source code path - optional (formulario de contacto)
+      output_location: "" # Built app content directory - optional
+      skip_app_build: true
+###### End of Repository/Build Configurations ######
+      production_branch: 'main'
+

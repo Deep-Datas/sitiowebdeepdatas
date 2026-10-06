@@ -1,0 +1,314 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "DeepDatas",
+    "description": "{{ page.description }}",
+    "url": "{{ site_url }}/",
+    "logo": "{{ site_url }}/assets/img/brand/icon-512.png",
+    "image": "{{ site_url }}/assets/img/brand/og-image.png",
+    "email": "contacto@deepdatas.com",
+    "telephone": "+54 9 11 6152-7387",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bernardo de Irigoyen 330",
+      "addressLocality": "Ciudad Autónoma de Buenos Aires",
+      "postalCode": "C1072",
+      "addressCountry": "AR"
+    },
+    "areaServed": "AR",
+    "knowsAbout": ["Inteligencia de negocios", "Ingeniería de datos", "Ciencia de datos", "Machine Learning", "Power BI"]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+{% set chart = hero_chart() %}
+
+<!-- ======= HERO ======= -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Consultora de datos · Buenos Aires</p>
+      <h1>Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
+      <p class="lead">
+        Integramos la información que hoy está dispersa en sistemas y planillas, la ordenamos y la convertimos
+        en tableros de gestión y modelos predictivos para que tu equipo decida con datos confiables, todos los días.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" href="/casos/">Ver casos de éxito</a>
+      </div>
+      <ul class="hero-proof">
+        <li>{{ icon('check2') }} Más de 10 años de experiencia</li>
+        <li>{{ icon('check2') }} Del dato crudo al tablero</li>
+        <li>{{ icon('check2') }} Primera conversación sin compromiso</li>
+      </ul>
+    </div>
+
+    <!-- Tablero ilustrativo: los valores son de ejemplo -->
+    <figure class="hero-visual" aria-label="Ejemplo de tablero de ventas con pronóstico">
+      <div class="dash-card">
+        <div class="dash-head">
+          <div>
+            <p class="dash-kicker">Ejemplo de tablero</p>
+            <p class="dash-title">Ventas mensuales</p>
+          </div>
+          <ul class="legend" aria-label="Series">
+            <li><span class="key key-real"></span>Real</li>
+            <li><span class="key key-forecast"></span>Pronóstico</li>
+          </ul>
+        </div>
+
+        <dl class="kpis">
+          <div class="kpi">
+            <dt>Ventas acumuladas</dt>
+            <dd><strong>$ 11,7 M</strong><span class="delta up">▲ 8,4% interanual</span></dd>
+          </div>
+          <div class="kpi">
+            <dt>Margen bruto</dt>
+            <dd><strong>31,2%</strong><span class="delta up">▲ 1,1 pp</span></dd>
+          </div>
+          <div class="kpi">
+            <dt>Clientes activos</dt>
+            <dd><strong>2.318</strong><span class="delta down">▼ 0,6%</span></dd>
+          </div>
+        </dl>
+
+        <div class="chart" data-chart>
+          <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img" aria-label="Ventas reales de enero a septiembre y pronóstico hasta diciembre, con tendencia creciente">
+            <g class="grid">
+              {% for ty, label in chart.ticks %}
+              <line x1="{{ chart.left }}" x2="{{ chart.right }}" y1="{{ '%.1f' % ty }}" y2="{{ '%.1f' % ty }}"></line>
+              <text x="{{ chart.left - 10 }}" y="{{ '%.1f' % (ty + 4) }}" text-anchor="end">{{ label }}</text>
+              {% endfor %}
+              {% for col in chart.columns %}
+              <text class="{{ 'month-odd' if loop.index0 is odd else 'month' }}" x="{{ '%.1f' % col.x }}" y="{{ chart.height - 8 }}" text-anchor="middle">{{ col.month }}</text>
+              {% endfor %}
+            </g>
+            <path class="band" d="{{ chart.band }}"></path>
+            <path class="area" d="{{ chart.real_area }}"></path>
+            <path class="line line-forecast" d="{{ chart.forecast_line }}"></path>
+            <path class="line line-real" d="{{ chart.real_line }}"></path>
+            <circle class="dot dot-forecast" cx="{{ '%.1f' % chart.forecast_end[0] }}" cy="{{ '%.1f' % chart.forecast_end[1] }}" r="5"></circle>
+            <circle class="dot dot-real" cx="{{ '%.1f' % chart.real_end[0] }}" cy="{{ '%.1f' % chart.real_end[1] }}" r="5"></circle>
+            <text class="end-label" x="{{ '%.1f' % (chart.forecast_end[0] - 10) }}" y="{{ '%.1f' % (chart.forecast_end[1] - 12) }}" text-anchor="end">{{ chart.forecast_end_label }}</text>
+            <line class="crosshair" y1="{{ chart.top }}" y2="{{ chart.bottom }}" x1="0" x2="0"></line>
+            <g class="hits">
+              {% for col in chart.columns %}
+              <rect x="{{ '%.1f' % col.hit_x }}" y="0" width="{{ '%.1f' % col.hit_w }}" height="{{ chart.height }}"
+                    data-x="{{ '%.1f' % col.x }}" data-y="{{ '%.1f' % col.y }}" data-month="{{ col.month }}" data-real="{{ col.real }}" data-forecast="{{ col.forecast }}"></rect>
+              {% endfor %}
+            </g>
+          </svg>
+          <div class="tooltip" role="status" aria-live="polite" hidden></div>
+        </div>
+      </div>
+
+      <div class="float-card float-sources" aria-hidden="true">
+        <span class="float-label">Fuentes integradas</span>
+        <span class="chips-mini"><span>ERP</span><span>CRM</span><span>Excel</span><span>APIs</span></span>
+      </div>
+      <div class="float-card float-alert" aria-hidden="true">
+        {{ icon('lightning-charge') }}
+        <span><strong>Alerta:</strong> 3 distribuidores debajo del objetivo</span>
+      </div>
+      <figcaption class="visually-hidden">Tablero de ejemplo con valores ilustrativos.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======= CLIENTES ======= -->
+<section class="logos" aria-labelledby="logos-title">
+  <div class="container">
+    <h2 class="logos-title" id="logos-title">Empresas que confiaron en nosotros</h2>
+    <ul class="logos-row">
+      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
+      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======= PROBLEMA / SOLUCIÓN ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">El desafío</p>
+      <h2>¿Te suena familiar?</h2>
+      <p>La mayoría de las empresas tiene más datos de los que puede aprovechar. El problema no es la falta de información, sino que no está lista para decidir.</p>
+    </div>
+
+    <div class="pain-grid">
+      <article class="pain-card reveal">
+        <span class="pain-icon">{{ icon('file-earmark-spreadsheet') }}</span>
+        <h3>Información dispersa</h3>
+        <p>Ventas en el ERP, stock en una planilla, objetivos en otra. Cada área tiene su propia versión de los números.</p>
+      </article>
+      <article class="pain-card reveal">
+        <span class="pain-icon">{{ icon('clock-history') }}</span>
+        <h3>Reportes que llegan tarde</h3>
+        <p>Cada cierre implica días de copiar, pegar y validar datos a mano. Cuando el informe está listo, ya es tarde para actuar.</p>
+      </article>
+      <article class="pain-card reveal">
+        <span class="pain-icon">{{ icon('eye') }}</span>
+        <h3>Decisiones a ciegas</h3>
+        <p>Sin indicadores claros es difícil saber qué cliente, producto o canal está dejando de rendir, y por qué.</p>
+      </article>
+    </div>
+
+    <div class="solution-strip reveal">
+      <p class="solution-title">Con DeepDatas:</p>
+      <ul>
+        <li>{{ icon('check-circle-fill') }} Una única fuente de verdad para toda la empresa</li>
+        <li>{{ icon('check-circle-fill') }} Tableros que se actualizan solos</li>
+        <li>{{ icon('check-circle-fill') }} Alertas y pronósticos sobre lo que importa</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======= SERVICIOS ======= -->
+<section class="section section-paper">
+  <div class="container">
+    <div class="section-head section-head-split reveal">
+      <div>
+        <p class="eyebrow">Servicios</p>
+        <h2>Todo el ciclo de vida de tus datos, en un solo equipo</h2>
+      </div>
+      <a class="link-arrow" href="/servicios/">Ver todos los servicios {{ icon('arrow-right') }}</a>
+    </div>
+
+    <div class="service-grid">
+      <a class="service-card reveal" href="/servicios/#ingenieria">
+        <span class="service-num">01</span>
+        <span class="service-icon">{{ icon('hdd-network') }}</span>
+        <h3>Ingeniería de datos</h3>
+        <p>Pipelines automatizados que integran ERP, CRM, planillas y APIs en un único repositorio confiable.</p>
+        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
+      </a>
+      <a class="service-card reveal" href="/servicios/#calidad">
+        <span class="service-num">02</span>
+        <span class="service-icon">{{ icon('funnel') }}</span>
+        <h3>Calidad y preparación</h3>
+        <p>Depuración, normalización y enriquecimiento de datos con reglas de negocio y técnicas de Machine Learning.</p>
+        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
+      </a>
+      <a class="service-card reveal" href="/servicios/#analitica">
+        <span class="service-num">03</span>
+        <span class="service-icon">{{ icon('graph-up-arrow') }}</span>
+        <h3>Analítica y modelos predictivos</h3>
+        <p>KPIs estándar, KPIs exclusivos para tu negocio y modelos que anticipan la demanda y el comportamiento de tus clientes.</p>
+        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
+      </a>
+      <a class="service-card reveal" href="/servicios/#tableros">
+        <span class="service-num">04</span>
+        <span class="service-icon">{{ icon('bar-chart-line') }}</span>
+        <h3>Tableros de gestión</h3>
+        <p>Dashboards dinámicos e interactivos, con la información clave a un clic para cada área de la empresa.</p>
+        <span class="service-more">Conocer más {{ icon('arrow-right') }}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======= CASO DESTACADO ======= -->
+<section class="section section-dark">
+  <div class="container feature-grid">
+    <div class="feature-copy reveal">
+      <p class="eyebrow eyebrow-light">Caso destacado · Consumo masivo</p>
+      <h2>Una sola versión de los números para toda la red de distribuidores</h2>
+      <p>
+        Integramos la información de facturación, volumen y canales de cada distribuidor en un modelo único
+        y desarrollamos un tablero para seguir su evolución mes a mes y compararlos entre sí.
+      </p>
+      <ul class="check-list check-list-light">
+        <li>{{ icon('check2') }} Facturación, kilos, precio promedio y drop size en un solo lugar</li>
+        <li>{{ icon('check2') }} Comparación entre distribuidores y canales de venta</li>
+        <li>{{ icon('check2') }} Filtros por país, período, canal, categoría y producto</li>
+      </ul>
+      <a class="btn btn-primary btn-lg" href="/casos/">Ver casos de éxito {{ icon('arrow-right') }}</a>
+    </div>
+    <a class="feature-media reveal js-lightbox" href="/assets/img/casos/performance-distribuidores.jpg" data-caption="Tablero de performance de distribuidores (datos sensibles ocultos)">
+      <img src="/assets/img/casos/performance-distribuidores.jpg" alt="Tablero de facturación, kilos y canales de venta por distribuidor" width="1886" height="1033" loading="lazy">
+      <span class="media-zoom">{{ icon('arrows-angle-expand') }}<span class="visually-hidden">Ampliar imagen</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ======= CÓMO TRABAJAMOS ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>Un proceso claro, de la primera reunión a los resultados</h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal">
+        <span class="step-icon">{{ icon('search') }}</span>
+        <h3>Diagnóstico</h3>
+        <p>Entendemos tu negocio, tus objetivos y las fuentes de datos con las que contás hoy.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon">{{ icon('compass') }}</span>
+        <h3>Propuesta</h3>
+        <p>Diseñamos la solución ideal para tu contexto: arquitectura, indicadores, plazos y entregables.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon">{{ icon('gear') }}</span>
+        <h3>Implementación</h3>
+        <p>Construimos pipelines, modelos y tableros, y capacitamos a tu equipo para usarlos.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon">{{ icon('arrow-repeat') }}</span>
+        <h3>Mejora continua</h3>
+        <p>Acompañamos la evolución de la solución a medida que crece tu negocio.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======= INDUSTRIAS Y DIFERENCIALES ======= -->
+<section class="section section-paper">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">Industrias</p>
+      <h2>Experiencia en sectores donde cada punto de margen cuenta</h2>
+      <ul class="industry-list">
+        <li>{{ icon('cart3') }} Consumo masivo</li>
+        <li>{{ icon('truck') }} Distribución y logística</li>
+        <li>{{ icon('heart-pulse') }} Salud y farmacéutica</li>
+        <li>{{ icon('shop') }} Retail y gastronomía</li>
+        <li>{{ icon('cpu') }} Tecnología y servicios</li>
+      </ul>
+    </div>
+    <div class="reasons reveal">
+      <h3 class="reasons-title">Por qué DeepDatas</h3>
+      <dl>
+        <div>
+          <dt>{{ icon('award') }} Experiencia comprobada</dt>
+          <dd>Un equipo con más de 10 años en datos, tecnología y negocio.</dd>
+        </div>
+        <div>
+          <dt>{{ icon('puzzle') }} Soluciones a medida</dt>
+          <dd>Trabajamos con las plataformas que ya usás, sin atarte a un proveedor.</dd>
+        </div>
+        <div>
+          <dt>{{ icon('shield-check') }} Seguridad de la información</dt>
+          <dd>Cuidamos tu información con las mejores tecnologías, respetando protocolos y regulaciones.</dd>
+        </div>
+        <div>
+          <dt>{{ icon('layers') }} Escalable desde el día uno</dt>
+          <dd>Diseñamos pensando en el crecimiento, para que la solución acompañe a tu empresa.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+{% endblock %}

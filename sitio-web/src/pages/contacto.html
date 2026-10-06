@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+
+{% set faqs = [
+  ('¿Necesito tener mis datos ordenados para empezar?',
+   'No. Parte de nuestro trabajo es integrar, limpiar y preparar los datos: partimos de las fuentes que ya tenés (sistemas, planillas, bases de datos) y las convertimos en información confiable.'),
+  ('¿Con qué plataformas trabajan?',
+   'Nuestras soluciones son multiplataforma. Evaluamos tu infraestructura y tus necesidades para recomendar la herramienta adecuada; trabajamos habitualmente con Power BI, Azure, SQL y Python.'),
+  ('¿Qué tamaño de empresa necesito tener?',
+   'Trabajamos con organizaciones de distintos tamaños e industrias. Lo importante no es el volumen de datos, sino tener decisiones que se pueden mejorar con información.'),
+  ('¿Cómo cuidan la seguridad de la información?',
+   'La seguridad es uno de nuestros pilares: usamos las mejores tecnologías y respetamos los protocolos y regulaciones aplicables a cada industria y a cada cliente.'),
+  ('¿Qué es el Portal clientes?',
+   'Es el espacio privado donde nuestros clientes y distribuidores consultan sus tableros e informes. Se ingresa desde el botón «Portal clientes» del menú con las credenciales asignadas.'),
+  ('¿Cuál es el primer paso?',
+   'Completá el formulario o escribinos por WhatsApp. Coordinamos una primera conversación para entender tu desafío y, a partir de ahí, te presentamos una propuesta a medida.'),
+] %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+  <div class="container">
+    <p class="eyebrow">Contacto</p>
+    <h1>Hablemos de tus datos</h1>
+    <p class="lead">Contanos qué te gustaría resolver y te respondemos a la brevedad para coordinar una primera conversación, sin compromiso.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container contact-grid">
+    <form class="contact-form" action="/api/contacto" method="post">
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="field">
+          <label for="email">Email laboral <span aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="company">Empresa</label>
+          <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
+        </div>
+        <div class="field">
+          <label for="phone">Teléfono</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" maxlength="40">
+        </div>
+      </div>
+      <div class="field">
+        <label for="interest">¿Qué te interesa?</label>
+        <select id="interest" name="interest">
+          <option value="">Elegí una opción</option>
+          <option>Ingeniería de datos</option>
+          <option>Calidad y preparación de datos</option>
+          <option>Analítica y modelos predictivos</option>
+          <option>Tableros de gestión</option>
+          <option>Diagnóstico de datos</option>
+          <option>Todavía no lo sé</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Contanos tu desafío <span aria-hidden="true">*</span></label>
+        <textarea id="message" name="message" rows="6" maxlength="5000" required placeholder="Por ejemplo: queremos unificar las ventas de nuestros distribuidores en un único tablero."></textarea>
+      </div>
+      <!-- Campo trampa anti-spam: debe quedar vacío -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">No completar</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="form-footer">
+        <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder tu consulta.</p>
+        <button class="btn btn-primary btn-lg" type="submit">Enviar mensaje {{ icon('arrow-right') }}</button>
+      </div>
+      <div class="form-status" role="status" aria-live="polite"></div>
+    </form>
+
+    <aside class="contact-card" aria-label="Otros medios de contacto">
+      <h2 class="h3-like">Otros medios de contacto</h2>
+      <ul class="contact-list">
+        <li>{{ icon('envelope') }} <div><strong>Email</strong><a href="mailto:contacto@deepdatas.com">contacto@deepdatas.com</a></div></li>
+        <li>{{ icon('telephone') }} <div><strong>Teléfono</strong><a href="tel:+5491161527387">+54 9 11 6152-7387</a></div></li>
+        <li>{{ icon('whatsapp') }} <div><strong>WhatsApp</strong><a href="https://wa.me/5491161527387" target="_blank" rel="noopener">Escribinos por WhatsApp</a></div></li>
+        <li>{{ icon('geo-alt') }} <div><strong>Oficina</strong>Bernardo de Irigoyen 330, C1072 CABA, Argentina</div></li>
+      </ul>
+      <iframe class="map" title="Mapa: Bernardo de Irigoyen 330, CABA" src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Antes de escribirnos</h2>
+      <p>Las preguntas que más nos hacen. Si la tuya no está, mandanos un mensaje.</p>
+    </div>
+    <div class="faq reveal">
+      {% for q, a in faqs %}
+      <details{% if loop.first %} open{% endif %}>
+        <summary>{{ q }} {{ icon('plus-lg', cls='faq-icon') }}</summary>
+        <p>{{ a }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta %}{% endblock %}

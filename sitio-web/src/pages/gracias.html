@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="message-page">
+  <div class="container">
+    {# Se muestra cuando la URL termina en #error (envío sin JavaScript que falló) #}
+    <div class="message-error" id="error">
+      <span class="message-icon message-icon-error">{{ icon('exclamation-circle-fill') }}</span>
+      <h1>No pudimos enviar tu mensaje</h1>
+      <p class="lead">Revisá los datos e intentá nuevamente, o escribinos directamente a <a href="mailto:contacto@deepdatas.com">contacto@deepdatas.com</a>.</p>
+      <div class="actions actions-center">
+        <a class="btn btn-primary btn-lg" href="/contacto/">Volver al formulario</a>
+      </div>
+    </div>
+
+    <div class="message-ok">
+      <span class="message-icon">{{ icon('check-circle-fill') }}</span>
+      <h1>¡Gracias por escribirnos!</h1>
+      <p class="lead">Recibimos tu mensaje y te responderemos a la brevedad. Mientras tanto, podés conocer algunos de nuestros proyectos.</p>
+      <div class="actions actions-center">
+        <a class="btn btn-primary btn-lg" href="/casos/">Ver casos de éxito</a>
+        <a class="btn btn-secondary btn-lg" href="/">Volver al inicio</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta %}{% endblock %}
