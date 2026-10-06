@@ -49,7 +49,13 @@ def load_posts(include_future=False):
     posts = [_parse(p) for p in sorted(BLOG.glob('*.md'))]
     if not include_future:
         posts = [p for p in posts if p['date'] <= date.today()]
-    return sorted(posts, key=lambda p: (p['date'], p['title']), reverse=True)
+    posts = sorted(posts, key=lambda p: (p['date'], p['title']), reverse=True)
+    # Artículos relacionados: primero los que comparten más etiquetas, después los más recientes.
+    for post in posts:
+        others = [o for o in posts if o is not post]
+        others.sort(key=lambda o: len(set(o['tags']) & set(post['tags'])), reverse=True)
+        post['related'] = others[:3]
+    return posts
 
 
 MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',

@@ -55,13 +55,13 @@
   </div>
 </article>
 
-{% set related = posts | rejectattr('slug', 'eq', post.slug) | list %}
+{% set related = post.related %}
 {% if related %}
 <section class="section section-paper section-tight" aria-labelledby="related-title">
   <div class="container">
     <h2 id="related-title" class="h3-like">Seguí leyendo</h2>
     <ul class="post-grid">
-      {% for p in related[:3] %}
+      {% for p in related %}
       <li>
         <article class="post-card">
           <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>

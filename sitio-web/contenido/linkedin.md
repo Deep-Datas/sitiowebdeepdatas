@@ -1,6 +1,6 @@
 # Publicaciones para LinkedIn
 
-Una publicación por artículo del blog. Sugerencia: publicar una por semana, de martes a jueves entre las 8 y las 10, desde la página de DeepDatas y compartirla desde los perfiles personales del equipo.
+Una publicación por artículo del blog. Sugerencia: publicar una por semana, de martes a jueves entre las 8 y las 10, desde la página de DeepDatas y compartirla desde los perfiles personales del equipo. Como los artículos ya están en el sitio, el orden de publicación en LinkedIn puede ser cualquiera.
 
 Al publicar, poné el enlace del artículo en el **primer comentario** en lugar del texto: LinkedIn suele mostrar menos las publicaciones con enlaces externos.
 
@@ -76,3 +76,136 @@ Enlace: https://deepdatas.com/blog/excel-o-power-bi/
 > Cómo hacer la transición sin traumas, en el primer comentario 👇
 >
 > #PowerBI #Excel #BusinessIntelligence #TablerosDeGestión
+
+---
+
+## 4. Calidad de datos
+
+Enlace: https://deepdatas.com/blog/calidad-de-datos/
+
+> "Los números no cierran."
+>
+> Detrás de esa frase casi nunca hay un error de cálculo. Hay un problema de calidad de datos.
+>
+> Clientes duplicados, campos vacíos, precios desactualizados: no aparecen en el balance, pero cuestan horas y malas decisiones todos los días.
+>
+> La calidad de datos se puede medir en seis dimensiones:
+>
+> 📋 Completitud: ¿están todos los datos?
+> 👤 Unicidad: ¿cada cliente existe una sola vez?
+> ✔️ Validez: ¿respetan el formato esperado?
+> 🔄 Consistencia: ¿coinciden entre sistemas?
+> 🎯 Exactitud: ¿reflejan la realidad?
+> ⏱️ Actualidad: ¿están al día?
+>
+> Lo que se mide, mejora. Cómo empezar sin grandes inversiones, en el primer comentario 👇
+>
+> #CalidadDeDatos #Datos #BusinessIntelligence
+
+---
+
+## 5. KPIs comerciales
+
+Enlace: https://deepdatas.com/blog/kpis-comerciales/
+
+> Un buen tablero comercial no es el que tiene más gráficos.
+>
+> Es el que responde rápido tres preguntas: ¿llegamos al objetivo? ¿dónde perdemos ventas? ¿qué cliente necesita atención?
+>
+> Los 8 indicadores que recomendamos mirar cada semana:
+>
+> 1. Venta contra objetivo
+> 2. Crecimiento interanual (también en unidades)
+> 3. Clientes activos
+> 4. Clientes en riesgo
+> 5. Ticket promedio
+> 6. Cobertura de la cartera
+> 7. Margen bruto
+> 8. Días de cobranza
+>
+> El más subestimado: clientes en riesgo. Genera una lista concreta de a quién llamar esta semana, antes de perderlo.
+>
+> Cómo se calcula cada uno, en el primer comentario 👇
+>
+> #Ventas #KPIs #GestiónComercial #TablerosDeGestión
+
+---
+
+## 6. Cobertura y venta cruzada
+
+Enlace: https://deepdatas.com/blog/cobertura-y-venta-cruzada/
+
+> Tu próxima venta más fácil no está en un cliente nuevo.
+>
+> Está en un cliente que ya te compra, pero no todo lo que podría.
+>
+> Si tenés 1.000 clientes activos y solo 350 compran una de tus líneas, hay 650 oportunidades que ya te conocen y ya confían en vos.
+>
+> El análisis de cobertura convierte miles de facturas en una lista concreta para cada vendedor: a quién ofrecerle qué en la próxima visita.
+>
+> Paso a paso, en el primer comentario 👇
+>
+> #Ventas #VentaCruzada #Distribución #Analítica
+
+---
+
+## 7. Pedidos por WhatsApp
+
+Enlace: https://deepdatas.com/blog/pedidos-por-whatsapp/
+
+> "Mandame 3 cajas de las papas de siempre y 2 del puré" 📱
+>
+> Para una persona con experiencia, es un pedido claro. Para un sistema, es texto libre imposible de cargar.
+>
+> WhatsApp se convirtió en el canal de pedidos favorito de muchos clientes, pero esa información casi nunca llega ordenada a los sistemas.
+>
+> Tres niveles para resolverlo:
+>
+> 1️⃣ Ordenar el proceso: un número único y un catálogo claro
+> 2️⃣ Integrar WhatsApp con los sistemas
+> 3️⃣ Un agente de IA que interpreta el pedido usando el historial del cliente y pregunta cuando algo es ambiguo
+>
+> El requisito para el nivel 3: datos de productos y clientes bien ordenados.
+>
+> Más detalles en el primer comentario 👇
+>
+> #WhatsApp #InteligenciaArtificial #Ventas #Automatización
+
+---
+
+## 8. Quiebre de stock y pronóstico de demanda
+
+Enlace: https://deepdatas.com/blog/quiebre-de-stock-y-pronostico/
+
+> Tener el cliente, tener el pedido y no tener el producto.
+>
+> El quiebre de stock no solo hace perder esa venta: muchas veces el cliente compra otra marca y no vuelve.
+>
+> El origen del problema suele ser el mismo: las compras se planifican con promedios del pasado, que no ven la estacionalidad, las promociones ni las tendencias.
+>
+> Un pronóstico de demanda permite anticipar qué productos se van a quedar sin stock y cuánto comprar de cada uno. En uno de nuestros proyectos, redujo un 12% los quiebres de stock.
+>
+> Cómo empezar, en el primer comentario 👇
+>
+> #Stock #PronósticoDeDemanda #Logística #MachineLearning
+
+---
+
+## 9. Dónde guardar los datos
+
+Enlace: https://deepdatas.com/blog/donde-guardar-los-datos/
+
+> Data warehouse, data lake, lakehouse… ¿qué necesita realmente una empresa mediana?
+>
+> Una guía sin tecnicismos:
+>
+> 📊 Planillas: alcanzan mientras las fuentes son pocas
+> 🏛️ Data warehouse: la opción para la mayoría de las empresas medianas
+> 🌊 Data lake: para grandes volúmenes y datos no estructurados
+> 🏠 Lakehouse: lo mejor de ambos, pensando en IA
+>
+> Nuestra recomendación: empezar por las preguntas de negocio, no por la herramienta.
+>
+> La guía completa, en el primer comentario 👇
+>
+> #IngenieríaDeDatos #DataWarehouse #Azure #Datos
