@@ -44,6 +44,9 @@
   <link rel="stylesheet" href="{{ asset('css/site.css') }}">
   <link rel="stylesheet" href="{{ asset('css/charts.css') }}">
   <script src="{{ asset('js/site.js') }}" defer></script>
+  {% if clarity_id and not drafts %}
+  <script src="{{ asset('js/analytics.js') }}" data-clarity="{{ clarity_id }}" defer></script>
+  {% endif %}
   {% block head %}{% endblock %}
 </head>
 

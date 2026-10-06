@@ -90,6 +90,16 @@ Los casos están en `casos.py`. Cada uno tiene `'publicado': False` hasta que se
 
 Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos» del menú y la sección de casos del inicio. `build.py` no deja publicar un caso que todavía tenga datos `[completar]`.
 
+## Analítica de visitas
+
+El sitio está preparado para [Microsoft Clarity](https://clarity.microsoft.com) (gratuito): visitas, origen del tráfico, mapas de calor y grabaciones de sesión. Mientras `CLARITY_ID` esté vacío en `build.py`, no se carga nada externo.
+
+1. Creá un proyecto en Clarity para `deepdatas.com` y copiá su identificador (Settings > Overview > Project ID).
+2. Recomendado: en Settings > Setup, desactivá las cookies y dejá el enmascarado de datos en modo estricto.
+3. Pegá el identificador en `CLARITY_ID` y ejecutá `python build.py`: se agrega el script y la política de seguridad habilita solo los dominios de Clarity.
+
+Además de las visitas, se registran estos eventos (Clarity > Filtros > Eventos personalizados): `whatsapp`, `email`, `telefono`, `agendar_reunion`, `ver_diagnostico` y `formulario_enviado` (con la etiqueta `interes`).
+
 ## Contenido a revisar
 
 - **Valores del tablero del inicio**: son ilustrativos (el gráfico lo aclara como "Ejemplo de tablero").

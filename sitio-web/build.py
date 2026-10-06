@@ -9,6 +9,7 @@ src/layout.html (encabezado, pie, metadatos). public/ se regenera completo
 en cada ejecución: no editar archivos dentro de public/.
 """
 import hashlib
+import json
 import shutil
 import sys
 from urllib.parse import quote
@@ -96,6 +97,31 @@ def icon_svg(name, x, y, size, cls=''):
     inner = svg[svg.index('>', svg.index('<svg')) + 1:svg.rindex('</svg>')]
     return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / 16:.4f})" '
                   f'aria-hidden="true">{" ".join(inner.split())}</g>')
+
+
+# Analítica de visitas con Microsoft Clarity. Vacío = desactivada (no se carga
+# ningún script externo y la política de seguridad no se modifica).
+CLARITY_ID = ''
+CLARITY_CSP = {
+    'script-src': 'https://www.clarity.ms https://scripts.clarity.ms',
+    'connect-src': 'https://*.clarity.ms https://c.bing.com',
+    'img-src': 'https://*.clarity.ms https://c.bing.com',
+}
+
+
+def swa_config():
+    """Configuración de Azure Static Web Apps. Si la analítica está activa,
+    habilita en la política de seguridad solo los dominios de Clarity."""
+    config = json.loads((SRC / 'staticwebapp.config.json').read_text(encoding='utf-8'))
+    if CLARITY_ID:
+        headers = config['globalHeaders']
+        rules = [r.strip() for r in headers['Content-Security-Policy'].split(';')]
+        for i, rule in enumerate(rules):
+            name = rule.split(' ', 1)[0]
+            if name in CLARITY_CSP:
+                rules[i] = f'{rule} {CLARITY_CSP[name]}'
+        headers['Content-Security-Policy'] = '; '.join(rules)
+    return json.dumps(config, ensure_ascii=False, indent=2) + '\n'
 
 
 WHATSAPP_NUMBER = '5491161527387'
@@ -223,7 +249,7 @@ def build(drafts=False):
     if OUT.exists():
         shutil.rmtree(OUT)
     shutil.copytree(SRC / 'assets', OUT / 'assets')
-    shutil.copy(SRC / 'staticwebapp.config.json', OUT / 'staticwebapp.config.json')
+    (OUT / 'staticwebapp.config.json').write_text(swa_config(), encoding='utf-8')
 
     env = Environment(
         loader=FileSystemLoader([SRC, SRC / 'pages']),
@@ -233,7 +259,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
 
     def render_all():

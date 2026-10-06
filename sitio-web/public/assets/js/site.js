@@ -271,6 +271,9 @@
         })
         .then(function (data) {
           if (data.ok) {
+            document.dispatchEvent(new CustomEvent('deepdatas:form-sent', {
+              detail: { interest: form.querySelector('#interest').value }
+            }));
             form.reset();
             showStatus('ok', '¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.');
           } else {
