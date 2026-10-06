@@ -9,7 +9,7 @@
 ] %}
 {% set nav_items = all_nav_items if cases else all_nav_items | rejectattr(0, 'eq', 'casos') | list %}
 {% set portal_url = 'https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx' %}
-{% set whatsapp_url = 'https://wa.me/5491161527387' %}
+{% set whatsapp_url = whatsapp(page.nav) %}
 <!DOCTYPE html>
 <html lang="es">
 

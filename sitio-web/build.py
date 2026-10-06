@@ -11,6 +11,7 @@ en cada ejecución: no editar archivos dentro de public/.
 import hashlib
 import shutil
 import sys
+from urllib.parse import quote
 from datetime import date
 from pathlib import Path
 
@@ -95,6 +96,23 @@ def icon_svg(name, x, y, size, cls=''):
     inner = svg[svg.index('>', svg.index('<svg')) + 1:svg.rindex('</svg>')]
     return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / 16:.4f})" '
                   f'aria-hidden="true">{" ".join(inner.split())}</g>')
+
+
+WHATSAPP_NUMBER = '5491161527387'
+# Mensaje con el que se abre el chat de WhatsApp, según la página desde la que se escribe.
+WHATSAPP_MESSAGES = {
+    None: 'Hola, vengo de la web de DeepDatas y quiero hacer una consulta.',
+    'servicios': 'Hola, vengo de la web de DeepDatas y quiero consultar por sus servicios.',
+    'diagnostico': 'Hola, vengo de la web de DeepDatas y me interesa el diagnóstico de datos.',
+    'casos': 'Hola, vengo de la web de DeepDatas, vi sus casos de éxito y quiero consultar por un proyecto.',
+    'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
+}
+
+
+def whatsapp(nav=None):
+    """Enlace a WhatsApp con un mensaje inicial acorde a la página."""
+    text = WHATSAPP_MESSAGES.get(nav, WHATSAPP_MESSAGES[None])
+    return f'https://wa.me/{WHATSAPP_NUMBER}?text={quote(text)}'
 
 
 def asset(path):
@@ -215,7 +233,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
 
     def render_all():
