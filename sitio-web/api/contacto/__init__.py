@@ -56,11 +56,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         send_mail(data, **config)
-    except GraphError as error:
-        logging.exception('Formulario de contacto: error al enviar el correo.')
-        # El código (paso y estado HTTP, sin datos sensibles) ayuda a diagnosticar la configuración.
-        return respond(wants_json, False, f'{FALLBACK_ERROR} (código: {error.code})', 502)
     except Exception:
+        # El detalle (paso, estado HTTP y respuesta de Microsoft) queda en los registros de Azure.
         logging.exception('Formulario de contacto: error al enviar el correo.')
         return respond(wants_json, False, FALLBACK_ERROR, 502)
 
@@ -131,7 +128,6 @@ def send_mail(data, GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET):
 class GraphError(Exception):
     def __init__(self, step, status, detail):
         super().__init__(f'{step} respondió {status}: {detail}')
-        self.code = f'{step}-{status}'
 
 
 def request_json(url, body, headers):
