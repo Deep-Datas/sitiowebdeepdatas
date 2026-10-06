@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import 'forms.html' as forms with context %}
 
 {% set faqs = [
   ('¿Necesito tener mis datos ordenados para empezar?',
@@ -26,54 +27,7 @@
 
 <section class="section section-tight">
   <div class="container contact-grid">
-    <form class="contact-form" action="/api/contacto" method="post">
-      <div class="form-row">
-        <div class="field">
-          <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
-        </div>
-        <div class="field">
-          <label for="email">Email laboral <span aria-hidden="true">*</span></label>
-          <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label for="company">Empresa</label>
-          <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
-        </div>
-        <div class="field">
-          <label for="phone">Teléfono</label>
-          <input type="tel" id="phone" name="phone" autocomplete="tel" maxlength="40">
-        </div>
-      </div>
-      <div class="field">
-        <label for="interest">¿Qué te interesa?</label>
-        <select id="interest" name="interest">
-          <option value="">Elegí una opción</option>
-          <option>Ingeniería de datos</option>
-          <option>Calidad y preparación de datos</option>
-          <option>Analítica y modelos predictivos</option>
-          <option>Tableros de gestión</option>
-          <option>Diagnóstico de datos</option>
-          <option>Todavía no lo sé</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="message">Contanos tu desafío <span aria-hidden="true">*</span></label>
-        <textarea id="message" name="message" rows="6" maxlength="5000" required placeholder="Por ejemplo: queremos unificar las ventas de nuestros distribuidores en un único tablero."></textarea>
-      </div>
-      <!-- Campo trampa anti-spam: debe quedar vacío -->
-      <div class="hp-field" aria-hidden="true">
-        <label for="website">No completar</label>
-        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-      </div>
-      <div class="form-footer">
-        <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder tu consulta.</p>
-        <button class="btn btn-primary btn-lg" type="submit">Enviar mensaje {{ icon('arrow-right') }}</button>
-      </div>
-      <div class="form-status" role="status" aria-live="polite"></div>
-    </form>
+    {{ forms.contact_form() }}
 
     <aside class="contact-card" aria-label="Otros medios de contacto">
       <h2 class="h3-like">Otros medios de contacto</h2>

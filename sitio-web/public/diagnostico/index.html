@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagnóstico de datos | DeepDatas</title>
+  <meta name="description" content="En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.">
+  <link rel="canonical" href="https://deepdatas.com/diagnostico/">
+  <meta name="theme-color" content="#0b1b3d">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="DeepDatas">
+  <meta property="og:title" content="Diagnóstico de datos | DeepDatas">
+  <meta property="og:description" content="En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.">
+  <meta property="og:url" content="https://deepdatas.com/diagnostico/">
+  <meta property="og:image" content="https://deepdatas.com/assets/img/brand/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
+
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/site.css?v=c97e4c661c">
+  <link rel="stylesheet" href="/assets/css/charts.css?v=6dd3d3b271">
+  <script src="/assets/js/site.js?v=67d510468a" defer></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a href="/" class="brand" aria-label="DeepDatas, ir al inicio">
+        <img src="/assets/img/brand/logo-mark.png" alt="" width="28" height="32">
+        <span>DeepDatas</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
+        <span class="visually-hidden">Abrir menú</span>
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon icon-open" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/> </svg>
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon icon-close" viewBox="0 0 16 16"> <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/> </svg>
+      </button>
+
+      <nav class="site-nav" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="/servicios/">Servicios</a></li>
+          <li><a href="/diagnostico/" aria-current="page">Diagnóstico</a></li>
+          <li><a href="/ejemplos/">Ejemplos</a></li>
+          <li><a href="/nosotros/">Nosotros</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a class="btn btn-ghost" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">
+            Portal clientes <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/> <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/> </svg>
+          </a>
+          <a class="btn btn-primary" href="/contacto/">Agendar reunión</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+<section class="page-hero dx-hero">
+  <div class="container dx-hero-grid">
+    <div>
+      <p class="eyebrow">Diagnóstico de datos</p>
+      <h1>¿Tus datos están listos para decidir mejor y aprovechar la IA?</h1>
+      <p class="lead">En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos un plan concreto con las oportunidades de mayor impacto. Sin compromiso de continuar con nosotros.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="#pedir">Pedir mi diagnóstico <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
+        <a class="btn btn-secondary btn-lg" href="https://wa.me/5491161527387" target="_blank" rel="noopener"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/> </svg> Consultar por WhatsApp</a>
+      </div>
+      <ul class="hero-proof">
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> 2 semanas</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Precio cerrado antes de empezar</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Confidencialidad garantizada</li>
+      </ul>
+    </div>
+
+    <figure class="dx-report" aria-labelledby="dx-report-title">
+      <div class="dx-report-head">
+        <div>
+          <p class="dash-kicker">Ejemplo de informe · datos ficticios</p>
+          <p class="dash-title" id="dx-report-title">Preparación de los datos</p>
+        </div>
+        <p class="dx-score"><strong>54</strong><span>/100</span></p>
+      </div>
+      <table class="dx-table">
+        <caption class="visually-hidden">Puntaje de calidad por fuente de datos, de 0 a 100</caption>
+        <thead class="visually-hidden">
+          <tr><th scope="col">Fuente</th><th scope="col">Puntaje</th><th scope="col">Estado</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><strong>ERP</strong><span>Ventas, stock y facturación</span></th>
+            <td class="dx-meter-cell">
+              <span class="dx-meter" aria-hidden="true"><span class="dx-meter-fill dx-good w-86"></span></span>
+              <span class="dx-num">86</span>
+            </td>
+            <td><span class="dx-status dx-good"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Lista</span></td>
+          </tr>
+          <tr>
+            <th scope="row"><strong>E-commerce</strong><span>Ventas online y logística</span></th>
+            <td class="dx-meter-cell">
+              <span class="dx-meter" aria-hidden="true"><span class="dx-meter-fill dx-good w-74"></span></span>
+              <span class="dx-num">74</span>
+            </td>
+            <td><span class="dx-status dx-good"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Lista</span></td>
+          </tr>
+          <tr>
+            <th scope="row"><strong>CRM</strong><span>18% de clientes duplicados</span></th>
+            <td class="dx-meter-cell">
+              <span class="dx-meter" aria-hidden="true"><span class="dx-meter-fill dx-warn w-58"></span></span>
+              <span class="dx-num">58</span>
+            </td>
+            <td><span class="dx-status dx-warn"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/> </svg> Requiere trabajo</span></td>
+          </tr>
+          <tr>
+            <th scope="row"><strong>Planillas de objetivos</strong><span>Formatos distintos por área</span></th>
+            <td class="dx-meter-cell">
+              <span class="dx-meter" aria-hidden="true"><span class="dx-meter-fill dx-warn w-41"></span></span>
+              <span class="dx-num">41</span>
+            </td>
+            <td><span class="dx-status dx-warn"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/> </svg> Requiere trabajo</span></td>
+          </tr>
+          <tr>
+            <th scope="row"><strong>Pedidos por WhatsApp</strong><span>Sin registro en sistemas</span></th>
+            <td class="dx-meter-cell">
+              <span class="dx-meter" aria-hidden="true"><span class="dx-meter-fill dx-bad w-12"></span></span>
+              <span class="dx-num">12</span>
+            </td>
+            <td><span class="dx-status dx-bad"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/> </svg> No integrada</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="dx-opps">
+        <p class="dx-opps-title">Oportunidades priorizadas</p>
+        <ol>
+          <li><strong>Unificar clientes entre CRM y ERP</strong><span>Impacto alto · Esfuerzo bajo</span></li>
+          <li><strong>Registrar los pedidos de WhatsApp</strong><span>Impacto alto · Esfuerzo medio</span></li>
+          <li><strong>Agente de IA para consultas de ventas</strong><span>Impacto alto · Requiere 1 y 2</span></li>
+        </ol>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ======= ENTREGABLES ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Qué vas a recibir</p>
+      <h2>Un informe claro para decidir el próximo paso</h2>
+      <p>No es una presentación genérica: es un análisis de tus datos reales, con conclusiones que podés usar desde el primer día.</p>
+    </div>
+    <div class="dx-grid">
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/> </svg></span>
+        <h3>Mapa de tus datos</h3>
+        <p>Qué fuentes tenés (sistemas, planillas, mensajes, archivos), qué información guarda cada una y cómo circula entre áreas.</p>
+      </article>
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/> <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/> </svg></span>
+        <h3>Evaluación de calidad</h3>
+        <p>Un puntaje por fuente: completitud, duplicados, consistencia y actualización. Sabés exactamente dónde están los problemas.</p>
+      </article>
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/> <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/> </svg></span>
+        <h3>Preparación para IA</h3>
+        <p>Qué casos de inteligencia artificial son viables hoy con tus datos, cuáles no todavía y qué falta para llegar.</p>
+      </article>
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/> <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/> </svg></span>
+        <h3>Hoja de ruta priorizada</h3>
+        <p>Las oportunidades de mayor impacto, ordenadas por beneficio y esfuerzo, con plazos estimados para cada una.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROCESO ======= -->
+<section class="section section-paper">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo es el proceso</p>
+      <h2>Dos semanas, cuatro pasos y poco tiempo de tu equipo</h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/> </svg></span>
+        <p class="dx-when">Semana 1</p>
+        <h3>Reunión de inicio</h3>
+        <p>Una hora para entender tu negocio, las decisiones clave y los objetivos. Definimos qué áreas y fuentes relevar.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/> </svg></span>
+        <p class="dx-when">Semana 1</p>
+        <h3>Relevamiento</h3>
+        <p>Revisamos muestras de datos o accesos de solo lectura y hacemos entrevistas breves con quienes usan la información.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/> </svg></span>
+        <p class="dx-when">Semana 2</p>
+        <h3>Análisis</h3>
+        <p>Medimos la calidad de cada fuente, mapeamos los flujos de información y evaluamos los casos de uso de IA.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg></span>
+        <p class="dx-when">Semana 2</p>
+        <h3>Presentación de resultados</h3>
+        <p>Te presentamos el informe y la hoja de ruta, y respondemos todas las preguntas de tu equipo.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======= PARA QUIÉN ======= -->
+<section class="section">
+  <div class="container dx-fit">
+    <div class="dx-fit-card reveal">
+      <h2 class="h3-like">Es para vos si…</h2>
+      <ul class="dx-checks">
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Tenés información repartida entre sistemas, planillas y mensajes.</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Los reportes llevan días de trabajo manual y no siempre coinciden.</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Querés aplicar inteligencia artificial pero no sabés por dónde empezar.</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Necesitás justificar una inversión en datos con un plan concreto.</li>
+      </ul>
+    </div>
+    <div class="dx-fit-card reveal">
+      <h2 class="h3-like">Qué necesitamos de tu parte</h2>
+      <ul class="dx-checks dx-checks-neutral">
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg> Una persona de referencia para coordinar el relevamiento.</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg> Muestras de datos o accesos de solo lectura a las fuentes principales.</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg> Entre 4 y 6 horas de tu equipo, repartidas en las dos semanas.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======= FORMULARIO ======= -->
+<section class="section section-paper" id="pedir" aria-labelledby="pedir-title">
+  <div class="container contact-grid">
+    <div>
+      <div class="dx-form-head">
+        <p class="eyebrow">Pedí tu diagnóstico</p>
+        <h2 id="pedir-title">Contanos sobre tu empresa</h2>
+        <p>Te respondemos a la brevedad para coordinar una primera conversación de 30 minutos y definir el alcance.</p>
+      </div>
+      <form class="contact-form" action="/api/contacto" method="post">
+  <div class="form-row">
+    <div class="field">
+      <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
+      <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
+    </div>
+    <div class="field">
+      <label for="email">Email laboral <span aria-hidden="true">*</span></label>
+      <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="company">Empresa</label>
+      <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
+    </div>
+    <div class="field">
+      <label for="phone">Teléfono</label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel" maxlength="40">
+    </div>
+  </div>
+  <div class="field">
+    <label for="interest">¿Qué te interesa?</label>
+    <select id="interest" name="interest">
+      <option value="">Elegí una opción</option>
+      <option>Ingeniería de datos</option>
+      <option>Calidad y preparación de datos</option>
+      <option>Analítica y modelos predictivos</option>
+      <option>Tableros de gestión</option>
+      <option selected>Diagnóstico de datos</option>
+      <option>Todavía no lo sé</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="message">Contanos tu desafío <span aria-hidden="true">*</span></label>
+    <textarea id="message" name="message" rows="6" maxlength="5000" required placeholder="Por ejemplo: tenemos ventas en el ERP, objetivos en Excel y pedidos por WhatsApp, y queremos un único tablero."></textarea>
+  </div>
+  <!-- Campo trampa anti-spam: debe quedar vacío -->
+  <div class="hp-field" aria-hidden="true">
+    <label for="website">No completar</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+  </div>
+  <div class="form-footer">
+    <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder tu consulta.</p>
+    <button class="btn btn-primary btn-lg" type="submit">Pedir mi diagnóstico <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></button>
+  </div>
+  <div class="form-status" role="status" aria-live="polite"></div>
+</form>
+
+    </div>
+
+    <aside class="faq dx-faq" aria-label="Preguntas frecuentes sobre el diagnóstico">
+      <h2 class="h3-like">Preguntas frecuentes</h2>
+      <details open>
+        <summary>¿Qué pasa al terminar el diagnóstico? <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon faq-icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg></summary>
+        <p>Te quedás con el informe y la hoja de ruta, y decidís cómo seguir: implementarla con tu equipo, con otro proveedor o con nosotros. No hay ningún compromiso de continuar.</p>
+      </details>
+      <details>
+        <summary>¿Tiene costo? <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon faq-icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg></summary>
+        <p>El alcance y el valor se acuerdan en la primera conversación, según la cantidad de fuentes y áreas a relevar. Siempre sabés el precio antes de empezar.</p>
+      </details>
+      <details>
+        <summary>¿Cómo cuidan la confidencialidad de mis datos? <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon faq-icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg></summary>
+        <p>Firmamos un acuerdo de confidencialidad antes de empezar y trabajamos con accesos de solo lectura o con muestras de datos.</p>
+      </details>
+      <details>
+        <summary>Mis datos están en Excel y en WhatsApp, ¿sirve igual? <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon faq-icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg></summary>
+        <p>Sí, es el caso más común. El diagnóstico justamente identifica qué información vale la pena rescatar de esas fuentes y cómo integrarla.</p>
+      </details>
+      <details>
+        <summary>¿Sirve si todavía no pensamos en usar IA? <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon faq-icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg></summary>
+        <p>Sí. Los mismos datos curados que necesita un agente de IA son los que hacen confiables a tus tableros e informes. La hoja de ruta incluye las dos cosas.</p>
+      </details>
+    </aside>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="/" class="brand brand-light">
+            <img src="/assets/img/brand/logo-mark-white.png" alt="" width="28" height="32">
+            <span>DeepDatas</span>
+          </a>
+          <p>Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.</p>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Servicios</h2>
+          <ul class="footer-links">
+            <li><a href="/servicios/#ingenieria">Ingeniería de datos</a></li>
+            <li><a href="/servicios/#calidad">Calidad y preparación</a></li>
+            <li><a href="/servicios/#analitica">Analítica y modelos predictivos</a></li>
+            <li><a href="/servicios/#tableros">Tableros de gestión</a></li>
+            <li><a href="/diagnostico/">Diagnóstico de datos</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Empresa</h2>
+          <ul class="footer-links">
+            <li><a href="/ejemplos/">Ejemplos de tableros</a></li>
+            <li><a href="/nosotros/">Nosotros</a></li>
+            <li><a href="/contacto/">Contacto</a></li>
+            <li><a href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">Portal clientes</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Contacto</h2>
+          <ul class="footer-links">
+            <li><a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a></li>
+            <li><a href="tel:+5491161527387">+54 9 11 6152-7387</a></li>
+            <li><a href="https://wa.me/5491161527387" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li>Bernardo de Irigoyen 330<br>C1072 CABA, Argentina</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> DeepDatas. Todos los derechos reservados.</span>
+        <span>Hecho en Buenos Aires</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

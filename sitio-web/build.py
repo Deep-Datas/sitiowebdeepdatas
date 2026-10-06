@@ -38,6 +38,11 @@ PAGES = [
         'description': 'Ingeniería de datos, calidad y preparación, analítica avanzada con modelos predictivos y tableros de gestión en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
     },
     {
+        'template': 'diagnostico.html', 'path': '/diagnostico/', 'nav': 'diagnostico',
+        'title': 'Diagnóstico de datos | DeepDatas',
+        'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
+    },
+    {
         'template': 'ejemplos.html', 'path': '/ejemplos/', 'nav': 'ejemplos',
         'title': 'Ejemplos de tableros | DeepDatas',
         'description': 'Tableros interactivos de ejemplo, con datos ficticios: performance de distribuidores, cobertura de puntos de venta y pronóstico de demanda.',

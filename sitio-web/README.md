@@ -7,6 +7,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | Ruta | Contenido |
 | --- | --- |
 | `/` | Propuesta de valor, clientes, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, servicios, caso destacado, proceso, industrias |
+| `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
 | `/ejemplos/` | Tres tableros interactivos de ejemplo (datos ficticios) con el desafío, la solución y el beneficio |
 | `/nosotros/` | Misión, pilares, especialidades del equipo y ubicación |
@@ -22,6 +23,7 @@ dashboards.py            Datos ficticios de los tableros de ejemplo
 pipeline.py              Textos y geometría del gráfico «Del dato disperso al agente de IA»
 requirements.txt         Dependencias para generar el sitio (Jinja2)
 src/layout.html          Estructura común: encabezado, menú, pie y metadatos
+src/forms.html           Formulario de contacto (se usa en Contacto y en Diagnóstico)
 src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y agente de IA
 src/pages/               Contenido de cada página
