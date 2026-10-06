@@ -33,19 +33,38 @@
 <!-- ======= HERO: escena con scroll (src/hero.html) ======= -->
 {{ hero.scene() }}
 
-<!-- ======= CLIENTES ======= -->
+<!-- ======= PUENTE: qué acabás de ver ======= -->
+<section class="section section-bridge" aria-labelledby="puente-title">
+  <div class="container bridge">
+    <p class="eyebrow">Lo que acabás de ver</p>
+    <h2 id="puente-title">Así trabaja la IA cuando tus datos <em>están listos.</em></h2>
+    <p class="lead">Conectamos tus sistemas, planillas y mensajes; curamos y ordenamos la información, y la ponemos al servicio de tableros y agentes de IA que responden con números confiables.</p>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="/diagnostico/">Pedir un diagnóstico de datos {{ icon('arrow-right') }}</a>
+      <a class="btn btn-secondary btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======= CLIENTES Y CIFRAS ======= -->
 <section class="logos" aria-labelledby="logos-title">
   <div class="container">
-    <h2 class="logos-title" id="logos-title">Empresas que confiaron en nosotros</h2>
+    <h2 class="logos-title" id="logos-title">Confían en DeepDatas</h2>
     <ul class="logos-row">
-      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
       <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
       <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
       <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
       <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
-      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
       <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
+      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
     </ul>
+    <dl class="stats">
+      <div><dt>distribuidores integrados en un único modelo para una empresa líder de consumo masivo</dt><dd>40</dd></div>
+      <div><dt>menos quiebres de stock con un pronóstico de demanda</dt><dd>12<span>%</span></dd></div>
+      <div><dt>para tener un diagnóstico completo de tus datos</dt><dd>2<span>semanas</span></dd></div>
+      <div><dt>de experiencia del equipo en datos, tecnología y negocio</dt><dd>+10<span>años</span></dd></div>
+    </dl>
   </div>
 </section>
 
@@ -53,9 +72,8 @@
 <section class="section">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">El desafío</p>
-      <h2>¿Te suena familiar?</h2>
-      <p>La mayoría de las empresas tiene más datos de los que puede aprovechar. El problema no es la falta de información, sino que no está lista para decidir.</p>
+      <p class="eyebrow">El problema</p>
+      <h2>No te faltan datos. Te falta que estén <em>listos para decidir.</em></h2>
     </div>
 
     <div class="pain-grid">
@@ -63,36 +81,30 @@
         <span class="pain-icon">{{ icon('file-earmark-spreadsheet') }}</span>
         <h3>Información dispersa</h3>
         <p>Ventas en el ERP, stock en una planilla, objetivos en otra. Cada área tiene su propia versión de los números.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Un único modelo de datos que se actualiza solo.</p>
       </article>
       <article class="pain-card reveal">
         <span class="pain-icon">{{ icon('clock-history') }}</span>
         <h3>Reportes que llegan tarde</h3>
         <p>Cada cierre implica días de copiar, pegar y validar datos a mano. Cuando el informe está listo, ya es tarde para actuar.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Tableros listos el primer día del mes, no el quinto.</p>
       </article>
       <article class="pain-card reveal">
         <span class="pain-icon">{{ icon('eye') }}</span>
         <h3>Decisiones a ciegas</h3>
         <p>Sin indicadores claros es difícil saber qué cliente, producto o canal está dejando de rendir, y por qué.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Alertas y recomendaciones cuando algo se desvía.</p>
       </article>
-    </div>
-
-    <div class="solution-strip reveal">
-      <p class="solution-title">Con DeepDatas:</p>
-      <ul>
-        <li>{{ icon('check-circle-fill') }} Una única fuente de verdad para toda la empresa</li>
-        <li>{{ icon('check-circle-fill') }} Tableros que se actualizan solos</li>
-        <li>{{ icon('check-circle-fill') }} Alertas y pronósticos sobre lo que importa</li>
-      </ul>
     </div>
   </div>
 </section>
 
 <!-- ======= DATOS PARA IA ======= -->
-<section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
+<section class="section section-dark section-stage section-pipeline" aria-labelledby="pipeline-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow eyebrow-light">Datos listos para la inteligencia artificial</p>
-      <h2 id="pipeline-title">Del dato disperso a un agente de IA que responde con precisión</h2>
+      <p class="eyebrow">Datos listos para la IA</p>
+      <h2 id="pipeline-title">Del dato disperso a un agente de IA que responde <em>con precisión.</em></h2>
       <p>Una IA es tan buena como los datos que consume. Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza.</p>
     </div>
     {{ pipeline_chart.diagram() }}
@@ -105,12 +117,12 @@
 </section>
 
 <!-- ======= SERVICIOS ======= -->
-<section class="section section-paper">
+<section class="section">
   <div class="container">
     <div class="section-head section-head-split reveal">
       <div>
         <p class="eyebrow">Servicios</p>
-        <h2>Todo el ciclo de vida de tus datos, en un solo equipo</h2>
+        <h2>Todo el ciclo de vida de tus datos, en un solo equipo.</h2>
       </div>
       <a class="link-arrow" href="/servicios/">Ver todos los servicios {{ icon('arrow-right') }}</a>
     </div>
@@ -148,27 +160,9 @@
   </div>
 </section>
 
-<!-- ======= EJEMPLO DESTACADO ======= -->
-{% set featured = examples[0] %}
-<section class="section section-dark">
-  <div class="container">
-    <div class="feature-head reveal">
-      <div>
-        <p class="eyebrow eyebrow-light">Ejemplo de tablero · Consumo masivo</p>
-        <h2>Una sola versión de los números para toda la red de distribuidores</h2>
-      </div>
-      <div>
-        <p>{{ featured.story.solution }}</p>
-        <a class="btn btn-primary btn-lg" href="/ejemplos/">Ver más ejemplos {{ icon('arrow-right') }}</a>
-      </div>
-    </div>
-    {{ charts.dashboard(featured, panels=[0, 1]) }}
-  </div>
-</section>
-
 {% if cases %}
 <!-- ======= CASOS DE ÉXITO ======= -->
-<section class="section section-paper" aria-labelledby="casos-title">
+<section class="section" aria-labelledby="casos-title">
   <div class="container">
     <div class="section-head section-head-split reveal">
       <div>
@@ -197,7 +191,7 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Cómo trabajamos</p>
-      <h2>Un proceso claro, de la primera reunión a los resultados</h2>
+      <h2>De la primera conversación a resultados medibles</h2>
     </div>
     <ol class="steps">
       <li class="reveal">
@@ -225,40 +219,24 @@
 </section>
 
 <!-- ======= INDUSTRIAS Y DIFERENCIALES ======= -->
-<section class="section section-paper">
-  <div class="container split">
-    <div class="reveal">
+<section class="section" aria-labelledby="industrias-title">
+  <div class="container">
+    <div class="section-head reveal">
       <p class="eyebrow">Industrias</p>
-      <h2>Experiencia en sectores donde cada punto de margen cuenta</h2>
-      <ul class="industry-list">
-        <li>{{ icon('cart3') }} Consumo masivo</li>
-        <li>{{ icon('truck') }} Distribución y logística</li>
-        <li>{{ icon('heart-pulse') }} Salud y farmacéutica</li>
-        <li>{{ icon('shop') }} Retail y gastronomía</li>
-        <li>{{ icon('cpu') }} Tecnología y servicios</li>
-      </ul>
+      <h2 id="industrias-title">Experiencia en sectores donde cada punto de margen cuenta</h2>
     </div>
-    <div class="reasons reveal">
-      <h3 class="reasons-title">Por qué DeepDatas</h3>
-      <dl>
-        <div>
-          <dt>{{ icon('award') }} Experiencia comprobada</dt>
-          <dd>Un equipo con más de 10 años en datos, tecnología y negocio.</dd>
-        </div>
-        <div>
-          <dt>{{ icon('puzzle') }} Soluciones a medida</dt>
-          <dd>Trabajamos con las plataformas que ya usás, sin atarte a un proveedor.</dd>
-        </div>
-        <div>
-          <dt>{{ icon('shield-check') }} Seguridad de la información</dt>
-          <dd>Cuidamos tu información con las mejores tecnologías, respetando protocolos y regulaciones.</dd>
-        </div>
-        <div>
-          <dt>{{ icon('layers') }} Escalable desde el día uno</dt>
-          <dd>Diseñamos pensando en el crecimiento, para que la solución acompañe a tu empresa.</dd>
-        </div>
-      </dl>
-    </div>
+    <ul class="industry-strip reveal">
+      <li>{{ icon('cart3') }} Consumo masivo</li>
+      <li>{{ icon('truck') }} Distribución y logística</li>
+      <li>{{ icon('heart-pulse') }} Salud y farmacéutica</li>
+      <li>{{ icon('shop') }} Retail y gastronomía</li>
+      <li>{{ icon('cpu') }} Tecnología y servicios</li>
+    </ul>
+    <dl class="reasons-list reveal">
+      <div><dt>Soluciones a medida</dt><dd>Trabajamos con las plataformas que ya usás, sin atarte a un proveedor.</dd></div>
+      <div><dt>Confidencialidad</dt><dd>Accesos de solo lectura y permisos por rol: cada persona ve solo lo que le corresponde.</dd></div>
+      <div><dt>Escalable desde el día uno</dt><dd>Diseñamos para que la solución crezca con tu empresa sin tener que rehacerla.</dd></div>
+    </dl>
   </div>
 </section>
 

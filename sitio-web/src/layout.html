@@ -5,10 +5,10 @@
   ('diagnostico', '/diagnostico/', 'Diagnóstico'),
   ('casos', '/casos/', 'Casos'),
   ('ejemplos', '/ejemplos/', 'Ejemplos'),
+  ('blog', '/blog/', 'Blog'),
   ('nosotros', '/nosotros/', 'Nosotros'),
-  ('contacto', '/contacto/', 'Contacto'),
 ] %}
-{% set nav_items = all_nav_items if cases else all_nav_items | rejectattr(0, 'eq', 'casos') | list %}
+{% set nav_items = all_nav_items | rejectattr(0, 'in', ([] if cases else ['casos']) + ([] if posts else ['blog'])) | list %}
 {% set portal_url = 'https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx' %}
 {% set whatsapp_url = whatsapp(page.nav) %}
 <!DOCTYPE html>
@@ -61,6 +61,8 @@
         <span>DeepDatas</span>
       </a>
 
+      <a class="btn btn-primary nav-cta-mobile" href="/contacto/">Agendar</a>
+
       <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
         <span class="visually-hidden">Abrir menú</span>
         {{ icon('list', cls='icon-open') }}
@@ -74,9 +76,7 @@
           {% endfor %}
         </ul>
         <div class="nav-actions">
-          <a class="btn btn-ghost" href="{{ portal_url }}" target="_blank" rel="noopener">
-            Portal clientes {{ icon('box-arrow-up-right') }}
-          </a>
+          <a class="nav-portal" href="{{ portal_url }}" target="_blank" rel="noopener">Portal clientes {{ icon('box-arrow-up-right') }}</a>
           <a class="btn btn-primary" href="/contacto/">Agendar reunión</a>
         </div>
       </nav>
@@ -90,14 +90,13 @@
     <section class="cta-band" aria-labelledby="cta-title">
       <div class="container">
         <div class="cta-inner reveal">
-          <img class="glass-deco glass-deco-cta" src="/assets/img/glass/anillo-512.webp" alt="" width="300" height="300" loading="lazy">
           <div>
-            <h2 id="cta-title">¿Listo para decidir con datos?</h2>
-            <p>Contanos tu desafío y armamos juntos el primer paso. La primera conversación es sin compromiso.</p>
+            <h2 id="cta-title">Empecemos por una <em>conversación.</em></h2>
+            <p>Contanos tu desafío y armamos juntos el primer paso. Sin costo ni compromiso.</p>
           </div>
           <div class="cta-actions">
             <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión {{ icon('arrow-right') }}</a>
-            <a class="btn btn-ghost-light btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} WhatsApp</a>
+            <a class="btn btn-secondary btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} WhatsApp</a>
           </div>
         </div>
       </div>

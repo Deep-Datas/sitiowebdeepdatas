@@ -85,24 +85,38 @@ PAGES = [
 ]
 
 
-def icon(name, label=None, cls=''):
-    """Inserta un ícono SVG de src/icons (Bootstrap Icons, licencia MIT)."""
+ICON_STROKE = '1.75'
+
+
+def _icon_source(name):
+    """Contenido de un ícono de src/icons: Lucide (trazo, 24 px) o Bootstrap (relleno, 16 px)."""
     svg = (SRC / 'icons' / f'{name}.svg').read_text(encoding='utf-8')
     svg = svg[svg.index('<svg'):]
+    head_end = svg.index('>') + 1
+    head, inner = svg[:head_end], svg[head_end:svg.rindex('</svg>')]
+    stroke = 'stroke="currentColor"' in head
+    viewbox = head.split('viewBox="', 1)[1].split('"', 1)[0]
+    return ' '.join(inner.split()), stroke, viewbox
+
+
+def icon(name, label=None, cls=''):
+    """Inserta un ícono SVG de src/icons (Lucide, licencia ISC; WhatsApp de Bootstrap Icons, MIT)."""
+    inner, stroke, viewbox = _icon_source(name)
     a11y = f'role="img" aria-label="{label}"' if label else 'aria-hidden="true" focusable="false"'
-    svg = svg.replace('<svg ', f'<svg {a11y} ', 1)
+    paint = (f'fill="none" stroke="currentColor" stroke-width="{ICON_STROKE}" stroke-linecap="round" stroke-linejoin="round"'
+             if stroke else 'fill="currentColor"')
     classes = f'icon {cls}'.strip()
-    svg = svg.replace(f'class="bi bi-{name}"', f'class="{classes}"')
-    svg = svg.replace('width="16" height="16" ', '')
-    return Markup(' '.join(svg.split()))
+    return Markup(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{viewbox}" class="{classes}" {paint} {a11y}>{inner}</svg>')
 
 
 def icon_svg(name, x, y, size, cls=''):
     """Dibuja un ícono dentro de un SVG (en la posición y el tamaño indicados)."""
-    svg = (SRC / 'icons' / f'{name}.svg').read_text(encoding='utf-8')
-    inner = svg[svg.index('>', svg.index('<svg')) + 1:svg.rindex('</svg>')]
-    return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / 16:.4f})" '
-                  f'aria-hidden="true">{" ".join(inner.split())}</g>')
+    inner, stroke, viewbox = _icon_source(name)
+    box = float(viewbox.split()[2])
+    paint = (f'fill="none" stroke="currentColor" stroke-width="{ICON_STROKE}" stroke-linecap="round" stroke-linejoin="round"'
+             if stroke else 'fill="currentColor"')
+    return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / box:.4f})" {paint} '
+                  f'aria-hidden="true">{inner}</g>')
 
 
 # Analítica de visitas con Microsoft Clarity. Vacío = desactivada (no se carga
