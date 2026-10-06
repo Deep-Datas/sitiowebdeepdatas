@@ -1,0 +1,179 @@
+{% extends 'layout.html' %}
+{% import 'pipeline.html' as pipeline_chart %}
+
+{% set use_cases = [
+  ('chat-dots', 'Consultas a tus indicadores',
+   'Preguntá en lenguaje natural «¿cuánto vendimos ayer en el norte?» o «¿qué cliente dejó de comprar?» y recibí el dato al instante, con la fuente de donde sale.'),
+  ('whatsapp', 'Tus números en WhatsApp o Teams',
+   'El equipo comercial consulta ventas, stock y objetivos desde el celular, en la misma aplicación que ya usa todos los días.'),
+  ('inboxes', 'Pedidos automáticos',
+   'El agente lee los pedidos que llegan por WhatsApp o email en texto libre, los carga en tu sistema y avisa si falta algún dato.'),
+  ('bell', 'Alertas con contexto',
+   'Detecta desvíos en ventas, stock o cobranzas y te avisa explicando qué pasó y a quién afecta, antes de que el problema crezca.'),
+  ('graph-up-arrow', 'Pronósticos y recomendaciones',
+   'Modelos predictivos de demanda, precios o abandono de clientes, con recomendaciones concretas que tu equipo puede aplicar.'),
+  ('journal-text', 'Asistente sobre tus documentos',
+   'Respuestas rápidas sobre listas de precios, políticas comerciales, manuales y contratos, citando el documento de origen.'),
+] %}
+
+{% set principles = [
+  ('patch-check', 'Responde con datos, no inventa',
+   'El agente consulta información curada y verificada. Si no tiene el dato, lo dice en lugar de improvisar una respuesta.'),
+  ('lock', 'Cada usuario ve lo que le corresponde',
+   'Respetamos los permisos de tus sistemas: un vendedor ve su cartera y la dirección ve el total.'),
+  ('search', 'Respuestas trazables',
+   'Cada respuesta indica de qué fuente sale, para que cualquiera pueda verificarla.'),
+  ('cloud-check', 'Sobre tu propia nube',
+   'Siempre que es posible, implementamos la solución en la nube de tu empresa, por ejemplo en tu suscripción de Azure.'),
+] %}
+
+{% set steps = [
+  ('search', 'Diagnóstico', 'Identificamos los casos de uso con más impacto y evaluamos si tus datos están listos para cada uno.'),
+  ('funnel', 'Preparación de datos', 'Integramos, curamos y ordenamos las fuentes que el agente va a necesitar.'),
+  ('robot', 'Piloto acotado', 'Ponemos en marcha un primer agente con un grupo de usuarios y medimos los resultados.'),
+  ('arrow-repeat', 'Escalamiento', 'Sumamos usuarios, fuentes y casos de uso a partir de lo que funcionó.'),
+] %}
+
+{% set faqs = [
+  ('¿Necesito tener los datos ordenados para empezar?',
+   'No. Es lo más común que no lo estén, y es justamente nuestra especialidad: preparar los datos es el primer paso de cualquier proyecto de IA que funcione.'),
+  ('¿Qué modelos de inteligencia artificial usan?',
+   'Elegimos el modelo según el caso: servicios como Azure OpenAI para agentes y asistentes, y modelos de Machine Learning propios para pronósticos. Lo importante es que trabajen con tus datos de forma segura.'),
+  ('¿Mis datos se usan para entrenar modelos de terceros?',
+   'No debería ocurrir y lo cuidamos en el diseño: usamos servicios empresariales que no entrenan sus modelos con la información de sus clientes, y lo revisamos con tu equipo antes de empezar.'),
+  ('¿La IA reemplaza a mi equipo?',
+   'No. Le saca el trabajo repetitivo, como buscar números, armar reportes o cargar pedidos, para que dedique su tiempo a analizar y decidir.'),
+  ('¿Por dónde empiezo?',
+   'Por un diagnóstico de datos: en dos semanas sabés qué casos de IA son viables con tu información actual y qué falta para los demás.'),
+] %}
+
+{% block content %}
+<section class="page-hero ai-hero">
+  <div class="container dx-hero-grid">
+    <div>
+      <p class="eyebrow">Inteligencia artificial para empresas</p>
+      <h1>Agentes de IA que trabajan con los datos de tu empresa</h1>
+      <p class="lead">Preguntale a tus datos como le preguntarías a un analista: ventas, stock, clientes y pedidos, respondidos al instante y con información confiable. Preparamos tus datos, construimos el agente y lo conectamos con las herramientas que ya usa tu equipo.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="/diagnostico/">Empezar con un diagnóstico {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} Consultar por WhatsApp</a>
+      </div>
+    </div>
+
+    <figure class="chat-demo" aria-labelledby="chat-demo-title">
+      <div class="chat-head">
+        <span class="chat-avatar">{{ icon('robot') }}</span>
+        <div>
+          <p class="chat-name" id="chat-demo-title">Asistente comercial</p>
+          <p class="chat-status">Ejemplo ilustrativo · datos ficticios</p>
+        </div>
+      </div>
+      <ol class="chat-thread">
+        <li class="msg msg-user"><span class="visually-hidden">Usuario:</span> ¿Cuánto vendimos ayer en la zona norte?</li>
+        <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> Ayer la zona norte facturó <strong>$ 4,2 M</strong>, un 6% más que el martes anterior. El mayor crecimiento fue del Distribuidor Norte 2 (+14%).<span class="msg-source">Fuente: ERP · actualizado hoy 7:00</span></li>
+        <li class="msg msg-user"><span class="visually-hidden">Usuario:</span> ¿Qué productos están por quedarse sin stock?</li>
+        <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> Tres productos tienen stock para menos de 5 días:
+          <ul>
+            <li>Papas clásicas 400 g: 3 días</li>
+            <li>Bastones congelados 1 kg: 4 días</li>
+            <li>Puré instantáneo 125 g: 4 días</li>
+          </ul>
+          ¿Querés que prepare la orden de reposición sugerida?<span class="msg-source">Fuente: pronóstico de demanda</span></li>
+      </ol>
+      <div class="chat-input" aria-hidden="true">
+        <span>Escribí tu consulta…</span>
+        {{ icon('send') }}
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ======= CASOS DE USO ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Qué podés resolver</p>
+      <h2>Inteligencia artificial aplicada a problemas concretos</h2>
+      <p>No se trata de tener un chat más, sino de ahorrar horas de trabajo y decidir antes. Estos son los casos que más valor generan en empresas comerciales e industriales.</p>
+    </div>
+    <div class="ai-grid">
+      {% for ic, title, text in use_cases %}
+      <article class="pain-card reveal">
+        <span class="pain-icon">{{ icon(ic) }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ======= DATOS PARA IA ======= -->
+<section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow-light">La base de todo</p>
+      <h2 id="pipeline-title">Una IA es tan buena como los datos que consume</h2>
+      <p>Si los datos están duplicados, desactualizados o repartidos en planillas, el agente responde mal. Por eso cada proyecto empieza por reunir, curar y ordenar la información que va a usar.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
+  </div>
+</section>
+
+<!-- ======= PRINCIPIOS ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Confianza y seguridad</p>
+      <h2>Cómo diseñamos cada agente</h2>
+    </div>
+    <div class="dx-grid">
+      {% for ic, title, text in principles %}
+      <article class="plan-card reveal">
+        <span class="plan-icon">{{ icon(ic) }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROCESO ======= -->
+<section class="section section-paper">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo empezamos</p>
+      <h2>De la idea a un agente funcionando, paso a paso</h2>
+    </div>
+    <ol class="steps">
+      {% for ic, title, text in steps %}
+      <li class="reveal">
+        <span class="step-icon">{{ icon(ic) }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<!-- ======= PREGUNTAS FRECUENTES ======= -->
+<section class="section">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que nos preguntan sobre IA</h2>
+      <p>¿Tenés otra duda? <a class="text-link" href="/contacto/">Escribinos</a> y lo conversamos.</p>
+    </div>
+    <div class="faq reveal">
+      {% for q, a in faqs %}
+      <details{% if loop.first %} open{% endif %}>
+        <summary>{{ q }} {{ icon('plus-lg', cls='faq-icon') }}</summary>
+        <p>{{ a }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

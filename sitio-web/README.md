@@ -7,6 +7,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | Ruta | Contenido |
 | --- | --- |
 | `/` | Propuesta de valor, clientes, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, servicios, caso destacado, proceso, industrias |
+| `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
 | `/ejemplos/` | Tres tableros interactivos de ejemplo (datos ficticios) con el desafío, la solución y el beneficio |

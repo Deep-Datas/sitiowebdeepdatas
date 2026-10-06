@@ -42,6 +42,11 @@ PAGES = [
         'description': 'Ingeniería de datos, calidad y preparación, analítica avanzada con modelos predictivos y tableros de gestión en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
     },
     {
+        'template': 'inteligencia-artificial.html', 'path': '/inteligencia-artificial/', 'nav': 'ia',
+        'title': 'Inteligencia artificial para empresas: agentes de IA con tus datos | DeepDatas',
+        'description': 'Agentes de IA conectados a los datos de tu empresa: consultas a tus indicadores, tus números en WhatsApp o Teams, pedidos automáticos, alertas y pronósticos, con datos curados y seguros.',
+    },
+    {
         'template': 'diagnostico.html', 'path': '/diagnostico/', 'nav': 'diagnostico',
         'title': 'Diagnóstico de datos | DeepDatas',
         'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
@@ -131,6 +136,7 @@ WHATSAPP_MESSAGES = {
     'servicios': 'Hola, vengo de la web de DeepDatas y quiero consultar por sus servicios.',
     'diagnostico': 'Hola, vengo de la web de DeepDatas y me interesa el diagnóstico de datos.',
     'casos': 'Hola, vengo de la web de DeepDatas, vi sus casos de éxito y quiero consultar por un proyecto.',
+    'ia': 'Hola, vengo de la web de DeepDatas y me interesa aplicar inteligencia artificial en mi empresa.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
 }
 

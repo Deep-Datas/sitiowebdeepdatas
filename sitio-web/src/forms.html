@@ -1,5 +1,5 @@
 {# Formulario de contacto. Lo procesa api/contacto. #}
-{% set options = ['Ingeniería de datos', 'Calidad y preparación de datos', 'Analítica y modelos predictivos', 'Tableros de gestión', 'Diagnóstico de datos', 'Todavía no lo sé'] %}
+{% set options = ['Ingeniería de datos', 'Calidad y preparación de datos', 'Analítica y modelos predictivos', 'Tableros de gestión', 'Inteligencia artificial', 'Diagnóstico de datos', 'Todavía no lo sé'] %}
 
 {% macro contact_form(selected='', placeholder='Por ejemplo: queremos unificar las ventas de nuestros distribuidores en un único tablero.', button='Enviar mensaje') %}
 <form class="contact-form" action="/api/contacto" method="post">
