@@ -1736,15 +1736,13 @@ ol {
 }
 
 /* Nosotros */
-.pillar-grid,
-.team-grid {
+.pillar-grid {
   display: grid;
   gap: 20px;
 }
 
 @media (min-width: 900px) {
-  .pillar-grid,
-  .team-grid {
+  .pillar-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -1764,49 +1762,6 @@ ol {
 .pillar p {
   margin: 0;
   font-size: 0.97rem;
-}
-
-.member {
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.member img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.05);
-  transition: filter 0.4s;
-}
-
-.member:hover img {
-  filter: none;
-}
-
-.member > div {
-  padding: 24px 26px 28px;
-}
-
-.member h3 {
-  margin-bottom: 2px;
-  font-family: var(--font-display);
-  font-size: 1.45rem;
-}
-
-.member-role {
-  margin-bottom: 12px;
-  color: var(--orange-700);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.member p:last-child {
-  margin: 0;
-  font-size: 0.95rem;
 }
 
 .contact-list {

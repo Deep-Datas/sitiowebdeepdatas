@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 
-{% set team = [
-  {'name': 'Fernando Bloise', 'role': 'CEO', 'photo': 'fernando-bloise.jpg',
-   'bio': 'Lidera la implementación de soluciones: diseño de arquitectura y ciclo de vida de aplicaciones.'},
-  {'name': 'Martin Garcia', 'role': 'Product Manager', 'photo': 'martin-garcia.jpg',
-   'bio': 'Responsable de gobierno de datos, desarrollo de pipelines y técnicas de Machine Learning.'},
-  {'name': 'Ivan Torres', 'role': 'CTO', 'photo': 'ivan-torres.jpg',
-   'bio': 'Lidera la ingeniería de datos, el desarrollo de pipelines y los modelos de Machine Learning.'},
+{% set specialties = [
+  {'icon': 'layers', 'title': 'Arquitectura e implementación',
+   'text': 'Diseñamos la arquitectura de datos de cada solución y acompañamos todo su ciclo de vida, desde la primera versión hasta su evolución.'},
+  {'icon': 'funnel', 'title': 'Gobierno y calidad de datos',
+   'text': 'Definimos criterios comunes, responsables y controles para que todas las áreas confíen en los mismos números.'},
+  {'icon': 'cpu', 'title': 'Ingeniería de datos y Machine Learning',
+   'text': 'Construimos pipelines automatizados y modelos predictivos que convierten la información en anticipación.'},
 ] %}
 
 {% block content %}
@@ -62,18 +62,15 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Equipo</p>
-      <h2>Las personas detrás de cada proyecto</h2>
-      <p>Trabajás directamente con quienes diseñan y construyen la solución.</p>
+      <h2>Un equipo multidisciplinario detrás de cada proyecto</h2>
+      <p>Trabajás directamente con especialistas que combinan más de 10 años de experiencia en datos, tecnología y negocio.</p>
     </div>
-    <div class="team-grid">
-      {% for m in team %}
-      <article class="member reveal">
-        <img src="/assets/img/equipo/{{ m.photo }}" alt="{{ m.name }}" width="480" height="480" loading="lazy">
-        <div>
-          <h3>{{ m.name }}</h3>
-          <p class="member-role">{{ m.role }}</p>
-          <p>{{ m.bio }}</p>
-        </div>
+    <div class="pillar-grid">
+      {% for s in specialties %}
+      <article class="pillar reveal">
+        <span class="service-icon">{{ icon(s.icon) }}</span>
+        <h3>{{ s.title }}</h3>
+        <p>{{ s.text }}</p>
       </article>
       {% endfor %}
     </div>

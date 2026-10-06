@@ -9,7 +9,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | `/` | Propuesta de valor, clientes, desafíos que resolvemos, servicios, caso destacado, proceso, industrias |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
 | `/ejemplos/` | Tres tableros interactivos de ejemplo (datos ficticios) con el desafío, la solución y el beneficio |
-| `/nosotros/` | Misión, pilares, equipo y ubicación |
+| `/nosotros/` | Misión, pilares, especialidades del equipo y ubicación |
 | `/contacto/` | Formulario, medios de contacto, mapa y preguntas frecuentes |
 | `/gracias/` | Confirmación del formulario cuando el navegador no tiene JavaScript |
 | `/404.html` | Página de error |
@@ -80,4 +80,3 @@ Mientras no esté configurado, el formulario muestra un aviso con el email de co
 - **Valores del tablero del inicio**: son ilustrativos (el gráfico lo aclara como "Ejemplo de tablero").
 - **Ejemplos de tableros**: todos los datos son ficticios y están en `dashboards.py`. Para cambiar un valor, editalo ahí y volvé a ejecutar `build.py`.
 - **Formas de trabajo y tecnologías**: son una propuesta basada en los servicios actuales.
-- **Fotos del equipo**: se muestran en blanco y negro para unificar el estilo; se recomienda reemplazarlas por fotos profesionales del mismo formato (cuadradas, 480 × 480 px o más).
