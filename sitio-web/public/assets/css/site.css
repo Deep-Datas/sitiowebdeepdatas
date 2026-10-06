@@ -1076,14 +1076,19 @@ ol {
 }
 
 .logos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
 }
 
+.logos-grid li {
+  flex: 0 1 calc((100% - 12px) / 2);
+}
+
 @media (min-width: 768px) {
-  .logos-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .logos-grid li {
+    flex-basis: calc((100% - 24px) / 3);
   }
 }
 
