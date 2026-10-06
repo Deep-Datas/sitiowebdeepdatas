@@ -153,6 +153,149 @@
     board.addEventListener('pointerleave', hide);
   });
 
+  /* ---------- Hero del inicio: zoom a la pantalla con el scroll ---------- */
+  var heroScene = document.querySelector('[data-hero-scene]');
+  if (heroScene) {
+    (function (hero) {
+      var IMG_W = 3600;
+      var IMG_H = 2250;
+      var SCREEN = { x: 1202, y: 561, w: 1296, h: 810 };
+      var SCREEN_CENTER = { x: SCREEN.x + SCREEN.w / 2, y: SCREEN.y + SCREEN.h / 2 };
+
+      var stage = hero.querySelector('.hs-stage');
+      var frame = hero.querySelector('.hs-frame');
+      var scene = hero.querySelector('.hs-scene');
+      var front = hero.querySelector('.hs-front');
+      var shade = hero.querySelector('.hs-shade');
+      var copy = hero.querySelector('.hs-copy');
+      var hint = hero.querySelector('.hs-hint');
+      var app = hero.querySelector('.hs-app');
+      var thread = app.querySelector('.cw-thread');
+      var scroller = app.querySelector('.cw-scroll');
+      var steps = Array.prototype.slice.call(app.querySelectorAll('[data-step]'));
+      var motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+
+      var view = {};
+      var shown = -1;
+      var ticking = false;
+
+      function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function ramp(a, b, v) { return clamp((v - a) / (b - a), 0, 1); }
+      function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+      function place(el, s, ax, ay) {
+        // Ubica el punto (ax, ay) de la imagen en el centro elegido de la pantalla, con escala s
+        el.style.transform = 'translate3d(' + (ax - s * SCREEN_CENTER.x).toFixed(2) + 'px,' +
+          (ay - s * SCREEN_CENTER.y).toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
+      }
+
+      function fitStatic() {
+        var s = frame.clientWidth / IMG_W;
+        scene.style.transform = 'scale(' + s + ')';
+        front.style.transform = 'scale(' + s + ')';
+      }
+
+      function measure() {
+        var w = stage.clientWidth;
+        var h = stage.clientHeight;
+        var wide = w >= 1024;
+        // Plano general: la escena llena la pantalla; en celulares, la pantalla del monitor queda centrada abajo del texto
+        var s0 = wide ? Math.max(w / IMG_W, h / IMG_H) * 1.02 : (w * 1.7) / IMG_W;
+        var start = wide ? { x: w * 0.72, y: h * 0.5 } : { x: w * 0.5, y: h * 0.79 };
+        // Plano final: la pantalla del monitor cubre toda la vista
+        var s1 = Math.max(w / SCREEN.w, (h - 0) / SCREEN.h) * 1.04;
+        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 } };
+      }
+
+      function setSteps(count) {
+        if (count === shown) return;
+        shown = count;
+        steps.forEach(function (step, i) { step.classList.toggle('is-in', i < count); });
+        // La conversación se desplaza para que lo último que apareció quede a la vista
+        var last = count > 0 ? steps[count - 1] : null;
+        var offset = 0;
+        if (last) {
+          var bottom = last.offsetTop + last.offsetHeight + 24;
+          var top = thread.offsetTop;
+          offset = Math.max(0, bottom - top - scroller.clientHeight + 40);
+        }
+        thread.style.transform = 'translateY(' + (-offset) + 'px)';
+      }
+
+      function render() {
+        ticking = false;
+        var rect = hero.getBoundingClientRect();
+        var total = hero.offsetHeight - view.h;
+        var p = clamp(-rect.top / total, 0, 1);
+
+        var t = ease(ramp(0.06, 0.5, p));
+        var s = view.s0 * Math.pow(view.s1 / view.s0, t);
+        var ax = lerp(view.start.x, view.end.x, t);
+        var ay = lerp(view.start.y, view.end.y, t);
+        place(scene, s, ax, ay);
+
+        // La persona está más cerca de la cámara: crece más rápido, baja y se desvanece
+        var sf = s * (1 + 1.8 * t * t);
+        place(front, sf, ax, ay + t * view.h * 0.55);
+        front.style.opacity = (1 - ramp(0.2, 0.62, t)).toFixed(3);
+
+        var out = ramp(0.005, 0.06, p);
+        copy.style.opacity = (1 - out).toFixed(3);
+        copy.style.transform = 'translateY(' + (-48 * out).toFixed(1) + 'px)';
+        copy.style.visibility = out >= 1 ? 'hidden' : '';
+        hint.style.opacity = (1 - ramp(0, 0.05, p)).toFixed(3);
+        shade.style.opacity = (1 - ramp(0.04, 0.22, p)).toFixed(3);
+
+        var appIn = ramp(0.485, 0.515, p);
+        frame.style.opacity = (1 - ramp(0.505, 0.53, p)).toFixed(3);
+        app.style.opacity = appIn.toFixed(3);
+        app.style.transform = 'scale(' + (1.04 - 0.04 * appIn).toFixed(4) + ')';
+        app.classList.toggle('is-active', appIn > 0.5);
+        hero.classList.toggle('is-app', appIn > 0.5);
+
+        var revealed = Math.round(ramp(0.55, 0.93, p) * steps.length);
+        setSteps(revealed);
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(render);
+        }
+      }
+
+      function enable() {
+        hero.classList.add('hs-ready');
+        if (motion.matches) {
+          hero.classList.add('is-animated');
+          measure();
+          shown = -1;
+          render();
+          window.addEventListener('scroll', onScroll, { passive: true });
+        } else {
+          hero.classList.remove('is-animated', 'is-app');
+          window.removeEventListener('scroll', onScroll);
+          [scene, front, copy, hint, shade, frame, app, thread].forEach(function (el) { el.removeAttribute('style'); });
+          steps.forEach(function (step) { step.classList.remove('is-in'); });
+          fitStatic();
+        }
+      }
+
+      window.addEventListener('resize', function () {
+        if (hero.classList.contains('is-animated')) {
+          measure();
+          shown = -1;
+          render();
+        } else {
+          fitStatic();
+        }
+      });
+      motion.addEventListener('change', enable);
+      enable();
+    })(heroScene);
+  }
+
   /* ---------- Gráfico de datos para IA: recorrido de cada elemento ---------- */
   document.querySelectorAll('[data-pipeline]').forEach(function (figure) {
     var svg = figure.querySelector('.pl-svg');

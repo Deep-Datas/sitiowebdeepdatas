@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% import 'charts.html' as charts %}
+{% import 'hero.html' as hero %}
 {% import 'pipeline.html' as pipeline_chart %}
 
 {% block head %}
@@ -28,101 +29,9 @@
 {% endblock %}
 
 {% block content %}
-{% set chart = hero_chart() %}
 
-<!-- ======= HERO ======= -->
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">Consultora de datos · Buenos Aires</p>
-      <h1>Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
-      <p class="lead">
-        Integramos la información que hoy está dispersa en sistemas y planillas, la ordenamos y la convertimos
-        en tableros de gestión y modelos predictivos para que tu equipo decida con datos confiables, todos los días.
-      </p>
-      <div class="actions">
-        <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión {{ icon('arrow-right') }}</a>
-        <a class="btn btn-secondary btn-lg" href="/ejemplos/">Ver ejemplos de tableros</a>
-      </div>
-      <ul class="hero-proof">
-        <li>{{ icon('check2') }} Más de 10 años de experiencia</li>
-        <li>{{ icon('check2') }} Del dato crudo al tablero</li>
-        <li>{{ icon('check2') }} Primera conversación sin compromiso</li>
-      </ul>
-    </div>
-
-    <!-- Tablero ilustrativo: los valores son de ejemplo -->
-    <figure class="hero-visual" aria-label="Ejemplo de tablero de ventas con pronóstico">
-      <img class="glass-deco glass-deco-hero" src="/assets/img/glass/cubo-512.webp" alt="" width="220" height="220">
-      <div class="dash-card">
-        <div class="dash-head">
-          <div>
-            <p class="dash-kicker">Ejemplo de tablero</p>
-            <p class="dash-title">Ventas mensuales</p>
-          </div>
-          <ul class="legend" aria-label="Series">
-            <li><span class="key key-real"></span>Real</li>
-            <li><span class="key key-forecast"></span>Pronóstico</li>
-          </ul>
-        </div>
-
-        <dl class="kpis">
-          <div class="kpi">
-            <dt>Ventas acumuladas</dt>
-            <dd><strong>$ 11,7 M</strong><span class="delta up">▲ 8,4% interanual</span></dd>
-          </div>
-          <div class="kpi">
-            <dt>Margen bruto</dt>
-            <dd><strong>31,2%</strong><span class="delta up">▲ 1,1 pp</span></dd>
-          </div>
-          <div class="kpi">
-            <dt>Clientes activos</dt>
-            <dd><strong>2.318</strong><span class="delta down">▼ 0,6%</span></dd>
-          </div>
-        </dl>
-
-        <div class="chart" data-chart>
-          <svg viewBox="0 0 {{ chart.width }} {{ chart.height }}" role="img" aria-label="Ventas reales de enero a septiembre y pronóstico hasta diciembre, con tendencia creciente">
-            <g class="grid">
-              {% for ty, label in chart.ticks %}
-              <line x1="{{ chart.left }}" x2="{{ chart.right }}" y1="{{ '%.1f' % ty }}" y2="{{ '%.1f' % ty }}"></line>
-              <text x="{{ chart.left - 10 }}" y="{{ '%.1f' % (ty + 4) }}" text-anchor="end">{{ label }}</text>
-              {% endfor %}
-              {% for col in chart.columns %}
-              <text class="{{ 'month-odd' if loop.index0 is odd else 'month' }}" x="{{ '%.1f' % col.x }}" y="{{ chart.height - 8 }}" text-anchor="middle">{{ col.month }}</text>
-              {% endfor %}
-            </g>
-            <path class="band" d="{{ chart.band }}"></path>
-            <path class="area" d="{{ chart.real_area }}"></path>
-            <path class="line line-forecast" d="{{ chart.forecast_line }}"></path>
-            <path class="line line-real" d="{{ chart.real_line }}"></path>
-            <circle class="dot dot-forecast" cx="{{ '%.1f' % chart.forecast_end[0] }}" cy="{{ '%.1f' % chart.forecast_end[1] }}" r="5"></circle>
-            <circle class="dot dot-real" cx="{{ '%.1f' % chart.real_end[0] }}" cy="{{ '%.1f' % chart.real_end[1] }}" r="5"></circle>
-            <text class="end-label" x="{{ '%.1f' % (chart.forecast_end[0] - 10) }}" y="{{ '%.1f' % (chart.forecast_end[1] - 12) }}" text-anchor="end">{{ chart.forecast_end_label }}</text>
-            <line class="crosshair" y1="{{ chart.top }}" y2="{{ chart.bottom }}" x1="0" x2="0"></line>
-            <g class="hits">
-              {% for col in chart.columns %}
-              <rect x="{{ '%.1f' % col.hit_x }}" y="0" width="{{ '%.1f' % col.hit_w }}" height="{{ chart.height }}"
-                    data-x="{{ '%.1f' % col.x }}" data-y="{{ '%.1f' % col.y }}" data-month="{{ col.month }}" data-real="{{ col.real }}" data-forecast="{{ col.forecast }}"></rect>
-              {% endfor %}
-            </g>
-          </svg>
-          <div class="tooltip" role="status" aria-live="polite" hidden></div>
-        </div>
-      </div>
-
-      <div class="float-card float-sources" aria-hidden="true">
-        <span class="float-label">Fuentes integradas</span>
-        <span class="chips-mini"><span>ERP</span><span>CRM</span><span>Excel</span><span>APIs</span></span>
-      </div>
-      <div class="float-card float-alert" aria-hidden="true">
-        {{ icon('lightning-charge') }}
-        <span><strong>Alerta:</strong> 2 distribuidores debajo del objetivo</span>
-      </div>
-      <figcaption class="visually-hidden">Tablero de ejemplo con valores ilustrativos.</figcaption>
-    </figure>
-  </div>
-</section>
+<!-- ======= HERO: escena con scroll (src/hero.html) ======= -->
+{{ hero.scene() }}
 
 <!-- ======= CLIENTES ======= -->
 <section class="logos" aria-labelledby="logos-title">

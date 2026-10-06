@@ -96,4 +96,5 @@ ENV/
 
 # Vista previa con borradores (python build.py --borradores)
 sitio-web/vista-previa/
-tools/glass/png/
+sitio-web/tools/glass/png/
+sitio-web/tools/hero/png/

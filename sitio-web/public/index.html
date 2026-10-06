@@ -7,7 +7,7 @@
   <title>DeepDatas | Consultora de datos e inteligencia de negocios</title>
   <meta name="description" content="Integramos, limpiamos y analizamos los datos de tu empresa para convertirlos en tableros de gestión y modelos predictivos que ayudan a vender más y gastar menos.">
   <link rel="canonical" href="https://deepdatas.com/">
-  <meta name="theme-color" content="#0b0b0b">
+  <meta name="theme-color" content="#07090e">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
@@ -24,10 +24,10 @@
   <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
 
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/site.css?v=101a5e4f31">
-  <link rel="stylesheet" href="/assets/css/charts.css?v=6dd3d3b271">
-  <script src="/assets/js/site.js?v=9e87578b83" defer></script>
+  <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/site.css?v=45057223ca">
+  <link rel="stylesheet" href="/assets/css/charts.css?v=02bf847b81">
+  <script src="/assets/js/site.js?v=12cce6b4e2" defer></script>
   <script src="/assets/js/analytics.js?v=7bf7ec8be1" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -91,134 +91,236 @@
 
   <main id="contenido">
 
-<!-- ======= HERO ======= -->
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">Consultora de datos · Buenos Aires</p>
-      <h1>Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
-      <p class="lead">
-        Integramos la información que hoy está dispersa en sistemas y planillas, la ordenamos y la convertimos
-        en tableros de gestión y modelos predictivos para que tu equipo decida con datos confiables, todos los días.
-      </p>
-      <div class="actions">
-        <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
-        <a class="btn btn-secondary btn-lg" href="/ejemplos/">Ver ejemplos de tableros</a>
+<!-- ======= HERO: escena con scroll (src/hero.html) ======= -->
+<section class="hs" id="inicio" aria-labelledby="hs-title" data-hero-scene>
+  <a class="hs-skip" href="#despues-del-inicio">Saltar la animación</a>
+  <div class="hs-stage">
+    <div class="hs-frame">
+      <div class="hs-scene" aria-hidden="true">
+        <img class="hs-back" src="/assets/img/hero/fondo-1800.webp"
+             srcset="/assets/img/hero/fondo-1800.webp 1800w, /assets/img/hero/fondo-3600.webp 3600w"
+             sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
+        <div class="hs-screen"><div class="cw cw-screen" aria-hidden="true">
+  <aside class="cw-side">
+    <p class="cw-brand">Claude</p>
+    <p class="cw-new"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg> Nuevo chat</p>
+    <p class="cw-side-title">Recientes</p>
+    <ul class="cw-recents">
+      <li class="is-current">Análisis de ventas del 3.er trimestre</li>
+      <li>Clientes en riesgo por vendedor</li>
+      <li>Pronóstico de demanda de octubre</li>
+      <li>Cobertura de la línea de snacks</li>
+      <li>Margen por canal</li>
+    </ul>
+    <p class="cw-user"><span class="cw-avatar">MG</span> Martina G. <small>Gerencia comercial</small></p>
+  </aside>
+
+  <div class="cw-main">
+    <header class="cw-top">
+      <span class="cw-top-brand">Claude</span>
+      <span class="cw-top-title">Análisis de ventas del 3.er trimestre</span>
+      <span class="cw-top-chip"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525"/> </svg> Datos de la empresa</span>
+    </header>
+
+    <div class="cw-scroll">
+      <div class="cw-thread">
+        <div class="cw-msg-user">
+          <span class="cw-avatar">MG</span>
+          <p>Analizá las ventas del tercer trimestre y decime qué tengo que hacer para vender más y mejorar el margen.</p>
+        </div>
+
+        <ul class="cw-tools">
+          <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Consultó las ventas del trimestre en el ERP</li>
+          <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Cruzó clientes y oportunidades del CRM</li>
+          <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Revisó el stock y el pronóstico de demanda</li>
+        </ul>
+
+        <p class="cw-thinking"><span class="cw-dot"></span><span class="cw-dot"></span><span class="cw-dot"></span> Analizando ventas, clientes y stock…</p>
       </div>
-      <ul class="hero-proof">
-        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Más de 10 años de experiencia</li>
-        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Del dato crudo al tablero</li>
-        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Primera conversación sin compromiso</li>
-      </ul>
     </div>
 
-    <!-- Tablero ilustrativo: los valores son de ejemplo -->
-    <figure class="hero-visual" aria-label="Ejemplo de tablero de ventas con pronóstico">
-      <img class="glass-deco glass-deco-hero" src="/assets/img/glass/cubo-512.webp" alt="" width="220" height="220">
-      <div class="dash-card">
-        <div class="dash-head">
-          <div>
-            <p class="dash-kicker">Ejemplo de tablero</p>
-            <p class="dash-title">Ventas mensuales</p>
-          </div>
-          <ul class="legend" aria-label="Series">
-            <li><span class="key key-real"></span>Real</li>
-            <li><span class="key key-forecast"></span>Pronóstico</li>
-          </ul>
-        </div>
-
-        <dl class="kpis">
-          <div class="kpi">
-            <dt>Ventas acumuladas</dt>
-            <dd><strong>$ 11,7 M</strong><span class="delta up">▲ 8,4% interanual</span></dd>
-          </div>
-          <div class="kpi">
-            <dt>Margen bruto</dt>
-            <dd><strong>31,2%</strong><span class="delta up">▲ 1,1 pp</span></dd>
-          </div>
-          <div class="kpi">
-            <dt>Clientes activos</dt>
-            <dd><strong>2.318</strong><span class="delta down">▼ 0,6%</span></dd>
-          </div>
-        </dl>
-
-        <div class="chart" data-chart>
-          <svg viewBox="0 0 560 250" role="img" aria-label="Ventas reales de enero a septiembre y pronóstico hasta diciembre, con tendencia creciente">
-            <g class="grid">
-              <line x1="52" x2="540" y1="220.0" y2="220.0"></line>
-              <text x="42" y="224.0" text-anchor="end">1,0</text>
-              <line x1="52" x2="540" y1="168.5" y2="168.5"></line>
-              <text x="42" y="172.5" text-anchor="end">1,2</text>
-              <line x1="52" x2="540" y1="117.0" y2="117.0"></line>
-              <text x="42" y="121.0" text-anchor="end">1,4</text>
-              <line x1="52" x2="540" y1="65.5" y2="65.5"></line>
-              <text x="42" y="69.5" text-anchor="end">1,6</text>
-              <line x1="52" x2="540" y1="14.0" y2="14.0"></line>
-              <text x="42" y="18.0" text-anchor="end">1,8</text>
-              <text class="month" x="52.0" y="242" text-anchor="middle">Ene</text>
-              <text class="month-odd" x="96.4" y="242" text-anchor="middle">Feb</text>
-              <text class="month" x="140.7" y="242" text-anchor="middle">Mar</text>
-              <text class="month-odd" x="185.1" y="242" text-anchor="middle">Abr</text>
-              <text class="month" x="229.5" y="242" text-anchor="middle">May</text>
-              <text class="month-odd" x="273.8" y="242" text-anchor="middle">Jun</text>
-              <text class="month" x="318.2" y="242" text-anchor="middle">Jul</text>
-              <text class="month-odd" x="362.5" y="242" text-anchor="middle">Ago</text>
-              <text class="month" x="406.9" y="242" text-anchor="middle">Sep</text>
-              <text class="month-odd" x="451.3" y="242" text-anchor="middle">Oct</text>
-              <text class="month" x="495.6" y="242" text-anchor="middle">Nov</text>
-              <text class="month-odd" x="540.0" y="242" text-anchor="middle">Dic</text>
-            </g>
-            <path class="band" d="M406.9 78.4 L451.3 52.6 L495.6 32.0 L540.0 3.7 L540.0 55.2 L495.6 68.1 L451.3 73.2 L406.9 78.4 Z"></path>
-            <path class="area" d="M52.0 189.1 L96.4 173.7 L140.7 194.2 L185.1 153.1 L229.5 140.2 L273.8 147.9 L318.2 111.9 L362.5 99.0 L406.9 78.4 L406.9 220.0 L52.0 220.0 Z"></path>
-            <path class="line line-forecast" d="M406.9 78.4 L451.3 62.9 L495.6 50.1 L540.0 29.5"></path>
-            <path class="line line-real" d="M52.0 189.1 L96.4 173.7 L140.7 194.2 L185.1 153.1 L229.5 140.2 L273.8 147.9 L318.2 111.9 L362.5 99.0 L406.9 78.4"></path>
-            <circle class="dot dot-forecast" cx="540.0" cy="29.5" r="5"></circle>
-            <circle class="dot dot-real" cx="406.9" cy="78.4" r="5"></circle>
-            <text class="end-label" x="530.0" y="17.5" text-anchor="end">$ 1,74 M</text>
-            <line class="crosshair" y1="14" y2="220" x1="0" x2="0"></line>
-            <g class="hits">
-              <rect x="29.8" y="0" width="44.4" height="250"
-                    data-x="52.0" data-y="189.1" data-month="Ene" data-real="$ 1,12 M" data-forecast=""></rect>
-              <rect x="74.2" y="0" width="44.4" height="250"
-                    data-x="96.4" data-y="173.7" data-month="Feb" data-real="$ 1,18 M" data-forecast=""></rect>
-              <rect x="118.5" y="0" width="44.4" height="250"
-                    data-x="140.7" data-y="194.2" data-month="Mar" data-real="$ 1,10 M" data-forecast=""></rect>
-              <rect x="162.9" y="0" width="44.4" height="250"
-                    data-x="185.1" data-y="153.1" data-month="Abr" data-real="$ 1,26 M" data-forecast=""></rect>
-              <rect x="207.3" y="0" width="44.4" height="250"
-                    data-x="229.5" data-y="140.2" data-month="May" data-real="$ 1,31 M" data-forecast=""></rect>
-              <rect x="251.6" y="0" width="44.4" height="250"
-                    data-x="273.8" data-y="147.9" data-month="Jun" data-real="$ 1,28 M" data-forecast=""></rect>
-              <rect x="296.0" y="0" width="44.4" height="250"
-                    data-x="318.2" data-y="111.9" data-month="Jul" data-real="$ 1,42 M" data-forecast=""></rect>
-              <rect x="340.4" y="0" width="44.4" height="250"
-                    data-x="362.5" data-y="99.0" data-month="Ago" data-real="$ 1,47 M" data-forecast=""></rect>
-              <rect x="384.7" y="0" width="44.4" height="250"
-                    data-x="406.9" data-y="78.4" data-month="Sep" data-real="$ 1,55 M" data-forecast=""></rect>
-              <rect x="429.1" y="0" width="44.4" height="250"
-                    data-x="451.3" data-y="62.9" data-month="Oct" data-real="" data-forecast="$ 1,61 M"></rect>
-              <rect x="473.5" y="0" width="44.4" height="250"
-                    data-x="495.6" data-y="50.1" data-month="Nov" data-real="" data-forecast="$ 1,66 M"></rect>
-              <rect x="517.8" y="0" width="44.4" height="250"
-                    data-x="540.0" data-y="29.5" data-month="Dic" data-real="" data-forecast="$ 1,74 M"></rect>
-            </g>
-          </svg>
-          <div class="tooltip" role="status" aria-live="polite" hidden></div>
-        </div>
-      </div>
-
-      <div class="float-card float-sources" aria-hidden="true">
-        <span class="float-label">Fuentes integradas</span>
-        <span class="chips-mini"><span>ERP</span><span>CRM</span><span>Excel</span><span>APIs</span></span>
-      </div>
-      <div class="float-card float-alert" aria-hidden="true">
-        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41z"/> </svg>
-        <span><strong>Alerta:</strong> 2 distribuidores debajo del objetivo</span>
-      </div>
-      <figcaption class="visually-hidden">Tablero de ejemplo con valores ilustrativos.</figcaption>
-    </figure>
+    <div class="cw-input" aria-hidden="true">
+      <span>Respondé a Claude…</span>
+      <span class="cw-send"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></span>
+    </div>
   </div>
+</div>
+</div>
+      </div>
+      <div class="hs-front" aria-hidden="true">
+        <img src="/assets/img/hero/frente-1800.webp"
+             srcset="/assets/img/hero/frente-1800.webp 1800w, /assets/img/hero/frente-3600.webp 3600w"
+             sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
+      </div>
+    </div>
+
+    <div class="hs-shade" aria-hidden="true"></div>
+
+    <div class="hs-copy">
+      <div class="container">
+        <p class="eyebrow">Consultora de datos e IA · Buenos Aires</p>
+        <h1 id="hs-title">Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
+        <p class="lead">Integramos y ordenamos la información de tu empresa para que tus tableros y tus agentes de IA te digan qué hacer, con datos confiables.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
+          <a class="btn btn-ghost-light btn-lg" href="/diagnostico/">Conocé el diagnóstico</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="hs-hint" aria-hidden="true"><span>Deslizá para ver la IA en acción</span><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/> </svg></p>
+
+    <div class="hs-app" role="region" aria-label="Ejemplo: un asistente de IA analiza las ventas y recomienda acciones (datos ficticios)">
+      <div class="cw cw-app">
+  <aside class="cw-side">
+    <p class="cw-brand">Claude</p>
+    <p class="cw-new"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/> </svg> Nuevo chat</p>
+    <p class="cw-side-title">Recientes</p>
+    <ul class="cw-recents">
+      <li class="is-current">Análisis de ventas del 3.er trimestre</li>
+      <li>Clientes en riesgo por vendedor</li>
+      <li>Pronóstico de demanda de octubre</li>
+      <li>Cobertura de la línea de snacks</li>
+      <li>Margen por canal</li>
+    </ul>
+    <p class="cw-user"><span class="cw-avatar">MG</span> Martina G. <small>Gerencia comercial</small></p>
+  </aside>
+
+  <div class="cw-main">
+    <header class="cw-top">
+      <span class="cw-top-brand">Claude</span>
+      <span class="cw-top-title">Análisis de ventas del 3.er trimestre</span>
+      <span class="cw-top-chip"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525"/> </svg> Datos de la empresa</span>
+    </header>
+
+    <div class="cw-scroll">
+      <div class="cw-thread">
+        <div class="cw-msg-user">
+          <span class="cw-avatar">MG</span>
+          <p>Analizá las ventas del tercer trimestre y decime qué tengo que hacer para vender más y mejorar el margen.</p>
+        </div>
+
+        <ul class="cw-tools">
+          <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Consultó las ventas del trimestre en el ERP</li>
+          <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Cruzó clientes y oportunidades del CRM</li>
+          <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Revisó el stock y el pronóstico de demanda</li>
+        </ul>
+
+        <div class="cw-answer">
+          <p class="cw-step" data-step>Revisé las ventas de julio a septiembre de los 40 distribuidores, junto con la cartera de clientes y el stock. <strong>El trimestre fue bueno, pero hay cuatro oportunidades claras para cerrar el año.</strong></p>
+
+          <dl class="cw-kpis cw-step" data-step>
+            <div><dt>Ventas del trimestre</dt><dd>$ 11,7 M</dd><dd class="cw-up">▲ 8,4 % interanual</dd></div>
+            <div><dt>Margen bruto</dt><dd>31,2 %</dd><dd class="cw-down">▼ 0,9 pp en mayoristas</dd></div>
+            <div><dt>Clientes activos</dt><dd>2.318</dd><dd class="cw-down">▼ 38 dejaron de comprar</dd></div>
+          </dl>
+
+          <figure class="cw-chart cw-step" data-step>
+            <figcaption>Crecimiento de ventas por zona, contra el mismo trimestre de 2025</figcaption>
+            <ul class="cw-bars">
+              <li>
+                <span class="cw-bar-name">Norte</span>
+                <span class="cw-bar-track">
+                  <span class="cw-bar-zero x-30"></span>
+                  <span class="cw-bar cw-bar-pos x-30 w-70"></span>
+                </span>
+                <span class="cw-bar-value">+14,2 %</span>
+              </li>
+              <li>
+                <span class="cw-bar-name">Centro</span>
+                <span class="cw-bar-track">
+                  <span class="cw-bar-zero x-30"></span>
+                  <span class="cw-bar cw-bar-pos x-30 w-44-9"></span>
+                </span>
+                <span class="cw-bar-value">+9,1 %</span>
+              </li>
+              <li>
+                <span class="cw-bar-name">Sur</span>
+                <span class="cw-bar-track">
+                  <span class="cw-bar-zero x-30"></span>
+                  <span class="cw-bar cw-bar-pos x-30 w-16-8"></span>
+                </span>
+                <span class="cw-bar-value">+3,4 %</span>
+              </li>
+              <li>
+                <span class="cw-bar-name">Oeste</span>
+                <span class="cw-bar-track">
+                  <span class="cw-bar-zero x-30"></span>
+                  <span class="cw-bar cw-bar-neg x-6-3 w-23-7"></span>
+                </span>
+                <span class="cw-bar-value">−4,8 %</span>
+              </li>
+            </ul>
+          </figure>
+
+          <h3 class="cw-h cw-step" data-step>Lo que encontré</h3>
+          <ul class="cw-findings">
+            <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/> </svg><span><strong>El norte explica casi la mitad del crecimiento:</strong> tres distribuidores crecieron más del 20 % con la nueva línea de snacks.</span></li>
+            <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/> </svg><span><strong>38 clientes que compraban todos los meses no compraron en septiembre.</strong> Representan $ 420 mil de venta mensual.</span></li>
+            <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/> </svg><span><strong>La línea de snacks llega solo al 35 % de los puntos de venta,</strong> contra el 61 % de la línea de papas.</span></li>
+            <li class="cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/> </svg><span><strong>En el canal mayorista los descuentos subieron 2,3 puntos</strong> y el margen cayó 0,9 pp.</span></li>
+          </ul>
+
+          <h3 class="cw-h cw-step" data-step>Qué te recomiendo hacer</h3>
+          <ol class="cw-recs">
+            <li class="cw-step" data-step>
+              <span class="cw-rec-num">1</span>
+              <div>
+                <p class="cw-rec-title">Llamá esta semana a los 38 clientes en riesgo <span class="cw-when">Esta semana</span></p>
+                <p class="cw-rec-detail">Te armé la lista por vendedor, ordenada por facturación.</p>
+                <p class="cw-impact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/> </svg> Recuperás hasta $ 420 mil por mes</p>
+              </div>
+            </li>
+            <li class="cw-step" data-step>
+              <span class="cw-rec-num">2</span>
+              <div>
+                <p class="cw-rec-title">Llevá la línea de snacks al oeste y al sur <span class="cw-when">Próximos 30 días</span></p>
+                <p class="cw-rec-detail">Hay 650 puntos de venta que compran papas pero todavía no snacks.</p>
+                <p class="cw-impact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/> </svg> + $ 1,1 M estimados por trimestre</p>
+              </div>
+            </li>
+            <li class="cw-step" data-step>
+              <span class="cw-rec-num">3</span>
+              <div>
+                <p class="cw-rec-title">Poné un tope a los descuentos mayoristas <span class="cw-when">Este mes</span></p>
+                <p class="cw-rec-detail">Volver al nivel de junio recupera el margen sin afectar el volumen.</p>
+                <p class="cw-impact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/> </svg> + 0,9 pp de margen</p>
+              </div>
+            </li>
+            <li class="cw-step" data-step>
+              <span class="cw-rec-num">4</span>
+              <div>
+                <p class="cw-rec-title">Reponé 3 productos antes del 15 de octubre <span class="cw-when">Urgente</span></p>
+                <p class="cw-rec-detail">El pronóstico anticipa quiebre de stock en Papas clásicas 400 g, Bastones 1 kg y Puré 125 g.</p>
+                <p class="cw-impact"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/> </svg> Evitás perder $ 180 mil en ventas</p>
+              </div>
+            </li>
+          </ol>
+
+          <p class="cw-step" data-step>¿Querés que le mande a cada vendedor su lista de clientes con el producto sugerido para la próxima visita?</p>
+          <ul class="cw-suggest cw-step" data-step aria-label="Sugerencias de respuesta">
+            <li>Sí, armá las listas</li>
+            <li>Proyectá el cierre de octubre</li>
+            <li>Mostrame el detalle del oeste</li>
+          </ul>
+          <p class="cw-sources cw-step" data-step><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525"/> </svg> Fuentes: ERP, CRM y pronóstico de demanda, curados por DeepDatas · actualizado hoy a las 7:00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cw-input" aria-hidden="true">
+      <span>Respondé a Claude…</span>
+      <span class="cw-send"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></span>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+  <p class="hs-note">Interfaz ilustrativa con datos ficticios. Claude es una marca de Anthropic.</p>
 </section>
+<span id="despues-del-inicio"></span>
+
 
 <!-- ======= CLIENTES ======= -->
 <section class="logos" aria-labelledby="logos-title">
