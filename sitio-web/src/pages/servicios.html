@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import 'pipeline.html' as pipeline_chart %}
 
 {% set services = [
   {
@@ -151,6 +152,18 @@
         <p class="plan-for"><strong>Ideal para:</strong> crecer sin armar un área de datos propia.</p>
       </article>
     </div>
+  </div>
+</section>
+
+<!-- ======= DATOS PARA IA ======= -->
+<section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow-light">Datos listos para la inteligencia artificial</p>
+      <h2 id="pipeline-title">Cómo preparamos tus datos para que la IA trabaje con ellos</h2>
+      <p>Nuestros servicios de ingeniería y calidad de datos son la base de cualquier proyecto de inteligencia artificial: conectamos tus fuentes, curamos la información y la dejamos ordenada para que un agente de IA responda, pronostique y automatice con datos confiables.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
   </div>
 </section>
 
