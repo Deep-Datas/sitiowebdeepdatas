@@ -17,6 +17,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markupsafe import Markup
 
 from dashboards import EXAMPLES
+from pipeline import pipeline
 
 
 ROOT = Path(__file__).parent
@@ -74,6 +75,14 @@ def icon(name, label=None, cls=''):
     svg = svg.replace(f'class="bi bi-{name}"', f'class="{classes}"')
     svg = svg.replace('width="16" height="16" ', '')
     return Markup(' '.join(svg.split()))
+
+
+def icon_svg(name, x, y, size, cls=''):
+    """Dibuja un ícono dentro de un SVG (en la posición y el tamaño indicados)."""
+    svg = (SRC / 'icons' / f'{name}.svg').read_text(encoding='utf-8')
+    inner = svg[svg.index('>', svg.index('<svg')) + 1:svg.rindex('</svg>')]
+    return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / 16:.4f})" '
+                  f'aria-hidden="true">{" ".join(inner.split())}</g>')
 
 
 def asset(path):
@@ -183,7 +192,7 @@ def build():
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        site_url=SITE_URL, year=date.today().year)
 
     def render_all():

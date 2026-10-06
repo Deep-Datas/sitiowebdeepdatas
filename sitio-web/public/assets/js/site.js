@@ -153,6 +153,65 @@
     board.addEventListener('pointerleave', hide);
   });
 
+  /* ---------- Gráfico de datos para IA: recorrido de cada elemento ---------- */
+  document.querySelectorAll('[data-pipeline]').forEach(function (figure) {
+    var svg = figure.querySelector('.pl-svg');
+    var detail = figure.querySelector('.pl-detail');
+    var parts = {
+      stage: detail.querySelector('.pl-detail-stage'),
+      title: detail.querySelector('.pl-detail-title'),
+      text: detail.querySelector('.pl-detail-text')
+    };
+    var initial = {
+      stage: parts.stage.textContent,
+      title: parts.title.textContent,
+      text: parts.text.textContent
+    };
+    var current = null;
+
+    function clear() {
+      svg.querySelectorAll('.is-on, .is-current').forEach(function (el) {
+        el.classList.remove('is-on', 'is-current');
+      });
+    }
+
+    function activate(node) {
+      if (node === current) return;
+      current = node;
+      clear();
+      svg.classList.add('is-focus');
+      node.classList.add('is-current');
+      node.dataset.chain.split(' ').forEach(function (id) {
+        var el = svg.querySelector('[data-pl="' + id + '"]');
+        if (el) el.classList.add('is-on');
+      });
+      parts.stage.textContent = node.dataset.stage;
+      parts.title.textContent = node.dataset.title;
+      parts.text.textContent = node.dataset.text;
+    }
+
+    function reset() {
+      current = null;
+      clear();
+      svg.classList.remove('is-focus');
+      parts.stage.textContent = initial.stage;
+      parts.title.textContent = initial.title;
+      parts.text.textContent = initial.text;
+    }
+
+    svg.querySelectorAll('.pl-node').forEach(function (node) {
+      node.addEventListener('pointerenter', function () { activate(node); });
+      node.addEventListener('focus', function () { activate(node); });
+      node.addEventListener('click', function () { activate(node); });
+    });
+    svg.addEventListener('pointerleave', function () {
+      if (!svg.contains(document.activeElement)) reset();
+    });
+    svg.addEventListener('focusout', function (event) {
+      if (!svg.contains(event.relatedTarget)) reset();
+    });
+  });
+
   /* ---------- Formulario de contacto ---------- */
   var form = document.querySelector('.contact-form');
   if (form && window.fetch) {

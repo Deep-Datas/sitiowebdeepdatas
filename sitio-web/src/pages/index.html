@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% import 'charts.html' as charts %}
+{% import 'pipeline.html' as pipeline_chart %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -173,6 +174,18 @@
         <li>{{ icon('check-circle-fill') }} Alertas y pronósticos sobre lo que importa</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- ======= DATOS PARA IA ======= -->
+<section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow-light">Datos listos para la inteligencia artificial</p>
+      <h2 id="pipeline-title">Del dato disperso a un agente de IA que responde con precisión</h2>
+      <p>Una IA es tan buena como los datos que consume. Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
   </div>
 </section>
 

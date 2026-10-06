@@ -1,0 +1,144 @@
+{# Gráfico «Del dato disperso al agente de IA». Contenido y geometría en pipeline.py. #}
+
+{% macro node_attrs(n) -%}
+class="pl-node pl-{{ n.kind }}" data-pl="{{ n.id }}" data-chain="{{ n.chain | join(' ') }}"
+data-stage="{{ n.stage }}" data-title="{{ n.title }}" data-text="{{ n.text }}"
+tabindex="0" role="button" aria-label="{{ n.title }}: {{ n.sub }}"
+{%- endmacro %}
+
+{% macro diagram() %}
+{% set d = pipeline() %}
+<figure class="pl" data-pipeline>
+  <div class="pl-canvas">
+    <svg class="pl-svg" viewBox="0 0 {{ d.width }} {{ d.height }}" role="group"
+         aria-label="Recorrido de los datos: ocho orígenes de datos pasan por una etapa de curado, limpieza y ordenamiento y son consumidos por un agente de IA que genera respuestas, pronósticos, alertas y automatizaciones">
+      <defs>
+        <radialGradient id="pl-agent-fill" cx="50%" cy="38%" r="70%">
+          <stop offset="0" stop-color="#ff9a5c"></stop>
+          <stop offset="1" stop-color="#e4581c"></stop>
+        </radialGradient>
+      </defs>
+
+      <g class="pl-columns" aria-hidden="true">
+        {% for x, num, label in d.columns %}
+        <text x="{{ '%.1f' % x }}" y="22" text-anchor="middle"><tspan class="pl-col-num">{{ num }}</tspan>  {{ label }}</text>
+        {% endfor %}
+      </g>
+
+      {# Líneas: datos crudos (orígenes) y datos curados (hacia y desde el agente) #}
+      <g class="pl-links" aria-hidden="true">
+        {% for n in d.sources %}
+        <g class="pl-link pl-link-raw" data-pl="{{ n.id }}-link">
+          <path class="pl-track" d="{{ n.link }}"></path>
+          <path class="pl-flow" d="{{ n.link }}"></path>
+        </g>
+        {% endfor %}
+        <g class="pl-link pl-link-curated" data-pl="curated">
+          <path class="pl-track" d="{{ d.curated_link }}"></path>
+          <path class="pl-flow" d="{{ d.curated_link }}"></path>
+          <text class="pl-link-label" x="{{ '%.1f' % d.curated_label_x }}" y="{{ '%.1f' % (d.mid_y - 12) }}" text-anchor="middle">Datos curados</text>
+        </g>
+        {% for n in d.outputs %}
+        <g class="pl-link pl-link-curated" data-pl="{{ n.id }}-link">
+          <path class="pl-track" d="{{ n.link }}"></path>
+          <path class="pl-flow" d="{{ n.link }}"></path>
+        </g>
+        {% endfor %}
+      </g>
+
+      {% for n in d.sources %}
+      <g {{ node_attrs(n) }}>
+        <rect class="pl-box" x="{{ n.x }}" y="{{ '%.1f' % n.y }}" width="{{ n.w }}" height="{{ n.h }}" rx="12"></rect>
+        {{ icon_svg(n.icon, n.x + 16, n.cy - 11, 22, 'pl-icon') }}
+        <text class="pl-title" x="{{ n.x + 52 }}" y="{{ '%.1f' % (n.cy - 3) }}" aria-hidden="true">{{ n.title }}</text>
+        <text class="pl-sub" x="{{ n.x + 52 }}" y="{{ '%.1f' % (n.cy + 15) }}" aria-hidden="true">{{ n.sub }}</text>
+      </g>
+      {% endfor %}
+
+      {% set c = d.curation %}
+      <g class="pl-cur" data-pl="cur">
+        <rect class="pl-cur-box" x="{{ c.x }}" y="{{ '%.1f' % c.y }}" width="{{ c.w }}" height="{{ '%.1f' % c.h }}" rx="20"></rect>
+        <text class="pl-cur-kicker" x="{{ c.x + 20 }}" y="{{ '%.1f' % (c.y + 28) }}" aria-hidden="true">Etapa de curado</text>
+        <text class="pl-cur-title" x="{{ c.x + 20 }}" y="{{ '%.1f' % (c.y + 50) }}" aria-hidden="true">Limpieza y ordenamiento</text>
+        {% for x, y1, y2 in d.step_links %}
+        <line class="pl-step-link" x1="{{ x }}" x2="{{ x }}" y1="{{ '%.1f' % y1 }}" y2="{{ '%.1f' % y2 }}" aria-hidden="true"></line>
+        {% endfor %}
+        {% for n in d.steps %}
+        <g {{ node_attrs(n) }}>
+          <rect class="pl-box" x="{{ n.x }}" y="{{ '%.1f' % n.y }}" width="{{ n.w }}" height="{{ n.h }}" rx="10"></rect>
+          {{ icon_svg(n.icon, n.x + 5, n.cy - 10, 20, 'pl-icon') }}
+          <text class="pl-title" x="{{ n.x + 40 }}" y="{{ '%.1f' % (n.cy - 3) }}" aria-hidden="true">{{ n.title }}</text>
+          <text class="pl-sub" x="{{ n.x + 40 }}" y="{{ '%.1f' % (n.cy + 14) }}" aria-hidden="true">{{ n.sub }}</text>
+        </g>
+        {% endfor %}
+      </g>
+
+      {% set a = d.agent %}
+      <g {{ node_attrs(a) }}>
+        <circle class="pl-ring" cx="{{ a.cx }}" cy="{{ '%.1f' % d.mid_y }}" r="{{ a.r }}"></circle>
+        <circle class="pl-ring pl-ring-2" cx="{{ a.cx }}" cy="{{ '%.1f' % d.mid_y }}" r="{{ a.r }}"></circle>
+        <circle class="pl-agent-core" cx="{{ a.cx }}" cy="{{ '%.1f' % d.mid_y }}" r="{{ a.r }}"></circle>
+        {{ icon_svg(a.icon, a.cx - 26, d.mid_y - 28, 52, 'pl-agent-icon') }}
+        <text class="pl-agent-title" x="{{ a.cx }}" y="{{ '%.1f' % (d.mid_y + a.r + 34) }}" text-anchor="middle" aria-hidden="true">{{ a.title }}</text>
+        <text class="pl-sub" x="{{ a.cx }}" y="{{ '%.1f' % (d.mid_y + a.r + 54) }}" text-anchor="middle" aria-hidden="true">{{ a.sub }}</text>
+      </g>
+
+      {% for n in d.outputs %}
+      <g {{ node_attrs(n) }}>
+        <rect class="pl-box" x="{{ n.x }}" y="{{ '%.1f' % n.y }}" width="{{ n.w }}" height="{{ n.h }}" rx="12"></rect>
+        {{ icon_svg(n.icon, n.x + 16, n.cy - 11, 22, 'pl-icon') }}
+        <text class="pl-title" x="{{ n.x + 52 }}" y="{{ '%.1f' % (n.cy - 3) }}" aria-hidden="true">{{ n.title }}</text>
+        <text class="pl-sub" x="{{ n.x + 52 }}" y="{{ '%.1f' % (n.cy + 15) }}" aria-hidden="true">{{ n.sub }}</text>
+      </g>
+      {% endfor %}
+    </svg>
+
+    <div class="pl-detail" aria-live="polite">
+      <p class="pl-detail-stage">Recorrido de los datos</p>
+      <p class="pl-detail-title">Explorá el gráfico</p>
+      <p class="pl-detail-text">Pasá el mouse o navegá con el teclado por cada elemento para ver qué aporta y cómo lo tratamos.</p>
+    </div>
+  </div>
+
+  {# Versión apilada para pantallas chicas: mismo contenido, sin el gráfico #}
+  <div class="pl-stack">
+    <div class="pl-stage">
+      <h3 class="pl-stage-title"><span class="pl-num">1</span> Orígenes de datos</h3>
+      <ul class="pl-chips">
+        {% for n in d.sources %}
+        <li>{{ icon(n.icon) }}<span><strong>{{ n.title }}</strong><small>{{ n.sub }}</small></span></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="pl-arrow pl-arrow-raw" aria-hidden="true"><span>Datos crudos</span></div>
+    <div class="pl-stage pl-stage-cur">
+      <h3 class="pl-stage-title"><span class="pl-num">2</span> Curado, limpieza y ordenamiento</h3>
+      <ol class="pl-steps">
+        {% for n in d.steps %}
+        <li>{{ icon(n.icon) }}<span><strong>{{ n.title }}</strong>{{ n.text }}</span></li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="pl-arrow" aria-hidden="true"><span>Datos curados</span></div>
+    <div class="pl-stage pl-stage-agent">
+      <h3 class="pl-stage-title"><span class="pl-num">3</span> {{ d.agent.title }}</h3>
+      <span class="pl-agent-badge">{{ icon(d.agent.icon) }}</span>
+      <p>{{ d.agent.text }}</p>
+    </div>
+    <div class="pl-arrow" aria-hidden="true"></div>
+    <div class="pl-stage">
+      <h3 class="pl-stage-title"><span class="pl-num">4</span> Resultados</h3>
+      <ul class="pl-chips pl-chips-out">
+        {% for n in d.outputs %}
+        <li>{{ icon(n.icon) }}<span><strong>{{ n.title }}</strong><small>{{ n.sub }}</small></span></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <figcaption class="pl-legend">
+    <span class="pl-key pl-key-raw">Datos crudos: dispersos, duplicados e inconsistentes</span>
+    <span class="pl-key pl-key-curated">Datos curados: limpios, unificados y documentados</span>
+  </figcaption>
+</figure>
+{% endmacro %}
