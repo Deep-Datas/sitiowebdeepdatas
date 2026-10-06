@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% set team = [
+  {'name': 'Fernando Bloise', 'role': 'CEO', 'photo': 'fernando-bloise.jpg',
+   'bio': 'Lidera la implementación de soluciones: diseño de arquitectura y ciclo de vida de aplicaciones.'},
+  {'name': 'Martin Garcia', 'role': 'Product Manager', 'photo': 'martin-garcia.jpg',
+   'bio': 'Responsable de gobierno de datos, desarrollo de pipelines y técnicas de Machine Learning.'},
+  {'name': 'Ivan Torres', 'role': 'CTO', 'photo': 'ivan-torres.jpg',
+   'bio': 'Lidera la ingeniería de datos, el desarrollo de pipelines y los modelos de Machine Learning.'},
+] %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Nosotros</p>
+    <h1>Hacemos que la ciencia de datos sea accesible para todas las empresas</h1>
+    <p class="lead">Somos una startup de profesionales con más de 10 años de experiencia en datos, tecnología y negocios, con base en Buenos Aires.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">Nuestra misión</p>
+      <h2>Resolver los desafíos más complejos de las organizaciones con el poder de los datos</h2>
+    </div>
+    <div class="prose reveal">
+      <p>Nuestra misión es ofrecer las mejores estrategias para resolver los desafíos más complejos de las organizaciones, utilizando el poder de la ciencia de datos.</p>
+      <p>Somos un equipo fan de la ciencia de datos, guiado por el propósito de convertir esta poderosa herramienta en accesible para todos: no solo para las grandes corporaciones, sino para cualquier empresa que quiera decidir mejor.</p>
+      <p>Por eso combinamos experiencia técnica con visión de negocio. Antes de hablar de herramientas, entendemos qué decisiones necesitás tomar.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Nuestros pilares</p>
+      <h2>Lo que guía cada proyecto</h2>
+    </div>
+    <div class="pillar-grid">
+      <article class="pillar reveal">
+        <span class="pillar-icon">{{ icon('sliders') }}</span>
+        <h3>Flexibilidad</h3>
+        <p>Creemos que la capacidad de adaptación es nuestro mayor diferencial. El entendimiento de la problemática y la propuesta de valor son los componentes principales de nuestras soluciones.</p>
+      </article>
+      <article class="pillar reveal">
+        <span class="pillar-icon">{{ icon('diagram-3') }}</span>
+        <h3>Escalabilidad</h3>
+        <p>Planificamos la solución más allá de mañana. El dimensionamiento futuro permite generar soluciones de mejora continua.</p>
+      </article>
+      <article class="pillar reveal">
+        <span class="pillar-icon">{{ icon('shield-check') }}</span>
+        <h3>Seguridad</h3>
+        <p>Cuidamos la información con las mejores tecnologías. La correcta adecuación a protocolos y regulaciones es imprescindible.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Equipo</p>
+      <h2>Las personas detrás de cada proyecto</h2>
+      <p>Trabajás directamente con quienes diseñan y construyen la solución.</p>
+    </div>
+    <div class="team-grid">
+      {% for m in team %}
+      <article class="member reveal">
+        <img src="/assets/img/equipo/{{ m.photo }}" alt="{{ m.name }}" width="480" height="480" loading="lazy">
+        <div>
+          <h3>{{ m.name }}</h3>
+          <p class="member-role">{{ m.role }}</p>
+          <p>{{ m.bio }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper section-tight">
+  <div class="container split split-center">
+    <div class="reveal">
+      <p class="eyebrow">Dónde estamos</p>
+      <h2>Buenos Aires, Argentina</h2>
+      <p>Nuestra oficina está en el centro de la Ciudad de Buenos Aires. Coordinamos reuniones presenciales o virtuales, como te resulte más cómodo.</p>
+      <ul class="contact-list">
+        <li>{{ icon('geo-alt') }} Bernardo de Irigoyen 330, C1072 CABA</li>
+        <li>{{ icon('envelope') }} <a href="mailto:contacto@deepdatas.com">contacto@deepdatas.com</a></li>
+        <li>{{ icon('telephone') }} <a href="tel:+5491161527387">+54 9 11 6152-7387</a></li>
+      </ul>
+    </div>
+    <iframe class="map reveal" title="Mapa: Bernardo de Irigoyen 330, CABA" src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+{% endblock %}

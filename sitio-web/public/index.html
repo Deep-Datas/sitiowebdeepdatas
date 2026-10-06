@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepDatas | Consultora de datos e inteligencia de negocios</title>
+  <meta name="description" content="Integramos, limpiamos y analizamos los datos de tu empresa para convertirlos en tableros de gestión y modelos predictivos que ayudan a vender más y gastar menos.">
+  <link rel="canonical" href="https://deepdatas.com/">
+  <meta name="theme-color" content="#0b1b3d">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="DeepDatas">
+  <meta property="og:title" content="DeepDatas | Consultora de datos e inteligencia de negocios">
+  <meta property="og:description" content="Integramos, limpiamos y analizamos los datos de tu empresa para convertirlos en tableros de gestión y modelos predictivos que ayudan a vender más y gastar menos.">
+  <meta property="og:url" content="https://deepdatas.com/">
+  <meta property="og:image" content="https://deepdatas.com/assets/img/brand/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
+
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/site.css?v=017345fb64">
+  <link rel="stylesheet" href="/assets/css/charts.css?v=7a3aeb0244">
+  <script src="/assets/js/site.js?v=9c59bbc9b9" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "DeepDatas",
+    "description": "Integramos, limpiamos y analizamos los datos de tu empresa para convertirlos en tableros de gestión y modelos predictivos que ayudan a vender más y gastar menos.",
+    "url": "https://deepdatas.com/",
+    "logo": "https://deepdatas.com/assets/img/brand/icon-512.png",
+    "image": "https://deepdatas.com/assets/img/brand/og-image.png",
+    "email": "contacto@deepdatas.com",
+    "telephone": "+54 9 11 6152-7387",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bernardo de Irigoyen 330",
+      "addressLocality": "Ciudad Autónoma de Buenos Aires",
+      "postalCode": "C1072",
+      "addressCountry": "AR"
+    },
+    "areaServed": "AR",
+    "knowsAbout": ["Inteligencia de negocios", "Ingeniería de datos", "Ciencia de datos", "Machine Learning", "Power BI"]
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a href="/" class="brand" aria-label="DeepDatas, ir al inicio">
+        <img src="/assets/img/brand/logo-mark.png" alt="" width="28" height="32">
+        <span>DeepDatas</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
+        <span class="visually-hidden">Abrir menú</span>
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon icon-open" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/> </svg>
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon icon-close" viewBox="0 0 16 16"> <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/> </svg>
+      </button>
+
+      <nav class="site-nav" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="/servicios/">Servicios</a></li>
+          <li><a href="/ejemplos/">Ejemplos</a></li>
+          <li><a href="/nosotros/">Nosotros</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a class="btn btn-ghost" href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">
+            Portal clientes <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/> <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/> </svg>
+          </a>
+          <a class="btn btn-primary" href="/contacto/">Agendar reunión</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+<!-- ======= HERO ======= -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Consultora de datos · Buenos Aires</p>
+      <h1>Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
+      <p class="lead">
+        Integramos la información que hoy está dispersa en sistemas y planillas, la ordenamos y la convertimos
+        en tableros de gestión y modelos predictivos para que tu equipo decida con datos confiables, todos los días.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
+        <a class="btn btn-secondary btn-lg" href="/ejemplos/">Ver ejemplos de tableros</a>
+      </div>
+      <ul class="hero-proof">
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Más de 10 años de experiencia</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Del dato crudo al tablero</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/> </svg> Primera conversación sin compromiso</li>
+      </ul>
+    </div>
+
+    <!-- Tablero ilustrativo: los valores son de ejemplo -->
+    <figure class="hero-visual" aria-label="Ejemplo de tablero de ventas con pronóstico">
+      <div class="dash-card">
+        <div class="dash-head">
+          <div>
+            <p class="dash-kicker">Ejemplo de tablero</p>
+            <p class="dash-title">Ventas mensuales</p>
+          </div>
+          <ul class="legend" aria-label="Series">
+            <li><span class="key key-real"></span>Real</li>
+            <li><span class="key key-forecast"></span>Pronóstico</li>
+          </ul>
+        </div>
+
+        <dl class="kpis">
+          <div class="kpi">
+            <dt>Ventas acumuladas</dt>
+            <dd><strong>$ 11,7 M</strong><span class="delta up">▲ 8,4% interanual</span></dd>
+          </div>
+          <div class="kpi">
+            <dt>Margen bruto</dt>
+            <dd><strong>31,2%</strong><span class="delta up">▲ 1,1 pp</span></dd>
+          </div>
+          <div class="kpi">
+            <dt>Clientes activos</dt>
+            <dd><strong>2.318</strong><span class="delta down">▼ 0,6%</span></dd>
+          </div>
+        </dl>
+
+        <div class="chart" data-chart>
+          <svg viewBox="0 0 560 250" role="img" aria-label="Ventas reales de enero a septiembre y pronóstico hasta diciembre, con tendencia creciente">
+            <g class="grid">
+              <line x1="52" x2="540" y1="220.0" y2="220.0"></line>
+              <text x="42" y="224.0" text-anchor="end">1,0</text>
+              <line x1="52" x2="540" y1="168.5" y2="168.5"></line>
+              <text x="42" y="172.5" text-anchor="end">1,2</text>
+              <line x1="52" x2="540" y1="117.0" y2="117.0"></line>
+              <text x="42" y="121.0" text-anchor="end">1,4</text>
+              <line x1="52" x2="540" y1="65.5" y2="65.5"></line>
+              <text x="42" y="69.5" text-anchor="end">1,6</text>
+              <line x1="52" x2="540" y1="14.0" y2="14.0"></line>
+              <text x="42" y="18.0" text-anchor="end">1,8</text>
+              <text class="month" x="52.0" y="242" text-anchor="middle">Ene</text>
+              <text class="month-odd" x="96.4" y="242" text-anchor="middle">Feb</text>
+              <text class="month" x="140.7" y="242" text-anchor="middle">Mar</text>
+              <text class="month-odd" x="185.1" y="242" text-anchor="middle">Abr</text>
+              <text class="month" x="229.5" y="242" text-anchor="middle">May</text>
+              <text class="month-odd" x="273.8" y="242" text-anchor="middle">Jun</text>
+              <text class="month" x="318.2" y="242" text-anchor="middle">Jul</text>
+              <text class="month-odd" x="362.5" y="242" text-anchor="middle">Ago</text>
+              <text class="month" x="406.9" y="242" text-anchor="middle">Sep</text>
+              <text class="month-odd" x="451.3" y="242" text-anchor="middle">Oct</text>
+              <text class="month" x="495.6" y="242" text-anchor="middle">Nov</text>
+              <text class="month-odd" x="540.0" y="242" text-anchor="middle">Dic</text>
+            </g>
+            <path class="band" d="M406.9 78.4 L451.3 52.6 L495.6 32.0 L540.0 3.7 L540.0 55.2 L495.6 68.1 L451.3 73.2 L406.9 78.4 Z"></path>
+            <path class="area" d="M52.0 189.1 L96.4 173.7 L140.7 194.2 L185.1 153.1 L229.5 140.2 L273.8 147.9 L318.2 111.9 L362.5 99.0 L406.9 78.4 L406.9 220.0 L52.0 220.0 Z"></path>
+            <path class="line line-forecast" d="M406.9 78.4 L451.3 62.9 L495.6 50.1 L540.0 29.5"></path>
+            <path class="line line-real" d="M52.0 189.1 L96.4 173.7 L140.7 194.2 L185.1 153.1 L229.5 140.2 L273.8 147.9 L318.2 111.9 L362.5 99.0 L406.9 78.4"></path>
+            <circle class="dot dot-forecast" cx="540.0" cy="29.5" r="5"></circle>
+            <circle class="dot dot-real" cx="406.9" cy="78.4" r="5"></circle>
+            <text class="end-label" x="530.0" y="17.5" text-anchor="end">$ 1,74 M</text>
+            <line class="crosshair" y1="14" y2="220" x1="0" x2="0"></line>
+            <g class="hits">
+              <rect x="29.8" y="0" width="44.4" height="250"
+                    data-x="52.0" data-y="189.1" data-month="Ene" data-real="$ 1,12 M" data-forecast=""></rect>
+              <rect x="74.2" y="0" width="44.4" height="250"
+                    data-x="96.4" data-y="173.7" data-month="Feb" data-real="$ 1,18 M" data-forecast=""></rect>
+              <rect x="118.5" y="0" width="44.4" height="250"
+                    data-x="140.7" data-y="194.2" data-month="Mar" data-real="$ 1,10 M" data-forecast=""></rect>
+              <rect x="162.9" y="0" width="44.4" height="250"
+                    data-x="185.1" data-y="153.1" data-month="Abr" data-real="$ 1,26 M" data-forecast=""></rect>
+              <rect x="207.3" y="0" width="44.4" height="250"
+                    data-x="229.5" data-y="140.2" data-month="May" data-real="$ 1,31 M" data-forecast=""></rect>
+              <rect x="251.6" y="0" width="44.4" height="250"
+                    data-x="273.8" data-y="147.9" data-month="Jun" data-real="$ 1,28 M" data-forecast=""></rect>
+              <rect x="296.0" y="0" width="44.4" height="250"
+                    data-x="318.2" data-y="111.9" data-month="Jul" data-real="$ 1,42 M" data-forecast=""></rect>
+              <rect x="340.4" y="0" width="44.4" height="250"
+                    data-x="362.5" data-y="99.0" data-month="Ago" data-real="$ 1,47 M" data-forecast=""></rect>
+              <rect x="384.7" y="0" width="44.4" height="250"
+                    data-x="406.9" data-y="78.4" data-month="Sep" data-real="$ 1,55 M" data-forecast=""></rect>
+              <rect x="429.1" y="0" width="44.4" height="250"
+                    data-x="451.3" data-y="62.9" data-month="Oct" data-real="" data-forecast="$ 1,61 M"></rect>
+              <rect x="473.5" y="0" width="44.4" height="250"
+                    data-x="495.6" data-y="50.1" data-month="Nov" data-real="" data-forecast="$ 1,66 M"></rect>
+              <rect x="517.8" y="0" width="44.4" height="250"
+                    data-x="540.0" data-y="29.5" data-month="Dic" data-real="" data-forecast="$ 1,74 M"></rect>
+            </g>
+          </svg>
+          <div class="tooltip" role="status" aria-live="polite" hidden></div>
+        </div>
+      </div>
+
+      <div class="float-card float-sources" aria-hidden="true">
+        <span class="float-label">Fuentes integradas</span>
+        <span class="chips-mini"><span>ERP</span><span>CRM</span><span>Excel</span><span>APIs</span></span>
+      </div>
+      <div class="float-card float-alert" aria-hidden="true">
+        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41z"/> </svg>
+        <span><strong>Alerta:</strong> 2 distribuidores debajo del objetivo</span>
+      </div>
+      <figcaption class="visually-hidden">Tablero de ejemplo con valores ilustrativos.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ======= CLIENTES ======= -->
+<section class="logos" aria-labelledby="logos-title">
+  <div class="container">
+    <h2 class="logos-title" id="logos-title">Empresas que confiaron en nosotros</h2>
+    <ul class="logos-row">
+      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
+      <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
+      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======= PROBLEMA / SOLUCIÓN ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">El desafío</p>
+      <h2>¿Te suena familiar?</h2>
+      <p>La mayoría de las empresas tiene más datos de los que puede aprovechar. El problema no es la falta de información, sino que no está lista para decidir.</p>
+    </div>
+
+    <div class="pain-grid">
+      <article class="pain-card reveal">
+        <span class="pain-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5zM3 12v-2h2v2zm0 1h2v2H4a1 1 0 0 1-1-1zm3 2v-2h3v2zm4 0v-2h3v1a1 1 0 0 1-1 1zm3-3h-3v-2h3zm-7 0v-2h3v2z"/> </svg></span>
+        <h3>Información dispersa</h3>
+        <p>Ventas en el ERP, stock en una planilla, objetivos en otra. Cada área tiene su propia versión de los números.</p>
+      </article>
+      <article class="pain-card reveal">
+        <span class="pain-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"/> <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"/> <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"/> </svg></span>
+        <h3>Reportes que llegan tarde</h3>
+        <p>Cada cierre implica días de copiar, pegar y validar datos a mano. Cuando el informe está listo, ya es tarde para actuar.</p>
+      </article>
+      <article class="pain-card reveal">
+        <span class="pain-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/> <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/> </svg></span>
+        <h3>Decisiones a ciegas</h3>
+        <p>Sin indicadores claros es difícil saber qué cliente, producto o canal está dejando de rendir, y por qué.</p>
+      </article>
+    </div>
+
+    <div class="solution-strip reveal">
+      <p class="solution-title">Con DeepDatas:</p>
+      <ul>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Una única fuente de verdad para toda la empresa</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Tableros que se actualizan solos</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/> </svg> Alertas y pronósticos sobre lo que importa</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======= SERVICIOS ======= -->
+<section class="section section-paper">
+  <div class="container">
+    <div class="section-head section-head-split reveal">
+      <div>
+        <p class="eyebrow">Servicios</p>
+        <h2>Todo el ciclo de vida de tus datos, en un solo equipo</h2>
+      </div>
+      <a class="link-arrow" href="/servicios/">Ver todos los servicios <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
+    </div>
+
+    <div class="service-grid">
+      <a class="service-card reveal" href="/servicios/#ingenieria">
+        <span class="service-num">01</span>
+        <span class="service-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M4.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M3 4.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/> <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8.5v3a1.5 1.5 0 0 1 1.5 1.5h5.5a.5.5 0 0 1 0 1H10A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5H.5a.5.5 0 0 1 0-1H6A1.5 1.5 0 0 1 7.5 10V7H2a2 2 0 0 1-2-2zm1 0v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m6 7.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5"/> </svg></span>
+        <h3>Ingeniería de datos</h3>
+        <p>Pipelines automatizados que integran ERP, CRM, planillas y APIs en un único repositorio confiable.</p>
+        <span class="service-more">Conocer más <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></span>
+      </a>
+      <a class="service-card reveal" href="/servicios/#calidad">
+        <span class="service-num">02</span>
+        <span class="service-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/> </svg></span>
+        <h3>Calidad y preparación</h3>
+        <p>Depuración, normalización y enriquecimiento de datos con reglas de negocio y técnicas de Machine Learning.</p>
+        <span class="service-more">Conocer más <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></span>
+      </a>
+      <a class="service-card reveal" href="/servicios/#analitica">
+        <span class="service-num">03</span>
+        <span class="service-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/> </svg></span>
+        <h3>Analítica y modelos predictivos</h3>
+        <p>KPIs estándar, KPIs exclusivos para tu negocio y modelos que anticipan la demanda y el comportamiento de tus clientes.</p>
+        <span class="service-more">Conocer más <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></span>
+      </a>
+      <a class="service-card reveal" href="/servicios/#tableros">
+        <span class="service-num">04</span>
+        <span class="service-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/> </svg></span>
+        <h3>Tableros de gestión</h3>
+        <p>Dashboards dinámicos e interactivos, con la información clave a un clic para cada área de la empresa.</p>
+        <span class="service-more">Conocer más <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======= EJEMPLO DESTACADO ======= -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="feature-head reveal">
+      <div>
+        <p class="eyebrow eyebrow-light">Ejemplo de tablero · Consumo masivo</p>
+        <h2>Una sola versión de los números para toda la red de distribuidores</h2>
+      </div>
+      <div>
+        <p>Integramos las fuentes en un modelo único, unificamos criterios y publicamos un tablero que se actualiza solo, con filtros por región, canal, categoría y producto.</p>
+        <a class="btn btn-primary btn-lg" href="/ejemplos/">Ver más ejemplos <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
+      </div>
+    </div>
+    <div class="db" data-dashboard>
+  <div class="db-top">
+    <span class="db-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="db-app">Performance comercial · Red de distribuidores</span>
+    <span class="db-badge">Datos ficticios</span>
+  </div>
+  <ul class="db-filters" aria-label="Filtros aplicados">
+    <li><span>Período:</span> Ene–Dic 2025 <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/> </svg></li>
+    <li><span>Región:</span> Todas <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/> </svg></li>
+    <li><span>Canal:</span> Todos <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/> </svg></li>
+  </ul>
+  <dl class="db-kpis">
+  <div class="db-kpi">
+    <dt>Facturación neta</dt>
+    <dd>
+      <strong>$ 48,6 M</strong>
+      <span class="db-delta is-good">▲ 9,2% vs. 2024</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Volumen vendido</dt>
+    <dd>
+      <strong>1.284 t</strong>
+      <span class="db-delta is-good">▲ 4,1% vs. 2024</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Drop size promedio</dt>
+    <dd>
+      <strong>412 kg</strong>
+      <span class="db-delta is-bad">▼ 2,3% vs. 2024</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Clientes activos</dt>
+    <dd>
+      <strong>6.940</strong>
+      <span class="db-delta is-good">▲ 3,8% vs. 2024</span>
+    </dd>
+  </div>
+</dl>
+
+  <div class="db-grid">
+    <section class="db-panel db-panel-wide" aria-label="Facturación mensual vs. objetivo">
+      <header class="db-panel-head">
+        <div>
+          <h3>Facturación mensual vs. objetivo</h3>
+<p>Millones de $</p>        </div>
+<ul class="db-legend">
+  <li><span class="swatch swatch-real" aria-hidden="true"></span>Real</li>
+  <li><span class="swatch swatch-target" aria-hidden="true"></span>Objetivo</li>
+</ul>
+      </header>
+<div class="db-chart" role="img" aria-label="Facturación mensual vs. objetivo. El detalle está en la tabla de datos.">
+  <div class="db-plot">
+    <div class="db-gridline y-0"><span>0</span></div>
+    <div class="db-gridline y-20"><span>1</span></div>
+    <div class="db-gridline y-40"><span>2</span></div>
+    <div class="db-gridline y-60"><span>3</span></div>
+    <div class="db-gridline y-80"><span>4</span></div>
+    <div class="db-gridline y-100"><span>5</span></div>
+    <div class="db-cols">
+      <div class="db-col" data-tip-title="Ene" data-tip="Real: $ 3,6 M|Objetivo: $ 3,8 M">
+        <span class="db-col-bar h-72">
+        </span>
+        <span class="db-col-target y-76"></span>
+      </div>
+      <div class="db-col" data-tip-title="Feb" data-tip="Real: $ 3,4 M|Objetivo: $ 3,6 M">
+        <span class="db-col-bar h-68">
+        </span>
+        <span class="db-col-target y-72"></span>
+      </div>
+      <div class="db-col" data-tip-title="Mar" data-tip="Real: $ 3,9 M|Objetivo: $ 3,9 M">
+        <span class="db-col-bar h-78">
+        </span>
+        <span class="db-col-target y-78"></span>
+      </div>
+      <div class="db-col" data-tip-title="Abr" data-tip="Real: $ 3,8 M|Objetivo: $ 3,9 M">
+        <span class="db-col-bar h-76">
+        </span>
+        <span class="db-col-target y-78"></span>
+      </div>
+      <div class="db-col" data-tip-title="May" data-tip="Real: $ 4,0 M|Objetivo: $ 4,0 M">
+        <span class="db-col-bar h-80">
+        </span>
+        <span class="db-col-target y-80"></span>
+      </div>
+      <div class="db-col" data-tip-title="Jun" data-tip="Real: $ 4,1 M|Objetivo: $ 4,1 M">
+        <span class="db-col-bar h-82">
+        </span>
+        <span class="db-col-target y-82"></span>
+      </div>
+      <div class="db-col" data-tip-title="Jul" data-tip="Real: $ 4,3 M|Objetivo: $ 4,2 M">
+        <span class="db-col-bar h-86">
+        </span>
+        <span class="db-col-target y-84"></span>
+      </div>
+      <div class="db-col" data-tip-title="Ago" data-tip="Real: $ 4,2 M|Objetivo: $ 4,2 M">
+        <span class="db-col-bar h-84">
+        </span>
+        <span class="db-col-target y-84"></span>
+      </div>
+      <div class="db-col" data-tip-title="Sep" data-tip="Real: $ 4,0 M|Objetivo: $ 4,2 M">
+        <span class="db-col-bar h-80">
+        </span>
+        <span class="db-col-target y-84"></span>
+      </div>
+      <div class="db-col" data-tip-title="Oct" data-tip="Real: $ 4,3 M|Objetivo: $ 4,3 M">
+        <span class="db-col-bar h-86">
+        </span>
+        <span class="db-col-target y-86"></span>
+      </div>
+      <div class="db-col" data-tip-title="Nov" data-tip="Real: $ 4,4 M|Objetivo: $ 4,4 M">
+        <span class="db-col-bar h-88">
+        </span>
+        <span class="db-col-target y-88"></span>
+      </div>
+      <div class="db-col" data-tip-title="Dic" data-tip="Real: $ 4,6 M|Objetivo: $ 4,5 M">
+        <span class="db-col-bar h-92">
+<span class="db-col-value">$ 4,6 M</span>        </span>
+        <span class="db-col-target y-90"></span>
+      </div>
+    </div>
+  </div>
+  <div class="db-xlabels db-xlabels-cols" aria-hidden="true">
+<span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dic</span>  </div>
+</div>
+<details class="db-data">
+  <summary>Ver datos</summary>
+  <table>
+    <thead><tr><th scope="col">Mes</th><th scope="col">Real</th><th scope="col">Objetivo</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Ene</th><td>$ 3,6 M</td><td>$ 3,8 M</td></tr>
+      <tr><th scope="row">Feb</th><td>$ 3,4 M</td><td>$ 3,6 M</td></tr>
+      <tr><th scope="row">Mar</th><td>$ 3,9 M</td><td>$ 3,9 M</td></tr>
+      <tr><th scope="row">Abr</th><td>$ 3,8 M</td><td>$ 3,9 M</td></tr>
+      <tr><th scope="row">May</th><td>$ 4,0 M</td><td>$ 4,0 M</td></tr>
+      <tr><th scope="row">Jun</th><td>$ 4,1 M</td><td>$ 4,1 M</td></tr>
+      <tr><th scope="row">Jul</th><td>$ 4,3 M</td><td>$ 4,2 M</td></tr>
+      <tr><th scope="row">Ago</th><td>$ 4,2 M</td><td>$ 4,2 M</td></tr>
+      <tr><th scope="row">Sep</th><td>$ 4,0 M</td><td>$ 4,2 M</td></tr>
+      <tr><th scope="row">Oct</th><td>$ 4,3 M</td><td>$ 4,3 M</td></tr>
+      <tr><th scope="row">Nov</th><td>$ 4,4 M</td><td>$ 4,4 M</td></tr>
+      <tr><th scope="row">Dic</th><td>$ 4,6 M</td><td>$ 4,5 M</td></tr>
+    </tbody>
+  </table>
+</details>
+
+
+    </section>
+    <section class="db-panel" aria-label="Facturación por canal">
+      <header class="db-panel-head">
+        <div>
+          <h3>Facturación por canal</h3>
+<p>Millones de $</p>        </div>
+      </header>
+<ul class="db-bars">
+  <li data-tip-title="Supermercados" data-tip="$ 17,4 M">
+    <span class="db-bar-label">Supermercados</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-100"></span>
+      <span class="db-bar-value">$ 17,4 M</span>
+    </span>
+  </li>
+  <li data-tip-title="Mayoristas" data-tip="$ 12,9 M">
+    <span class="db-bar-label">Mayoristas</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-74-1"></span>
+      <span class="db-bar-value">$ 12,9 M</span>
+    </span>
+  </li>
+  <li data-tip-title="Autoservicios" data-tip="$ 9,8 M">
+    <span class="db-bar-label">Autoservicios</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-56-3"></span>
+      <span class="db-bar-value">$ 9,8 M</span>
+    </span>
+  </li>
+  <li data-tip-title="Kioscos y almacenes" data-tip="$ 6,1 M">
+    <span class="db-bar-label">Kioscos y almacenes</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-35-1"></span>
+      <span class="db-bar-value">$ 6,1 M</span>
+    </span>
+  </li>
+  <li data-tip-title="E-commerce" data-tip="$ 2,4 M">
+    <span class="db-bar-label">E-commerce</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-13-8"></span>
+      <span class="db-bar-value">$ 2,4 M</span>
+    </span>
+  </li>
+</ul>
+<details class="db-data">
+  <summary>Ver datos</summary>
+  <table>
+    <thead><tr><th scope="col">Canal</th><th scope="col">Valor</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Supermercados</th><td>$ 17,4 M</td></tr>
+      <tr><th scope="row">Mayoristas</th><td>$ 12,9 M</td></tr>
+      <tr><th scope="row">Autoservicios</th><td>$ 9,8 M</td></tr>
+      <tr><th scope="row">Kioscos y almacenes</th><td>$ 6,1 M</td></tr>
+      <tr><th scope="row">E-commerce</th><td>$ 2,4 M</td></tr>
+    </tbody>
+  </table>
+</details>
+
+
+    </section>
+  </div>
+  <div class="db-tooltip" hidden></div>
+</div>
+
+  </div>
+</section>
+
+<!-- ======= CÓMO TRABAJAMOS ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>Un proceso claro, de la primera reunión a los resultados</h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/> </svg></span>
+        <h3>Diagnóstico</h3>
+        <p>Entendemos tu negocio, tus objetivos y las fuentes de datos con las que contás hoy.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016m6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0"/> <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/> </svg></span>
+        <h3>Propuesta</h3>
+        <p>Diseñamos la solución ideal para tu contexto: arquitectura, indicadores, plazos y entregables.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/> <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/> </svg></span>
+        <h3>Implementación</h3>
+        <p>Construimos pipelines, modelos y tableros, y capacitamos a tu equipo para usarlos.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/> <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/> </svg></span>
+        <h3>Mejora continua</h3>
+        <p>Acompañamos la evolución de la solución a medida que crece tu negocio.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======= INDUSTRIAS Y DIFERENCIALES ======= -->
+<section class="section section-paper">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">Industrias</p>
+      <h2>Experiencia en sectores donde cada punto de margen cuenta</h2>
+      <ul class="industry-list">
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/> </svg> Consumo masivo</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/> </svg> Distribución y logística</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053.918 3.995.78 5.323 1.508 7H.43c-2.128-5.697 4.165-8.83 7.394-5.857q.09.083.176.171a3 3 0 0 1 .176-.17c3.23-2.974 9.522.159 7.394 5.856h-1.078c.728-1.677.59-3.005.108-3.947C13.486.878 10.4.28 8.717 2.01zM2.212 10h1.315C4.593 11.183 6.05 12.458 8 13.795c1.949-1.337 3.407-2.612 4.473-3.795h1.315c-1.265 1.566-3.14 3.25-5.788 5-2.648-1.75-4.523-3.434-5.788-5"/> <path d="M10.464 3.314a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.5a.5.5 0 0 0 0 1H4a.5.5 0 0 0 .416-.223l1.473-2.209 1.647 4.118a.5.5 0 0 0 .945-.049l1.598-5.593 1.457 3.642A.5.5 0 0 0 12 9h3.5a.5.5 0 0 0 0-1h-3.162z"/> </svg> Salud y farmacéutica</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/> </svg> Retail y gastronomía</li>
+        <li><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M5 0a.5.5 0 0 1 .5.5V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2h1V.5a.5.5 0 0 1 1 0V2A2.5 2.5 0 0 1 14 4.5h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14v1h1.5a.5.5 0 0 1 0 1H14a2.5 2.5 0 0 1-2.5 2.5v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14h-1v1.5a.5.5 0 0 1-1 0V14A2.5 2.5 0 0 1 2 11.5H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2v-1H.5a.5.5 0 0 1 0-1H2A2.5 2.5 0 0 1 4.5 2V.5A.5.5 0 0 1 5 0m-.5 3A1.5 1.5 0 0 0 3 4.5v7A1.5 1.5 0 0 0 4.5 13h7a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 11.5 3zM5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5zM6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/> </svg> Tecnología y servicios</li>
+      </ul>
+    </div>
+    <div class="reasons reveal">
+      <h3 class="reasons-title">Por qué DeepDatas</h3>
+      <dl>
+        <div>
+          <dt><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702z"/> <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1z"/> </svg> Experiencia comprobada</dt>
+          <dd>Un equipo con más de 10 años en datos, tecnología y negocio.</dd>
+        </div>
+        <div>
+          <dt><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M3.112 3.645A1.5 1.5 0 0 1 4.605 2H7a.5.5 0 0 1 .5.5v.382c0 .696-.497 1.182-.872 1.469a.5.5 0 0 0-.115.118l-.012.025L6.5 4.5v.003l.003.01q.005.015.036.053a.9.9 0 0 0 .27.194C7.09 4.9 7.51 5 8 5c.492 0 .912-.1 1.19-.24a.9.9 0 0 0 .271-.194.2.2 0 0 0 .039-.063v-.009l-.012-.025a.5.5 0 0 0-.115-.118c-.375-.287-.872-.773-.872-1.469V2.5A.5.5 0 0 1 9 2h2.395a1.5 1.5 0 0 1 1.493 1.645L12.645 6.5h.237c.195 0 .42-.147.675-.48.21-.274.528-.52.943-.52.568 0 .947.447 1.154.862C15.877 6.807 16 7.387 16 8s-.123 1.193-.346 1.638c-.207.415-.586.862-1.154.862-.415 0-.733-.246-.943-.52-.255-.333-.48-.48-.675-.48h-.237l.243 2.855A1.5 1.5 0 0 1 11.395 14H9a.5.5 0 0 1-.5-.5v-.382c0-.696.497-1.182.872-1.469a.5.5 0 0 0 .115-.118l.012-.025.001-.006v-.003a.2.2 0 0 0-.039-.064.9.9 0 0 0-.27-.193C8.91 11.1 8.49 11 8 11s-.912.1-1.19.24a.9.9 0 0 0-.271.194.2.2 0 0 0-.039.063v.003l.001.006.012.025c.016.027.05.068.115.118.375.287.872.773.872 1.469v.382a.5.5 0 0 1-.5.5H4.605a1.5 1.5 0 0 1-1.493-1.645L3.356 9.5h-.238c-.195 0-.42.147-.675.48-.21.274-.528.52-.943.52-.568 0-.947-.447-1.154-.862C.123 9.193 0 8.613 0 8s.123-1.193.346-1.638C.553 5.947.932 5.5 1.5 5.5c.415 0 .733.246.943.52.255.333.48.48.675.48h.238zM4.605 3a.5.5 0 0 0-.498.55l.001.007.29 3.4A.5.5 0 0 1 3.9 7.5h-.782c-.696 0-1.182-.497-1.469-.872a.5.5 0 0 0-.118-.115l-.025-.012L1.5 6.5h-.003a.2.2 0 0 0-.064.039.9.9 0 0 0-.193.27C1.1 7.09 1 7.51 1 8s.1.912.24 1.19c.07.14.14.225.194.271a.2.2 0 0 0 .063.039H1.5l.006-.001.025-.012a.5.5 0 0 0 .118-.115c.287-.375.773-.872 1.469-.872H3.9a.5.5 0 0 1 .498.542l-.29 3.408a.5.5 0 0 0 .497.55h1.878c-.048-.166-.195-.352-.463-.557-.274-.21-.52-.528-.52-.943 0-.568.447-.947.862-1.154C6.807 10.123 7.387 10 8 10s1.193.123 1.638.346c.415.207.862.586.862 1.154 0 .415-.246.733-.52.943-.268.205-.415.39-.463.557h1.878a.5.5 0 0 0 .498-.55l-.001-.007-.29-3.4A.5.5 0 0 1 12.1 8.5h.782c.696 0 1.182.497 1.469.872.05.065.091.099.118.115l.025.012.006.001h.003a.2.2 0 0 0 .064-.039.9.9 0 0 0 .193-.27c.14-.28.24-.7.24-1.191s-.1-.912-.24-1.19a.9.9 0 0 0-.194-.271.2.2 0 0 0-.063-.039H14.5l-.006.001-.025.012a.5.5 0 0 0-.118.115c-.287.375-.773.872-1.469.872H12.1a.5.5 0 0 1-.498-.543l.29-3.407a.5.5 0 0 0-.497-.55H9.517c.048.166.195.352.463.557.274.21.52.528.52.943 0 .568-.447.947-.862 1.154C9.193 5.877 8.613 6 8 6s-1.193-.123-1.638-.346C5.947 5.447 5.5 5.068 5.5 4.5c0-.415.246-.733.52-.943.268-.205.415-.39.463-.557z"/> </svg> Soluciones a medida</dt>
+          <dd>Trabajamos con las plataformas que ya usás, sin atarte a un proveedor.</dd>
+        </div>
+        <div>
+          <dt><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/> <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/> </svg> Seguridad de la información</dt>
+          <dd>Cuidamos tu información con las mejores tecnologías, respetando protocolos y regulaciones.</dd>
+        </div>
+        <div>
+          <dt><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0zM8 9.433 1.562 6 8 2.567 14.438 6z"/> </svg> Escalable desde el día uno</dt>
+          <dd>Diseñamos pensando en el crecimiento, para que la solución acompañe a tu empresa.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+    <section class="cta-band" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-inner reveal">
+          <div>
+            <h2 id="cta-title">¿Listo para decidir con datos?</h2>
+            <p>Contanos tu desafío y armamos juntos el primer paso. La primera conversación es sin compromiso.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/> </svg></a>
+            <a class="btn btn-ghost-light btn-lg" href="https://wa.me/5491161527387" target="_blank" rel="noopener"><svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="icon" viewBox="0 0 16 16"> <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/> </svg> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="/" class="brand brand-light">
+            <img src="/assets/img/brand/logo-mark-white.png" alt="" width="28" height="32">
+            <span>DeepDatas</span>
+          </a>
+          <p>Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.</p>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Servicios</h2>
+          <ul class="footer-links">
+            <li><a href="/servicios/#ingenieria">Ingeniería de datos</a></li>
+            <li><a href="/servicios/#calidad">Calidad y preparación</a></li>
+            <li><a href="/servicios/#analitica">Analítica y modelos predictivos</a></li>
+            <li><a href="/servicios/#tableros">Tableros de gestión</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Empresa</h2>
+          <ul class="footer-links">
+            <li><a href="/ejemplos/">Ejemplos de tableros</a></li>
+            <li><a href="/nosotros/">Nosotros</a></li>
+            <li><a href="/contacto/">Contacto</a></li>
+            <li><a href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener">Portal clientes</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Contacto</h2>
+          <ul class="footer-links">
+            <li><a href="mailto:contacto@deepdatas.com">contacto@deepdatas.com</a></li>
+            <li><a href="tel:+5491161527387">+54 9 11 6152-7387</a></li>
+            <li><a href="https://wa.me/5491161527387" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li>Bernardo de Irigoyen 330<br>C1072 CABA, Argentina</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> DeepDatas. Todos los derechos reservados.</span>
+        <span>Hecho en Buenos Aires</span>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
