@@ -89,38 +89,69 @@
     svg.addEventListener('pointerleave', hide);
   });
 
-  /* ---------- Visor de imágenes ---------- */
-  var links = document.querySelectorAll('.js-lightbox');
-  if (links.length && typeof HTMLDialogElement === 'function') {
-    var dialog = document.createElement('dialog');
-    dialog.className = 'lightbox';
-    dialog.setAttribute('aria-label', 'Imagen ampliada');
-    var close = document.createElement('button');
-    close.type = 'button';
-    close.className = 'lightbox-close';
-    close.setAttribute('aria-label', 'Cerrar');
-    close.textContent = '✕';
-    var image = document.createElement('img');
-    image.alt = '';
-    var caption = document.createElement('p');
-    dialog.append(close, image, caption);
-    document.body.appendChild(dialog);
+  /* ---------- Tableros de ejemplo: detalle al pasar el mouse ---------- */
+  document.querySelectorAll('[data-dashboard]').forEach(function (board) {
+    var tip = board.querySelector('.db-tooltip');
+    var current = null;
 
-    close.addEventListener('click', function () { dialog.close(); });
-    dialog.addEventListener('click', function (event) {
-      if (event.target === dialog) dialog.close();
-    });
-    links.forEach(function (link) {
-      link.addEventListener('click', function (event) {
-        event.preventDefault();
-        var thumb = link.querySelector('img');
-        image.src = link.href;
-        image.alt = thumb ? thumb.alt : '';
-        caption.textContent = link.dataset.caption || '';
-        dialog.showModal();
+    function clearLines() {
+      board.querySelectorAll('[data-line].is-hover').forEach(function (plot) {
+        plot.classList.remove('is-hover');
       });
-    });
-  }
+    }
+
+    function hide() {
+      current = null;
+      tip.hidden = true;
+      clearLines();
+    }
+
+    function show(target) {
+      current = target;
+      tip.textContent = '';
+      var title = document.createElement('strong');
+      title.textContent = target.dataset.tipTitle;
+      tip.appendChild(title);
+      (target.dataset.tip || '').split('|').forEach(function (text) {
+        if (!text) return;
+        var line = document.createElement('span');
+        line.textContent = text;
+        tip.appendChild(line);
+      });
+      tip.hidden = false;
+
+      clearLines();
+      var plot = target.closest('[data-line]');
+      if (plot && target.dataset.x) {
+        plot.classList.add('is-hover');
+        plot.querySelector('.db-crosshair').style.left = target.dataset.x + '%';
+      }
+    }
+
+    function place(event) {
+      var box = board.getBoundingClientRect();
+      var half = tip.offsetWidth / 2;
+      var x = Math.min(Math.max(event.clientX - box.left, half + 8), box.width - half - 8);
+      var y = event.clientY - box.top;
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+      tip.classList.toggle('is-below', y < tip.offsetHeight + 24);
+    }
+
+    function onPointer(event) {
+      var target = event.target.closest('[data-tip-title]');
+      if (!target) {
+        if (current) hide();
+        return;
+      }
+      if (target !== current) show(target);
+      place(event);
+    }
+
+    board.addEventListener('pointermove', onPointer);
+    board.addEventListener('pointerdown', onPointer);
+    board.addEventListener('pointerleave', hide);
+  });
 
   /* ---------- Formulario de contacto ---------- */
   var form = document.querySelector('.contact-form');

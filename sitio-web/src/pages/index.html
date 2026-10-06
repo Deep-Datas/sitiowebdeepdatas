@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import 'charts.html' as charts %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -40,7 +41,7 @@
       </p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión {{ icon('arrow-right') }}</a>
-        <a class="btn btn-secondary btn-lg" href="/casos/">Ver casos de éxito</a>
+        <a class="btn btn-secondary btn-lg" href="/ejemplos/">Ver ejemplos de tableros</a>
       </div>
       <ul class="hero-proof">
         <li>{{ icon('check2') }} Más de 10 años de experiencia</li>
@@ -114,7 +115,7 @@
       </div>
       <div class="float-card float-alert" aria-hidden="true">
         {{ icon('lightning-charge') }}
-        <span><strong>Alerta:</strong> 3 distribuidores debajo del objetivo</span>
+        <span><strong>Alerta:</strong> 2 distribuidores debajo del objetivo</span>
       </div>
       <figcaption class="visually-hidden">Tablero de ejemplo con valores ilustrativos.</figcaption>
     </figure>
@@ -218,27 +219,21 @@
   </div>
 </section>
 
-<!-- ======= CASO DESTACADO ======= -->
+<!-- ======= EJEMPLO DESTACADO ======= -->
+{% set featured = examples[0] %}
 <section class="section section-dark">
-  <div class="container feature-grid">
-    <div class="feature-copy reveal">
-      <p class="eyebrow eyebrow-light">Caso destacado · Consumo masivo</p>
-      <h2>Una sola versión de los números para toda la red de distribuidores</h2>
-      <p>
-        Integramos la información de facturación, volumen y canales de cada distribuidor en un modelo único
-        y desarrollamos un tablero para seguir su evolución mes a mes y compararlos entre sí.
-      </p>
-      <ul class="check-list check-list-light">
-        <li>{{ icon('check2') }} Facturación, kilos, precio promedio y drop size en un solo lugar</li>
-        <li>{{ icon('check2') }} Comparación entre distribuidores y canales de venta</li>
-        <li>{{ icon('check2') }} Filtros por país, período, canal, categoría y producto</li>
-      </ul>
-      <a class="btn btn-primary btn-lg" href="/casos/">Ver casos de éxito {{ icon('arrow-right') }}</a>
+  <div class="container">
+    <div class="feature-head reveal">
+      <div>
+        <p class="eyebrow eyebrow-light">Ejemplo de tablero · Consumo masivo</p>
+        <h2>Una sola versión de los números para toda la red de distribuidores</h2>
+      </div>
+      <div>
+        <p>{{ featured.story.solution }}</p>
+        <a class="btn btn-primary btn-lg" href="/ejemplos/">Ver más ejemplos {{ icon('arrow-right') }}</a>
+      </div>
     </div>
-    <a class="feature-media reveal js-lightbox" href="/assets/img/casos/performance-distribuidores.jpg" data-caption="Tablero de performance de distribuidores (datos sensibles ocultos)">
-      <img src="/assets/img/casos/performance-distribuidores.jpg" alt="Tablero de facturación, kilos y canales de venta por distribuidor" width="1886" height="1033" loading="lazy">
-      <span class="media-zoom">{{ icon('arrows-angle-expand') }}<span class="visually-hidden">Ampliar imagen</span></span>
-    </a>
+    {{ charts.dashboard(featured, panels=[0, 1]) }}
   </div>
 </section>
 

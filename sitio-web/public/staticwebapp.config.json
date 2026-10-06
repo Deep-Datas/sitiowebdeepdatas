@@ -23,7 +23,7 @@
     },
     {
       "route": "/portfolio-details.html",
-      "redirect": "/casos/",
+      "redirect": "/ejemplos/",
       "statusCode": 301
     }
   ],

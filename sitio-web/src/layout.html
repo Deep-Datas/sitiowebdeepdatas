@@ -1,7 +1,7 @@
 {# Estructura común a todas las páginas. Cada página extiende esta plantilla. #}
 {% set nav_items = [
   ('servicios', '/servicios/', 'Servicios'),
-  ('casos', '/casos/', 'Casos de éxito'),
+  ('ejemplos', '/ejemplos/', 'Ejemplos'),
   ('nosotros', '/nosotros/', 'Nosotros'),
   ('contacto', '/contacto/', 'Contacto'),
 ] %}
@@ -39,6 +39,7 @@
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ asset('css/site.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/charts.css') }}">
   <script src="{{ asset('js/site.js') }}" defer></script>
   {% block head %}{% endblock %}
 </head>
@@ -120,7 +121,7 @@
         <div>
           <h2 class="footer-title">Empresa</h2>
           <ul class="footer-links">
-            <li><a href="/casos/">Casos de éxito</a></li>
+            <li><a href="/ejemplos/">Ejemplos de tableros</a></li>
             <li><a href="/nosotros/">Nosotros</a></li>
             <li><a href="/contacto/">Contacto</a></li>
             <li><a href="{{ portal_url }}" target="_blank" rel="noopener">Portal clientes</a></li>

@@ -16,6 +16,8 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from markupsafe import Markup
 
+from dashboards import EXAMPLES
+
 
 ROOT = Path(__file__).parent
 SRC = ROOT / 'src'
@@ -35,9 +37,9 @@ PAGES = [
         'description': 'Ingeniería de datos, calidad y preparación, analítica avanzada con modelos predictivos y tableros de gestión en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
     },
     {
-        'template': 'casos.html', 'path': '/casos/', 'nav': 'casos',
-        'title': 'Casos de éxito | DeepDatas',
-        'description': 'Tableros y modelos que hoy usan empresas de consumo masivo, salud y tecnología para gestionar distribuidores, cobertura de puntos de venta y rentabilidad.',
+        'template': 'ejemplos.html', 'path': '/ejemplos/', 'nav': 'ejemplos',
+        'title': 'Ejemplos de tableros | DeepDatas',
+        'description': 'Tableros interactivos de ejemplo, con datos ficticios: performance de distribuidores, cobertura de puntos de venta y pronóstico de demanda.',
     },
     {
         'template': 'nosotros.html', 'path': '/nosotros/', 'nav': 'nosotros',
@@ -77,8 +79,33 @@ def icon(name, label=None, cls=''):
 def asset(path):
     """URL de un archivo de assets con un hash de su contenido, para que los
     navegadores descarguen la versión nueva cuando cambia."""
-    digest = hashlib.sha256((SRC / 'assets' / path).read_bytes()).hexdigest()[:10]
+    file = OUT / 'assets' / path
+    digest = hashlib.sha256(file.read_bytes()).hexdigest()[:10] if file.exists() else 'dev'
     return f'/assets/{path}?v={digest}'
+
+
+class Positions:
+    """Posiciones y tamaños de los gráficos.
+
+    La política de seguridad del sitio no permite estilos en línea
+    (style="..."), así que cada valor se convierte en una clase CSS
+    (por ejemplo "w-42-5" -> --w: 42.5%) que se escribe en charts.css.
+    """
+    PROPS = {'x': '--x', 'y': '--y', 'w': '--w', 'h': '--h'}
+
+    def __init__(self):
+        self.rules = {}
+
+    def __call__(self, prop, value):
+        value = round(float(value), 1)
+        text = f'{value:g}'
+        name = f'{prop}-{text.replace(".", "-")}'
+        self.rules[name] = f'.{name} {{ {self.PROPS[prop]}: {text}%; }}'
+        return name
+
+    def css(self):
+        header = '/* Generado por build.py a partir de dashboards.py: no editar. */\n'
+        return header + '\n'.join(self.rules[k] for k in sorted(self.rules)) + '\n'
 
 
 def money(value):
@@ -155,11 +182,19 @@ def build():
         trim_blocks=True,
         lstrip_blocks=True,
     )
-    env.globals.update(icon=icon, asset=asset, hero_chart=hero_chart, site_url=SITE_URL, year=date.today().year)
+    pos = Positions()
+    env.globals.update(icon=icon, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+                       site_url=SITE_URL, year=date.today().year)
 
-    for page in PAGES:
-        page = {'noindex': False, **page}
-        html = env.get_template(page['template']).render(page=page)
+    def render_all():
+        return [(page, env.get_template(page['template']).render(page=page))
+                for page in ({'noindex': False, **p} for p in PAGES)]
+
+    # Primera pasada: junta las posiciones de los gráficos para escribir charts.css.
+    # Segunda pasada: las páginas ya pueden enlazar charts.css con su versión.
+    render_all()
+    (OUT / 'assets' / 'css' / 'charts.css').write_text(pos.css(), encoding='utf-8')
+    for page, html in render_all():
         target = output_file(page['path'])
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(html, encoding='utf-8')

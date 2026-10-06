@@ -8,7 +8,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | --- | --- |
 | `/` | Propuesta de valor, clientes, desafíos que resolvemos, servicios, caso destacado, proceso, industrias |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
-| `/casos/` | Casos de éxito con desafío, solución, resultado e indicadores |
+| `/ejemplos/` | Tres tableros interactivos de ejemplo (datos ficticios) con el desafío, la solución y el beneficio |
 | `/nosotros/` | Misión, pilares, equipo y ubicación |
 | `/contacto/` | Formulario, medios de contacto, mapa y preguntas frecuentes |
 | `/gracias/` | Confirmación del formulario cuando el navegador no tiene JavaScript |
@@ -18,8 +18,10 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 
 ```
 build.py                 Genera el sitio en public/ a partir de src/
+dashboards.py            Datos ficticios de los tableros de ejemplo
 requirements.txt         Dependencias para generar el sitio (Jinja2)
 src/layout.html          Estructura común: encabezado, menú, pie y metadatos
+src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pages/               Contenido de cada página
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
@@ -76,6 +78,6 @@ Mientras no esté configurado, el formulario muestra un aviso con el email de co
 ## Contenido a revisar
 
 - **Valores del tablero del inicio**: son ilustrativos (el gráfico lo aclara como "Ejemplo de tablero").
-- **Casos de éxito**: los textos de desafío, solución y resultado se redactaron a partir de las capturas de los tableros; conviene validarlos con cada proyecto.
+- **Ejemplos de tableros**: todos los datos son ficticios y están en `dashboards.py`. Para cambiar un valor, editalo ahí y volvé a ejecutar `build.py`.
 - **Formas de trabajo y tecnologías**: son una propuesta basada en los servicios actuales.
 - **Fotos del equipo**: se muestran en blanco y negro para unificar el estilo; se recomienda reemplazarlas por fotos profesionales del mismo formato (cuadradas, 480 × 480 px o más).

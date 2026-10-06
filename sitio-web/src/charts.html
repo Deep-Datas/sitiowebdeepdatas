@@ -1,0 +1,247 @@
+{#
+  Componentes de los tableros de ejemplo. Los datos vienen de dashboards.py.
+  pos('w', 42.5) devuelve una clase CSS con esa medida (ver Positions en build.py).
+  Cada gráfico incluye una tabla "Ver datos" para lectores de pantalla y para
+  quien prefiera los números.
+#}
+
+{% macro legend(items) %}
+<ul class="db-legend">
+  {% for key, label in items %}
+  <li><span class="swatch swatch-{{ key }}" aria-hidden="true"></span>{{ label }}</li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+
+{% macro data_table(table) %}
+<details class="db-data">
+  <summary>Ver datos</summary>
+  <table>
+    <thead><tr>{% for h in table.headers %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>
+    <tbody>
+      {% for row in table.rows %}
+      <tr>{% for cell in row %}{% if loop.first %}<th scope="row">{{ cell }}</th>{% else %}<td>{{ cell }}</td>{% endif %}{% endfor %}</tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</details>
+{% endmacro %}
+
+{% macro kpi_tiles(kpis) %}
+<dl class="db-kpis">
+  {% for k in kpis %}
+  <div class="db-kpi">
+    <dt>{{ k.label }}</dt>
+    <dd>
+      <strong>{{ k.value }}</strong>
+      <span class="db-delta {{ 'is-good' if k.good else 'is-bad' }}">{{ k.delta }}</span>
+    </dd>
+  </div>
+  {% endfor %}
+</dl>
+{% endmacro %}
+
+{% macro columns(p) %}
+<div class="db-chart" role="img" aria-label="{{ p.title }}. El detalle está en la tabla de datos.">
+  <div class="db-plot">
+    {% for t in p.data.ticks %}
+    <div class="db-gridline {{ pos('y', t.y) }}"><span>{{ t.label }}</span></div>
+    {% endfor %}
+    <div class="db-cols">
+      {% for it in p.data['items'] %}
+      <div class="db-col" data-tip-title="{{ it.label }}" data-tip="Real: {{ it.value_label }}|Objetivo: {{ it.target_label }}">
+        <span class="db-col-bar {{ pos('h', it.h) }}">
+          {% if it.show_label %}<span class="db-col-value">{{ it.value_label }}</span>{% endif %}
+        </span>
+        <span class="db-col-target {{ pos('y', it.target_y) }}"></span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="db-xlabels db-xlabels-cols" aria-hidden="true">
+    {% for it in p.data['items'] %}<span>{{ it.label }}</span>{% endfor %}
+  </div>
+</div>
+{{ data_table(p.data.table) }}
+{% endmacro %}
+
+{% macro bars(p) %}
+<ul class="db-bars">
+  {% for b in p.data['items'] %}
+  <li data-tip-title="{{ b.label }}" data-tip="{{ b.value_label }}">
+    <span class="db-bar-label">{{ b.label }}</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single {{ pos('w', b.w) }}"></span>
+      <span class="db-bar-value">{{ b.value_label }}</span>
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+{{ data_table(p.data.table) }}
+{% endmacro %}
+
+{% macro grouped(p) %}
+<ul class="db-bars db-bars-grouped">
+  {% for row in p.data['items'] %}
+  <li>
+    <span class="db-bar-label">{{ row.label }}</span>
+    <span class="db-bar-group">
+      {% for b in row.bars %}
+      <span class="db-bar-track" data-tip-title="{{ row.label }}" data-tip="{{ b.name }}: {{ b.value_label }}">
+        <span class="db-bar db-bar-{{ b.key }} {{ pos('w', b.w) }}"></span>
+        <span class="db-bar-value">{{ b.value_label }}</span>
+      </span>
+      {% endfor %}
+    </span>
+  </li>
+  {% endfor %}
+</ul>
+{{ data_table(p.data.table) }}
+{% endmacro %}
+
+{% macro stack(p) %}
+<div class="db-stack" role="img" aria-label="{% for s in p.data %}{{ s.label }}: {{ s.value_label }}{{ '. ' if not loop.last }}{% endfor %}">
+  {% for s in p.data %}
+  <span class="db-seg seg-{{ s.key }} {{ pos('w', s.w) }}" data-tip-title="{{ s.label }}" data-tip="{{ s.value_label }} de los puntos de venta">
+    {% if s.inside %}<span>{{ s.value_label }}</span>{% endif %}
+  </span>
+  {% endfor %}
+</div>
+<ul class="db-legend db-legend-values">
+  {% for s in p.data %}
+  <li><span class="swatch swatch-{{ s.key }}" aria-hidden="true"></span>{{ s.label }} <strong>{{ s.value_label }}</strong></li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+
+{% macro line(p) %}
+{% set d = p.data %}
+<div class="db-chart" role="img" aria-label="{{ p.title }}. El detalle está en la tabla de datos.">
+  <div class="db-plot db-plot-line" data-line>
+    {% for t in d.ticks %}
+    <div class="db-gridline {{ pos('y', t.y) }}"><span>{{ t.label }}</span></div>
+    {% endfor %}
+    <span class="db-split {{ pos('x', d.split_x) }}"><span>Pronóstico</span></span>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="db-band" d="{{ d.band }}"></path>
+      <path class="db-area" d="{{ d.real_area }}"></path>
+      <path class="db-line-forecast" d="{{ d.forecast_line }}"></path>
+      <path class="db-line-real" d="{{ d.real_line }}"></path>
+    </svg>
+    <span class="db-dot db-dot-real {{ pos('x', d.real_end.x) }} {{ pos('y', d.real_end.y) }}"></span>
+    <span class="db-dot db-dot-forecast {{ pos('x', d.forecast_end.x) }} {{ pos('y', d.forecast_end.y) }}"></span>
+    <span class="db-end-label {{ pos('x', d.forecast_end.x) }} {{ pos('y', d.forecast_end.y) }}">{{ d.forecast_end.label }}</span>
+    <span class="db-crosshair" aria-hidden="true"></span>
+    <div class="db-hits">
+      {% for h in d.hits %}
+      <span class="db-hit {{ pos('x', h.left) }} {{ pos('w', h.w) }}" data-x="{{ '%.2f' % h.x }}" data-tip-title="{{ h.title }}" data-tip="{% for kind, text in h.lines %}{{ text }}{{ '|' if not loop.last }}{% endfor %}"></span>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="db-xlabels db-xlabels-line" aria-hidden="true">
+    {% for l in d.x_labels %}<span class="{{ pos('x', l.x) }}">{{ l.label }}</span>{% endfor %}
+  </div>
+</div>
+{{ data_table(d.table) }}
+{% endmacro %}
+
+{% macro status_pill(s) %}
+<span class="status status-{{ s.key }}">{{ icon(s.icon) }} {{ s.label }}</span>
+{% endmacro %}
+
+{% macro ranking(p) %}
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: {{ p.title }}">
+  <table class="db-table">
+    <thead>
+      <tr><th scope="col">Distribuidor</th><th scope="col">Facturación</th><th scope="col">vs. objetivo</th><th scope="col">Estado</th></tr>
+    </thead>
+    <tbody>
+      {% for r in p.rows %}
+      <tr>
+        <th scope="row">{{ r.name }}</th>
+        <td class="num">{{ r.revenue }}</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-{{ r.status.key }} {{ pos('w', r.meter) }}"></span>
+              <span class="meter-target {{ pos('x', p.target_x) }}"></span>
+            </span>
+            <span class="num">{{ r.attainment }}</span>
+          </span>
+        </td>
+        <td>{{ status_pill(r.status) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+{% macro opportunities(p) %}
+<p class="db-caption">{{ p.caption }}</p>
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: {{ p.title }}">
+  <table class="db-table">
+    <thead><tr><th scope="col">Zona</th><th scope="col">Vendedor</th><th scope="col">Puntos de venta</th><th scope="col">Potencial mensual</th></tr></thead>
+    <tbody>
+      {% for r in p.rows %}
+      <tr><th scope="row">{{ r.zone }}</th><td>{{ r.seller }}</td><td class="num">{{ r.pdv }}</td><td class="num">{{ r.potential }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+{% macro replenish(p) %}
+<p class="db-caption">{{ p.caption }}</p>
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: {{ p.title }}">
+  <table class="db-table">
+    <thead><tr><th scope="col">Producto</th><th scope="col">Stock</th><th scope="col">Demanda prevista</th><th scope="col">Reponer</th><th scope="col">Estado</th></tr></thead>
+    <tbody>
+      {% for r in p.rows %}
+      <tr><th scope="row">{{ r.product }}</th><td class="num">{{ r.stock }}</td><td class="num">{{ r.demand }}</td><td class="num"><strong>{{ r.suggested }}</strong></td><td>{{ status_pill(r.status) }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endmacro %}
+
+{% macro dashboard(d, panels=None) %}
+<div class="db" data-dashboard>
+  <div class="db-top">
+    <span class="db-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="db-app">{{ d.app_title }}</span>
+    <span class="db-badge">Datos ficticios</span>
+  </div>
+  <ul class="db-filters" aria-label="Filtros aplicados">
+    {% for k, v in d.filters %}
+    <li><span>{{ k }}:</span> {{ v }} {{ icon('chevron-down') }}</li>
+    {% endfor %}
+  </ul>
+  {{ kpi_tiles(d.kpis) }}
+  <div class="db-grid">
+    {% for p in d.panels %}
+    {% if panels is none or loop.index0 in panels %}
+    <section class="db-panel{{ ' db-panel-wide' if p.get('wide') }}" aria-label="{{ p.title }}">
+      <header class="db-panel-head">
+        <div>
+          <h3>{{ p.title }}</h3>
+          {% if p.get('unit') %}<p>{{ p.unit }}</p>{% endif %}
+        </div>
+        {% if p.get('legend') %}{{ legend(p.legend) }}{% endif %}
+      </header>
+      {% if p.type == 'columns' %}{{ columns(p) }}
+      {% elif p.type == 'bars' %}{{ bars(p) }}
+      {% elif p.type == 'grouped' %}{{ grouped(p) }}
+      {% elif p.type == 'stack' %}{{ stack(p) }}
+      {% elif p.type == 'line' %}{{ line(p) }}
+      {% elif p.type == 'ranking' %}{{ ranking(p) }}
+      {% elif p.type == 'opportunities' %}{{ opportunities(p) }}
+      {% elif p.type == 'replenish' %}{{ replenish(p) }}
+      {% endif %}
+    </section>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="db-tooltip" hidden></div>
+</div>
+{% endmacro %}
