@@ -60,6 +60,24 @@
   <url><loc>https://deepdatas.com/en/privacy/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/privacidad/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/privacy/"/></url>
+  <url><loc>https://deepdatas.com/industrias/consumo-masivo/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/consumo-masivo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/consumer-goods/"/></url>
+  <url><loc>https://deepdatas.com/industrias/distribucion-y-retail/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/distribucion-y-retail/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/distribution-and-retail/"/></url>
+  <url><loc>https://deepdatas.com/industrias/salud/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/salud/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/healthcare/"/></url>
+  <url><loc>https://deepdatas.com/en/industries/consumer-goods/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/consumo-masivo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/consumer-goods/"/></url>
+  <url><loc>https://deepdatas.com/en/industries/distribution-and-retail/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/distribucion-y-retail/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/distribution-and-retail/"/></url>
+  <url><loc>https://deepdatas.com/en/industries/healthcare/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/salud/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/healthcare/"/></url>
   <url><loc>https://deepdatas.com/blog/</loc></url>
   <url><loc>https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/</loc></url>
   <url><loc>https://deepdatas.com/blog/datos-antes-de-implementar-ia/</loc></url>

@@ -128,6 +128,15 @@
         </div>
 
         <div>
+          <h2 class="footer-title">{{ t.footer_industries }}</h2>
+          <ul class="footer-links">
+            {% for ind in industries %}
+            <li><a href="{{ url('ind-' ~ ind.id) }}">{{ ind.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div>
           <h2 class="footer-title">{{ t.footer_company }}</h2>
           <ul class="footer-links">
             {% if cases %}<li><a href="{{ url('casos') }}">{{ t.footer_cases }}</a></li>{% endif %}

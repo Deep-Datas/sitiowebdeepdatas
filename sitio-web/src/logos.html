@@ -1,14 +1,25 @@
 {# Logos de clientes (monocromos) con su título y los rubros. #}
+{% set LOGOS = [
+  ('kelloggs', 'kelloggs.png', "Kellogg's", 337, 120),
+  ('mccain', 'mccain.png', 'McCain', 202, 120),
+  ('lilly', 'lilly.png', 'Lilly', 219, 120),
+  ('trustly', 'trustly.png', 'Trustly', 384, 120),
+  ('citrus', 'citrus.png', 'Citrus', 361, 120),
+  ('romemi', 'romemi.svg', 'Romemi Materiales Eléctricos', 402, 128),
+  ('cafe-m', 'cafe-m.png', 'Café M', 108, 120),
+] %}
+
+{# Lista de logos; con «only», solo los de esos clientes (por ejemplo, los de una industria). #}
+{% macro row(only=none) %}
+<ul class="logos-row">
+  {% for id, file, name, w, h in LOGOS if only is none or id in only %}
+  <li><img{% if id == 'cafe-m' %} class="logo-round"{% endif %} src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
+  {% endfor %}
+</ul>
+{% endmacro %}
+
 {% macro wall(title_id='logos-title') %}
 <h2 class="logos-title" id="{{ title_id }}">{{ t.logos_title }}</h2>
-<ul class="logos-row">
-  <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
-  <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
-  <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
-  <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
-  <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
-  <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
-  <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
-</ul>
+{{ row() }}
 <p class="logos-caption">{{ t.logos_caption }}</p>
 {% endmacro %}

@@ -23,7 +23,9 @@ from blog import load_posts, long_date
 from casos import CASES, PENDIENTE, localized_cases
 from dashboards import EXAMPLES
 from pipeline import pipeline
-from i18n import ROUTES, UI, route
+from i18n import LANGS, ROUTES, UI, route
+from industrias import LABELS as INDUSTRY_LABELS, industries
+from testimonios import localized_testimonials, published_testimonials
 
 
 ROOT = Path(__file__).parent
@@ -35,8 +37,8 @@ SITE_URL = 'https://deepdatas.com'
 PAGES = [
     {
         'template': 'index.html', 'key': 'inicio', 'path': '/', 'nav': 'inicio',
-        'title': 'DeepDatas | Consultora de datos e inteligencia de negocios',
-        'description': 'Integramos, limpiamos y analizamos los datos de tu empresa para convertirlos en tableros de gestión y modelos predictivos que ayudan a vender más y gastar menos.',
+        'title': 'DeepDatas | Datos e IA para consumo masivo y distribución',
+        'description': 'Consultora de datos e IA para empresas de consumo masivo, distribución y retail: integramos tu ERP, tu CRM y las ventas de tus distribuidores en tableros, pronósticos y agentes de IA que ayudan a vender más y gastar menos.',
     },
     {
         'template': 'servicios.html', 'key': 'servicios', 'path': '/servicios/', 'nav': 'servicios',
@@ -99,8 +101,8 @@ PAGES = [
 PAGES_EN = [
     {
         'template': 'en/index.html', 'key': 'inicio', 'nav': 'inicio',
-        'title': 'DeepDatas | Data and AI consultancy',
-        'description': 'We integrate, clean and analyze your company’s data and turn it into dashboards, predictive models and AI agents that help you sell more and spend less.',
+        'title': 'DeepDatas | Data and AI for consumer goods and distribution',
+        'description': 'Data and AI consultancy for consumer goods, distribution and retail companies: we turn your ERP, CRM and distributor sales into dashboards, forecasts and AI agents that help you sell more and spend less.',
     },
     {
         'template': 'en/servicios.html', 'key': 'servicios', 'nav': 'servicios',
@@ -155,6 +157,22 @@ PAGES_EN = [
 ]
 for _page in PAGES_EN:
     _page.update(lang='en', path=ROUTES[_page['key']]['en'])
+
+
+def industry_pages():
+    """Una página por industria y por idioma (industrias.py), con la plantilla industria.html."""
+    pages = []
+    for lang in LANGS:
+        items = industries(lang)
+        for ind in items:
+            key = f'ind-{ind["id"]}'
+            pages.append({
+                'template': 'industria.html', 'key': key, 'lang': lang, 'path': ROUTES[key][lang], 'nav': key,
+                'title': ind['title'], 'description': ind['description'],
+                'industry': ind, 'labels': INDUSTRY_LABELS[lang],
+                'others': [other for other in items if other['id'] != ind['id']],
+            })
+    return pages
 
 
 ICON_STROKE = '1.75'
@@ -280,6 +298,9 @@ WHATSAPP_MESSAGES = {
     'ia': 'Hola, vengo de la web de DeepDatas y me interesa aplicar inteligencia artificial en mi empresa.',
     'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
+    'ind-consumo': 'Hola, vengo de la web de DeepDatas. Trabajo en una empresa de consumo masivo y quiero hacer una consulta.',
+    'ind-distribucion': 'Hola, vengo de la web de DeepDatas. Trabajo en una distribuidora o retail y quiero hacer una consulta.',
+    'ind-salud': 'Hola, vengo de la web de DeepDatas. Trabajo en un laboratorio o empresa de salud y quiero hacer una consulta.',
 }
 WHATSAPP_MESSAGES_EN = {
     None: "Hi, I'm coming from the DeepDatas website and I have a question.",
@@ -289,6 +310,9 @@ WHATSAPP_MESSAGES_EN = {
     'ia': "Hi, I'm coming from the DeepDatas website and I'm interested in applying AI in my company.",
     'autoevaluacion': "Hi, I took the AI readiness check on the DeepDatas website and I'd like to discuss next steps.",
     'ejemplos': "Hi, I'm coming from the DeepDatas website. I saw the sample dashboards and I'd like to ask about one for my company.",
+    'ind-consumo': "Hi, I'm coming from the DeepDatas website. I work at a consumer goods company and I have a question.",
+    'ind-distribucion': "Hi, I'm coming from the DeepDatas website. I work at a distribution or retail company and I have a question.",
+    'ind-salud': "Hi, I'm coming from the DeepDatas website. I work at a pharmaceutical or healthcare company and I have a question.",
 }
 
 
@@ -412,7 +436,8 @@ def alternates(page):
 
 def build(drafts=False):
     cases = published_cases(drafts)
-    pages = [p for p in PAGES + PAGES_EN if cases or not p.get('requires_cases')]
+    testimonials = published_testimonials(drafts)
+    pages = [p for p in PAGES + PAGES_EN if cases or not p.get('requires_cases')] + industry_pages()
     posts = load_posts(include_future=drafts)
     if posts:
         pages.append({
@@ -446,7 +471,8 @@ def build(drafts=False):
         lang = page.get('lang', 'es')
         return env.get_template(page['template']).render(
             page=page, lang=lang, t=UI[lang], alt=alternates(page),
-            examples=EXAMPLES[lang], cases=localized_cases(cases, lang))
+            examples=EXAMPLES[lang], cases=localized_cases(cases, lang),
+            testimonials=localized_testimonials(testimonials, lang), industries=industries(lang))
 
     def render_all():
         return [(page, render(page)) for page in ({'noindex': drafts, **p} for p in pages)]

@@ -10,7 +10,8 @@ que genera una vista previa en vista-previa/ (esa carpeta no se sube).
 Cada caso lleva de uno a tres resultados, que deben ser reales y verificables.
 'duration' es opcional (None para no mostrarla). Además, si el cliente no autoriza
 su nombre, usá una descripción ('Empresa multinacional de consumo masivo')
-y dejá 'logo' en None.
+y dejá 'logo' en None. El testimonio del cliente, si lo hay, se carga en
+testimonios.py con el id del caso en 'case'.
 """
 
 PENDIENTE = '[completar]'
@@ -34,7 +35,6 @@ CASES = [
         'sources': ['Excel y planillas', 'Archivos .txt y .csv', 'ERP'],
         'stack': ['Power BI', 'Azure', 'SQL'],
         'duration': None,
-        'quote': None,                      # ('Texto del testimonio', 'Nombre Apellido', 'Cargo, Empresa')
         'example': 'distribuidores',        # tablero de ejemplo relacionado en /ejemplos/
     },
     {
@@ -57,7 +57,6 @@ CASES = [
         'sources': ['ERP', 'CRM', 'Excel y planillas'],
         'stack': ['Power BI', 'SQL'],
         'duration': PENDIENTE,
-        'quote': None,
         'example': 'cobertura',
     },
     {
@@ -78,7 +77,6 @@ CASES = [
         'sources': ['ERP', 'APIs y e-commerce'],
         'stack': ['Python', 'Azure', 'Power BI'],
         'duration': None,
-        'quote': None,
         'example': 'pronostico',
     },
 ]

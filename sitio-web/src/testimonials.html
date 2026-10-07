@@ -1,0 +1,48 @@
+{# Testimonios de clientes (testimonios.py). Las citas son textuales: se cargan y se
+   corrigen en testimonios.py, siempre con la aprobación del cliente. #}
+
+{% macro text(value) -%}
+{% if value == pending %}<span class="is-pending">{{ value }}</span>{% else %}{{ value }}{% endif %}
+{%- endmacro %}
+
+{# Una cita. variant='case' la muestra dentro de un caso de éxito (casos.html). #}
+{% macro quote(item, variant='card') %}
+{% set es_marks = item.quote_lang == 'es' %}
+<figure class="{{ 'case-quote' if variant == 'case' else 'testimonial' }} reveal">
+  {% set external_video = item.video and item.video.startswith('http') %}
+  {% if item.video and not external_video %}
+  <video class="testimonial-video" controls preload="none" playsinline{% if item.poster %} poster="/assets/img/{{ item.poster }}"{% endif %}>
+    <source src="/assets/video/{{ item.video }}" type="video/mp4">
+    {% if item.captions %}<track kind="captions" src="/assets/video/{{ item.captions }}" srclang="es" label="Español" default>{% endif %}
+  </video>
+  {% endif %}
+  <blockquote{% if item.quote_lang != lang %} lang="{{ item.quote_lang }}"{% endif %}>
+    <p>{{ '«' if es_marks else '“' }}{{ text(item.quote) }}{{ '»' if es_marks else '”' }}</p>
+  </blockquote>
+  {% if external_video %}
+  <a class="testimonial-video-link" href="{{ item.video }}" target="_blank" rel="noopener">{{ icon('play') }} {{ t.testimonial_video }}</a>
+  {% endif %}
+  <figcaption{% if item.quote_lang != lang %} lang="{{ item.quote_lang }}"{% endif %}>
+    {% if item.photo %}<img class="testimonial-photo" src="/assets/img/{{ item.photo }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <span class="testimonial-who">
+      <strong>{{ text(item.name) }}</strong>
+      <span>{{ text(item.role) }} · {{ text(item.company) }}</span>
+      {% if item.translated %}<small>{{ t.testimonial_translated }}</small>{% endif %}
+      {% if not item.publicado %}<small class="tag-draft">Borrador</small>{% endif %}
+    </span>
+  </figcaption>
+</figure>
+{% endmacro %}
+
+{# Grilla de testimonios con su título. #}
+{% macro section(items, eyebrow, title_id='testimonios-title') %}
+<div class="section-head reveal">
+  <p class="eyebrow">{{ eyebrow }}</p>
+  <h2 id="{{ title_id }}">{{ t.testimonials_title }}</h2>
+</div>
+<div class="testimonial-grid">
+  {% for item in items %}
+  {{ quote(item) }}
+  {% endfor %}
+</div>
+{% endmacro %}

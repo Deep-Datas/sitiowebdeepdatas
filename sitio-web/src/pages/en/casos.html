@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% import 'charts.html' as charts with context %}
+{% import 'testimonials.html' as testimonials_ui with context %}
 
 {% macro value(text) -%}
 {% if text == pending %}<span class="is-pending">{{ text }}</span>{% else %}{{ text }}{% endif %}
@@ -56,12 +57,9 @@
         <div><dt class="label">The outcome</dt><dd>{{ c.outcome }}</dd></div>
       </dl>
 
-      {% if c.quote %}
-      <figure class="case-quote reveal">
-        <blockquote><p>“{{ c.quote[0] }}”</p></blockquote>
-        <figcaption><strong>{{ c.quote[1] }}</strong> {{ c.quote[2] }}</figcaption>
-      </figure>
-      {% endif %}
+      {% for item in testimonials if item.case == c.id %}
+      {{ testimonials_ui.quote(item, 'case') }}
+      {% endfor %}
 
       <div class="case-meta">
         <div>

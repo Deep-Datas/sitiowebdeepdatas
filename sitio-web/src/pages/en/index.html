@@ -4,6 +4,7 @@
 {% import 'plans.html' as plans with context %}
 {% import 'logos.html' as logos with context %}
 {% import 'pipeline.html' as pipeline_chart with context %}
+{% import 'testimonials.html' as testimonials_ui with context %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -80,6 +81,27 @@
   </div>
 </section>
 
+<!-- ======= INDUSTRIES ======= -->
+<section class="section" id="industrias" aria-labelledby="industrias-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Industries</p>
+      <h2 id="industrias-title">Specialists in companies that sell through distributors and <em>points of sale.</em></h2>
+      <p>We know the KPIs, data sources and typical problems of each sector. That’s why we start with the right questions.</p>
+    </div>
+    <div class="ind-cards">
+      {% for ind in industries %}
+      <a class="ind-card reveal" href="{{ url('ind-' ~ ind.id) }}">
+        <span class="pain-icon">{{ icon(ind.icon) }}</span>
+        <h3>{{ ind.name }}</h3>
+        <p>{{ ind.card }}</p>
+        <span class="case-card-more">See solutions and KPIs {{ icon('arrow-right') }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 <!-- ======= PROBLEM / SOLUTION ======= -->
 <section class="section">
   <div class="container">
@@ -147,6 +169,15 @@
       </a>
       {% endfor %}
     </div>
+  </div>
+</section>
+{% endif %}
+
+{% if testimonials %}
+<!-- ======= TESTIMONIALS ======= -->
+<section class="section section-tight" aria-labelledby="testimonios-title">
+  <div class="container">
+    {{ testimonials_ui.section(testimonials[:3], 'Testimonials') }}
   </div>
 </section>
 {% endif %}

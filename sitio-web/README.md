@@ -6,7 +6,8 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 
 | Ruta | Contenido |
 | --- | --- |
-| `/` | Propuesta de valor, clientes, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, servicios, caso destacado, proceso, industrias |
+| `/` | Propuesta de valor (datos e IA para consumo masivo y distribución), clientes, industrias, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, casos, testimonios, formas de empezar |
+| `/industrias/…` | Una página por industria (consumo masivo, distribución y retail, laboratorios y salud): desafíos, soluciones, indicadores, tablero de ejemplo, casos, testimonios, preguntas frecuentes y notas del blog |
 | `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
 | `/blog/` | Artículos (uno por archivo en `blog/`), cada uno en `/blog/<archivo>/` |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
@@ -26,13 +27,17 @@ build.py                 Genera el sitio en public/ a partir de src/
 blog.py                  Lee los artículos de blog/ (Markdown)
 blog/                    Artículos del blog, uno por archivo .md
 contenido/linkedin.md    Publicaciones sugeridas para LinkedIn (no se publica en el sitio)
+contenido/testimonios.md Guía para pedir testimonios a los clientes (no se publica en el sitio)
 casos.py                 Casos de éxito (se publican al marcarlos como publicados)
+testimonios.py           Testimonios de clientes (se publican con su autorización)
+industrias.py            Textos de las páginas por industria, en español e inglés
 dashboards.py            Datos ficticios de los tableros de ejemplo
 pipeline.py              Textos (en los dos idiomas) y geometría del gráfico «Del dato disperso al agente de IA»
 i18n.py                  Rutas de cada página en español e inglés y textos de los componentes compartidos
 requirements.txt         Dependencias para generar el sitio (Jinja2)
 src/layout.html          Estructura común: encabezado, menú, pie y metadatos
 src/forms.html           Formulario de contacto (se usa en Contacto y en Diagnóstico)
+src/testimonials.html    Testimonios (inicio, casos e industrias)
 src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y agente de IA
 src/pages/               Contenido de cada página (en src/pages/en/, la versión en inglés)
@@ -66,7 +71,7 @@ azure-static-web-apps-*.yml   Pipeline de Azure DevOps para publicar
 El sitio se publica en español (raíz) y en inglés (`/en/`). El blog es solo en español.
 
 - Cada página en inglés tiene su plantilla en `src/pages/en/`, con el mismo nombre de archivo que la española. Sus títulos y descripciones están en `PAGES_EN` (`build.py`) y sus rutas en `ROUTES` (`i18n.py`).
-- Los textos de los componentes que comparten todas las páginas (menú, pie, formularios, planes, logos, tableros y gráfico de datos) están en `i18n.py`; los de la escena del inicio, en `src/hero.html`; los de los tableros de ejemplo, en `dashboards.py`, y los de los casos, en `CASES_EN` (`casos.py`).
+- Los textos de los componentes que comparten todas las páginas (menú, pie, formularios, planes, logos, tableros y gráfico de datos) están en `i18n.py`; los de la escena del inicio, en `src/hero.html`; los de los tableros de ejemplo, en `dashboards.py`; los de los casos, en `CASES_EN` (`casos.py`); los de las industrias, en `industrias.py`, y las traducciones de los testimonios, en `testimonios.py`.
 - En las plantillas, los enlaces internos se escriben con `{{ url('servicios') }}` para que apunten a la página del mismo idioma.
 - Cada página enlaza su versión en el otro idioma desde el encabezado y el pie, y declara las dos versiones con `hreflang` (también en `sitemap.xml`).
 - Al cambiar un texto en español, actualizá también la versión en inglés.
@@ -126,11 +131,25 @@ cta: diagnostico
 
 Los casos están en `casos.py`. Cada uno tiene `'publicado': False` hasta que se completen sus datos reales:
 
-1. Reemplazá cada `[completar]` por el dato real (resultados, duración) y, si el cliente lo autoriza, agregá su logo y un testimonio.
+1. Reemplazá cada `[completar]` por el dato real (resultados, duración) y, si el cliente lo autoriza, agregá su logo. El testimonio del cliente va en `testimonios.py` (ver «Testimonios»).
 2. Revisalo con `python build.py --borradores` y abrí la carpeta `vista-previa/` (no se sube al repositorio).
 3. Cambiá `'publicado'` a `True` y ejecutá `python build.py`.
 
 Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos» del menú y la sección de casos del inicio. `build.py` no deja publicar un caso que todavía tenga datos `[completar]`.
+
+## Testimonios
+
+Los testimonios están en `testimonios.py` y la guía para pedirlos a los clientes (mensaje, preguntas, autorización y consejos para grabar un video de 30 segundos) en `contenido/testimonios.md`. Tienen que ser reales: el texto lo escribe o lo aprueba el cliente.
+
+1. Completá el borrador (texto, nombre, cargo y empresa; foto y video opcionales) y en `consent` anotá cómo y cuándo autorizó la publicación.
+2. Revisalo con `python build.py --borradores`.
+3. Cambiá `'publicado'` a `True` y ejecutá `python build.py`.
+
+Cada testimonio publicado aparece en la sección «Lo que dicen nuestros clientes» del inicio, dentro de su caso de éxito (`case`) y en la página de su industria (`industry`). `build.py` no deja publicar un testimonio con datos `[completar]` o sin autorización.
+
+## Industrias
+
+Las páginas `/industrias/consumo-masivo/`, `/industrias/distribucion-y-retail/` y `/industrias/salud/` (y sus versiones en inglés en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-consumo`, `ind-distribucion` e `ind-salud`). Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
 
 ## Analítica de visitas
 

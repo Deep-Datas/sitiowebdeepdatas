@@ -4,6 +4,7 @@
 {% import 'plans.html' as plans with context %}
 {% import 'logos.html' as logos with context %}
 {% import 'pipeline.html' as pipeline_chart with context %}
+{% import 'testimonials.html' as testimonials_ui with context %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -80,6 +81,27 @@
   </div>
 </section>
 
+<!-- ======= INDUSTRIAS ======= -->
+<section class="section" id="industrias" aria-labelledby="industrias-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Industrias</p>
+      <h2 id="industrias-title">Especialistas en empresas que venden a través de distribuidores y <em>puntos de venta.</em></h2>
+      <p>Conocemos los indicadores, las fuentes de datos y los problemas típicos de cada sector. Por eso arrancamos con las preguntas correctas.</p>
+    </div>
+    <div class="ind-cards">
+      {% for ind in industries %}
+      <a class="ind-card reveal" href="{{ url('ind-' ~ ind.id) }}">
+        <span class="pain-icon">{{ icon(ind.icon) }}</span>
+        <h3>{{ ind.name }}</h3>
+        <p>{{ ind.card }}</p>
+        <span class="case-card-more">Ver soluciones e indicadores {{ icon('arrow-right') }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
 <!-- ======= PROBLEMA / SOLUCIÓN ======= -->
 <section class="section">
   <div class="container">
@@ -147,6 +169,15 @@
       </a>
       {% endfor %}
     </div>
+  </div>
+</section>
+{% endif %}
+
+{% if testimonials %}
+<!-- ======= TESTIMONIOS ======= -->
+<section class="section section-tight" aria-labelledby="testimonios-title">
+  <div class="container">
+    {{ testimonials_ui.section(testimonials[:3], 'Testimonios') }}
   </div>
 </section>
 {% endif %}

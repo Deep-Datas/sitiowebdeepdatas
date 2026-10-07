@@ -7549,3 +7549,318 @@ button.text-link-quiet {
   color: var(--fg-3);
   font-size: 0.9rem;
 }
+
+/* ---------- Industrias (industrias.py, pages/industria.html) ---------- */
+.ind-cards {
+  display: grid;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .ind-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ind-card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--lift);
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ind-card:hover {
+  border-color: var(--hairline-strong);
+  box-shadow: var(--lift-hover);
+}
+
+.ind-card h3 {
+  margin: 0 0 8px;
+}
+
+.ind-card p {
+  margin: 0 0 20px;
+  color: var(--fg-2);
+}
+
+.ind-card .case-card-more {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+}
+
+.ind-card:hover .case-card-more {
+  color: var(--accent-300);
+}
+
+.ind-hero h1 {
+  max-width: 22ch;
+}
+
+.ind-trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--hairline);
+}
+
+.ind-trust .label {
+  margin: 0;
+}
+
+.ind-trust .logos-row {
+  justify-content: flex-start;
+  gap: 16px 40px;
+}
+
+.ind-trust .logos-row img {
+  height: 28px;
+}
+
+.ind-trust .logos-row img.logo-round {
+  height: 44px;
+}
+
+.pain-card > .label {
+  color: var(--accent-300);
+}
+
+.ind-solution {
+  display: flex;
+  flex-direction: column;
+}
+
+.ind-solution .link-arrow {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+}
+
+.ind-kpis {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+@media (min-width: 1080px) {
+  .ind-kpis-example {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+  }
+}
+
+.ind-kpi-list {
+  gap: 14px 32px;
+  margin: 28px 0 0;
+}
+
+@media (min-width: 640px) {
+  .ind-kpi-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ind-kpis:not(.ind-kpis-example) .ind-kpi-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1080px) {
+  .ind-kpis-example .ind-kpi-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ind-results {
+  display: grid;
+  gap: 20px;
+}
+
+.ind-others-list {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .ind-others-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ind-other {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  padding: 20px 24px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--lift);
+  color: var(--fg-2);
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ind-other:hover {
+  border-color: var(--hairline-strong);
+  box-shadow: var(--lift-hover);
+}
+
+.ind-other .pain-icon {
+  flex: none;
+  margin: 0;
+}
+
+.ind-other strong {
+  display: block;
+  color: var(--text);
+}
+
+.ind-other > .icon {
+  flex: none;
+  margin-left: auto;
+  color: var(--fg-3);
+}
+
+.ind-other:hover > .icon {
+  color: var(--accent-300);
+}
+
+/* ---------- Testimonios (testimonios.py, testimonials.html) ---------- */
+.testimonial-grid {
+  display: grid;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .testimonial-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 32px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--lift);
+}
+
+.testimonial blockquote {
+  margin: 0;
+}
+
+.testimonial blockquote p {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.testimonial figcaption,
+.case-quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.testimonial figcaption {
+  margin-top: auto;
+}
+
+.testimonial-photo {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-who {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--fg-3);
+  font-size: 0.92rem;
+}
+
+.testimonial-who strong {
+  color: var(--text);
+}
+
+.case-quote blockquote p {
+  color: var(--on-dark);
+}
+
+.case-quote .testimonial-who {
+  color: var(--muted-dark);
+}
+
+.case-quote .testimonial-who strong {
+  color: var(--on-dark);
+}
+
+.testimonial-who small {
+  font-size: 0.78rem;
+}
+
+.testimonial-who .tag-draft {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-50);
+  color: var(--accent-700);
+}
+
+.testimonial-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-sm);
+  background: var(--ink-900);
+}
+
+.case-quote .testimonial-video {
+  margin-bottom: 20px;
+}
+
+.testimonial-video-link {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  font-weight: 600;
+}
+
+/* Pie: columna de industrias */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1.5fr repeat(3, 1fr) 1.2fr;
+  }
+}

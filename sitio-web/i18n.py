@@ -25,6 +25,10 @@ ROUTES = {
     'privacidad': {'es': '/privacidad/', 'en': '/en/privacy/'},
     'gracias': {'es': '/gracias/', 'en': '/en/thank-you/'},
     'blog': {'es': '/blog/', 'en': None},
+    # Páginas por industria (industrias.py)
+    'ind-consumo': {'es': '/industrias/consumo-masivo/', 'en': '/en/industries/consumer-goods/'},
+    'ind-distribucion': {'es': '/industrias/distribucion-y-retail/', 'en': '/en/industries/distribution-and-retail/'},
+    'ind-salud': {'es': '/industrias/salud/', 'en': '/en/industries/healthcare/'},
 }
 
 
@@ -58,6 +62,7 @@ UI = {
         'footer_about': 'Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.',
         'footer_services': 'Servicios',
         'footer_company': 'Empresa',
+        'footer_industries': 'Industrias',
         'footer_contact': 'Contacto',
         'footer_links_services': [
             ('servicios', '#ingenieria', 'Ingeniería de datos'),
@@ -119,6 +124,9 @@ UI = {
             ],
         },
         'logos_title': 'Confían en DeepDatas',
+        'testimonials_title': 'Lo que dicen nuestros clientes',
+        'testimonial_video': 'Ver el video',
+        'testimonial_translated': '',
         'logos_caption': 'Consumo masivo · Salud · Tecnología · Distribución · Retail',
         # Tableros de ejemplo
         'charts': {
@@ -165,6 +173,7 @@ UI = {
         'footer_about': "Data and business intelligence consultancy. We integrate, clean and analyze your company's information so you can make better decisions.",
         'footer_services': 'Services',
         'footer_company': 'Company',
+        'footer_industries': 'Industries',
         'footer_contact': 'Contact',
         'footer_links_services': [
             ('servicios', '#ingenieria', 'Data engineering'),
@@ -224,6 +233,9 @@ UI = {
             ],
         },
         'logos_title': 'Trusted by',
+        'testimonials_title': 'What our clients say',
+        'testimonial_video': 'Watch the video',
+        'testimonial_translated': 'Translated from Spanish',
         'logos_caption': 'Consumer goods · Healthcare · Technology · Distribution · Retail',
         'charts': {
             'see_data': 'View data',
