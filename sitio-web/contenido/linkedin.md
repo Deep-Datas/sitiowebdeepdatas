@@ -209,3 +209,29 @@ Enlace: https://deepdatas.com/blog/donde-guardar-los-datos/
 > La guía completa, en el primer comentario 👇
 >
 > #IngenieríaDeDatos #DataWarehouse #Azure #Datos
+
+---
+
+## 10. Cómo se integra un ERP con un agente de IA
+
+Enlace: https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/
+
+> "¿Cuánto facturó la zona norte ayer?" 💬
+>
+> Preguntarle al ERP en lenguaje natural ya es posible. Pero conectar un agente de IA directo a las tablas del ERP casi nunca es buena idea: los nombres son crípticos, los códigos confunden al modelo y cada consulta carga el sistema que usa toda la empresa.
+>
+> Cómo lo armamos:
+>
+> 1️⃣ Extraer del ERP solo lo que cambió, sin afectar la operación
+> 2️⃣ Ordenar y modelar los datos: ventas, stock, clientes, productos
+> 3️⃣ Definir cada indicador una sola vez, para que el agente, los tableros y finanzas usen el mismo número
+> 4️⃣ Darle al agente herramientas acotadas, con permisos de solo lectura y por usuario
+> 5️⃣ Responder siempre con la fuente y la hora del dato
+>
+> ¿Cada cuánto actualizar? No todo necesita estar al minuto. Recomendamos empezar con una carga diaria y sumar consultas en vivo solo para lo crítico, como stock y estado de pedidos.
+>
+> Y la misma arquitectura funciona en Azure, AWS o Google Cloud ☁️
+>
+> El detalle técnico, en el primer comentario 👇
+>
+> #InteligenciaArtificial #ERP #IngenieríaDeDatos #Azure #AWS #GoogleCloud
