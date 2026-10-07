@@ -267,7 +267,7 @@ def hero_scene():
 # Enlace para agendar una llamada (página de Microsoft Bookings o Calendly). Con un enlace, los
 # botones «Coordinar llamada» abren la agenda en otra pestaña y Contacto la ofrece primero.
 # Vacío = los botones llevan al formulario de contacto.
-BOOKING_URL = ''
+BOOKING_URL = 'https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/'
 
 
 @pass_context

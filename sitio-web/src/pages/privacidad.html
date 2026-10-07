@@ -20,13 +20,16 @@
         <h2>Qué datos recibimos</h2>
         <ul>
           <li><strong>Formularios de contacto, de diagnóstico y de la autoevaluación:</strong> nombre y apellido, email, empresa, teléfono, el tema que te interesa y tu mensaje. Los datos se envían por correo electrónico a nuestro equipo; el sitio no los guarda en una base de datos.</li>
+          {% if booking %}
+          <li><strong>Agenda de reuniones:</strong> si reservás una llamada, la agenda funciona con Microsoft Bookings, dentro de la cuenta de Microsoft 365 de DeepDatas. Recibimos tu nombre, tu email, el horario que elegiste y las respuestas que completes, y te llega la confirmación por email.</li>
+          {% endif %}
           <li><strong>Autoevaluación de datos:</strong> tus respuestas se procesan en tu navegador para mostrarte el resultado y no se envían a ningún lado. Solo nos llegan, junto con el resultado, si completás tus datos de contacto al final.</li>
           <li><strong>Estadísticas de uso:</strong> usamos Microsoft Clarity, configurado sin cookies, para entender de forma agregada cómo se navega el sitio (páginas visitadas, clics, desplazamiento, tipo de dispositivo y ubicación aproximada).</li>
           <li><strong>Servicios de terceros:</strong> los enlaces a WhatsApp y el mapa de Google se rigen por las políticas de privacidad de esas empresas.</li>
         </ul>
 
         <h2>Para qué los usamos</h2>
-        <p>Usamos los datos del formulario solo para responder tu consulta y coordinar una conversación. No los vendemos ni los cedemos a terceros con fines comerciales. Las estadísticas de uso nos ayudan a mejorar el sitio.</p>
+        <p>Usamos los datos de los formularios{{ ' y de la agenda' if booking }} solo para responder tu consulta y coordinar una conversación. No los vendemos ni los cedemos a terceros con fines comerciales. Las estadísticas de uso nos ayudan a mejorar el sitio.</p>
 
         <h2>Cuánto tiempo los conservamos</h2>
         <p>Conservamos tus datos de contacto mientras sea necesario para responder tu consulta y darle seguimiento. Podés pedirnos que los eliminemos en cualquier momento.</p>

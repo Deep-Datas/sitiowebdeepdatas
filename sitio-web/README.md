@@ -78,7 +78,7 @@ El sitio se publica en español (raíz) y en inglés (`/en/`). El blog es solo e
 
 ## Agenda online
 
-Para que los botones «Coordinar llamada» abran una agenda (Microsoft Bookings o Calendly) en lugar del formulario, pegá el enlace de la página de reservas en `BOOKING_URL` (`build.py`) y regenerá el sitio. Contacto también ofrece la agenda antes del formulario, y Clarity registra cada clic como `agendar_reunion`.
+Los botones «Coordinar llamada» abren en otra pestaña la página de reservas de Microsoft Bookings (`BOOKING_URL` en `build.py`). Para cambiarla (por ejemplo, por Calendly), reemplazá el enlace y regenerá el sitio; si lo dejás vacío, los botones vuelven a llevar al formulario de contacto. La política de privacidad menciona Microsoft Bookings mientras haya un enlace configurado. Contacto también ofrece la agenda antes del formulario, y Clarity registra cada clic como `agendar_reunion`.
 
 ## Publicación en Azure Static Web Apps
 

@@ -20,13 +20,16 @@
         <h2>What data we receive</h2>
         <ul>
           <li><strong>Contact, data assessment and AI readiness check forms:</strong> full name, email, company, phone number, the topic you are interested in and your message. The data is sent by email to our team; the website does not store it in a database.</li>
+          {% if booking %}
+          <li><strong>Meeting scheduling:</strong> if you book a call, scheduling runs on Microsoft Bookings, within DeepDatas’ Microsoft 365 account. We receive your name, your email, the time you chose and any answers you provide, and you get a confirmation by email.</li>
+          {% endif %}
           <li><strong>AI readiness check:</strong> your answers are processed in your browser to show you the result and are not sent anywhere. We only receive them, together with the result, if you fill in your contact details at the end.</li>
           <li><strong>Usage statistics:</strong> we use Microsoft Clarity, configured without cookies, to understand in aggregate how the website is used (pages visited, clicks, scrolling, device type and approximate location).</li>
           <li><strong>Third-party services:</strong> the WhatsApp links and the Google map are governed by those companies’ privacy policies.</li>
         </ul>
 
         <h2>What we use it for</h2>
-        <p>We use the form data only to answer your inquiry and arrange a conversation. We do not sell it or share it with third parties for commercial purposes. Usage statistics help us improve the website.</p>
+        <p>We use the data from our forms{{ ' and scheduling page' if booking }} only to answer your inquiry and arrange a conversation. We do not sell it or share it with third parties for commercial purposes. Usage statistics help us improve the website.</p>
 
         <h2>How long we keep it</h2>
         <p>We keep your contact details for as long as necessary to answer your inquiry and follow up on it. You can ask us to delete them at any time.</p>
