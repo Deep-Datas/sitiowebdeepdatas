@@ -1,7 +1,7 @@
 {#
-  Hero del inicio: una persona de espaldas frente a un monitor. Al hacer
-  scroll, la cámara se acerca a la pantalla y se ve al asistente (Claude)
-  analizando las ventas y recomendando acciones.
+  Hero del inicio: una persona frente a un monitor. Al hacer scroll, la
+  cámara se acerca a la pantalla y se ve a un asistente de IA analizando las
+  ventas y recomendando acciones.
 
   Capas de la escena (coordenadas en píxeles de la imagen de 3600 x 2250,
   ver tools/hero_scene.py): fondo, pantalla en HTML y persona al frente.
@@ -33,7 +33,7 @@
 {% set full = mode == 'app' %}
 <div class="cw cw-{{ mode }}"{% if not full %} aria-hidden="true"{% endif %}>
   <aside class="cw-side">
-    <p class="cw-brand">Claude</p>
+    <p class="cw-brand">Asistente IA</p>
     <p class="cw-new">{{ icon('plus-lg') }} Nuevo chat</p>
     <p class="cw-side-title">Recientes</p>
     <ul class="cw-recents">
@@ -48,7 +48,7 @@
 
   <div class="cw-main">
     <header class="cw-top">
-      <span class="cw-top-brand">Claude</span>
+      <span class="cw-top-brand">Asistente IA</span>
       <span class="cw-top-title">Análisis de ventas del 3.er trimestre</span>
       <span class="cw-top-chip"><img src="/assets/img/brand/logo-mark.png" alt="" width="12" height="14"> Datos curados por DeepDatas</span>
     </header>
@@ -129,7 +129,7 @@
     </div>
 
     <div class="cw-input" aria-hidden="true">
-      <span>Respondé a Claude…</span>
+      <span>Escribí tu consulta…</span>
       <span class="cw-send">{{ icon('arrow-right') }}</span>
     </div>
   </div>
@@ -174,7 +174,7 @@
       {{ window('app') }}
     </div>
   </div>
-  <p class="hs-note">Interfaz ilustrativa con datos ficticios. Claude es una marca de Anthropic.</p>
+  <p class="hs-note">Interfaz ilustrativa con datos ficticios.</p>
 </section>
 <span id="despues-del-inicio"></span>
 {% endmacro %}
