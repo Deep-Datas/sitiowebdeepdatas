@@ -11,7 +11,7 @@
 {% set portal_url = 'https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx' %}
 {% set whatsapp_url = whatsapp(page.nav) %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="{{ theme }}">
 
 <head>
   <meta charset="utf-8">
@@ -23,7 +23,7 @@
   {% else %}
   <link rel="canonical" href="{{ site_url }}{{ page.path }}">
   {% endif %}
-  <meta name="theme-color" content="#07090e">
+  <meta name="theme-color" content="{{ theme_color }}">
 
   <meta property="og:type" content="{{ 'article' if page.get('post') else 'website' }}">
   <meta property="og:locale" content="es_AR">
@@ -31,7 +31,7 @@
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.description }}">
   <meta property="og:url" content="{{ site_url }}{{ page.path }}">
-  <meta property="og:image" content="{{ site_url }}/assets/img/brand/og-image.jpg">
+  <meta property="og:image" content="{{ og_image }}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -108,7 +108,7 @@
       <div class="footer-grid">
         <div class="footer-about">
           <a href="/" class="brand brand-light">
-            <img src="/assets/img/brand/logo-mark-white.png" alt="" width="28" height="32">
+            <img src="/assets/img/brand/{{ 'logo-mark.png' if theme == 'claro' else 'logo-mark-white.png' }}" alt="" width="28" height="32">
             <span>DeepDatas</span>
           </a>
           <p>Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.</p>

@@ -4728,11 +4728,13 @@ ol {
 }
 
 /* El botón del encabezado espera a que se vaya el texto del inicio */
-.nav-cta {
+.nav-cta,
+.nav-cta-mobile {
   transition: opacity 0.3s;
 }
 
-.hero-copy-visible .nav-cta {
+.hero-copy-visible .nav-cta,
+.hero-copy-visible .nav-cta-mobile {
   opacity: 0;
   pointer-events: none;
 }
@@ -4959,6 +4961,13 @@ ol {
 
   .hs.is-animated .hs-copy .actions .hs-secondary {
     display: none;
+  }
+
+  /* En pantallas angostas el aviso para deslizar y el botón para saltar no entran juntos:
+     el botón aparece cuando el aviso se va (o al llegar con el teclado) */
+  .hero-copy-visible .hs.is-animated .hs-skip:not(:focus-visible) {
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
@@ -6879,4 +6888,212 @@ h2 em,
 
 .case-layout .case-story {
   grid-template-columns: minmax(0, 1fr);
+}
+
+/* ==========================================================================
+   Tema claro (build.py: THEME = 'claro'). Los mismos componentes con fondo
+   marfil, texto azul noche y el naranja de la marca; la escena del inicio y
+   los objetos de vidrio usan sus versiones de día (ver build.py).
+   ========================================================================== */
+:root[data-theme="claro"] {
+  color-scheme: light;
+
+  --ink-950: #070b16;
+  --ink-900: #0b1220;
+  --ink-800: #131b2c;
+  --ink-700: #1c2538;
+  --primary-600: #2353d6;
+  --primary-500: #3a68e8;
+  --primary-300: #2353d6;
+  --primary-50: #edf1fd;
+  --accent-400: #ff8f61;
+  --accent-600: #e4581c;
+  --accent-700: #b5420e;
+  --accent-300: #c2410c;
+  --accent-50: #fdf0e9;
+
+  --bg: #fafaf8;
+  --paper: #f3f2ee;
+  --surface: #ffffff;
+  --surface-2: #f5f4f0;
+  --surface-3: #ebe9e3;
+  --text: #0b1220;
+  --text-700: #0b1220;
+  --text-800: #1e293b;
+  --on-accent: #1a0e08;
+  --border-hover: var(--accent-600);
+  --muted: #566074;
+  --line: #e7e5df;
+  --line-strong: #d5d2ca;
+  --grid: #ecebe6;
+  --muted-dark: #a9b1c1;
+
+  --hairline: rgba(11, 18, 32, 0.09);
+  --hairline-strong: rgba(11, 18, 32, 0.16);
+  --fg-2: #4b5466;
+  --fg-3: #626b7f;
+  --prose: #2a3345;
+
+  --good: #1e7a4c;
+  --bad: #b42318;
+
+  --lift: 0 1px 2px rgba(11, 18, 32, 0.04);
+  --lift-hover: 0 1px 2px rgba(11, 18, 32, 0.04), 0 14px 32px -18px rgba(11, 18, 32, 0.2);
+  --lift-screen: 0 0 0 1px rgba(11, 18, 32, 0.03), 0 2px 6px rgba(11, 18, 32, 0.04), 0 40px 80px -40px rgba(11, 18, 32, 0.3);
+}
+
+[data-theme="claro"] ::selection {
+  color: var(--text);
+}
+
+/* Marca y logos en sus colores originales */
+[data-theme="claro"] .brand img {
+  filter: none;
+}
+
+[data-theme="claro"] .brand-light,
+[data-theme="claro"] .brand-light:hover {
+  color: var(--text);
+}
+
+[data-theme="claro"] .logos-row img,
+[data-theme="claro"] .logos-grid img {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+[data-theme="claro"] .logos-row img:hover,
+[data-theme="claro"] .logos-grid li:hover img {
+  filter: none;
+  opacity: 1;
+}
+
+/* Botones y tarjetas: sombras suaves en lugar de filetes luminosos */
+[data-theme="claro"] .btn-secondary,
+[data-theme="claro"] .btn-ghost,
+[data-theme="claro"] .btn-ghost-light {
+  background: var(--surface);
+  box-shadow: var(--lift);
+}
+
+[data-theme="claro"] .btn-secondary:hover,
+[data-theme="claro"] .btn-ghost:hover,
+[data-theme="claro"] .btn-ghost-light:hover {
+  border-color: rgba(11, 18, 32, 0.28);
+  background: var(--surface-2);
+}
+
+[data-theme="claro"] .btn-primary:hover {
+  background: var(--accent-600);
+}
+
+[data-theme="claro"] :is(.pain-card, .service-card, .plan-card, .pillar, .post-card, .case-card, .dx-fit-card, .case-results > div, .reasons, .contact-card, .contact-form, .service-detail-body, .dx-report) {
+  box-shadow: var(--lift);
+}
+
+[data-theme="claro"] :is(.service-card, .post-card, .case-card):hover {
+  background: var(--surface);
+  box-shadow: var(--lift-hover);
+}
+
+[data-theme="claro"] .card-featured,
+[data-theme="claro"] .plan-card-featured {
+  background: var(--surface) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-500) 10%, transparent), var(--lift-hover);
+}
+
+[data-theme="claro"] .screen,
+[data-theme="claro"] .chat-demo,
+[data-theme="claro"] .db {
+  box-shadow: var(--lift-screen);
+}
+
+[data-theme="claro"] .field input,
+[data-theme="claro"] .field select,
+[data-theme="claro"] .field textarea {
+  background-color: var(--surface);
+}
+
+/* Estados del diagnóstico con contraste sobre fondo claro */
+[data-theme="claro"] .dx-status.dx-warn {
+  color: #b54708;
+}
+
+[data-theme="claro"] .dx-status.dx-good {
+  color: var(--good);
+}
+
+[data-theme="claro"] .dx-status.dx-bad {
+  color: var(--bad);
+}
+
+/* Escena del inicio de día */
+[data-theme="claro"] .hs {
+  --on-dark-soft: var(--fg-2);
+}
+
+[data-theme="claro"] .hs.is-animated .hs-skip {
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  box-shadow: var(--lift);
+}
+
+/* Gráfico del recorrido de los datos sobre fondo claro */
+[data-theme="claro"] .section-pipeline,
+[data-theme="claro"] .pl {
+  --on-dark: var(--text);
+  --muted-dark: var(--fg-2);
+  --line-dark: var(--hairline);
+}
+
+[data-theme="claro"] .pl {
+  --pl-raw: #636c80;
+  --pl-node: #ffffff;
+  --pl-node-line: rgba(11, 18, 32, 0.14);
+}
+
+[data-theme="claro"] .pl-track {
+  stroke: rgba(11, 18, 32, 0.12);
+}
+
+[data-theme="claro"] .pl-cur-box {
+  fill: color-mix(in srgb, var(--accent-500) 4%, transparent);
+}
+
+[data-theme="claro"] .pl-node.is-current .pl-agent-core,
+[data-theme="claro"] .pl-node:focus-visible .pl-box,
+[data-theme="claro"] .pl-node:focus-visible .pl-agent-core,
+[data-theme="claro"] .pl-link-raw.is-on .pl-flow {
+  stroke: var(--text);
+}
+
+[data-theme="claro"] .pl-link.is-on .pl-track {
+  stroke: rgba(11, 18, 32, 0.3);
+}
+
+[data-theme="claro"] .pl-detail,
+[data-theme="claro"] .pl-stage {
+  background: var(--surface);
+  box-shadow: var(--lift);
+}
+
+[data-theme="claro"] .pl-chips li,
+[data-theme="claro"] .pl-steps li {
+  background: var(--surface-2);
+}
+
+[data-theme="claro"] .pl-stage-agent {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-500) 12%, var(--surface)), var(--surface));
+}
+
+[data-theme="claro"] .pl-arrow span {
+  background: var(--bg);
+}
+
+/* Franja final y pie sobre fondo claro */
+[data-theme="claro"] .cta-inner {
+  color: var(--text);
+}
+
+[data-theme="claro"] .footer-about p {
+  color: var(--fg-3);
 }

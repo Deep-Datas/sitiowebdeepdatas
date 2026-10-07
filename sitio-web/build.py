@@ -149,6 +149,26 @@ def swa_config():
     return json.dumps(config, ensure_ascii=False, indent=2) + '\n'
 
 
+# Tema visual: 'claro' u 'oscuro'. Define los colores (site.css, [data-theme]),
+# la escena del inicio (de día o de noche) y la versión de los objetos de vidrio.
+THEME = 'claro'
+THEME_COLOR = {'claro': '#fafaf8', 'oscuro': '#07090e'}
+# Imagen para compartir en redes (captura del inicio con el tema correspondiente)
+OG_IMAGE = {'claro': 'og-image-claro.jpg', 'oscuro': 'og-image.jpg'}
+
+
+def glass(name, size=256):
+    """Imagen de un objeto de vidrio (tools/glass_icons.py) para el tema activo."""
+    suffix = '-claro' if THEME == 'claro' else ''
+    return f'/assets/img/glass/{name}{suffix}-{size}.webp'
+
+
+def hero_img(layer, width):
+    """Capa de la escena del inicio: 'fondo' o 'frente', de día con el tema claro."""
+    suffix = '-dia' if THEME == 'claro' else ''
+    return f'/assets/img/hero/{layer}{suffix}-{width}.webp'
+
+
 # Enlace para agendar una llamada (por ejemplo, Microsoft Bookings). Vacío = formulario de contacto.
 BOOKING_URL = ''
 
@@ -306,7 +326,8 @@ def build(drafts=False):
     )
     pos = Positions()
     env.globals.update(icon=icon, booking_url=booking_url, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
-                       cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
+                       cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
+                       theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero_img=hero_img)
 
     def render_all():
         return [(page, env.get_template(page['template']).render(page=page))

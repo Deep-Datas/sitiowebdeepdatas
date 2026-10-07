@@ -122,7 +122,7 @@ tabindex="0" role="button" aria-label="{{ n.title }}: {{ n.sub }}"
     <div class="pl-arrow" aria-hidden="true"><span>Datos curados</span></div>
     <div class="pl-stage pl-stage-agent">
       <h3 class="pl-stage-title"><span class="pl-num">3</span> {{ d.agent.title }}</h3>
-      <img class="pl-agent-glass" src="/assets/img/glass/esfera-256.webp" alt="" width="120" height="120" loading="lazy">
+      <img class="pl-agent-glass" src="{{ glass('esfera') }}" alt="" width="120" height="120" loading="lazy">
       <p>{{ d.agent.text }}</p>
     </div>
     <div class="pl-arrow" aria-hidden="true"></div>

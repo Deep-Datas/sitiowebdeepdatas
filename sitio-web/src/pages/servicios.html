@@ -73,7 +73,7 @@
     <article class="service-detail reveal" id="{{ s.id }}">
       <div class="service-detail-head">
         <span class="service-num">{{ s.num }}</span>
-        <img class="glass-icon glass-icon-lg" src="/assets/img/glass/{{ s.glass }}-256.webp" alt="" width="112" height="112" loading="lazy">
+        <img class="glass-icon glass-icon-lg" src="{{ glass(s.glass) }}" alt="" width="112" height="112" loading="lazy">
         <h2>{{ s.title }}</h2>
         <p class="lead-sm">{{ s.lead }}</p>
       </div>

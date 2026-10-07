@@ -161,6 +161,10 @@
       var IMG_H = 2250;
       var SCREEN = { x: 1202, y: 561, w: 1296, h: 810 };
       var SCREEN_CENTER = { x: SCREEN.x + SCREEN.w / 2, y: SCREEN.y + SCREEN.h / 2 };
+      // Filete y sombra de la ventana al final: claros sobre fondo oscuro, oscuros sobre fondo claro
+      var LIGHT = document.documentElement.getAttribute('data-theme') === 'claro';
+      var EDGE = LIGHT ? { rgb: '11,18,32', a: 0.1 } : { rgb: '255,255,255', a: 0.14 };
+      var DROP = LIGHT ? { rgb: '11,18,32', a: 0.3 } : { rgb: '0,0,0', a: 0.8 };
 
       var stage = hero.querySelector('.hs-stage');
       var frame = hero.querySelector('.hs-frame');
@@ -261,7 +265,7 @@
         app.style.right = side.toFixed(1) + 'px';
         app.style.bottom = (40 * settle).toFixed(1) + 'px';
         app.style.borderRadius = (20 * settle).toFixed(1) + 'px';
-        app.style.boxShadow = settle > 0 ? '0 0 0 1px rgba(255,255,255,' + (0.14 * settle).toFixed(3) + '), 0 40px 90px -40px rgba(0,0,0,' + (0.8 * settle).toFixed(3) + ')' : '';
+        app.style.boxShadow = settle > 0 ? '0 0 0 1px rgba(' + EDGE.rgb + ',' + (EDGE.a * settle).toFixed(3) + '), 0 40px 90px -40px rgba(' + DROP.rgb + ',' + (DROP.a * settle).toFixed(3) + ')' : '';
         app.style.transform = appIn < 1 ? 'scale(' + (1.04 - 0.04 * appIn).toFixed(4) + ')' : '';
         hero.classList.toggle('is-done', p > 0.88);
 

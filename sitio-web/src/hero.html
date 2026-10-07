@@ -43,7 +43,7 @@
       <li>Cobertura de la línea de snacks</li>
       <li>Margen por canal</li>
     </ul>
-    <p class="cw-user"><span class="cw-avatar">MG</span> Martina G. <small>Gerencia comercial</small></p>
+    <p class="cw-user"><span class="cw-avatar">MG</span> <span>Martina G. <small>Gerencia comercial</small></span></p>
   </aside>
 
   <div class="cw-main">
@@ -142,14 +142,14 @@
   <div class="hs-stage">
     <div class="hs-frame">
       <div class="hs-scene" aria-hidden="true">
-        <img class="hs-back" src="/assets/img/hero/fondo-1800.webp"
-             srcset="/assets/img/hero/fondo-1800.webp 1800w, /assets/img/hero/fondo-3600.webp 3600w"
+        <img class="hs-back" src="{{ hero_img('fondo', 1800) }}"
+             srcset="{{ hero_img('fondo', 1800) }} 1800w, {{ hero_img('fondo', 3600) }} 3600w"
              sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
         <div class="hs-screen">{{ window('screen') }}</div>
       </div>
       <div class="hs-front" aria-hidden="true">
-        <img src="/assets/img/hero/frente-1800.webp"
-             srcset="/assets/img/hero/frente-1800.webp 1800w, /assets/img/hero/frente-3600.webp 3600w"
+        <img src="{{ hero_img('frente', 1800) }}"
+             srcset="{{ hero_img('frente', 1800) }} 1800w, {{ hero_img('frente', 3600) }} 3600w"
              sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
       </div>
     </div>

@@ -14,7 +14,7 @@
     "description": "{{ page.description }}",
     "url": "{{ site_url }}/",
     "logo": "{{ site_url }}/assets/img/brand/icon-512.png",
-    "image": "{{ site_url }}/assets/img/brand/og-image.jpg",
+    "image": "{{ og_image }}",
     "email": "fbloise@deepdatas.com",
     "telephone": "+54 9 11 6152-7387",
     "address": {
@@ -49,14 +49,14 @@
     </div>
 
     <ol class="hairline-grid hairline-grid-4 journey">
-      {% for num, service, verb, text, href, glass in [
+      {% for num, service, verb, text, href, obj in [
         ('01', 'Ingeniería de datos', 'Integrar', 'Conectamos ERP, CRM, planillas y APIs en un único modelo que se actualiza solo.', '/servicios/#ingenieria', 'cubo'),
         ('02', 'Calidad de datos', 'Curar', 'Limpiamos, unificamos códigos y validamos cada número con reglas de negocio.', '/servicios/#calidad', 'embudo'),
         ('03', 'Analítica', 'Modelar', 'Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.', '/servicios/#analitica', 'barras'),
         ('04', 'Tableros e IA', 'Recomendar', 'Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.', '/inteligencia-artificial/', 'esfera'),
       ] %}
       <li class="reveal">
-        <img class="journey-glass" src="/assets/img/glass/{{ glass }}-256.webp" alt="" width="88" height="88" loading="lazy">
+        <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
         <span class="label">{{ num }} · {{ service }}</span>
         <h3>{{ verb }}</h3>
         <p>{{ text }}</p>
