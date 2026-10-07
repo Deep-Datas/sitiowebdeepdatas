@@ -4728,11 +4728,13 @@ ol {
 }
 
 /* El botón del encabezado espera a que se vaya el texto del inicio */
-.nav-cta {
+.nav-cta,
+.nav-cta-mobile {
   transition: opacity 0.3s;
 }
 
-.hero-copy-visible .nav-cta {
+.hero-copy-visible .nav-cta,
+.hero-copy-visible .nav-cta-mobile {
   opacity: 0;
   pointer-events: none;
 }
@@ -4959,6 +4961,13 @@ ol {
 
   .hs.is-animated .hs-copy .actions .hs-secondary {
     display: none;
+  }
+
+  /* En pantallas angostas el aviso para deslizar y el botón para saltar no entran juntos:
+     el botón aparece cuando el aviso se va (o al llegar con el teclado) */
+  .hero-copy-visible .hs.is-animated .hs-skip:not(:focus-visible) {
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
