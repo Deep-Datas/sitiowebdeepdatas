@@ -150,7 +150,8 @@ def swa_config():
 
 
 # Tema visual: 'claro' u 'oscuro'. Define los colores (site.css, [data-theme]),
-# la escena del inicio (de día o de noche) y la versión de los objetos de vidrio.
+# la escena del inicio (src/hero.json: foto de oficina o ilustración de noche)
+# y la versión de los objetos de vidrio.
 THEME = 'claro'
 THEME_COLOR = {'claro': '#fafaf8', 'oscuro': '#07090e'}
 # Imagen para compartir en redes (captura del inicio con el tema correspondiente)
@@ -163,10 +164,19 @@ def glass(name, size=256):
     return f'/assets/img/glass/{name}{suffix}-{size}.webp'
 
 
-def hero_img(layer, width):
-    """Capa de la escena del inicio: 'fondo' o 'frente', de día con el tema claro."""
-    suffix = '-dia' if THEME == 'claro' else ''
-    return f'/assets/img/hero/{layer}{suffix}-{width}.webp'
+def hero_scene():
+    """Escena del inicio del tema activo (src/hero.json), con las rutas de sus imágenes."""
+    scene = json.loads((SRC / 'hero.json').read_text(encoding='utf-8'))[THEME]
+
+    def layer(name):
+        if not name:
+            return None
+        files = [(f'/assets/img/hero/{name}-{w}.webp', w) for w in scene['widths']]
+        return {'src': files[0][0], 'srcset': ', '.join(f'{src} {w}w' for src, w in files)}
+
+    config = {k: scene[k] for k in ('w', 'h', 'screen', 'cover', 'desk', 'mob')}
+    return {**scene, 'back': layer(scene['img']), 'front_img': layer(scene['front']),
+            'config': json.dumps(config, separators=(',', ':'))}
 
 
 # Enlace para agendar una llamada (por ejemplo, Microsoft Bookings). Vacío = formulario de contacto.
@@ -327,7 +337,7 @@ def build(drafts=False):
     pos = Positions()
     env.globals.update(icon=icon, booking_url=booking_url, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
-                       theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero_img=hero_img)
+                       theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero=hero_scene())
 
     def render_all():
         return [(page, env.get_template(page['template']).render(page=page))

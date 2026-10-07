@@ -1,0 +1,25 @@
+{
+  "_comentario": "Escena del inicio para cada tema (build.py la pasa a src/hero.html y site.js la lee de data-scene). w y h: tamaño de la imagen en píxeles. screen: esquinas de la pantalla del monitor en esas coordenadas (arriba-izq., arriba-der., abajo-der., abajo-izq.); ahí se ubica la ventana del asistente. cover: la imagen siempre cubre la vista. desk y mob: plano inicial en escritorio y en celulares (x, y: dónde queda el centro de la pantalla, en fracciones de la vista; zoom: sobre la escala que cubre la vista; width: ancho de la imagen en anchos de la vista).",
+  "claro": {
+    "img": "oficina",
+    "widths": [2048, 4096],
+    "front": null,
+    "w": 4096,
+    "h": 2368,
+    "screen": [[1578, 1038], [2135, 1013], [2135, 1459], [1586, 1584]],
+    "cover": true,
+    "desk": {"x": 0.62, "y": 0.52, "zoom": 1.3},
+    "mob": {"x": 0.28, "y": 0.8, "width": 3.0}
+  },
+  "oscuro": {
+    "img": "fondo",
+    "widths": [1800, 3600],
+    "front": "frente",
+    "w": 3600,
+    "h": 2250,
+    "screen": [[1202, 561], [2498, 561], [2498, 1371], [1202, 1371]],
+    "cover": false,
+    "desk": {"x": 0.72, "y": 0.5, "zoom": 1.02},
+    "mob": {"x": 0.5, "y": 0.79, "width": 1.7}
+  }
+}

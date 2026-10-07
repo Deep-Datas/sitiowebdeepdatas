@@ -1,4 +1,5 @@
-"""Convierte tools/hero/png/*.png en WebP para el sitio (3600 y 1800 px de ancho)."""
+"""Convierte la escena de noche (tools/hero/png/fondo.png y frente.png, de hero_scene.py) en WebP
+para el sitio (3600 y 1800 px de ancho). La escena del tema claro la genera tools/hero_foto.py."""
 from pathlib import Path
 
 from PIL import Image
@@ -8,7 +9,7 @@ OUT = Path(__file__).parent.parent / 'src' / 'assets' / 'img' / 'hero'
 
 if __name__ == '__main__':
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, quality in (('fondo', 80), ('frente', 82), ('fondo-dia', 82), ('frente-dia', 84)):
+    for name, quality in (('fondo', 80), ('frente', 82)):
         image = Image.open(SRC / f'{name}.png')
         image = image.convert('RGBA' if name.startswith('frente') else 'RGB')
         for width in (3600, 1800):

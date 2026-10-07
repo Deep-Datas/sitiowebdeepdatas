@@ -1,0 +1,195 @@
+"""Escena del inicio del tema claro a partir de una foto de oficina.
+
+Parte de tools/hero/oficina-original.webp (1024 x 592) y genera
+src/assets/img/hero/oficina-{2048,4096}.webp:
+
+1. Superresolución x4 con Real-ESRGAN (modelo ONNX, licencia BSD-3), que se
+   descarga de Hugging Face la primera vez en tools/hero/modelos/. El
+   resultado queda en caché en tools/hero/png/oficina-x4.png.
+2. Limpia la pizarra (logo y anotaciones de otra empresa) y dibuja un
+   gráfico de barras a mano alzada.
+3. Pinta en perspectiva, sobre la pantalla del monitor (esquinas en
+   src/hero.json), la ventana del asistente capturada por
+   tools/render_pantalla.cjs (tools/hero/png/pantalla.png). Así la escena se
+   ve bien sin JavaScript; con JavaScript, site.js pone encima la ventana real.
+
+Requiere: pip install numpy pillow opencv-python-headless onnxruntime
+Uso: python build.py && node tools/render_pantalla.cjs && python tools/hero_foto.py && python build.py
+"""
+import json
+import urllib.request
+from pathlib import Path
+
+import cv2
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter
+
+TOOLS = Path(__file__).parent
+SITE = TOOLS.parent
+SOURCE = TOOLS / 'hero' / 'oficina-original.webp'
+CACHE = TOOLS / 'hero' / 'png'
+MODEL = TOOLS / 'hero' / 'modelos' / 'real-esrgan-x4plus-128.onnx'
+MODEL_URL = 'https://huggingface.co/bukuroo/RealESRGAN-ONNX/resolve/main/real-esrgan-x4plus-128.onnx'
+OUT = SITE / 'src' / 'assets' / 'img' / 'hero'
+
+# Superficie blanca de la pizarra, en píxeles de la imagen x4 (arriba-izq., arriba-der., abajo-der., abajo-izq.)
+BOARD = [(1212, 574), (1546, 603), (1548, 933), (1214, 948)]
+
+
+def upscale(image):
+    """Real-ESRGAN x4 por mosaicos de 128 px con bordes mezclados."""
+    import onnxruntime as ort
+    if not MODEL.exists():
+        MODEL.parent.mkdir(parents=True, exist_ok=True)
+        print(f'  descargando {MODEL_URL}')
+        urllib.request.urlretrieve(MODEL_URL, MODEL)
+    tile, overlap, k = 128, 24, 4
+    img = np.asarray(image.convert('RGB')).astype(np.float32) / 255.0
+    h, w, _ = img.shape
+    padded = np.pad(img, ((overlap, overlap + tile), (overlap, overlap + tile), (0, 0)), mode='reflect')
+    session = ort.InferenceSession(str(MODEL), providers=['CPUExecutionProvider'])
+    name = session.get_inputs()[0].name
+    out = np.zeros(((h + 2 * overlap + tile) * k, (w + 2 * overlap + tile) * k, 3), np.float32)
+    total = np.zeros(out.shape[:2], np.float32)
+    ramp = np.ones(tile * k, np.float32)
+    fade = overlap * k
+    ramp[:fade] = np.linspace(0.05, 1, fade)
+    ramp[-fade:] = np.linspace(1, 0.05, fade)
+    weight = np.outer(ramp, ramp)
+    step = tile - overlap
+    for y in range(0, h + 2 * overlap - overlap, step):
+        for x in range(0, w + 2 * overlap - overlap, step):
+            part = padded[y:y + tile, x:x + tile].transpose(2, 0, 1)[None]
+            res = session.run(None, {name: part})[0][0].transpose(1, 2, 0)
+            out[y * k:(y + tile) * k, x * k:(x + tile) * k] += res * weight[..., None]
+            total[y * k:(y + tile) * k, x * k:(x + tile) * k] += weight
+    out = (out / np.maximum(total, 1e-6)[..., None])[overlap * k:(overlap + h) * k, overlap * k:(overlap + w) * k]
+    return Image.fromarray((np.clip(out, 0, 1) * 255 + 0.5).astype(np.uint8))
+
+
+def quad_mask(size, quad, feather):
+    mask = Image.new('L', size, 0)
+    ImageDraw.Draw(mask).polygon(quad, fill=255)
+    return mask.filter(ImageFilter.GaussianBlur(feather)) if feather else mask
+
+
+def clean_board(image):
+    """Borra lo escrito en la pizarra conservando la luz que le llega desde la ventana."""
+    arr = np.asarray(image).astype(np.float32)
+    x0, y0 = min(p[0] for p in BOARD) - 40, min(p[1] for p in BOARD) - 40
+    x1, y1 = max(p[0] for p in BOARD) + 40, max(p[1] for p in BOARD) + 40
+    region = arr[y0:y1, x0:x1]
+    # Fondo de la pizarra: cierre morfológico (borra los trazos oscuros) y suavizado
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (41, 41))
+    background = cv2.morphologyEx(region, cv2.MORPH_CLOSE, kernel)
+    background = cv2.GaussianBlur(background, (0, 0), 14)
+    rng = np.random.default_rng(3)
+    background += rng.normal(0, 1.1, background.shape[:2])[..., None]
+    mask = np.asarray(quad_mask(image.size, BOARD, 3)).astype(np.float32)[y0:y1, x0:x1, None] / 255
+    arr[y0:y1, x0:x1] = region * (1 - mask) + background * mask
+    return Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8))
+
+
+def marker_sketch(w, h):
+    """Gráfico de barras con tendencia, dibujado a mano alzada (tinta azul y naranja)."""
+    ss = 4
+    layer = Image.new('RGBA', (w * ss, h * ss), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    rng = np.random.default_rng(5)
+    navy, orange = (32, 44, 78, 185), (226, 92, 34, 200)
+
+    def stroke(points, color, width):
+        pts = [((x + rng.normal(0, 0.6)) * ss, (y + rng.normal(0, 0.6)) * ss) for x, y in points]
+        d.line(pts, fill=color, width=int(width * ss), joint='curve')
+        for x, y in (pts[0], pts[-1]):
+            r = width * ss / 2
+            d.ellipse((x - r, y - r, x + r, y + r), fill=color)
+
+    def scribble(x, y, length, height=5):
+        # «Letra» ilegible: una línea ondulada continua
+        n = int(length / 4)
+        pts = [(x + i * length / n, y + np.sin(i * 1.9 + rng.uniform(0, 1)) * height * rng.uniform(0.5, 1)) for i in range(n + 1)]
+        stroke(pts, navy, 2.2)
+
+    # Título y notas
+    scribble(30, 34, 120, 6)
+    stroke([(30, 50), (150, 49)], navy, 2.2)
+    scribble(214, 36, 70, 5)
+    # Ejes
+    stroke([(42, 92), (42, 300), (300, 300)], navy, 3)
+    # Barras crecientes
+    for i, top in enumerate((236, 210, 176, 132)):
+        x = 66 + i * 56
+        stroke([(x, 300), (x, top), (x + 34, top), (x + 34, 300)], navy, 3)
+        for k in range(1, 4):   # sombreado
+            yy = top + (300 - top) * k / 4
+            stroke([(x + 6, yy), (x + 28, yy - 10)], navy, 1.6)
+    # Tendencia en naranja con flecha
+    trend = [(70, 228), (126, 198), (182, 168), (238, 120), (292, 86)]
+    stroke(trend, orange, 3.4)
+    stroke([(268, 84), (292, 86), (284, 108)], orange, 3.4)
+    # Nota a la derecha, encerrada
+    scribble(250, 160, 52, 4)
+    stroke([(244, 150), (306, 148), (308, 174), (244, 176), (244, 150)], orange, 2.4)
+    scribble(60, 330, 150, 5)
+    return layer.resize((w, h), Image.LANCZOS).filter(ImageFilter.GaussianBlur(0.8))
+
+
+def paste_warped(image, overlay, quad, opacity=1.0):
+    """Pega overlay (RGBA) deformado en perspectiva sobre las cuatro esquinas quad."""
+    ow, oh = overlay.size
+    src = np.float32([(0, 0), (ow, 0), (ow, oh), (0, oh)])
+    matrix = cv2.getPerspectiveTransform(src, np.float32(quad))
+    rgba = np.asarray(overlay.convert('RGBA')).astype(np.float32)
+    warped = cv2.warpPerspective(rgba, matrix, image.size, flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_CONSTANT, borderValue=0)
+    alpha = np.clip(warped[..., 3:4] / 255 * opacity, 0, 1)
+    base = np.asarray(image).astype(np.float32)
+    out = base * (1 - alpha) + np.clip(warped[..., :3], 0, 255) * alpha
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+
+
+def ink(image, sketch, quad):
+    """Tinta sobre la pizarra: multiplica el color del trazo por la superficie."""
+    ow, oh = sketch.size
+    matrix = cv2.getPerspectiveTransform(np.float32([(0, 0), (ow, 0), (ow, oh), (0, oh)]), np.float32(quad))
+    rgba = np.asarray(sketch).astype(np.float32) / 255
+    warped = cv2.warpPerspective(rgba, matrix, image.size, flags=cv2.INTER_LINEAR)
+    base = np.asarray(image).astype(np.float32) / 255
+    alpha = warped[..., 3:4]
+    tinted = base * (1 - alpha) + base * warped[..., :3] * alpha
+    return Image.fromarray((np.clip(tinted, 0, 1) * 255 + 0.5).astype(np.uint8))
+
+
+def screen(image, quad):
+    """La ventana del asistente en la pantalla del monitor, con la luz de la foto."""
+    ui = Image.open(CACHE / 'pantalla.png').convert('RGB')
+    width = int(max(quad[1][0], quad[2][0]) - min(quad[0][0], quad[3][0]))
+    ui = ui.resize((width, round(width * ui.height / ui.width)), Image.LANCZOS).filter(ImageFilter.GaussianBlur(0.35))
+    # Leve caída de luz hacia el borde más lejano (derecha), como en la foto
+    arr = np.asarray(ui).astype(np.float32)
+    falloff = np.linspace(1.0, 0.93, arr.shape[1])[None, :, None]
+    ui = Image.fromarray(np.clip(arr * falloff, 0, 255).astype(np.uint8)).convert('RGBA')
+    return paste_warped(image, ui, quad)
+
+
+if __name__ == '__main__':
+    CACHE.mkdir(parents=True, exist_ok=True)
+    big = CACHE / 'oficina-x4.png'
+    if big.exists():
+        image = Image.open(big).convert('RGB')
+    else:
+        print('  superresolución x4 (unos minutos)...')
+        image = upscale(Image.open(SOURCE))
+        image.save(big)
+    scene = json.loads((SITE / 'src' / 'hero.json').read_text(encoding='utf-8'))['claro']
+    assert image.size == (scene['w'], scene['h']), image.size
+    image = clean_board(image)
+    image = ink(image, marker_sketch(330, 370), BOARD)
+    image = screen(image, [tuple(p) for p in scene['screen']])
+    image.save(CACHE / 'oficina-final.png')
+    OUT.mkdir(parents=True, exist_ok=True)
+    for width in scene['widths']:
+        target = OUT / f"{scene['img']}-{width}.webp"
+        resized = image if width == image.width else image.resize((width, round(image.height * width / image.width)), Image.LANCZOS)
+        resized.save(target, 'WEBP', quality=82, method=6)
+        print(f'  {target.relative_to(SITE)} ({target.stat().st_size // 1024} KB)')
