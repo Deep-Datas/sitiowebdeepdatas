@@ -41,7 +41,7 @@ src/testimonials.html    Testimonios (inicio, casos e industrias)
 src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y agente de IA
 src/pages/               Contenido de cada página (en src/pages/en/, la versión en inglés)
-src/hero.json            Escena del inicio de cada tema (imagen y esquinas de la pantalla del monitor)
+src/hero.json            Escena del inicio de cada tema (imagen, esquinas de la pantalla y del monitor, y encuadre final)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
 tools/                   Generadores de imágenes: íconos de vidrio, escena del inicio (hero_foto.py) y captura de la pantalla

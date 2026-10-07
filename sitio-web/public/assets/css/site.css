@@ -4866,8 +4866,8 @@ ol {
   top: 0;
   left: 0;
   display: block;
-  width: 1440px;
-  height: 900px;
+  width: 600px;
+  height: 585px;
   overflow: hidden;
   transform-origin: 0 0;
   container-type: inline-size;
@@ -4900,6 +4900,7 @@ ol {
 .hs.is-animated .hs-shade {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: block;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--bg) 92%, transparent) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 34%, transparent 62%),
@@ -4910,6 +4911,7 @@ ol {
 .hs.is-animated .hs-copy {
   position: absolute;
   inset: 0;
+  z-index: 3;
   display: flex;
   align-items: center;
   padding-top: var(--header-h);
@@ -4924,6 +4926,7 @@ ol {
   position: absolute;
   bottom: 28px;
   left: 50%;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4936,18 +4939,23 @@ ol {
   transform: translateX(-50%);
 }
 
+/* La ventana completa reemplaza a la de la foto: site.js le da el tamaño de la pantalla
+   al final del acercamiento y la lleva en perspectiva sobre el monitor */
+.hs.is-animated .hs-screen {
+  display: none;
+}
+
 .hs.is-animated .hs-app {
   position: absolute;
-  top: var(--header-h);
-  right: 0;
-  bottom: 0;
+  top: 0;
   left: 0;
-  width: auto;
-  height: auto;
+  z-index: 1;
+  width: 600px;
+  height: 585px;
   margin: 0;
   border: 0;
   border-radius: 0;
-  opacity: 0;
+  transform-origin: 0 0;
   pointer-events: none;
 }
 
@@ -5074,6 +5082,7 @@ ol {
   font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .cw-new {
@@ -5575,6 +5584,46 @@ ol {
 
   .cw-bars li {
     grid-template-columns: 52px 1fr 56px;
+  }
+}
+
+/* Ventana chica (la pantalla del monitor en celulares): menos márgenes para que entre más conversación */
+@container (max-width: 420px) {
+  .cw-top {
+    gap: 10px;
+    min-height: 42px;
+    padding: 0 14px;
+  }
+
+  .cw-top-brand {
+    font-size: 17px;
+  }
+
+  .cw-top-title {
+    font-size: 12.5px;
+  }
+
+  .cw-thread {
+    padding: 14px 14px 24px;
+  }
+
+  .cw-answer {
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .cw-input {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 6px 6px 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .cw-send {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
   }
 }
 

@@ -153,26 +153,32 @@
     board.addEventListener('pointerleave', hide);
   });
 
-  /* ---------- Hero del inicio: zoom a la pantalla con el scroll ---------- */
+  /* ---------- Hero del inicio: zoom al monitor con el scroll ---------- */
   var heroScene = document.querySelector('[data-hero-scene]');
   if (heroScene) {
     (function (hero) {
-      // Escena del tema activo (src/hero.json): tamaño de la imagen y esquinas de la pantalla del monitor
+      // Escena del tema activo (src/hero.json): tamaño de la imagen y esquinas de la pantalla y del monitor
       var cfg = JSON.parse(hero.getAttribute('data-scene'));
       var IMG_W = cfg.w;
       var IMG_H = cfg.h;
       var QUAD = cfg.screen;                 // arriba-izq., arriba-der., abajo-der., abajo-izq.
-      var BOX = { w: 1440, h: 900 };         // tamaño de la ventana en la pantalla (en celulares y sin animación)
-      var qx = QUAD.map(function (q) { return q[0]; });
-      var qy = QUAD.map(function (q) { return q[1]; });
-      var SCREEN = { x: Math.min.apply(null, qx), y: Math.min.apply(null, qy) };
-      SCREEN.w = Math.max.apply(null, qx) - SCREEN.x;
-      SCREEN.h = Math.max.apply(null, qy) - SCREEN.y;
-      var SCREEN_CENTER = { x: SCREEN.x + SCREEN.w / 2, y: SCREEN.y + SCREEN.h / 2 };
-      // Filete y sombra de la ventana al final: claros sobre fondo oscuro, oscuros sobre fondo claro
-      var LIGHT = document.documentElement.getAttribute('data-theme') === 'claro';
-      var EDGE = LIGHT ? { rgb: '11,18,32', a: 0.1 } : { rgb: '255,255,255', a: 0.14 };
-      var DROP = LIGHT ? { rgb: '11,18,32', a: 0.3 } : { rgb: '0,0,0', a: 0.8 };
+      var BOX = { w: 600, h: 585 };          // tamaño de la ventana en la pantalla sin animación (como en tools/render_pantalla.cjs)
+
+      function bounds(points) {
+        var xs = points.map(function (q) { return q[0]; });
+        var ys = points.map(function (q) { return q[1]; });
+        var b = { x: Math.min.apply(null, xs), y: Math.min.apply(null, ys) };
+        b.w = Math.max.apply(null, xs) - b.x;
+        b.h = Math.max.apply(null, ys) - b.y;
+        b.cx = b.x + b.w / 2;
+        b.cy = b.y + b.h / 2;
+        return b;
+      }
+
+      var SCREEN = bounds(QUAD);
+      // El monitor con su marco (si la escena no lo define, la pantalla con un margen)
+      var margin = Math.max(SCREEN.w, SCREEN.h) * 0.04;
+      var MONITOR = bounds(cfg.monitor || [[SCREEN.x - margin, SCREEN.y - margin], [SCREEN.x + SCREEN.w + margin, SCREEN.y + SCREEN.h + margin]]);
 
       var stage = hero.querySelector('.hs-stage');
       var frame = hero.querySelector('.hs-frame');
@@ -184,7 +190,6 @@
       var hint = hero.querySelector('.hs-hint');
       var app = hero.querySelector('.hs-app');
       var thread = app.querySelector('.cw-thread');
-      var screenThread = screen.querySelector('.cw-thread');
       var scroller = app.querySelector('.cw-scroll');
       var steps = Array.prototype.slice.call(app.querySelectorAll('[data-step]'));
       // El comienzo de la respuesta ya se ve en la pantalla del monitor: aparece de entrada
@@ -199,11 +204,12 @@
       function lerp(a, b, t) { return a + (b - a) * t; }
       function ramp(a, b, v) { return clamp((v - a) / (b - a), 0, 1); }
       function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      function edge(a, b) { return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)); }
 
       function place(el, s, ax, ay) {
         // Ubica el centro de la pantalla del monitor en el punto (ax, ay) de la vista, con escala s
-        el.style.transform = 'translate3d(' + (ax - s * SCREEN_CENTER.x).toFixed(2) + 'px,' +
-          (ay - s * SCREEN_CENTER.y).toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
+        el.style.transform = 'translate3d(' + (ax - s * SCREEN.cx).toFixed(2) + 'px,' +
+          (ay - s * SCREEN.cy).toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
       }
 
       function warp(c, box) {
@@ -255,29 +261,36 @@
         var w = stage.clientWidth;
         var h = stage.clientHeight;
         var shot = w >= 1024 ? cfg.desk : cfg.mob;
+        var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
         // Plano general: según la escena, la imagen cubre la vista o la pantalla queda abajo del texto en celulares
         var s0 = shot.width ? (w * shot.width) / IMG_W : Math.max(w / IMG_W, h / IMG_H) * shot.zoom;
         var start = { x: w * shot.x, y: h * shot.y };
         if (cfg.cover) {
-          start.x = fit(start.x, s0, SCREEN_CENTER.x, IMG_W, w);
-          if (w >= 1024) start.y = fit(start.y, s0, SCREEN_CENTER.y, IMG_H, h);
+          start.x = fit(start.x, s0, SCREEN.cx, IMG_W, w);
+          if (w >= 1024) start.y = fit(start.y, s0, SCREEN.cy, IMG_H, h);
         }
-        var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
-        // Plano final: la pantalla del monitor cubre toda la vista
-        var s1 = Math.max(w / SCREEN.w, h / SCREEN.h) * 1.04;
-        // Donde termina la ventana al despegarse del monitor: de frente, en el lugar de la conversación.
-        // En escritorio la ventana tiene el mismo tamaño que la conversación, así el cambio no se nota;
-        // en celulares conserva el diseño de escritorio y cubre la vista
-        var box = w >= 1024 ? { w: w, h: h - header } : BOX;
-        var k = Math.max(w / box.w, (h - header) / box.h);
-        var rw = box.w * k;
-        var rh = box.h * k;
-        var rx = (w - rw) / 2;
-        var ry = header + (h - header - rh) / 2;
-        var rect = [[rx, ry], [rx + rw, ry], [rx + rw, ry + rh], [rx, ry + rh]];
-        screen.style.width = box.w + 'px';
-        screen.style.height = box.h + 'px';
-        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 }, rect: rect, box: box, header: header };
+        // Plano final: el monitor, con su marco, ocupa cerca del 80 % de la vista debajo del encabezado.
+        // Así se sigue viendo la oficina y se entiende que es una persona usando el asistente
+        var room = h - header;
+        var fill = shot.fill || 0.8;
+        var aim = shot.end || [0.5, 0.5];
+        var s1 = Math.min((w * fill) / MONITOR.w, (room * fill) / MONITOR.h);
+        var end = {
+          x: w * aim[0] + s1 * (SCREEN.cx - MONITOR.cx),
+          y: header + room * aim[1] + s1 * (SCREEN.cy - MONITOR.cy)
+        };
+        if (cfg.cover) {
+          end.x = fit(end.x, s1, SCREEN.cx, IMG_W, w);
+          end.y = fit(end.y, s1, SCREEN.cy, IMG_H, h);
+        }
+        // La ventana del asistente mide lo mismo que la pantalla al final: el texto se ve a tamaño real
+        var box = {
+          w: Math.round(Math.max(edge(QUAD[0], QUAD[1]), edge(QUAD[3], QUAD[2])) * s1),
+          h: Math.round(Math.max(edge(QUAD[0], QUAD[3]), edge(QUAD[1], QUAD[2])) * s1)
+        };
+        app.style.width = box.w + 'px';
+        app.style.height = box.h + 'px';
+        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: end, box: box };
         sizeLayers();
       }
 
@@ -294,8 +307,6 @@
           offset = Math.max(0, bottom - top - scroller.clientHeight + 40);
         }
         thread.style.transform = 'translateY(' + (-offset) + 'px)';
-        // Si la ventana del monitor tiene el tamaño de la conversación, se desplaza igual para coincidir con ella
-        screenThread.style.transform = view.box && view.box !== BOX ? thread.style.transform : '';
       }
 
       function render() {
@@ -310,14 +321,10 @@
         var ay = lerp(view.start.y, view.end.y, t);
         place(scene, s, ax, ay);
 
-        // La ventana sigue a la pantalla del monitor y, al acercarse, se despega hasta quedar de frente
-        var u = ease(ramp(0.55, 1, t));
-        screen.style.transform = warp(QUAD.map(function (q, i) {
-          var x = ax + s * (q[0] - SCREEN_CENTER.x);
-          var y = ay + s * (q[1] - SCREEN_CENTER.y);
-          return [lerp(x, view.rect[i][0], u), lerp(y, view.rect[i][1], u)];
+        // La ventana del asistente va siempre sobre la pantalla del monitor, en perspectiva
+        app.style.transform = warp(QUAD.map(function (q) {
+          return [ax + s * (q[0] - SCREEN.cx), ay + s * (q[1] - SCREEN.cy)];
         }), view.box);
-        screen.style.boxShadow = u > 0 ? '0 40px 90px -30px rgba(' + DROP.rgb + ',' + (DROP.a * u).toFixed(3) + ')' : '';
 
         if (front) {
           // La persona está más cerca de la cámara: crece más rápido, baja y se desvanece
@@ -333,26 +340,15 @@
         hint.style.opacity = (1 - ramp(0, 0.05, p)).toFixed(3);
         shade.style.opacity = (1 - ramp(0.04, 0.22, p)).toFixed(3);
 
-        var appIn = ramp(0.44, 0.49, p);
-        frame.style.opacity = (1 - ramp(0.47, 0.5, p)).toFixed(3);
-        app.style.opacity = appIn.toFixed(3);
-        app.classList.toggle('is-active', appIn > 0.5);
-        hero.classList.toggle('is-app', appIn > 0.5);
-
-        // Cierre: la ventana se encoge hasta quedar enmarcada sobre el fondo del sitio
-        var settle = ease(ramp(0.88, 0.98, p));
-        var side = Math.min(48, Math.max(16, view.w * 0.03)) * settle;
-        app.style.top = (view.header + 16 * settle).toFixed(1) + 'px';
-        app.style.left = side.toFixed(1) + 'px';
-        app.style.right = side.toFixed(1) + 'px';
-        app.style.bottom = (40 * settle).toFixed(1) + 'px';
-        app.style.borderRadius = (20 * settle).toFixed(1) + 'px';
-        app.style.boxShadow = settle > 0 ? '0 0 0 1px rgba(' + EDGE.rgb + ',' + (EDGE.a * settle).toFixed(3) + '), 0 40px 90px -40px rgba(' + DROP.rgb + ',' + (DROP.a * settle).toFixed(3) + ')' : '';
-        hero.classList.toggle('is-done', p > 0.88);
+        // Ya frente al monitor, la conversación avanza con el scroll y se puede desplazar
+        var near = ramp(0.44, 0.49, p) > 0.5;
+        app.classList.toggle('is-active', near);
+        hero.classList.toggle('is-app', near);
+        hero.classList.toggle('is-done', p > 0.9);
 
         document.body.classList.toggle('hero-copy-visible', p < 0.06);
 
-        var revealed = early + Math.round(ramp(0.52, 0.86, p) * (steps.length - early));
+        var revealed = early + Math.round(ramp(0.5, 0.86, p) * (steps.length - early));
         setSteps(revealed);
       }
 
@@ -376,7 +372,8 @@
           hero.classList.remove('is-animated', 'is-app', 'is-done');
           document.body.classList.remove('hero-copy-visible');
           window.removeEventListener('scroll', onScroll);
-          [scene, screen, front, copy, hint, shade, frame, app, thread, screenThread].forEach(function (el) { if (el) el.removeAttribute('style'); });
+          [scene, screen, front, copy, hint, shade, frame, app, thread].forEach(function (el) { if (el) el.removeAttribute('style'); });
+          app.classList.remove('is-active');
           steps.forEach(function (step) { step.classList.remove('is-in'); });
           fitStatic();
         }

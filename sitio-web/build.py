@@ -259,7 +259,7 @@ def hero_scene():
         files = [(f'/assets/img/hero/{name}-{w}.webp', w) for w in scene['widths']]
         return {'src': files[0][0], 'srcset': ', '.join(f'{src} {w}w' for src, w in files)}
 
-    config = {k: scene[k] for k in ('w', 'h', 'screen', 'cover', 'desk', 'mob')}
+    config = {k: scene.get(k) for k in ('w', 'h', 'screen', 'monitor', 'cover', 'desk', 'mob')}
     return {**scene, 'back': layer(scene['img']), 'front_img': layer(scene['front']),
             'config': json.dumps(config, separators=(',', ':'))}
 
