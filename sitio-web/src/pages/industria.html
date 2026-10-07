@@ -47,6 +47,7 @@
       </article>
       {% endfor %}
     </div>
+    <p class="section-foot reveal"><a class="link-arrow" href="{{ url('autoevaluacion') }}">{{ L.quiz }} {{ icon('arrow-right') }}</a></p>
   </div>
 </section>
 
@@ -170,11 +171,7 @@
     <ul class="ind-others-list">
       {% for other in page.others %}
       <li>
-        <a class="ind-other" href="{{ url('ind-' ~ other.id) }}">
-          <span class="pain-icon">{{ icon(other.icon) }}</span>
-          <span><strong>{{ other.name }}</strong> <span>{{ other.card }}</span></span>
-          {{ icon('arrow-right') }}
-        </a>
+        <a class="ind-other" href="{{ url('ind-' ~ other.id) }}">{{ icon(other.icon) }} {{ other.name }}</a>
       </li>
       {% endfor %}
     </ul>

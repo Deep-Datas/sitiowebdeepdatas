@@ -91,7 +91,7 @@ En `testimonios.py`, completá el borrador del caso (o agregá uno nuevo):
     'id': 'distribuidores',
     'publicado': True,
     'case': 'distribuidores',          # caso de éxito relacionado
-    'industry': 'consumo',             # 'consumo', 'distribucion' o 'salud'
+    'industry': 'consumo',             # id de la industria en industrias.py (consumo, distribucion, pymes, retail, ...)
     'quote': 'Texto aprobado por el cliente.',
     'name': 'Nombre Apellido',
     'role': 'Gerente comercial',

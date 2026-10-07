@@ -86,8 +86,8 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Industries</p>
-      <h2 id="industrias-title">Specialists in companies that sell through distributors and <em>points of sale.</em></h2>
-      <p>We know the KPIs, data sources and typical problems of each sector. That’s why we start with the right questions.</p>
+      <h2 id="industrias-title">For companies that grew faster than <em>their systems.</em></h2>
+      <p>Distributors and small and midsize companies that run on their ERP, Excel and WhatsApp, without an in-house data team. We know the KPIs and typical problems of each sector, so we start with the right questions.</p>
     </div>
     <div class="ind-cards">
       {% for ind in industries %}
@@ -95,7 +95,7 @@
         <span class="pain-icon">{{ icon(ind.icon) }}</span>
         <h3>{{ ind.name }}</h3>
         <p>{{ ind.card }}</p>
-        <span class="case-card-more">See solutions and KPIs {{ icon('arrow-right') }}</span>
+        <span class="case-card-more">See solutions {{ icon('arrow-right') }}</span>
       </a>
       {% endfor %}
     </div>

@@ -6,8 +6,8 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 
 | Ruta | Contenido |
 | --- | --- |
-| `/` | Propuesta de valor (datos e IA para consumo masivo y distribución), clientes, industrias, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, casos, testimonios, formas de empezar |
-| `/industrias/…` | Una página por industria (consumo masivo, distribución y retail, laboratorios y salud): desafíos, soluciones, indicadores, tablero de ejemplo, casos, testimonios, preguntas frecuentes y notas del blog |
+| `/` | Propuesta de valor (datos e IA para distribuidoras, pymes y consumo masivo), clientes, industrias, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, casos, testimonios, formas de empezar |
+| `/industrias/…` | Una página por industria (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, industria y manufactura, agro, laboratorios y salud): desafíos, soluciones, indicadores, tablero de ejemplo, casos, testimonios, preguntas frecuentes y notas del blog |
 | `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
 | `/blog/` | Artículos (uno por archivo en `blog/`), cada uno en `/blog/<archivo>/` |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
@@ -149,7 +149,7 @@ Cada testimonio publicado aparece en la sección «Lo que dicen nuestros cliente
 
 ## Industrias
 
-Las páginas `/industrias/consumo-masivo/`, `/industrias/distribucion-y-retail/` y `/industrias/salud/` (y sus versiones en inglés en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-consumo`, `ind-distribucion` e `ind-salud`). Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
+Las páginas de `/industrias/` (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, industria y manufactura, agro, y laboratorios y salud; en inglés, en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-<id>`). Para sumar una industria, agregala en `industrias.py` (textos en los dos idiomas, datos comunes y `ORDER`) y su ruta en `i18n.py`; aparece sola en el inicio, en el pie y en el sitemap. Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
 
 ## Analítica de visitas
 

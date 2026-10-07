@@ -7556,9 +7556,15 @@ button.text-link-quiet {
   gap: 20px;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 640px) {
   .ind-cards {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .ind-cards {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -7601,6 +7607,10 @@ button.text-link-quiet {
 
 .ind-hero h1 {
   max-width: 22ch;
+}
+
+.ind-hero .actions {
+  margin-top: 32px;
 }
 
 .ind-trust {
@@ -7688,28 +7698,23 @@ button.text-link-quiet {
 }
 
 .ind-others-list {
-  display: grid;
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 0;
 }
 
-@media (min-width: 768px) {
-  .ind-others-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 .ind-other {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-  height: 100%;
-  padding: 20px 24px;
+  gap: 8px;
+  padding: 10px 16px;
   border: 1px solid var(--hairline);
-  border-radius: var(--r-md);
+  border-radius: 999px;
   background: var(--surface);
   box-shadow: var(--lift);
-  color: var(--fg-2);
+  color: var(--text);
+  font-size: 0.95rem;
   text-decoration: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -7719,23 +7724,7 @@ button.text-link-quiet {
   box-shadow: var(--lift-hover);
 }
 
-.ind-other .pain-icon {
-  flex: none;
-  margin: 0;
-}
-
-.ind-other strong {
-  display: block;
-  color: var(--text);
-}
-
-.ind-other > .icon {
-  flex: none;
-  margin-left: auto;
-  color: var(--fg-3);
-}
-
-.ind-other:hover > .icon {
+.ind-other .icon {
   color: var(--accent-300);
 }
 

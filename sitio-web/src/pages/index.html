@@ -86,8 +86,8 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Industrias</p>
-      <h2 id="industrias-title">Especialistas en empresas que venden a través de distribuidores y <em>puntos de venta.</em></h2>
-      <p>Conocemos los indicadores, las fuentes de datos y los problemas típicos de cada sector. Por eso arrancamos con las preguntas correctas.</p>
+      <h2 id="industrias-title">Para empresas que crecieron más rápido que <em>sus sistemas.</em></h2>
+      <p>Distribuidoras, pymes y empresas medianas que se gestionan con el ERP, Excel y WhatsApp, sin un equipo de datos propio. Conocemos los indicadores y los problemas típicos de cada sector, por eso arrancamos con las preguntas correctas.</p>
     </div>
     <div class="ind-cards">
       {% for ind in industries %}
@@ -95,7 +95,7 @@
         <span class="pain-icon">{{ icon(ind.icon) }}</span>
         <h3>{{ ind.name }}</h3>
         <p>{{ ind.card }}</p>
-        <span class="case-card-more">Ver soluciones e indicadores {{ icon('arrow-right') }}</span>
+        <span class="case-card-more">Ver soluciones {{ icon('arrow-right') }}</span>
       </a>
       {% endfor %}
     </div>

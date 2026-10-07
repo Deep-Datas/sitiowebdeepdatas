@@ -37,8 +37,8 @@ SITE_URL = 'https://deepdatas.com'
 PAGES = [
     {
         'template': 'index.html', 'key': 'inicio', 'path': '/', 'nav': 'inicio',
-        'title': 'DeepDatas | Datos e IA para consumo masivo y distribución',
-        'description': 'Consultora de datos e IA para empresas de consumo masivo, distribución y retail: integramos tu ERP, tu CRM y las ventas de tus distribuidores en tableros, pronósticos y agentes de IA que ayudan a vender más y gastar menos.',
+        'title': 'DeepDatas | Datos e IA para distribuidoras, pymes y consumo masivo',
+        'description': 'Consultora de datos e IA para distribuidoras, pymes y empresas de consumo masivo: integramos tu ERP, tus planillas y las ventas de tus distribuidores en tableros, pronósticos y agentes de IA, sin que necesites un equipo de datos propio.',
     },
     {
         'template': 'servicios.html', 'key': 'servicios', 'path': '/servicios/', 'nav': 'servicios',
@@ -101,8 +101,8 @@ PAGES = [
 PAGES_EN = [
     {
         'template': 'en/index.html', 'key': 'inicio', 'nav': 'inicio',
-        'title': 'DeepDatas | Data and AI for consumer goods and distribution',
-        'description': 'Data and AI consultancy for consumer goods, distribution and retail companies: we turn your ERP, CRM and distributor sales into dashboards, forecasts and AI agents that help you sell more and spend less.',
+        'title': 'DeepDatas | Data and AI for distributors, SMEs and consumer goods',
+        'description': 'Data and AI consultancy for distributors, small and midsize businesses and consumer goods companies: we turn your ERP, spreadsheets and distributor sales into dashboards, forecasts and AI agents, no in-house data team required.',
     },
     {
         'template': 'en/servicios.html', 'key': 'servicios', 'nav': 'servicios',
@@ -299,7 +299,12 @@ WHATSAPP_MESSAGES = {
     'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
     'ind-consumo': 'Hola, vengo de la web de DeepDatas. Trabajo en una empresa de consumo masivo y quiero hacer una consulta.',
-    'ind-distribucion': 'Hola, vengo de la web de DeepDatas. Trabajo en una distribuidora o retail y quiero hacer una consulta.',
+    'ind-distribucion': 'Hola, vengo de la web de DeepDatas. Trabajo en una distribuidora y quiero hacer una consulta.',
+    'ind-pymes': 'Hola, vengo de la web de DeepDatas. Tengo una pyme y quiero hacer una consulta.',
+    'ind-retail': 'Hola, vengo de la web de DeepDatas. Trabajo en retail y quiero hacer una consulta.',
+    'ind-materiales': 'Hola, vengo de la web de DeepDatas. Trabajo en una distribuidora de materiales y quiero hacer una consulta.',
+    'ind-industria': 'Hola, vengo de la web de DeepDatas. Trabajo en una empresa industrial y quiero hacer una consulta.',
+    'ind-agro': 'Hola, vengo de la web de DeepDatas. Trabajo en el agro y quiero hacer una consulta.',
     'ind-salud': 'Hola, vengo de la web de DeepDatas. Trabajo en un laboratorio o empresa de salud y quiero hacer una consulta.',
 }
 WHATSAPP_MESSAGES_EN = {
@@ -311,7 +316,12 @@ WHATSAPP_MESSAGES_EN = {
     'autoevaluacion': "Hi, I took the AI readiness check on the DeepDatas website and I'd like to discuss next steps.",
     'ejemplos': "Hi, I'm coming from the DeepDatas website. I saw the sample dashboards and I'd like to ask about one for my company.",
     'ind-consumo': "Hi, I'm coming from the DeepDatas website. I work at a consumer goods company and I have a question.",
-    'ind-distribucion': "Hi, I'm coming from the DeepDatas website. I work at a distribution or retail company and I have a question.",
+    'ind-distribucion': "Hi, I'm coming from the DeepDatas website. I work at a distribution company and I have a question.",
+    'ind-pymes': "Hi, I'm coming from the DeepDatas website. I run a small or midsize business and I have a question.",
+    'ind-retail': "Hi, I'm coming from the DeepDatas website. I work in retail and I have a question.",
+    'ind-materiales': "Hi, I'm coming from the DeepDatas website. I work at a supply distribution company and I have a question.",
+    'ind-industria': "Hi, I'm coming from the DeepDatas website. I work at a manufacturing company and I have a question.",
+    'ind-agro': "Hi, I'm coming from the DeepDatas website. I work in agribusiness and I have a question.",
     'ind-salud': "Hi, I'm coming from the DeepDatas website. I work at a pharmaceutical or healthcare company and I have a question.",
 }
 
