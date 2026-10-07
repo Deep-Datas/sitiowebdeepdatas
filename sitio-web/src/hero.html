@@ -3,10 +3,11 @@
   cámara se acerca a la pantalla y se ve a un asistente de IA analizando las
   ventas y recomendando acciones.
 
-  Capas de la escena (coordenadas en píxeles de la imagen de 3600 x 2250,
-  ver tools/hero_scene.py): fondo, pantalla en HTML y persona al frente.
-  Sin JavaScript o con "reducir movimiento" se muestra todo estático.
-  Datos ficticios.
+  Capas de la escena (src/hero.json, según el tema): la imagen de fondo, la
+  ventana del asistente en HTML, que site.js ubica en perspectiva sobre las
+  esquinas de la pantalla del monitor, y una persona al frente si la escena
+  la tiene. Sin JavaScript se ve la imagen sola, con la ventana ya pintada en
+  la pantalla (tools/hero_foto.py). Datos ficticios.
 #}
 
 {% set zones = [
@@ -43,7 +44,7 @@
       <li>Cobertura de la línea de snacks</li>
       <li>Margen por canal</li>
     </ul>
-    <p class="cw-user"><span class="cw-avatar">MG</span> <span>Martina G. <small>Gerencia comercial</small></span></p>
+    <p class="cw-user"><span class="cw-avatar">MG</span> <span>Martín G. <small>Gerencia comercial</small></span></p>
   </aside>
 
   <div class="cw-main">
@@ -137,21 +138,21 @@
 {% endmacro %}
 
 {% macro scene() %}
-<section class="hs" id="inicio" aria-labelledby="hs-title" data-hero-scene>
+<section class="hs{{ ' hs-photo' if not hero.front_img }}" id="inicio" aria-labelledby="hs-title" data-hero-scene data-scene="{{ hero.config }}">
   <a class="hs-skip" href="#despues-del-inicio">Saltar la animación {{ icon('arrow-right') }}</a>
   <div class="hs-stage">
     <div class="hs-frame">
       <div class="hs-scene" aria-hidden="true">
-        <img class="hs-back" src="{{ hero_img('fondo', 1800) }}"
-             srcset="{{ hero_img('fondo', 1800) }} 1800w, {{ hero_img('fondo', 3600) }} 3600w"
-             sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
-        <div class="hs-screen">{{ window('screen') }}</div>
+        <img class="hs-back" src="{{ hero.back.src }}" srcset="{{ hero.back.srcset }}"
+             sizes="(min-width: 1024px) 160vw, 400vw" width="{{ hero.w }}" height="{{ hero.h }}" alt="" fetchpriority="high">
       </div>
+      <div class="hs-screen">{{ window('screen') }}</div>
+      {% if hero.front_img %}
       <div class="hs-front" aria-hidden="true">
-        <img src="{{ hero_img('frente', 1800) }}"
-             srcset="{{ hero_img('frente', 1800) }} 1800w, {{ hero_img('frente', 3600) }} 3600w"
-             sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
+        <img src="{{ hero.front_img.src }}" srcset="{{ hero.front_img.srcset }}"
+             sizes="(min-width: 1024px) 160vw, 400vw" width="{{ hero.w }}" height="{{ hero.h }}" alt="" fetchpriority="high">
       </div>
+      {% endif %}
     </div>
 
     <div class="hs-shade" aria-hidden="true"></div>

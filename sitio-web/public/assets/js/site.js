@@ -157,9 +157,17 @@
   var heroScene = document.querySelector('[data-hero-scene]');
   if (heroScene) {
     (function (hero) {
-      var IMG_W = 3600;
-      var IMG_H = 2250;
-      var SCREEN = { x: 1202, y: 561, w: 1296, h: 810 };
+      // Escena del tema activo (src/hero.json): tamaño de la imagen y esquinas de la pantalla del monitor
+      var cfg = JSON.parse(hero.getAttribute('data-scene'));
+      var IMG_W = cfg.w;
+      var IMG_H = cfg.h;
+      var QUAD = cfg.screen;                 // arriba-izq., arriba-der., abajo-der., abajo-izq.
+      var BOX = { w: 1440, h: 900 };         // tamaño de diseño de la ventana que va en la pantalla
+      var qx = QUAD.map(function (q) { return q[0]; });
+      var qy = QUAD.map(function (q) { return q[1]; });
+      var SCREEN = { x: Math.min.apply(null, qx), y: Math.min.apply(null, qy) };
+      SCREEN.w = Math.max.apply(null, qx) - SCREEN.x;
+      SCREEN.h = Math.max.apply(null, qy) - SCREEN.y;
       var SCREEN_CENTER = { x: SCREEN.x + SCREEN.w / 2, y: SCREEN.y + SCREEN.h / 2 };
       // Filete y sombra de la ventana al final: claros sobre fondo oscuro, oscuros sobre fondo claro
       var LIGHT = document.documentElement.getAttribute('data-theme') === 'claro';
@@ -169,6 +177,7 @@
       var stage = hero.querySelector('.hs-stage');
       var frame = hero.querySelector('.hs-frame');
       var scene = hero.querySelector('.hs-scene');
+      var screen = hero.querySelector('.hs-screen');
       var front = hero.querySelector('.hs-front');
       var shade = hero.querySelector('.hs-shade');
       var copy = hero.querySelector('.hs-copy');
@@ -189,27 +198,79 @@
       function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
 
       function place(el, s, ax, ay) {
-        // Ubica el punto (ax, ay) de la imagen en el centro elegido de la pantalla, con escala s
+        // Ubica el centro de la pantalla del monitor en el punto (ax, ay) de la vista, con escala s
         el.style.transform = 'translate3d(' + (ax - s * SCREEN_CENTER.x).toFixed(2) + 'px,' +
           (ay - s * SCREEN_CENTER.y).toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
       }
 
+      function warp(c) {
+        // Transformación proyectiva que lleva la ventana (BOX) a las cuatro esquinas c
+        // (cuadrado unitario a cuadrilátero, P. Heckbert), escrita como matrix3d
+        var x0 = c[0][0], y0 = c[0][1], x1 = c[1][0], y1 = c[1][1];
+        var x2 = c[2][0], y2 = c[2][1], x3 = c[3][0], y3 = c[3][1];
+        var sx = x0 - x1 + x2 - x3;
+        var sy = y0 - y1 + y2 - y3;
+        var g = 0;
+        var h = 0;
+        if (Math.abs(sx) > 1e-9 || Math.abs(sy) > 1e-9) {
+          var dx1 = x1 - x2, dx2 = x3 - x2, dy1 = y1 - y2, dy2 = y3 - y2;
+          var den = dx1 * dy2 - dx2 * dy1;
+          g = (sx * dy2 - dx2 * sy) / den;
+          h = (dx1 * sy - sx * dy1) / den;
+        }
+        var a = x1 - x0 + g * x1, b = x3 - x0 + h * x3;
+        var d = y1 - y0 + g * y1, e = y3 - y0 + h * y3;
+        var m = [a / BOX.w, d / BOX.w, 0, g / BOX.w, b / BOX.h, e / BOX.h, 0, h / BOX.h, 0, 0, 1, 0, x0, y0, 0, 1];
+        return 'matrix3d(' + m.map(function (v) { return +v.toFixed(8); }).join(',') + ')';
+      }
+
+      function sizeLayers() {
+        [scene, front].forEach(function (el) {
+          if (!el) return;
+          el.style.width = IMG_W + 'px';
+          el.style.height = IMG_H + 'px';
+        });
+      }
+
       function fitStatic() {
+        frame.style.aspectRatio = IMG_W + ' / ' + IMG_H;
+        sizeLayers();
         var s = frame.clientWidth / IMG_W;
         scene.style.transform = 'scale(' + s + ')';
-        front.style.transform = 'scale(' + s + ')';
+        if (front) front.style.transform = 'scale(' + s + ')';
+        screen.style.transform = warp(QUAD.map(function (q) { return [q[0] * s, q[1] * s]; }));
+      }
+
+      function fit(pos, s, center, size, length) {
+        // Corre el punto donde va el centro de la pantalla para que la imagen cubra la vista en ese eje
+        var lo = length - s * (size - center);
+        var hi = s * center;
+        return lo > hi ? (lo + hi) / 2 : clamp(pos, lo, hi);
       }
 
       function measure() {
         var w = stage.clientWidth;
         var h = stage.clientHeight;
-        var wide = w >= 1024;
-        // Plano general: la escena llena la pantalla; en celulares, la pantalla del monitor queda centrada abajo del texto
-        var s0 = wide ? Math.max(w / IMG_W, h / IMG_H) * 1.02 : (w * 1.7) / IMG_W;
-        var start = wide ? { x: w * 0.72, y: h * 0.5 } : { x: w * 0.5, y: h * 0.79 };
+        var shot = w >= 1024 ? cfg.desk : cfg.mob;
+        // Plano general: según la escena, la imagen cubre la vista o la pantalla queda abajo del texto en celulares
+        var s0 = shot.width ? (w * shot.width) / IMG_W : Math.max(w / IMG_W, h / IMG_H) * shot.zoom;
+        var start = { x: w * shot.x, y: h * shot.y };
+        if (cfg.cover) {
+          start.x = fit(start.x, s0, SCREEN_CENTER.x, IMG_W, w);
+          if (w >= 1024) start.y = fit(start.y, s0, SCREEN_CENTER.y, IMG_H, h);
+        }
+        var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
         // Plano final: la pantalla del monitor cubre toda la vista
-        var s1 = Math.max(w / SCREEN.w, (h - 0) / SCREEN.h) * 1.04;
-        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 }, header: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64 };
+        var s1 = Math.max(w / SCREEN.w, h / SCREEN.h) * 1.04;
+        // Donde termina la ventana al despegarse del monitor: de frente, cubriendo la vista debajo del encabezado
+        var k = Math.max(w / BOX.w, (h - header) / BOX.h);
+        var rw = BOX.w * k;
+        var rh = BOX.h * k;
+        var rx = (w - rw) / 2;
+        var ry = header + (h - header - rh) / 2;
+        var rect = [[rx, ry], [rx + rw, ry], [rx + rw, ry + rh], [rx, ry + rh]];
+        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 }, rect: rect, header: header };
+        sizeLayers();
       }
 
       function setSteps(count) {
@@ -239,10 +300,21 @@
         var ay = lerp(view.start.y, view.end.y, t);
         place(scene, s, ax, ay);
 
-        // La persona está más cerca de la cámara: crece más rápido, baja y se desvanece
-        var sf = s * (1 + 1.8 * t * t);
-        place(front, sf, ax, ay + t * view.h * 0.55);
-        front.style.opacity = (1 - ramp(0.2, 0.62, t)).toFixed(3);
+        // La ventana sigue a la pantalla del monitor y, al acercarse, se despega hasta quedar de frente
+        var u = ease(ramp(0.55, 1, t));
+        screen.style.transform = warp(QUAD.map(function (q, i) {
+          var x = ax + s * (q[0] - SCREEN_CENTER.x);
+          var y = ay + s * (q[1] - SCREEN_CENTER.y);
+          return [lerp(x, view.rect[i][0], u), lerp(y, view.rect[i][1], u)];
+        }));
+        screen.style.boxShadow = u > 0 ? '0 40px 90px -30px rgba(' + DROP.rgb + ',' + (DROP.a * u).toFixed(3) + ')' : '';
+
+        if (front) {
+          // La persona está más cerca de la cámara: crece más rápido, baja y se desvanece
+          var sf = s * (1 + 1.8 * t * t);
+          place(front, sf, ax, ay + t * view.h * 0.55);
+          front.style.opacity = (1 - ramp(0.2, 0.62, t)).toFixed(3);
+        }
 
         var out = ramp(0.005, 0.06, p);
         copy.style.opacity = (1 - out).toFixed(3);
@@ -286,6 +358,7 @@
         hero.classList.add('hs-ready');
         if (motion.matches) {
           hero.classList.add('is-animated');
+          frame.style.aspectRatio = '';
           measure();
           shown = -1;
           render();
@@ -294,7 +367,7 @@
           hero.classList.remove('is-animated', 'is-app', 'is-done');
           document.body.classList.remove('hero-copy-visible');
           window.removeEventListener('scroll', onScroll);
-          [scene, front, copy, hint, shade, frame, app, thread].forEach(function (el) { el.removeAttribute('style'); });
+          [scene, screen, front, copy, hint, shade, frame, app, thread].forEach(function (el) { if (el) el.removeAttribute('style'); });
           steps.forEach(function (step) { step.classList.remove('is-in'); });
           fitStatic();
         }
