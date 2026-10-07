@@ -162,7 +162,7 @@
       var IMG_W = cfg.w;
       var IMG_H = cfg.h;
       var QUAD = cfg.screen;                 // arriba-izq., arriba-der., abajo-der., abajo-izq.
-      var BOX = { w: 1440, h: 900 };         // tamaño de diseño de la ventana que va en la pantalla
+      var BOX = { w: 1440, h: 900 };         // tamaño de la ventana en la pantalla (en celulares y sin animación)
       var qx = QUAD.map(function (q) { return q[0]; });
       var qy = QUAD.map(function (q) { return q[1]; });
       var SCREEN = { x: Math.min.apply(null, qx), y: Math.min.apply(null, qy) };
@@ -184,8 +184,11 @@
       var hint = hero.querySelector('.hs-hint');
       var app = hero.querySelector('.hs-app');
       var thread = app.querySelector('.cw-thread');
+      var screenThread = screen.querySelector('.cw-thread');
       var scroller = app.querySelector('.cw-scroll');
       var steps = Array.prototype.slice.call(app.querySelectorAll('[data-step]'));
+      // El comienzo de la respuesta ya se ve en la pantalla del monitor: aparece de entrada
+      var early = steps.filter(function (step) { return step.hasAttribute('data-early'); }).length;
       var motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
 
       var view = {};
@@ -203,8 +206,8 @@
           (ay - s * SCREEN_CENTER.y).toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
       }
 
-      function warp(c) {
-        // Transformación proyectiva que lleva la ventana (BOX) a las cuatro esquinas c
+      function warp(c, box) {
+        // Transformación proyectiva que lleva la ventana (box) a las cuatro esquinas c
         // (cuadrado unitario a cuadrilátero, P. Heckbert), escrita como matrix3d
         var x0 = c[0][0], y0 = c[0][1], x1 = c[1][0], y1 = c[1][1];
         var x2 = c[2][0], y2 = c[2][1], x3 = c[3][0], y3 = c[3][1];
@@ -220,7 +223,7 @@
         }
         var a = x1 - x0 + g * x1, b = x3 - x0 + h * x3;
         var d = y1 - y0 + g * y1, e = y3 - y0 + h * y3;
-        var m = [a / BOX.w, d / BOX.w, 0, g / BOX.w, b / BOX.h, e / BOX.h, 0, h / BOX.h, 0, 0, 1, 0, x0, y0, 0, 1];
+        var m = [a / box.w, d / box.w, 0, g / box.w, b / box.h, e / box.h, 0, h / box.h, 0, 0, 1, 0, x0, y0, 0, 1];
         return 'matrix3d(' + m.map(function (v) { return +v.toFixed(8); }).join(',') + ')';
       }
 
@@ -238,7 +241,7 @@
         var s = frame.clientWidth / IMG_W;
         scene.style.transform = 'scale(' + s + ')';
         if (front) front.style.transform = 'scale(' + s + ')';
-        screen.style.transform = warp(QUAD.map(function (q) { return [q[0] * s, q[1] * s]; }));
+        screen.style.transform = warp(QUAD.map(function (q) { return [q[0] * s, q[1] * s]; }), BOX);
       }
 
       function fit(pos, s, center, size, length) {
@@ -262,14 +265,19 @@
         var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
         // Plano final: la pantalla del monitor cubre toda la vista
         var s1 = Math.max(w / SCREEN.w, h / SCREEN.h) * 1.04;
-        // Donde termina la ventana al despegarse del monitor: de frente, cubriendo la vista debajo del encabezado
-        var k = Math.max(w / BOX.w, (h - header) / BOX.h);
-        var rw = BOX.w * k;
-        var rh = BOX.h * k;
+        // Donde termina la ventana al despegarse del monitor: de frente, en el lugar de la conversación.
+        // En escritorio la ventana tiene el mismo tamaño que la conversación, así el cambio no se nota;
+        // en celulares conserva el diseño de escritorio y cubre la vista
+        var box = w >= 1024 ? { w: w, h: h - header } : BOX;
+        var k = Math.max(w / box.w, (h - header) / box.h);
+        var rw = box.w * k;
+        var rh = box.h * k;
         var rx = (w - rw) / 2;
         var ry = header + (h - header - rh) / 2;
         var rect = [[rx, ry], [rx + rw, ry], [rx + rw, ry + rh], [rx, ry + rh]];
-        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 }, rect: rect, header: header };
+        screen.style.width = box.w + 'px';
+        screen.style.height = box.h + 'px';
+        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: { x: w / 2, y: h / 2 }, rect: rect, box: box, header: header };
         sizeLayers();
       }
 
@@ -286,6 +294,8 @@
           offset = Math.max(0, bottom - top - scroller.clientHeight + 40);
         }
         thread.style.transform = 'translateY(' + (-offset) + 'px)';
+        // Si la ventana del monitor tiene el tamaño de la conversación, se desplaza igual para coincidir con ella
+        screenThread.style.transform = view.box && view.box !== BOX ? thread.style.transform : '';
       }
 
       function render() {
@@ -306,7 +316,7 @@
           var x = ax + s * (q[0] - SCREEN_CENTER.x);
           var y = ay + s * (q[1] - SCREEN_CENTER.y);
           return [lerp(x, view.rect[i][0], u), lerp(y, view.rect[i][1], u)];
-        }));
+        }), view.box);
         screen.style.boxShadow = u > 0 ? '0 40px 90px -30px rgba(' + DROP.rgb + ',' + (DROP.a * u).toFixed(3) + ')' : '';
 
         if (front) {
@@ -338,12 +348,11 @@
         app.style.bottom = (40 * settle).toFixed(1) + 'px';
         app.style.borderRadius = (20 * settle).toFixed(1) + 'px';
         app.style.boxShadow = settle > 0 ? '0 0 0 1px rgba(' + EDGE.rgb + ',' + (EDGE.a * settle).toFixed(3) + '), 0 40px 90px -40px rgba(' + DROP.rgb + ',' + (DROP.a * settle).toFixed(3) + ')' : '';
-        app.style.transform = appIn < 1 ? 'scale(' + (1.04 - 0.04 * appIn).toFixed(4) + ')' : '';
         hero.classList.toggle('is-done', p > 0.88);
 
         document.body.classList.toggle('hero-copy-visible', p < 0.06);
 
-        var revealed = Math.round(ramp(0.52, 0.86, p) * steps.length);
+        var revealed = early + Math.round(ramp(0.52, 0.86, p) * (steps.length - early));
         setSteps(revealed);
       }
 
@@ -367,7 +376,7 @@
           hero.classList.remove('is-animated', 'is-app', 'is-done');
           document.body.classList.remove('hero-copy-visible');
           window.removeEventListener('scroll', onScroll);
-          [scene, screen, front, copy, hint, shade, frame, app, thread].forEach(function (el) { if (el) el.removeAttribute('style'); });
+          [scene, screen, front, copy, hint, shade, frame, app, thread, screenThread].forEach(function (el) { if (el) el.removeAttribute('style'); });
           steps.forEach(function (step) { step.classList.remove('is-in'); });
           fitStatic();
         }

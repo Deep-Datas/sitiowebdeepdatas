@@ -62,22 +62,22 @@
         </div>
 
         <ul class="cw-tools">
-          <li class="cw-step" data-step>{{ icon('check2') }} Consultó las ventas del trimestre en el ERP</li>
-          <li class="cw-step" data-step>{{ icon('check2') }} Cruzó clientes y oportunidades del CRM</li>
-          <li class="cw-step" data-step>{{ icon('check2') }} Revisó el stock y el pronóstico de demanda</li>
+          <li class="cw-step" data-step data-early>{{ icon('check2') }} Consultó las ventas del trimestre en el ERP</li>
+          <li class="cw-step" data-step data-early>{{ icon('check2') }} Cruzó clientes y oportunidades del CRM</li>
+          <li class="cw-step" data-step data-early>{{ icon('check2') }} Revisó el stock y el pronóstico de demanda</li>
         </ul>
 
-        {% if full %}
+        {# El comienzo de la respuesta (data-early) ya se ve en la pantalla del monitor #}
         <div class="cw-answer">
-          <p class="cw-step" data-step>Revisé las ventas de julio a septiembre de los 40 distribuidores, junto con la cartera de clientes y el stock. <strong>El trimestre fue bueno, pero hay cuatro oportunidades claras para cerrar el año.</strong></p>
+          <p class="cw-step" data-step data-early>Revisé las ventas de julio a septiembre de los 40 distribuidores, junto con la cartera de clientes y el stock. <strong>El trimestre fue bueno, pero hay cuatro oportunidades claras para cerrar el año.</strong></p>
 
-          <dl class="cw-kpis cw-step" data-step>
+          <dl class="cw-kpis cw-step" data-step data-early>
             <div><dt>Ventas del trimestre</dt><dd>$ 11,7 M</dd><dd class="cw-up">▲ 8,4 % interanual</dd></div>
             <div><dt>Margen bruto</dt><dd>31,2 %</dd><dd class="cw-down">▼ 0,9 pp en mayoristas</dd></div>
             <div><dt>Clientes activos</dt><dd>2.318</dd><dd class="cw-down">▼ 38 dejaron de comprar</dd></div>
           </dl>
 
-          <figure class="cw-chart cw-step" data-step>
+          <figure class="cw-chart cw-step" data-step data-early>
             <figcaption>Crecimiento de ventas por zona, contra el mismo trimestre de 2025</figcaption>
             <ul class="cw-bars">
               {% for name, value in zones %}
@@ -94,6 +94,7 @@
             </ul>
           </figure>
 
+          {% if full %}
           <h3 class="cw-h cw-step" data-step>Lo que encontré</h3>
           <ul class="cw-findings">
             {% for ic, strong, rest in findings %}
@@ -122,10 +123,10 @@
             <li>Mostrame el detalle del oeste</li>
           </ul>
           <p class="cw-sources cw-step" data-step>{{ icon('database') }} Fuentes: ERP, CRM y pronóstico de demanda, curados por DeepDatas · actualizado hoy a las 7:00</p>
+          {% else %}
+          <p class="cw-thinking"><span class="cw-dot"></span><span class="cw-dot"></span><span class="cw-dot"></span> Preparando las recomendaciones…</p>
+          {% endif %}
         </div>
-        {% else %}
-        <p class="cw-thinking"><span class="cw-dot"></span><span class="cw-dot"></span><span class="cw-dot"></span> Analizando ventas, clientes y stock…</p>
-        {% endif %}
       </div>
     </div>
 
