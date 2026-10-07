@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://deepdatas.com/</loc></url>
-  <url><loc>https://deepdatas.com/servicios/</loc></url>
-  <url><loc>https://deepdatas.com/inteligencia-artificial/</loc></url>
-  <url><loc>https://deepdatas.com/diagnostico/</loc></url>
-  <url><loc>https://deepdatas.com/autoevaluacion/</loc></url>
-  <url><loc>https://deepdatas.com/casos/</loc></url>
-  <url><loc>https://deepdatas.com/ejemplos/</loc></url>
-  <url><loc>https://deepdatas.com/nosotros/</loc></url>
-  <url><loc>https://deepdatas.com/contacto/</loc></url>
-  <url><loc>https://deepdatas.com/privacidad/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://deepdatas.com/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/"/></url>
+  <url><loc>https://deepdatas.com/servicios/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/servicios/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/services/"/></url>
+  <url><loc>https://deepdatas.com/inteligencia-artificial/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/inteligencia-artificial/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/ai-for-business/"/></url>
+  <url><loc>https://deepdatas.com/diagnostico/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/diagnostico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/data-assessment/"/></url>
+  <url><loc>https://deepdatas.com/autoevaluacion/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/autoevaluacion/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/ai-readiness-check/"/></url>
+  <url><loc>https://deepdatas.com/casos/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/casos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/case-studies/"/></url>
+  <url><loc>https://deepdatas.com/ejemplos/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/ejemplos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/dashboard-examples/"/></url>
+  <url><loc>https://deepdatas.com/nosotros/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/nosotros/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/about/"/></url>
+  <url><loc>https://deepdatas.com/contacto/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/contacto/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/contact/"/></url>
+  <url><loc>https://deepdatas.com/privacidad/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/privacy/"/></url>
+  <url><loc>https://deepdatas.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/"/></url>
+  <url><loc>https://deepdatas.com/en/services/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/servicios/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/services/"/></url>
+  <url><loc>https://deepdatas.com/en/ai-for-business/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/inteligencia-artificial/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/ai-for-business/"/></url>
+  <url><loc>https://deepdatas.com/en/data-assessment/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/diagnostico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/data-assessment/"/></url>
+  <url><loc>https://deepdatas.com/en/ai-readiness-check/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/autoevaluacion/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/ai-readiness-check/"/></url>
+  <url><loc>https://deepdatas.com/en/case-studies/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/casos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/case-studies/"/></url>
+  <url><loc>https://deepdatas.com/en/dashboard-examples/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/ejemplos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/dashboard-examples/"/></url>
+  <url><loc>https://deepdatas.com/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/nosotros/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/about/"/></url>
+  <url><loc>https://deepdatas.com/en/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/contacto/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/contact/"/></url>
+  <url><loc>https://deepdatas.com/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/privacy/"/></url>
   <url><loc>https://deepdatas.com/blog/</loc></url>
   <url><loc>https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/</loc></url>
   <url><loc>https://deepdatas.com/blog/datos-antes-de-implementar-ia/</loc></url>

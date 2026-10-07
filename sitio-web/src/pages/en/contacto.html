@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+{% import 'forms.html' as forms with context %}
+
+{% set faqs = [
+  ('Does my data need to be organized before we start?',
+   'No. Part of our work is integrating, cleaning and preparing the data: we start from the sources you already have (systems, spreadsheets, databases) and turn them into reliable information.'),
+  ('Which platforms do you work with?',
+   'Our solutions are platform-agnostic. We assess your infrastructure and needs to recommend the right tool; we usually work with Power BI, Azure, SQL and Python.'),
+  ('How big does my company need to be?',
+   'We work with organizations of different sizes and industries. What matters is not the volume of data, but having decisions that can be improved with information.'),
+  ('How do you keep information secure?',
+   'Security is one of our pillars: we use the best technologies and follow the protocols and regulations that apply to each industry and each client.'),
+  ('What is the Client portal?',
+   'It’s the private space where our clients and distributors view their dashboards and reports. You can sign in from the “Client portal” link in the footer, with the credentials we assign.'),
+  ('What is the first step?',
+   'Fill in the form or message us on WhatsApp. We’ll set up a first conversation to understand your challenge and then put together a tailored proposal.'),
+] %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+  <div class="container">
+    <p class="eyebrow">Contact</p>
+    <h1>Let’s talk about your data</h1>
+    <p class="lead">Tell us what you’d like to solve and we’ll get back to you shortly to set up a first conversation, with no commitment.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  {% if booking %}
+  <div class="container">
+    <div class="booking-card">
+      <div>
+        <h2 class="h3-like">Pick a day and time</h2>
+        <p>Book a first meeting with our team directly, with no back-and-forth emails.</p>
+      </div>
+      <a class="btn btn-primary btn-lg" {{ booking_link() }}>See available times {{ icon('arrow-right') }}</a>
+    </div>
+    <p class="booking-or">or send us your question and we’ll reply</p>
+  </div>
+  {% endif %}
+  <div class="container contact-grid">
+    {{ forms.contact_form() }}
+
+    <aside class="contact-card" aria-label="Other ways to reach us">
+      <h2 class="h3-like">Other ways to reach us</h2>
+      <ul class="contact-list">
+        <li>{{ icon('envelope') }} <div><strong>Email</strong><a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a></div></li>
+        <li>{{ icon('telephone') }} <div><strong>Phone</strong><a href="tel:+5491161527387">+54 9 11 6152-7387</a></div></li>
+        <li>{{ icon('whatsapp') }} <div><strong>WhatsApp</strong><a href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">Message us on WhatsApp</a></div></li>
+        <li>{{ icon('geo-alt') }} <div><strong>Office</strong>Bernardo de Irigoyen 330, C1072 Buenos Aires, Argentina</div></li>
+      </ul>
+      <iframe class="map" title="Map: Bernardo de Irigoyen 330, Buenos Aires" src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&z=15&output=embed&hl=en" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-paper">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">FAQ</p>
+      <h2>Before you write to us</h2>
+      <p>The questions we hear most. If yours isn’t here, send us a message.</p>
+    </div>
+    <div class="faq reveal">
+      {% for q, a in faqs %}
+      <details{% if loop.first %} open{% endif %}>
+        <summary>{{ q }} {{ icon('plus-lg', cls='faq-icon') }}</summary>
+        <p>{{ a }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta %}{% endblock %}

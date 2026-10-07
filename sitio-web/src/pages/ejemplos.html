@@ -21,7 +21,7 @@
   <div class="container">
     <header class="example-head reveal">
       <ul class="tags">
-        {% for t in e.tags %}<li>{{ t }}</li>{% endfor %}
+        {% for tag in e.tags %}<li>{{ tag }}</li>{% endfor %}
       </ul>
       <h2 id="{{ e.id }}-title">{{ e.title }}</h2>
       <p class="lead-sm">{{ e.summary }}</p>

@@ -1,0 +1,135 @@
+{% extends 'layout.html' %}
+{% import 'forms.html' as forms with context %}
+
+{# AI readiness check: each answer scores 0 to 3 points; site.js computes the result (0 to 100)
+   and shows the level and priorities. All the result text lives here, in the page. #}
+{% set questions = [
+  {'id': 'integracion', 'area': 'Integration',
+   'q': 'Where do your sales, customer and inventory data live today?',
+   'options': ['In scattered spreadsheets and emails', 'In the ERP or CRM, but each department exports it to Excel', 'In integrated systems, with some automated reports', 'In a central repository that updates itself'],
+   'tip': 'Bring your main sources into a single model that updates itself. Without it, every analysis starts from scratch.'},
+  {'id': 'actualizacion', 'area': 'Timeliness',
+   'q': 'How long does it take to get your month-end numbers?',
+   'options': ['More than a week', 'Three to seven days', 'One or two days', 'They’re available the next day or in real time'],
+   'tip': 'Automate data loading and calculations so you have your KPIs on the first day of the month, not the fifth.'},
+  {'id': 'confianza', 'area': 'Data governance',
+   'q': 'Do all your departments trust the same numbers?',
+   'options': ['Every department has its own version', 'We often argue about which number is right', 'They almost always match', 'Yes, we have shared, documented definitions'],
+   'tip': 'Agree on a single definition for each KPI (net sales, margin, active customer) and on who owns each one.'},
+  {'id': 'calidad', 'area': 'Data quality',
+   'q': 'How often do you find errors or duplicates, such as repeated customers or different codes for the same product?',
+   'options': ['All the time', 'Often', 'Sometimes', 'Almost never, we have automated checks'],
+   'tip': 'Clean up and unify your customer and product master data, with rules that catch errors before they reach your reports.'},
+  {'id': 'decisiones', 'area': 'Data-driven decisions',
+   'q': 'How are commercial decisions made today?',
+   'options': ['Based on experience and intuition', 'With reports built by hand', 'With management dashboards', 'With dashboards, alerts and forecasts'],
+   'tip': 'Put your key KPIs into dashboards that each person uses day to day, with alerts when something drifts off course.'},
+  {'id': 'ia', 'area': 'Artificial intelligence',
+   'q': 'How do you use artificial intelligence today?',
+   'options': ['We don’t use it yet', 'Some people use tools like ChatGPT on their own', 'We’ve tried a pilot', 'We have use cases running on company data'],
+   'tip': 'Choose a focused, high-impact use case (sales questions, alerts or orders) and test it with curated data.'},
+] %}
+
+{% set levels = [
+  {'from': 0, 'to': 34, 'name': 'Scattered data',
+   'text': 'Today your information is spread out and it’s hard to trust the numbers. Before thinking about artificial intelligence, it pays to build the foundation: integrate your main sources and define your key KPIs. It’s the most common starting point, and the one where an assessment pays off the most.'},
+  {'from': 35, 'to': 59, 'name': 'Foundation under construction',
+   'text': 'You already have systems and some reports, but much of the work is still manual and the numbers don’t always match. Automating data integration and quality will free up hours and prepare the ground for AI.'},
+  {'from': 60, 'to': 84, 'name': 'Ready to scale',
+   'text': 'You have a solid foundation. The next leap is moving from looking back to looking ahead: demand models, alerts and a first AI agent running on curated data.'},
+  {'from': 85, 'to': 100, 'name': 'Ready for AI',
+   'text': 'Your data is integrated, reliable and used to make decisions. You can apply AI agents to specific processes, with measurable impact from the very first pilot.'},
+] %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">AI readiness check · 2 minutes</p>
+    <h1>How ready is your data <em>for AI?</em></h1>
+    <p class="lead">Answer six questions and we’ll show you where your company stands and where to start. You get the result instantly, with no need to leave your details.</p>
+  </div>
+</section>
+
+<section class="section section-tight quiz-page">
+  <div class="container">
+    <form class="quiz" data-quiz novalidate>
+      <div class="quiz-questions">
+      <noscript><p class="quiz-note">You need JavaScript enabled to see your result. You can also <a href="{{ url('diagnostico') }}">request a data assessment</a> and we’ll review it together.</p></noscript>
+      {% for q in questions %}
+      <fieldset class="quiz-q" data-dimension="{{ q.id }}">
+        <legend>
+          <span class="label">{{ loop.index }} of {{ questions | length }} · {{ q.area }}</span>
+          <span class="quiz-q-title">{{ q.q }}</span>
+        </legend>
+        <div class="quiz-options">
+          {% for option in q.options %}
+          <label class="quiz-option">
+            <input type="radio" name="{{ q.id }}" value="{{ loop.index0 }}" required>
+            <span>{{ option }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+      {% endfor %}
+      <div class="quiz-actions">
+        <button class="btn btn-primary btn-lg" type="submit">See my result {{ icon('arrow-right') }}</button>
+        <p class="quiz-progress" data-quiz-progress aria-live="polite">0 of {{ questions | length }} answered</p>
+      </div>
+      <p class="quiz-error" data-quiz-error role="alert" hidden>Please answer every question to see your result.</p>
+      </div>
+      <aside class="quiz-aside" aria-label="What you’ll get">
+        <p class="label">What you’ll get</p>
+        <ul class="quiz-aside-list">
+          <li>{{ icon('check2') }} Your readiness level, from 0 to 100</li>
+          <li>{{ icon('check2') }} Your company’s priorities, area by area</li>
+          <li>{{ icon('check2') }} Concrete next steps, ready to save as a PDF</li>
+        </ul>
+        <p class="quiz-aside-note">{{ icon('lock') }} It’s anonymous: you don’t need to leave your details to see the result.</p>
+      </aside>
+    </form>
+
+    <section class="quiz-result" data-quiz-result data-summary="AI readiness check result: {score}/100 ({level})" aria-label="Your result" tabindex="-1" hidden>
+      <div class="quiz-result-head">
+        <div>
+          <p class="eyebrow">Your result</p>
+          {% for level in levels %}
+          <div class="quiz-level" data-level-from="{{ level.from }}" data-level-to="{{ level.to }}" hidden>
+            <h2>{{ level.name }}</h2>
+            <p>{{ level.text }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="quiz-score">
+          <p class="quiz-score-value"><span data-quiz-score>0</span><small>/100</small></p>
+          <span class="quiz-meter"><span class="quiz-meter-fill" data-quiz-meter></span></span>
+        </div>
+      </div>
+
+      <h3>Your priorities</h3>
+      <ol class="quiz-tips">
+        {% for q in questions %}
+        <li data-tip="{{ q.id }}" hidden><strong>{{ q.area }}.</strong> {{ q.tip }}</li>
+        {% endfor %}
+      </ol>
+      <p class="quiz-all-good" data-quiz-all-good hidden>Your answers show a very solid foundation across every area. The next step is choosing the AI use case with the greatest impact on your business.</p>
+
+      <div class="actions quiz-result-actions">
+        <a class="btn btn-primary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment {{ icon('arrow-right') }}</a>
+        <button class="btn btn-secondary btn-lg" type="button" data-quiz-print>{{ icon('download') }} Save as PDF</button>
+        <button class="text-link-quiet" type="button" data-quiz-reset>Start over</button>
+      </div>
+
+      <div class="quiz-lead">
+        <div>
+          <h3>Shall we review it together?</h3>
+          <p>Leave your details and we’ll get in touch with a proposal for next steps for your company, at no cost. Your answers come along with it, so you don’t have to repeat them.</p>
+        </div>
+        {{ forms.lead_form('AI readiness check') }}
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta_title %}Prefer to see it with <em>your real data?</em>{% endblock %}
+{% block cta_text %}In the data assessment we review your sources and deliver a prioritized roadmap in two weeks.{% endblock %}

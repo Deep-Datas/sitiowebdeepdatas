@@ -30,7 +30,8 @@
     else if (href.indexOf('https://wa.me/') === 0) track('whatsapp');
     else if (href.indexOf('mailto:') === 0) track('email');
     else if (href.indexOf('tel:') === 0) track('telefono');
-    else if (href.indexOf('/diagnostico/') === 0 && location.pathname !== '/diagnostico/') track('ver_diagnostico');
+    else if (/^\/(en\/data-assessment|diagnostico)\//.test(href) && href.indexOf(location.pathname) !== 0) track('ver_diagnostico');
+    else if (/^\/(en\/ai-readiness-check|autoevaluacion)\//.test(href) && href.indexOf(location.pathname) !== 0) track('ver_autoevaluacion');
     else if (link.matches('.nav-actions .btn-primary, .cta-actions .btn-primary')) track('agendar_reunion');
   });
 
@@ -43,5 +44,8 @@
   });
 
   // Envío sin JavaScript: la página de gracias confirma el envío
-  if (location.pathname === '/gracias/' && location.hash !== '#error') track('formulario_enviado');
+  if ((location.pathname === '/gracias/' || location.pathname === '/en/thank-you/') && location.hash !== '#error') track('formulario_enviado');
+
+  // Idioma de la página, para comparar visitas en español e inglés
+  window.clarity('set', 'idioma', document.documentElement.lang);
 })();

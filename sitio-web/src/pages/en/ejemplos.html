@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% import 'charts.html' as charts with context %}
+{% import 'logos.html' as logos with context %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Dashboard examples</p>
+    <h1>This is what the solutions we build look like</h1>
+    <p class="lead">Three dashboards with sample data, inspired by real challenges. Hover over the charts or open “View data” to see the numbers.</p>
+    <nav class="pill-nav" aria-label="Examples">
+      {% for e in examples %}
+      <a href="#{{ e.id }}">{{ e.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</section>
+
+{% for e in examples %}
+<section class="section section-tight{{ ' section-paper' if loop.index is even }}" id="{{ e.id }}" aria-labelledby="{{ e.id }}-title">
+  <div class="container">
+    <header class="example-head reveal">
+      <ul class="tags">
+        {% for tag in e.tags %}<li>{{ tag }}</li>{% endfor %}
+      </ul>
+      <h2 id="{{ e.id }}-title">{{ e.title }}</h2>
+      <p class="lead-sm">{{ e.summary }}</p>
+    </header>
+
+    {{ charts.dashboard(e) }}
+
+    <div class="case-story">
+      <div>
+        <h3 class="mini-title">{{ icon('bullseye') }} The usual challenge</h3>
+        <p>{{ e.story.challenge }}</p>
+      </div>
+      <div>
+        <h3 class="mini-title">{{ icon('gear') }} How we solve it</h3>
+        <p>{{ e.story.solution }}</p>
+      </div>
+      <div>
+        <h3 class="mini-title">{{ icon('graph-up-arrow') }} What your team gains</h3>
+        <p>{{ e.story.benefit }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+<section class="logos logos-section" aria-labelledby="logos-title">
+  <div class="container">
+    {{ logos.wall() }}
+  </div>
+</section>
+{% endblock %}

@@ -10,12 +10,14 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
 | `/blog/` | Artículos (uno por archivo en `blog/`), cada uno en `/blog/<archivo>/` |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
+| `/autoevaluacion/` | Autoevaluación de 6 preguntas: puntaje de 0 a 100, nivel y prioridades al instante; se puede guardar en PDF y dejar los datos de contacto |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
 | `/ejemplos/` | Tres tableros interactivos de ejemplo (datos ficticios) con el desafío, la solución y el beneficio |
 | `/nosotros/` | Misión, pilares, especialidades del equipo y ubicación |
 | `/contacto/` | Formulario, medios de contacto, mapa y preguntas frecuentes |
 | `/gracias/` | Confirmación del formulario cuando el navegador no tiene JavaScript |
-| `/404.html` | Página de error |
+| `/404.html` | Página de error (en español, con un enlace a la versión en inglés) |
+| `/en/...` | Versión en inglés de todas las páginas salvo el blog (ver «Versión en inglés») |
 
 ## Estructura
 
@@ -26,16 +28,18 @@ blog/                    Artículos del blog, uno por archivo .md
 contenido/linkedin.md    Publicaciones sugeridas para LinkedIn (no se publica en el sitio)
 casos.py                 Casos de éxito (se publican al marcarlos como publicados)
 dashboards.py            Datos ficticios de los tableros de ejemplo
-pipeline.py              Textos y geometría del gráfico «Del dato disperso al agente de IA»
+pipeline.py              Textos (en los dos idiomas) y geometría del gráfico «Del dato disperso al agente de IA»
+i18n.py                  Rutas de cada página en español e inglés y textos de los componentes compartidos
 requirements.txt         Dependencias para generar el sitio (Jinja2)
 src/layout.html          Estructura común: encabezado, menú, pie y metadatos
 src/forms.html           Formulario de contacto (se usa en Contacto y en Diagnóstico)
 src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y agente de IA
-src/pages/               Contenido de cada página
+src/pages/               Contenido de cada página (en src/pages/en/, la versión en inglés)
+src/hero.json            Escena del inicio de cada tema (imagen y esquinas de la pantalla del monitor)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generador de los íconos 3D de vidrio (src/assets/img/glass/)
+tools/                   Generadores de imágenes: íconos de vidrio, escena del inicio (hero_foto.py) y captura de la pantalla
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -56,6 +60,20 @@ azure-static-web-apps-*.yml   Pipeline de Azure DevOps para publicar
 4. Subí los cambios **incluyendo la carpeta `public/`**: Azure publica esa carpeta tal cual.
 
 `build.py` también genera `sitemap.xml` y `robots.txt`, y agrega a los enlaces de CSS y JavaScript un código de versión para que los navegadores siempre descarguen la última versión.
+
+## Versión en inglés
+
+El sitio se publica en español (raíz) y en inglés (`/en/`). El blog es solo en español.
+
+- Cada página en inglés tiene su plantilla en `src/pages/en/`, con el mismo nombre de archivo que la española. Sus títulos y descripciones están en `PAGES_EN` (`build.py`) y sus rutas en `ROUTES` (`i18n.py`).
+- Los textos de los componentes que comparten todas las páginas (menú, pie, formularios, planes, logos, tableros y gráfico de datos) están en `i18n.py`; los de la escena del inicio, en `src/hero.html`; los de los tableros de ejemplo, en `dashboards.py`, y los de los casos, en `CASES_EN` (`casos.py`).
+- En las plantillas, los enlaces internos se escriben con `{{ url('servicios') }}` para que apunten a la página del mismo idioma.
+- Cada página enlaza su versión en el otro idioma desde el encabezado y el pie, y declara las dos versiones con `hreflang` (también en `sitemap.xml`).
+- Al cambiar un texto en español, actualizá también la versión en inglés.
+
+## Agenda online
+
+Para que los botones «Coordinar llamada» abran una agenda (Microsoft Bookings o Calendly) en lugar del formulario, pegá el enlace de la página de reservas en `BOOKING_URL` (`build.py`) y regenerá el sitio. Contacto también ofrece la agenda antes del formulario, y Clarity registra cada clic como `agendar_reunion`.
 
 ## Publicación en Azure Static Web Apps
 
@@ -85,6 +103,8 @@ La función `api/contacto` valida la consulta, descarta spam con un campo trampa
 | `CONTACT_RECIPIENTS` | Opcional. Destinatarios separados por coma (por defecto, el mismo buzón) |
 
 Mientras no esté configurado, el formulario muestra un aviso con el email de contacto en lugar de fallar en silencio.
+
+Los formularios envían el idioma de la página (`lang`): la función responde en ese idioma, sin JavaScript redirige a `/gracias/` o `/en/thank-you/`, y los correos que llegan desde la versión en inglés tienen el asunto con `[EN]`. Las consultas de la autoevaluación llegan con el interés «Autoevaluación de datos» (o «AI readiness check») y el resultado con todas las respuestas en el mensaje.
 
 ## Blog
 
@@ -120,7 +140,7 @@ El sitio está preparado para [Microsoft Clarity](https://clarity.microsoft.com)
 2. Recomendado: en Settings > Setup, desactivá las cookies y dejá el enmascarado de datos en modo estricto.
 3. Pegá el identificador en `CLARITY_ID` y ejecutá `python build.py`: se agrega el script y la política de seguridad habilita solo los dominios de Clarity.
 
-Además de las visitas, se registran estos eventos (Clarity > Filtros > Eventos personalizados): `whatsapp`, `email`, `telefono`, `agendar_reunion`, `ver_diagnostico` y `formulario_enviado` (con la etiqueta `interes`).
+Además de las visitas, se registran estos eventos (Clarity > Filtros > Eventos personalizados): `whatsapp`, `email`, `telefono`, `agendar_reunion`, `ver_diagnostico`, `ver_autoevaluacion` y `formulario_enviado` (con la etiqueta `interes`). La etiqueta `idioma` permite comparar las visitas en español e inglés.
 
 ## Contenido a revisar
 

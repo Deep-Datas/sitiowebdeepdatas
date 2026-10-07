@@ -86,7 +86,52 @@ CASES = [
 
 # Textos de cada caso en inglés (para /en/case-studies/). Mismas claves que en CASES;
 # lo que no está acá se toma del caso en español.
-CASES_EN = {}
+CASES_EN = {
+    'distribuidores': {
+        'short': 'Distributor network',
+        'client': 'Leading consumer goods company in the potato chip market',
+        'industry': 'Consumer goods',
+        'title': 'A single version of sales for the entire distributor network',
+        'summary': 'We brought the sales each distributor reported in its own spreadsheet into a dashboard that updates itself.',
+        'results': [
+            ('40', 'distributors integrated into a single model'),
+        ],
+        'challenge': 'Each distributor sent its sales in spreadsheets with its own formats and criteria. Consolidating them took days of manual work and leadership didn’t fully trust the final number.',
+        'solution': 'We automated how the files are received, unified product and customer codes, and published a performance dashboard with filters by region, channel and category.',
+        'outcome': 'Leadership and the sales team work with the same number and spot early which distributor or channel is drifting away from target.',
+        'sources': ['Excel and spreadsheets', '.txt and .csv files', 'ERP'],
+    },
+    'cobertura': {
+        'short': 'Coverage and cross-selling',
+        'client': 'Food company',
+        'industry': 'Consumer goods',
+        'title': 'Every sales rep knows which product to offer each customer',
+        'summary': 'We cross-referenced each point of sale’s purchases by product line to find cross-selling opportunities.',
+        'results': [
+            (PENDIENTE, 'points of sale analyzed'),
+            (PENDIENTE, 'increase in coverage of focus lines'),
+            (PENDIENTE, 'cross-selling opportunities identified'),
+        ],
+        'challenge': 'The sales team knew its sales volume, but not which points of sale were missing each product line or which rep had the most opportunities.',
+        'solution': 'We integrated point-of-sale sales from the ERP with each rep’s accounts and built a coverage dashboard with opportunity lists by sales rep.',
+        'outcome': 'Every sales rep heads out with a concrete list of customers to offer the line they don’t buy yet.',
+        'sources': ['ERP', 'CRM', 'Excel and spreadsheets'],
+    },
+    'pronostico': {
+        'short': 'Demand forecasting',
+        'client': 'Wholesale distributor',
+        'industry': 'Distribution and retail',
+        'title': 'Purchasing planned with a demand forecast',
+        'summary': 'A predictive model that anticipates weekly demand and suggests what to restock before it runs out.',
+        'results': [
+            ('12%', 'fewer stockouts'),
+        ],
+        'challenge': 'Purchasing was planned with historical averages: some products ran out of stock at peak times while others piled up in the warehouse.',
+        'solution': 'We trained a model that combines sales history with seasonality and promotions, and integrated it into a weekly replenishment dashboard.',
+        'outcome': 'The purchasing team knows what to restock, and how much, before it runs out.',
+        'sources': ['ERP', 'APIs and e-commerce'],
+    },
+}
 
 
 def localized_cases(cases, lang):

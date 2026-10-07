@@ -7543,3 +7543,9 @@ button.text-link-quiet {
     padding: 12px;
   }
 }
+
+.message-alt {
+  margin: 28px 0 0;
+  color: var(--fg-3);
+  font-size: 0.9rem;
+}

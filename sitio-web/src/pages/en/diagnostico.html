@@ -1,0 +1,216 @@
+{% extends 'layout.html' %}
+{% import 'forms.html' as forms with context %}
+
+{# Sample report: fictional data. Score from 0 to 100 per source. #}
+{% set report_sources = [
+  ('ERP', 'Sales, inventory and invoicing', 86),
+  ('E-commerce', 'Online sales and logistics', 74),
+  ('CRM', '18% duplicate customers', 58),
+  ('Target spreadsheets', 'Different formats per department', 41),
+  ('WhatsApp orders', 'Not recorded in any system', 12),
+] %}
+{% set report_score = 54 %}
+{% set opportunities = [
+  ('Unify customers across CRM and ERP', 'High impact', 'Low effort'),
+  ('Capture WhatsApp orders', 'High impact', 'Medium effort'),
+  ('AI agent for sales questions', 'High impact', 'Requires 1 and 2'),
+] %}
+
+{% set deliverables = [
+  ('diagram-3', 'Map of your data',
+   'Which sources you have (systems, spreadsheets, messages, files), what information each one holds and how it flows between departments.'),
+  ('shield-check', 'Quality assessment',
+   'A score for each source: completeness, duplicates, consistency and freshness. You know exactly where the problems are.'),
+  ('robot', 'AI readiness',
+   'Which artificial intelligence use cases are feasible today with your data, which ones aren’t yet and what it takes to get there.'),
+  ('compass', 'Prioritized roadmap',
+   'The highest-impact opportunities, ranked by benefit and effort, with estimated timelines for each one.'),
+] %}
+
+{% set process = [
+  ('people', 'Week 1', 'Kickoff meeting',
+   'One hour to understand your business, your key decisions and your goals. We agree on which departments and sources to review.'),
+  ('search', 'Week 1', 'Discovery',
+   'We review data samples or read-only access and hold short interviews with the people who use the information.'),
+  ('bar-chart-line', 'Week 2', 'Analysis',
+   'We measure the quality of each source, map how information flows and assess the AI use cases.'),
+  ('check2', 'Week 2', 'Results presentation',
+   'We present the report and the roadmap, and answer all of your team’s questions.'),
+] %}
+
+{% set fit = [
+  'Your information is spread across systems, spreadsheets and messages.',
+  'Reports take days of manual work and don’t always match.',
+  'You want to apply artificial intelligence but don’t know where to start.',
+  'You need to justify an investment in data with a concrete plan.',
+] %}
+
+{% set needs = [
+  'A point person to coordinate the discovery.',
+  'Data samples or read-only access to the main sources.',
+  'Between 4 and 6 hours of your team’s time, spread over the two weeks.',
+] %}
+
+{% set faqs = [
+  ('What happens when the assessment is over?',
+   'You keep the report and the roadmap, and you decide how to move forward: implement it with your own team, with another provider or with us. There is no commitment to continue.'),
+  ('How much does it cost?',
+   'The scope and the fee are agreed in the first conversation, based on the number of sources and departments to review. You always know the price before we start.'),
+  ('How do you protect the confidentiality of my data?',
+   'We sign a confidentiality agreement before we start and work with read-only access or data samples.'),
+  ('My data lives in Excel and WhatsApp. Does that work?',
+   'Yes, that’s the most common case. The assessment identifies exactly which information is worth rescuing from those sources and how to integrate it.'),
+  ('Is it useful if we’re not thinking about AI yet?',
+   'Yes. The same curated data an AI agent needs is what makes your dashboards and reports reliable. The roadmap covers both.'),
+] %}
+
+{% block content %}
+<section class="page-hero dx-hero">
+  <div class="container dx-hero-grid">
+    <div>
+      <p class="eyebrow">Data assessment</p>
+      <h1>In two weeks, you’ll know what data you have, what’s missing and <em>where to start.</em></h1>
+      <p class="lead">We review your sources, measure their quality and deliver a plan with the highest-impact opportunities. No commitment to continue.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="#pedir">Request my assessment {{ icon('arrow-right') }}</a>
+        <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} or ask us on WhatsApp</a>
+      </div>
+      <ul class="hero-proof">
+        <li>{{ icon('check2') }} Results in 2 weeks</li>
+        <li>{{ icon('check2') }} Fixed price agreed before we start</li>
+        <li>{{ icon('check2') }} Read-only access and confidentiality</li>
+      </ul>
+      <p class="dx-quiz-link"><a class="link-arrow" href="{{ url('autoevaluacion') }}">Want a first idea right now? Take the 2-minute AI readiness check {{ icon('arrow-right') }}</a></p>
+    </div>
+
+    <figure class="dx-report" aria-labelledby="dx-report-title">
+      <div class="dx-report-head">
+        <div>
+          <p class="dash-kicker">Sample report · fictional data</p>
+          <p class="dash-title" id="dx-report-title">Data readiness</p>
+        </div>
+        <p class="dx-score"><strong>{{ report_score }}</strong><span>/100</span></p>
+      </div>
+      <table class="dx-table">
+        <caption class="visually-hidden">Quality score by data source, from 0 to 100</caption>
+        <thead class="visually-hidden">
+          <tr><th scope="col">Source</th><th scope="col">Score</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+          {% for name, note, score in report_sources %}
+          {% if score >= 70 %}{% set st = ('good', 'check-circle-fill', 'Ready') %}
+          {% elif score >= 40 %}{% set st = ('warn', 'exclamation-circle-fill', 'Needs work') %}
+          {% else %}{% set st = ('bad', 'x-circle-fill', 'Not integrated') %}{% endif %}
+          <tr>
+            <th scope="row"><strong>{{ name }}</strong><span>{{ note }}</span></th>
+            <td class="dx-meter-cell">
+              <span class="dx-meter" aria-hidden="true"><span class="dx-meter-fill dx-{{ st[0] }} {{ pos('w', score) }}"></span></span>
+              <span class="dx-num">{{ score }}</span>
+            </td>
+            <td><span class="dx-status dx-{{ st[0] }}">{{ icon(st[1]) }} {{ st[2] }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="dx-opps">
+        <p class="dx-opps-title">Prioritized opportunities</p>
+        <ol>
+          {% for title, impact, effort in opportunities %}
+          <li><strong>{{ title }}</strong><span>{{ impact }} · {{ effort }}</span></li>
+          {% endfor %}
+        </ol>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ======= DELIVERABLES ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">What you’ll get</p>
+      <h2>A clear report to decide your next step</h2>
+      <p>It’s not a generic slide deck: it’s an analysis of your real data, with conclusions you can use from day one.</p>
+    </div>
+    <div class="dx-grid">
+      {% for ic, title, text in deliverables %}
+      <article class="plan-card reveal">
+        <span class="plan-icon">{{ icon(ic) }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROCESS ======= -->
+<section class="section section-paper">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">How it works</p>
+      <h2>Two weeks, four steps and little of your team’s time</h2>
+    </div>
+    <ol class="steps">
+      {% for ic, when, title, text in process %}
+      <li class="reveal">
+        <span class="step-icon">{{ icon(ic) }}</span>
+        <p class="dx-when">{{ when }}</p>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<!-- ======= WHO IT'S FOR ======= -->
+<section class="section">
+  <div class="container dx-fit">
+    <div class="dx-fit-card reveal">
+      <h2 class="h3-like">It’s for you if…</h2>
+      <ul class="dx-checks">
+        {% for item in fit %}
+        <li>{{ icon('check-circle-fill') }} {{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="dx-fit-card reveal">
+      <h2 class="h3-like">What we need from you</h2>
+      <ul class="dx-checks dx-checks-neutral">
+        {% for item in needs %}
+        <li>{{ icon('arrow-right') }} {{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======= FORM ======= -->
+<section class="section section-paper" id="pedir" aria-labelledby="pedir-title">
+  <div class="container contact-grid">
+    <div>
+      <div class="dx-form-head">
+        <p class="eyebrow">Request your assessment</p>
+        <h2 id="pedir-title">Tell us about your company</h2>
+        <p>We’ll get back to you shortly to set up a 30-minute first conversation and define the scope.</p>
+      </div>
+      {{ forms.contact_form(selected='diagnostico',
+           placeholder='For example: our sales are in the ERP, targets in Excel and orders come in through WhatsApp, and we want a single dashboard.',
+           button='Request my assessment') }}
+    </div>
+
+    <aside class="faq dx-faq" aria-label="Frequently asked questions about the assessment">
+      <h2 class="h3-like">FAQ</h2>
+      {% for q, a in faqs %}
+      <details{% if loop.first %} open{% endif %}>
+        <summary>{{ q }} {{ icon('plus-lg', cls='faq-icon') }}</summary>
+        <p>{{ a }}</p>
+      </details>
+      {% endfor %}
+    </aside>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta %}{% endblock %}

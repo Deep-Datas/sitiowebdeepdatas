@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section class="message-page">
+  <div class="container">
+    {# Shown when the URL ends in #error (a no-JavaScript submission that failed) #}
+    <div class="message-error" id="error">
+      <span class="message-icon message-icon-error">{{ icon('exclamation-circle-fill') }}</span>
+      <h1>We couldn’t send your message</h1>
+      <p class="lead">Please check your details and try again, or email us directly at <a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a>.</p>
+      <div class="actions actions-center">
+        <a class="btn btn-primary btn-lg" href="{{ url('contacto') }}">Back to the form</a>
+      </div>
+    </div>
+
+    <div class="message-ok">
+      <span class="message-icon">{{ icon('check-circle-fill') }}</span>
+      <h1>Thank you for reaching out!</h1>
+      <p class="lead">We received your message and will get back to you shortly. In the meantime, take a look at some examples of what we build.</p>
+      <div class="actions actions-center">
+        <a class="btn btn-primary btn-lg" href="{{ url('ejemplos') }}">See dashboard examples</a>
+        <a class="btn btn-secondary btn-lg" href="{{ url('inicio') }}">Back to home</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta %}{% endblock %}

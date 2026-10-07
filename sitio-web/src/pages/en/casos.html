@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+{% import 'charts.html' as charts with context %}
+
+{% macro value(text) -%}
+{% if text == pending %}<span class="is-pending">{{ text }}</span>{% else %}{{ text }}{% endif %}
+{%- endmacro %}
+
+{% block content %}
+{% if drafts %}
+<div class="draft-banner" role="note">
+  <div class="container">{{ icon('exclamation-circle-fill') }} Draft preview: case studies with “{{ pending }}” are not published until they are completed.</div>
+</div>
+{% endif %}
+
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Case studies</p>
+    <h1>Real results from companies that chose to decide with data</h1>
+    <p class="lead">Data integration, management dashboard and predictive modeling projects, told through the numbers that matter to each client.</p>
+    {% if cases | length > 1 %}
+    <nav class="pill-nav" aria-label="Case studies">
+      {% for c in cases %}
+      <a href="#{{ c.id }}">{{ c.short }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </div>
+</section>
+
+{% for c in cases %}
+{% set example = examples | selectattr('id', 'eq', c.example) | first if c.example else none %}
+<section class="section section-tight case-section" id="{{ c.id }}" aria-labelledby="{{ c.id }}-title">
+  <article class="container case case-layout">
+    <div class="case-main">
+      <header class="case-head reveal">
+        <ul class="tags">
+          <li>{{ c.industry }}</li>
+          {% if not c.publicado %}<li class="tag-draft">Draft</li>{% endif %}
+        </ul>
+        <h2 id="{{ c.id }}-title">{{ c.title }}</h2>
+        <p class="case-client-name">{{ c.client }}</p>
+      </header>
+
+      <dl class="case-results reveal">
+        {% for number, label in c.results %}
+        <div>
+          <dt>{{ label }}</dt>
+          <dd>{{ value(number) }}</dd>
+        </div>
+        {% endfor %}
+      </dl>
+
+      <dl class="case-story">
+        <div><dt class="label">The challenge</dt><dd>{{ c.challenge }}</dd></div>
+        <div><dt class="label">What we did</dt><dd>{{ c.solution }}</dd></div>
+        <div><dt class="label">The outcome</dt><dd>{{ c.outcome }}</dd></div>
+      </dl>
+
+      {% if c.quote %}
+      <figure class="case-quote reveal">
+        <blockquote><p>“{{ c.quote[0] }}”</p></blockquote>
+        <figcaption><strong>{{ c.quote[1] }}</strong> {{ c.quote[2] }}</figcaption>
+      </figure>
+      {% endif %}
+
+      <div class="case-meta">
+        <div>
+          <p class="label">Sources integrated</p>
+          <ul class="case-chips">{% for s in c.sources %}<li>{{ s }}</li>{% endfor %}</ul>
+        </div>
+        <div>
+          <p class="label">Technology</p>
+          <ul class="case-chips">{% for s in c.stack %}<li>{{ s }}</li>{% endfor %}</ul>
+        </div>
+        {% if c.duration %}
+        <div>
+          <p class="label">Duration</p>
+          <p>{{ value(c.duration) }}</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if example %}
+    <figure class="case-visual reveal">
+      {{ charts.dashboard(example, panels=[0]) }}
+      <figcaption class="screen-caption">Illustrative dashboard with sample data, similar to the one we built. <a class="link-arrow" href="{{ url('ejemplos') }}#{{ c.example }}">See the interactive dashboard {{ icon('arrow-right') }}</a></figcaption>
+    </figure>
+    {% endif %}
+  </article>
+</section>
+{% endfor %}
+{% endblock %}
+
+{% block cta_title %}Want results like these <em>in your company?</em>{% endblock %}
