@@ -33,6 +33,10 @@ def _parse(path):
         key, value = line.split(':', 1)
         meta[key.strip()] = value.strip().strip('"')
     html = markdown.markdown(body, extensions=['tables', 'sane_lists'])
+    # Las tablas anchas se desplazan de costado en celulares; el contenedor se
+    # puede enfocar para desplazarlas también con el teclado.
+    html = (html.replace('<table>', '<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla">\n<table>')
+                .replace('</table>', '</table>\n</div>'))
     return {
         'slug': path.stem,
         'title': meta['title'],
