@@ -1,5 +1,5 @@
 // Captura la ventana del asistente tal como se ve en la pantalla del monitor
-// (estado «Analizando…», 600 x 585 con el doble de resolución) en tools/hero/png/pantalla.png.
+// (estado «Analizando…», 1280 x 720) en tools/hero/png/pantalla.png.
 // tools/hero_foto.py la pinta en perspectiva sobre la pantalla de la foto, para
 // que la escena se vea bien también sin JavaScript.
 // Requiere el sitio generado (python build.py) y Playwright: node tools/render_pantalla.cjs
@@ -25,11 +25,11 @@ const server = http.createServer((req, res) => {
 server.listen(0, '127.0.0.1', async () => {
   const { port } = server.address();
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   // Sin los scripts del sitio: la ventana queda en su estado inicial, sin animación
   await page.route(/\/assets\/js\//, route => route.abort());
   await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'load' });
-  await page.addStyleTag({ content: '.hs-screen{display:block!important;position:fixed!important;inset:0 auto auto 0!important;width:600px!important;height:585px!important;overflow:hidden;transform:none!important;z-index:9999;container-type:inline-size}' });
+  await page.addStyleTag({ content: '.hs-screen{display:block!important;position:fixed!important;inset:0 auto auto 0!important;width:1280px!important;height:720px!important;overflow:hidden;transform:none!important;z-index:9999;container-type:inline-size}' });
   await page.evaluate(() => document.fonts.ready);
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   await page.locator('.hs-screen').screenshot({ path: OUT });

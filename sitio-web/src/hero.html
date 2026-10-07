@@ -244,6 +244,10 @@
 
     <p class="hs-hint" aria-hidden="true"><span>{{ C.hint }}</span>{{ icon('chevron-down') }}</p>
 
+    {# Al final del acercamiento, el monitor gira hasta quedar de frente: marco y fondo atenuado #}
+    <div class="hs-dim" aria-hidden="true"></div>
+    <div class="hs-bezel" aria-hidden="true"></div>
+
     <div class="hs-app" role="region" aria-label="{{ C.app_label }}">
       {{ window('app') }}
     </div>

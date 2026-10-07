@@ -162,7 +162,7 @@
       var IMG_W = cfg.w;
       var IMG_H = cfg.h;
       var QUAD = cfg.screen;                 // arriba-izq., arriba-der., abajo-der., abajo-izq.
-      var BOX = { w: 600, h: 585 };          // tamaño de la ventana en la pantalla sin animación (como en tools/render_pantalla.cjs)
+      var BOX = { w: 1280, h: 720 };         // tamaño de la ventana en la pantalla sin animación (como en tools/render_pantalla.cjs)
 
       function bounds(points) {
         var xs = points.map(function (q) { return q[0]; });
@@ -178,7 +178,9 @@
       var SCREEN = bounds(QUAD);
       // El monitor con su marco (si la escena no lo define, la pantalla con un margen)
       var margin = Math.max(SCREEN.w, SCREEN.h) * 0.04;
-      var MONITOR = bounds(cfg.monitor || [[SCREEN.x - margin, SCREEN.y - margin], [SCREEN.x + SCREEN.w + margin, SCREEN.y + SCREEN.h + margin]]);
+      var MON_QUAD = cfg.monitor || [[SCREEN.x - margin, SCREEN.y - margin], [SCREEN.x + SCREEN.w + margin, SCREEN.y - margin],
+        [SCREEN.x + SCREEN.w + margin, SCREEN.y + SCREEN.h + margin], [SCREEN.x - margin, SCREEN.y + SCREEN.h + margin]];
+      var MONITOR = bounds(MON_QUAD);
 
       var stage = hero.querySelector('.hs-stage');
       var frame = hero.querySelector('.hs-frame');
@@ -188,6 +190,8 @@
       var shade = hero.querySelector('.hs-shade');
       var copy = hero.querySelector('.hs-copy');
       var hint = hero.querySelector('.hs-hint');
+      var dim = hero.querySelector('.hs-dim');
+      var bezel = hero.querySelector('.hs-bezel');
       var app = hero.querySelector('.hs-app');
       var thread = app.querySelector('.cw-thread');
       var scroller = app.querySelector('.cw-scroll');
@@ -257,10 +261,13 @@
         return lo > hi ? (lo + hi) / 2 : clamp(pos, lo, hi);
       }
 
+      function rect(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
+
       function measure() {
         var w = stage.clientWidth;
         var h = stage.clientHeight;
-        var shot = w >= 1024 ? cfg.desk : cfg.mob;
+        var desk = w >= 1024;
+        var shot = desk ? cfg.desk : cfg.mob;
         var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
         // Plano general: según la escena, la imagen cubre la vista o la pantalla queda abajo del texto en celulares
         var s0 = shot.width ? (w * shot.width) / IMG_W : Math.max(w / IMG_W, h / IMG_H) * shot.zoom;
@@ -269,8 +276,7 @@
           start.x = fit(start.x, s0, SCREEN.cx, IMG_W, w);
           if (w >= 1024) start.y = fit(start.y, s0, SCREEN.cy, IMG_H, h);
         }
-        // Plano final: el monitor, con su marco, ocupa cerca del 80 % de la vista debajo del encabezado.
-        // Así se sigue viendo la oficina y se entiende que es una persona usando el asistente
+        // Fin del acercamiento: el monitor de la foto, con su marco, ocupa buena parte de la vista
         var room = h - header;
         var fill = shot.fill || 0.8;
         var aim = shot.end || [0.5, 0.5];
@@ -283,14 +289,28 @@
           end.x = fit(end.x, s1, SCREEN.cx, IMG_W, w);
           end.y = fit(end.y, s1, SCREEN.cy, IMG_H, h);
         }
-        // La ventana del asistente mide lo mismo que la pantalla al final: el texto se ve a tamaño real
-        var box = {
-          w: Math.round(Math.max(edge(QUAD[0], QUAD[1]), edge(QUAD[3], QUAD[2])) * s1),
-          h: Math.round(Math.max(edge(QUAD[0], QUAD[3]), edge(QUAD[1], QUAD[2])) * s1)
-        };
+        // Plano final: el monitor gira hasta quedar de frente y ocupa el 90 % de la vista, con su marco.
+        // En escritorio conserva proporciones de monitor; en celulares queda vertical para que se lea la conversación
+        var share = shot.device || 0.9;
+        var devH = room * share;
+        var devW = desk ? Math.min(w * share, devH * 16 / 9) : w * share;
+        var rim = desk ? { side: 14, top: 14, chin: 30 } : { side: 9, top: 9, chin: 20 };
+        var dx = (w - devW) / 2;
+        var dy = header + (room - devH) / 2;
+        var device = rect(dx, dy, devW, devH);
+        var inner = rect(dx + rim.side, dy + rim.top, devW - 2 * rim.side, devH - rim.top - rim.chin);
+        // La ventana del asistente mide lo mismo que la pantalla de frente: el texto se ve a tamaño real
+        var box = { w: Math.round(devW - 2 * rim.side), h: Math.round(devH - rim.top - rim.chin) };
+        var bezelBox = { w: Math.round(devW), h: Math.round(devH) };
         app.style.width = box.w + 'px';
         app.style.height = box.h + 'px';
-        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: end, box: box };
+        bezel.style.width = bezelBox.w + 'px';
+        bezel.style.height = bezelBox.h + 'px';
+        // Grosor del marco, para la pantalla en blanco que muestra mientras gira
+        bezel.style.setProperty('--rim-side', rim.side + 'px');
+        bezel.style.setProperty('--rim-top', rim.top + 'px');
+        bezel.style.setProperty('--rim-chin', rim.chin + 'px');
+        view = { w: w, h: h, desk: desk, s0: s0, s1: s1, start: start, end: end, box: box, bezelBox: bezelBox, device: device, inner: inner };
         sizeLayers();
       }
 
@@ -315,16 +335,30 @@
         var total = hero.offsetHeight - view.h;
         var p = clamp(-rect.top / total, 0, 1);
 
-        var t = ease(ramp(0.06, 0.46, p));
+        // Acercamiento hasta el monitor de la foto
+        var t = ease(ramp(0.06, 0.4, p));
         var s = view.s0 * Math.pow(view.s1 / view.s0, t);
         var ax = lerp(view.start.x, view.end.x, t);
         var ay = lerp(view.start.y, view.end.y, t);
         place(scene, s, ax, ay);
 
-        // La ventana del asistente va siempre sobre la pantalla del monitor, en perspectiva
-        app.style.transform = warp(QUAD.map(function (q) {
-          return [ax + s * (q[0] - SCREEN.cx), ay + s * (q[1] - SCREEN.cy)];
-        }), view.box);
+        // La ventana del asistente va sobre la pantalla del monitor, en perspectiva; después, el monitor
+        // (pantalla y marco) gira hasta quedar de frente y la oficina queda atenuada detrás
+        var u = ease(ramp(0.38, 0.54, p));
+        function onPhoto(quad, target) {
+          return quad.map(function (q, i) {
+            var x = ax + s * (q[0] - SCREEN.cx);
+            var y = ay + s * (q[1] - SCREEN.cy);
+            return [lerp(x, target[i][0], u), lerp(y, target[i][1], u)];
+          });
+        }
+        app.style.transform = warp(onPhoto(QUAD, view.inner), view.box);
+        bezel.style.transform = warp(onPhoto(MON_QUAD, view.device), view.bezelBox);
+        bezel.style.opacity = ramp(0, 0.2, u).toFixed(3);
+        dim.style.opacity = (0.6 * u).toFixed(3);
+        // En celulares la ventana es vertical y no entra en la pantalla de la foto: el monitor gira con la
+        // pantalla en blanco y la conversación aparece cuando ya está casi de frente
+        app.style.opacity = view.desk ? '' : ramp(0.2, 0.45, u).toFixed(3);
 
         if (front) {
           // La persona está más cerca de la cámara: crece más rápido, baja y se desvanece
@@ -340,15 +374,15 @@
         hint.style.opacity = (1 - ramp(0, 0.05, p)).toFixed(3);
         shade.style.opacity = (1 - ramp(0.04, 0.22, p)).toFixed(3);
 
-        // Ya frente al monitor, la conversación avanza con el scroll y se puede desplazar
-        var near = ramp(0.44, 0.49, p) > 0.5;
+        // Con el monitor de frente, la conversación avanza con el scroll y se puede desplazar
+        var near = u > 0.95;
         app.classList.toggle('is-active', near);
         hero.classList.toggle('is-app', near);
         hero.classList.toggle('is-done', p > 0.9);
 
         document.body.classList.toggle('hero-copy-visible', p < 0.06);
 
-        var revealed = early + Math.round(ramp(0.5, 0.86, p) * (steps.length - early));
+        var revealed = early + Math.round(ramp(0.56, 0.9, p) * (steps.length - early));
         setSteps(revealed);
       }
 
@@ -372,7 +406,7 @@
           hero.classList.remove('is-animated', 'is-app', 'is-done');
           document.body.classList.remove('hero-copy-visible');
           window.removeEventListener('scroll', onScroll);
-          [scene, screen, front, copy, hint, shade, frame, app, thread].forEach(function (el) { if (el) el.removeAttribute('style'); });
+          [scene, screen, front, copy, hint, shade, frame, dim, bezel, app, thread].forEach(function (el) { if (el) el.removeAttribute('style'); });
           app.classList.remove('is-active');
           steps.forEach(function (step) { step.classList.remove('is-in'); });
           fitStatic();
