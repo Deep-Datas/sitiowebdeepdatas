@@ -1,12 +1,13 @@
 {% extends 'layout.html' %}
 {% import 'charts.html' as charts %}
+{% import 'logos.html' as logos %}
 
 {% block content %}
 <section class="page-hero">
   <div class="container">
-    <p class="eyebrow">Ejemplos</p>
+    <p class="eyebrow">Tableros de ejemplo</p>
     <h1>Así se ven las soluciones que construimos</h1>
-    <p class="lead">Tres tableros de ejemplo, con datos ficticios, inspirados en los desafíos que resolvemos todos los días. Pasá el mouse por los gráficos para ver el detalle, o abrí "Ver datos" para consultar los números.</p>
+    <p class="lead">Tres tableros con datos ficticios, inspirados en desafíos reales. Pasá el mouse por los gráficos o abrí «Ver datos» para consultar los números.</p>
     <nav class="pill-nav" aria-label="Ejemplos">
       {% for e in examples %}
       <a href="#{{ e.id }}">{{ e.title }}</a>
@@ -46,22 +47,9 @@
 </section>
 {% endfor %}
 
-<section class="section section-tight">
+<section class="logos logos-section" aria-labelledby="logos-title">
   <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">Clientes</p>
-      <h2>Empresas que confiaron en nosotros</h2>
-      <p>Compañías de consumo masivo, salud, tecnología, gastronomía y retail.</p>
-    </div>
-    <ul class="logos-grid reveal">
-      <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/lilly.png" alt="Lilly" width="219" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/trustly.png" alt="Trustly" width="384" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/citrus.png" alt="Citrus" width="361" height="120" loading="lazy"></li>
-      <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
-      <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
-    </ul>
+    {{ logos.wall() }}
   </div>
 </section>
 {% endblock %}

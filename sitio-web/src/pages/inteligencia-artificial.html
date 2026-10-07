@@ -38,7 +38,7 @@
   ('¿Necesito tener los datos ordenados para empezar?',
    'No. Es lo más común que no lo estén, y es justamente nuestra especialidad: preparar los datos es el primer paso de cualquier proyecto de IA que funcione.'),
   ('¿Qué modelos de inteligencia artificial usan?',
-   'Elegimos el modelo según el caso: servicios como Azure OpenAI para agentes y asistentes, y modelos de Machine Learning propios para pronósticos. Lo importante es que trabajen con tus datos de forma segura.'),
+   'Trabajamos con los modelos líderes del mercado, como Claude (de Anthropic) y los de OpenAI, también a través de Azure OpenAI, y elegimos según el caso, el costo y dónde deben vivir tus datos. Para pronósticos usamos además modelos predictivos propios.'),
   ('¿Mis datos se usan para entrenar modelos de terceros?',
    'No debería ocurrir y lo cuidamos en el diseño: usamos servicios empresariales que no entrenan sus modelos con la información de sus clientes, y lo revisamos con tu equipo antes de empezar.'),
   ('¿La IA reemplaza a mi equipo?',
@@ -51,16 +51,17 @@
 <section class="page-hero ai-hero">
   <div class="container dx-hero-grid">
     <div>
-      <p class="eyebrow">Inteligencia artificial para empresas</p>
+      <p class="eyebrow">IA para empresas</p>
       <h1>Agentes de IA que trabajan con los datos de tu empresa</h1>
-      <p class="lead">Preguntale a tus datos como le preguntarías a un analista: ventas, stock, clientes y pedidos, respondidos al instante y con información confiable. Preparamos tus datos, construimos el agente y lo conectamos con las herramientas que ya usa tu equipo.</p>
+      <p class="lead">Preguntale a tus datos como a un analista: ventas, stock, clientes y pedidos, respondidos al instante con información confiable.</p>
       <div class="actions">
-        <a class="btn btn-primary btn-lg" href="/diagnostico/">Empezar con un diagnóstico {{ icon('arrow-right') }}</a>
-        <a class="btn btn-secondary btn-lg" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} Consultar por WhatsApp</a>
+        <a class="btn btn-primary btn-lg" href="{{ booking_url('ia') }}">Evaluar un piloto con mis datos {{ icon('arrow-right') }}</a>
+        <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} o escribinos por WhatsApp</a>
       </div>
     </div>
 
-    <figure class="chat-demo" aria-labelledby="chat-demo-title">
+    <div class="chat-wrap">
+    <figure class="chat-demo screen" aria-labelledby="chat-demo-title">
       <div class="chat-head">
         <span class="chat-avatar">{{ icon('robot') }}</span>
         <div>
@@ -69,8 +70,8 @@
         </div>
       </div>
       <ol class="chat-thread">
-        <li class="msg msg-user"><span class="visually-hidden">Usuario:</span> ¿Cuánto vendimos ayer en la zona norte?</li>
-        <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> Ayer la zona norte facturó <strong>$ 4,2 M</strong>, un 6% más que el martes anterior. El mayor crecimiento fue del Distribuidor Norte 2 (+14%).<span class="msg-source">Fuente: ERP · actualizado hoy 7:00</span></li>
+        <li class="msg msg-user"><span class="visually-hidden">Martina (Gerencia comercial):</span> ¿Qué clientes dejaron de comprar este mes?</li>
+        <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> <strong>38 clientes</strong> que compraban todos los meses no compraron en septiembre. Representan <strong>$ 420 mil</strong> de venta mensual. Ya armé la lista por vendedor, ordenada por facturación.<span class="msg-source">Fuente: ERP y CRM · actualizado hoy 7:00</span></li>
         <li class="msg msg-user"><span class="visually-hidden">Usuario:</span> ¿Qué productos están por quedarse sin stock?</li>
         <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> Tres productos tienen stock para menos de 5 días:
           <ul>
@@ -85,6 +86,7 @@
         {{ icon('send') }}
       </div>
     </figure>
+    </div>
   </div>
 </section>
 
@@ -109,7 +111,7 @@
 </section>
 
 <!-- ======= DATOS PARA IA ======= -->
-<section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
+<section class="section section-dark section-stage section-pipeline" id="datos" aria-labelledby="pipeline-title">
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow eyebrow-light">La base de todo</p>
@@ -177,3 +179,6 @@
   </div>
 </section>
 {% endblock %}
+
+{% block cta_title %}Probá un agente de IA <em>con tus datos.</em>{% endblock %}
+{% block cta_text %}En una llamada te mostramos qué preguntas podría responder un agente en tu empresa.{% endblock %}

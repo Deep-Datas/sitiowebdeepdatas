@@ -18,7 +18,7 @@
     "datePublished": "{{ post.date.isoformat() }}",
     "inLanguage": "es-AR",
     "mainEntityOfPage": "{{ url }}",
-    "image": "{{ site_url }}/assets/img/brand/og-image.png",
+    "image": "{{ og_image }}",
     "author": {"@type": "Organization", "name": "DeepDatas", "url": "{{ site_url }}/"},
     "publisher": {"@type": "Organization", "name": "DeepDatas", "logo": {"@type": "ImageObject", "url": "{{ site_url }}/assets/img/brand/icon-512.png"}}
   }
@@ -74,3 +74,5 @@
 </section>
 {% endif %}
 {% endblock %}
+
+{% block cta %}{% endblock %}

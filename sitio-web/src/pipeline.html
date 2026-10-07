@@ -14,8 +14,8 @@ tabindex="0" role="button" aria-label="{{ n.title }}: {{ n.sub }}"
          aria-label="Recorrido de los datos: ocho orígenes de datos pasan por una etapa de curado, limpieza y ordenamiento y son consumidos por un agente de IA que genera respuestas, pronósticos, alertas y automatizaciones">
       <defs>
         <radialGradient id="pl-agent-fill" cx="50%" cy="38%" r="70%">
-          <stop offset="0" stop-color="#ff9a5c"></stop>
-          <stop offset="1" stop-color="#e4581c"></stop>
+          <stop class="pl-stop-start" offset="0"></stop>
+          <stop class="pl-stop-end" offset="1"></stop>
         </radialGradient>
       </defs>
 
@@ -122,7 +122,7 @@ tabindex="0" role="button" aria-label="{{ n.title }}: {{ n.sub }}"
     <div class="pl-arrow" aria-hidden="true"><span>Datos curados</span></div>
     <div class="pl-stage pl-stage-agent">
       <h3 class="pl-stage-title"><span class="pl-num">3</span> {{ d.agent.title }}</h3>
-      <span class="pl-agent-badge">{{ icon(d.agent.icon) }}</span>
+      <img class="pl-agent-glass" src="{{ glass('esfera') }}" alt="" width="120" height="120" loading="lazy">
       <p>{{ d.agent.text }}</p>
     </div>
     <div class="pl-arrow" aria-hidden="true"></div>

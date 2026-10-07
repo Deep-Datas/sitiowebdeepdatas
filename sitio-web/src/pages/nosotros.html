@@ -5,7 +5,7 @@
    'text': 'Diseñamos la arquitectura de datos de cada solución y acompañamos todo su ciclo de vida, desde la primera versión hasta su evolución.'},
   {'icon': 'funnel', 'title': 'Gobierno y calidad de datos',
    'text': 'Definimos criterios comunes, responsables y controles para que todas las áreas confíen en los mismos números.'},
-  {'icon': 'cpu', 'title': 'Ingeniería de datos y Machine Learning',
+  {'icon': 'cpu', 'title': 'Ingeniería de datos y modelos predictivos',
    'text': 'Construimos pipelines automatizados y modelos predictivos que convierten la información en anticipación.'},
 ] %}
 
@@ -13,8 +13,8 @@
 <section class="page-hero">
   <div class="container">
     <p class="eyebrow">Nosotros</p>
-    <h1>Hacemos que la ciencia de datos sea accesible para todas las empresas</h1>
-    <p class="lead">Somos una startup de profesionales con más de 10 años de experiencia en datos, tecnología y negocios, con base en Buenos Aires.</p>
+    <h1>Consultores de datos con <em>mirada de negocio.</em></h1>
+    <p class="lead">Somos una consultora de datos e inteligencia artificial de Buenos Aires. Integramos, ordenamos y analizamos datos para empresas de consumo masivo, distribución, salud y tecnología.</p>
   </div>
 </section>
 
@@ -22,39 +22,26 @@
   <div class="container split">
     <div class="reveal">
       <p class="eyebrow">Nuestra misión</p>
-      <h2>Resolver los desafíos más complejos de las organizaciones con el poder de los datos</h2>
+      <h2>Que decidir con datos confiables no sea un privilegio de las grandes empresas.</h2>
     </div>
     <div class="prose reveal">
-      <p>Nuestra misión es ofrecer las mejores estrategias para resolver los desafíos más complejos de las organizaciones, utilizando el poder de la ciencia de datos.</p>
-      <p>Somos un equipo fan de la ciencia de datos, guiado por el propósito de convertir esta poderosa herramienta en accesible para todos: no solo para las grandes corporaciones, sino para cualquier empresa que quiera decidir mejor.</p>
+      <p>Ofrecemos estrategias concretas para resolver los desafíos más complejos de cada organización con datos: no solo para las grandes corporaciones, sino para cualquier empresa que quiera decidir mejor.</p>
       <p>Por eso combinamos experiencia técnica con visión de negocio. Antes de hablar de herramientas, entendemos qué decisiones necesitás tomar.</p>
     </div>
   </div>
 </section>
 
-<section class="section section-paper">
+<section class="section">
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Nuestros pilares</p>
       <h2>Lo que guía cada proyecto</h2>
     </div>
-    <div class="pillar-grid">
-      <article class="pillar reveal">
-        <span class="pillar-icon">{{ icon('sliders') }}</span>
-        <h3>Flexibilidad</h3>
-        <p>Creemos que la capacidad de adaptación es nuestro mayor diferencial. El entendimiento de la problemática y la propuesta de valor son los componentes principales de nuestras soluciones.</p>
-      </article>
-      <article class="pillar reveal">
-        <span class="pillar-icon">{{ icon('diagram-3') }}</span>
-        <h3>Escalabilidad</h3>
-        <p>Planificamos la solución más allá de mañana. El dimensionamiento futuro permite generar soluciones de mejora continua.</p>
-      </article>
-      <article class="pillar reveal">
-        <span class="pillar-icon">{{ icon('shield-check') }}</span>
-        <h3>Seguridad</h3>
-        <p>Cuidamos la información con las mejores tecnologías. La correcta adecuación a protocolos y regulaciones es imprescindible.</p>
-      </article>
-    </div>
+    <dl class="hairline-grid hairline-grid-3 principles reveal">
+      <div><dt>Flexibilidad</dt><dd>Nos adaptamos a tus sistemas y a tu forma de trabajar, no al revés.</dd></div>
+      <div><dt>Escalabilidad</dt><dd>Diseñamos para que la solución crezca con tu empresa sin tener que rehacerla.</dd></div>
+      <div><dt>Seguridad</dt><dd>Accesos de solo lectura, permisos por rol y confidencialidad en cada proyecto.</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -65,15 +52,11 @@
       <h2>Un equipo multidisciplinario detrás de cada proyecto</h2>
       <p>Trabajás directamente con especialistas que combinan más de 10 años de experiencia en datos, tecnología y negocio.</p>
     </div>
-    <div class="pillar-grid">
+    <dl class="hairline-grid hairline-grid-3 principles reveal">
       {% for s in specialties %}
-      <article class="pillar reveal">
-        <span class="service-icon">{{ icon(s.icon) }}</span>
-        <h3>{{ s.title }}</h3>
-        <p>{{ s.text }}</p>
-      </article>
+      <div><dt>{{ s.title }}</dt><dd>{{ s.text }}</dd></div>
       {% endfor %}
-    </div>
+    </dl>
   </div>
 </section>
 

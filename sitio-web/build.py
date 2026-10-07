@@ -73,6 +73,11 @@ PAGES = [
         'description': 'Contanos tu desafío y coordinamos una reunión de diagnóstico sin costo. Bernardo de Irigoyen 330, CABA, Argentina.',
     },
     {
+        'template': 'privacidad.html', 'path': '/privacidad/', 'nav': None,
+        'title': 'Política de privacidad | DeepDatas',
+        'description': 'Qué datos recibe DeepDatas a través de su sitio, para qué los usa y cómo ejercer tus derechos según la Ley 25.326.',
+    },
+    {
         'template': 'gracias.html', 'path': '/gracias/', 'nav': None, 'noindex': True,
         'title': 'Mensaje enviado | DeepDatas',
         'description': 'Gracias por escribirnos.',
@@ -85,24 +90,38 @@ PAGES = [
 ]
 
 
-def icon(name, label=None, cls=''):
-    """Inserta un ícono SVG de src/icons (Bootstrap Icons, licencia MIT)."""
+ICON_STROKE = '1.75'
+
+
+def _icon_source(name):
+    """Contenido de un ícono de src/icons: Lucide (trazo, 24 px) o Bootstrap (relleno, 16 px)."""
     svg = (SRC / 'icons' / f'{name}.svg').read_text(encoding='utf-8')
     svg = svg[svg.index('<svg'):]
+    head_end = svg.index('>') + 1
+    head, inner = svg[:head_end], svg[head_end:svg.rindex('</svg>')]
+    stroke = 'stroke="currentColor"' in head
+    viewbox = head.split('viewBox="', 1)[1].split('"', 1)[0]
+    return ' '.join(inner.split()), stroke, viewbox
+
+
+def icon(name, label=None, cls=''):
+    """Inserta un ícono SVG de src/icons (Lucide, licencia ISC; WhatsApp de Bootstrap Icons, MIT)."""
+    inner, stroke, viewbox = _icon_source(name)
     a11y = f'role="img" aria-label="{label}"' if label else 'aria-hidden="true" focusable="false"'
-    svg = svg.replace('<svg ', f'<svg {a11y} ', 1)
+    paint = (f'fill="none" stroke="currentColor" stroke-width="{ICON_STROKE}" stroke-linecap="round" stroke-linejoin="round"'
+             if stroke else 'fill="currentColor"')
     classes = f'icon {cls}'.strip()
-    svg = svg.replace(f'class="bi bi-{name}"', f'class="{classes}"')
-    svg = svg.replace('width="16" height="16" ', '')
-    return Markup(' '.join(svg.split()))
+    return Markup(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{viewbox}" class="{classes}" {paint} {a11y}>{inner}</svg>')
 
 
 def icon_svg(name, x, y, size, cls=''):
     """Dibuja un ícono dentro de un SVG (en la posición y el tamaño indicados)."""
-    svg = (SRC / 'icons' / f'{name}.svg').read_text(encoding='utf-8')
-    inner = svg[svg.index('>', svg.index('<svg')) + 1:svg.rindex('</svg>')]
-    return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / 16:.4f})" '
-                  f'aria-hidden="true">{" ".join(inner.split())}</g>')
+    inner, stroke, viewbox = _icon_source(name)
+    box = float(viewbox.split()[2])
+    paint = (f'fill="none" stroke="currentColor" stroke-width="{ICON_STROKE}" stroke-linecap="round" stroke-linejoin="round"'
+             if stroke else 'fill="currentColor"')
+    return Markup(f'<g class="{cls}" transform="translate({x:.1f} {y:.1f}) scale({size / box:.4f})" {paint} '
+                  f'aria-hidden="true">{inner}</g>')
 
 
 # Analítica de visitas con Microsoft Clarity. Vacío = desactivada (no se carga
@@ -128,6 +147,34 @@ def swa_config():
                 rules[i] = f'{rule} {CLARITY_CSP[name]}'
         headers['Content-Security-Policy'] = '; '.join(rules)
     return json.dumps(config, ensure_ascii=False, indent=2) + '\n'
+
+
+# Tema visual: 'claro' u 'oscuro'. Define los colores (site.css, [data-theme]),
+# la escena del inicio (de día o de noche) y la versión de los objetos de vidrio.
+THEME = 'claro'
+THEME_COLOR = {'claro': '#fafaf8', 'oscuro': '#07090e'}
+# Imagen para compartir en redes (captura del inicio con el tema correspondiente)
+OG_IMAGE = {'claro': 'og-image-claro.jpg', 'oscuro': 'og-image.jpg'}
+
+
+def glass(name, size=256):
+    """Imagen de un objeto de vidrio (tools/glass_icons.py) para el tema activo."""
+    suffix = '-claro' if THEME == 'claro' else ''
+    return f'/assets/img/glass/{name}{suffix}-{size}.webp'
+
+
+def hero_img(layer, width):
+    """Capa de la escena del inicio: 'fondo' o 'frente', de día con el tema claro."""
+    suffix = '-dia' if THEME == 'claro' else ''
+    return f'/assets/img/hero/{layer}{suffix}-{width}.webp'
+
+
+# Enlace para agendar una llamada (por ejemplo, Microsoft Bookings). Vacío = formulario de contacto.
+BOOKING_URL = ''
+
+
+def booking_url(interest='llamada'):
+    return BOOKING_URL or f'/contacto/?interes={interest}'
 
 
 WHATSAPP_NUMBER = '5491161527387'
@@ -278,8 +325,9 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
-                       cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year)
+    env.globals.update(icon=icon, booking_url=booking_url, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+                       cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
+                       theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero_img=hero_img)
 
     def render_all():
         return [(page, env.get_template(page['template']).render(page=page))

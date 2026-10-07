@@ -1,18 +1,17 @@
 {# Estructura común a todas las páginas. Cada página extiende esta plantilla. #}
 {% set all_nav_items = [
   ('servicios', '/servicios/', 'Servicios'),
-  ('ia', '/inteligencia-artificial/', 'IA'),
+  ('ia', '/inteligencia-artificial/', 'IA para empresas'),
   ('diagnostico', '/diagnostico/', 'Diagnóstico'),
   ('casos', '/casos/', 'Casos'),
-  ('ejemplos', '/ejemplos/', 'Ejemplos'),
+  ('blog', '/blog/', 'Blog'),
   ('nosotros', '/nosotros/', 'Nosotros'),
-  ('contacto', '/contacto/', 'Contacto'),
 ] %}
-{% set nav_items = all_nav_items if cases else all_nav_items | rejectattr(0, 'eq', 'casos') | list %}
+{% set nav_items = all_nav_items | rejectattr(0, 'in', ([] if cases else ['casos']) + ([] if posts else ['blog'])) | list %}
 {% set portal_url = 'https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx' %}
 {% set whatsapp_url = whatsapp(page.nav) %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="{{ theme }}">
 
 <head>
   <meta charset="utf-8">
@@ -24,7 +23,7 @@
   {% else %}
   <link rel="canonical" href="{{ site_url }}{{ page.path }}">
   {% endif %}
-  <meta name="theme-color" content="#0b1b3d">
+  <meta name="theme-color" content="{{ theme_color }}">
 
   <meta property="og:type" content="{{ 'article' if page.get('post') else 'website' }}">
   <meta property="og:locale" content="es_AR">
@@ -32,7 +31,7 @@
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.description }}">
   <meta property="og:url" content="{{ site_url }}{{ page.path }}">
-  <meta property="og:image" content="{{ site_url }}/assets/img/brand/og-image.png">
+  <meta property="og:image" content="{{ og_image }}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -41,7 +40,7 @@
   <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
 
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ asset('css/site.css') }}">
   <link rel="stylesheet" href="{{ asset('css/charts.css') }}">
   <script src="{{ asset('js/site.js') }}" defer></script>
@@ -61,6 +60,8 @@
         <span>DeepDatas</span>
       </a>
 
+      <a class="btn btn-primary nav-cta-mobile" href="{{ booking_url() }}">Hablemos</a>
+
       <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
         <span class="visually-hidden">Abrir menú</span>
         {{ icon('list', cls='icon-open') }}
@@ -74,10 +75,8 @@
           {% endfor %}
         </ul>
         <div class="nav-actions">
-          <a class="btn btn-ghost" href="{{ portal_url }}" target="_blank" rel="noopener">
-            Portal clientes {{ icon('box-arrow-up-right') }}
-          </a>
-          <a class="btn btn-primary" href="/contacto/">Agendar reunión</a>
+          <a class="nav-portal" href="{{ portal_url }}" target="_blank" rel="noopener">Portal clientes {{ icon('box-arrow-up-right') }}</a>
+          <a class="btn btn-primary nav-cta" href="{{ booking_url() }}">Coordinar llamada</a>
         </div>
       </nav>
     </div>
@@ -91,12 +90,12 @@
       <div class="container">
         <div class="cta-inner reveal">
           <div>
-            <h2 id="cta-title">¿Listo para decidir con datos?</h2>
-            <p>Contanos tu desafío y armamos juntos el primer paso. La primera conversación es sin compromiso.</p>
+            <h2 id="cta-title">{% block cta_title %}Empecemos por una <em>conversación.</em>{% endblock %}</h2>
+            <p>{% block cta_text %}Contanos tu desafío y armamos juntos el primer paso. Sin costo ni compromiso.{% endblock %}</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-primary btn-lg" href="/contacto/">Agendar una reunión {{ icon('arrow-right') }}</a>
-            <a class="btn btn-ghost-light btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} WhatsApp</a>
+            <a class="btn btn-primary btn-lg" href="{{ booking_url() }}">Coordinar una llamada {{ icon('arrow-right') }}</a>
+            <a class="btn btn-secondary btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} Escribinos por WhatsApp</a>
           </div>
         </div>
       </div>
@@ -109,7 +108,7 @@
       <div class="footer-grid">
         <div class="footer-about">
           <a href="/" class="brand brand-light">
-            <img src="/assets/img/brand/logo-mark-white.png" alt="" width="28" height="32">
+            <img src="/assets/img/brand/{{ 'logo-mark.png' if theme == 'claro' else 'logo-mark-white.png' }}" alt="" width="28" height="32">
             <span>DeepDatas</span>
           </a>
           <p>Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.</p>
@@ -151,7 +150,7 @@
       </div>
 
       <div class="footer-bottom">
-        <span>&copy; <span data-year>{{ year }}</span> DeepDatas. Todos los derechos reservados.</span>
+        <span>&copy; <span data-year>{{ year }}</span> DeepDatas · <a href="/privacidad/">Privacidad</a></span>
         <span>Hecho en Buenos Aires</span>
       </div>
     </div>

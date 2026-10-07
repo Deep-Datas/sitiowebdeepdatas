@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+    <stop offset="0.45" stop-color="#ffffff" stop-opacity="0.10"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0.22"/>
+  </linearGradient>
+  <linearGradient id="glassDark" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"/>
+  </linearGradient>
+  <linearGradient id="glassSide" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.30"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0.06"/>
+  </linearGradient>
+  <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffb07a"/>
+    <stop offset="0.55" stop-color="#ff6b1a"/>
+    <stop offset="1" stop-color="#c2410c"/>
+  </linearGradient>
+  <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+    <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.25"/>
+    <stop offset="1" stop-color="#ffb07a" stop-opacity="0.8"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+    <stop offset="0" stop-color="#ff6b1a" stop-opacity="0.55"/>
+    <stop offset="1" stop-color="#ff6b1a" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="blur6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="blur14" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="blur2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2"/></filter>
+</defs>
+<ellipse cx="256" cy="330" rx="210" ry="150" fill="url(#glow)"/>
+<g opacity="1.0">
+<polygon points="105.0,296.0 150.0,322.0 150.0,412.0 105.0,386.0" fill="url(#glassSide)"/>
+<polygon points="150.0,322.0 195.0,296.0 195.0,386.0 150.0,412.0" fill="url(#glassDark)"/>
+<polygon points="150.0,270.0 195.0,296.0 150.0,322.0 105.0,296.0" fill="url(#glass)"/>
+<polyline points="105.0,296.0 150.0,270.0 195.0,296.0" fill="none" stroke="#fff" stroke-opacity="0.9" stroke-width="2.5" stroke-linejoin="round"/>
+<polyline points="105.0,296.0 150.0,322.0 195.0,296.0" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"/>
+<line x1="150" y1="322.0" x2="150" y2="412.0" stroke="#fff" stroke-opacity="0.7" stroke-width="2.5"/>
+<polyline points="105.0,296.0 105.0,386.0 150.0,412.0 195.0,386.0 195.0,296.0" fill="none" stroke="url(#edge)" stroke-width="2" stroke-linejoin="round"/>
+</g>
+<g opacity="1.0">
+<polygon points="210.0,236.0 255.0,262.0 255.0,412.0 210.0,386.0" fill="url(#glassSide)"/>
+<polygon points="255.0,262.0 300.0,236.0 300.0,386.0 255.0,412.0" fill="url(#glassDark)"/>
+<polygon points="255.0,210.0 300.0,236.0 255.0,262.0 210.0,236.0" fill="url(#glass)"/>
+<polyline points="210.0,236.0 255.0,210.0 300.0,236.0" fill="none" stroke="#fff" stroke-opacity="0.9" stroke-width="2.5" stroke-linejoin="round"/>
+<polyline points="210.0,236.0 255.0,262.0 300.0,236.0" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"/>
+<line x1="255" y1="262.0" x2="255" y2="412.0" stroke="#fff" stroke-opacity="0.7" stroke-width="2.5"/>
+<polyline points="210.0,236.0 210.0,386.0 255.0,412.0 300.0,386.0 300.0,236.0" fill="none" stroke="url(#edge)" stroke-width="2" stroke-linejoin="round"/>
+</g>
+<g opacity="1.0">
+<polygon points="315.0,166.0 360.0,192.0 360.0,412.0 315.0,386.0" fill="url(#core)" opacity="0.85"/>
+<polygon points="360.0,192.0 405.0,166.0 405.0,386.0 360.0,412.0" fill="#c2410c" opacity="0.8"/>
+<polygon points="360.0,140.0 405.0,166.0 360.0,192.0 315.0,166.0" fill="#ffb07a" opacity="0.9"/>
+<polygon points="315.0,166.0 360.0,192.0 360.0,412.0 315.0,386.0" fill="url(#glassSide)"/>
+<polygon points="360.0,192.0 405.0,166.0 405.0,386.0 360.0,412.0" fill="url(#glassDark)"/>
+<polygon points="360.0,140.0 405.0,166.0 360.0,192.0 315.0,166.0" fill="url(#glass)"/>
+<polyline points="315.0,166.0 360.0,140.0 405.0,166.0" fill="none" stroke="#fff" stroke-opacity="0.9" stroke-width="2.5" stroke-linejoin="round"/>
+<polyline points="315.0,166.0 360.0,192.0 405.0,166.0" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"/>
+<line x1="360" y1="192.0" x2="360" y2="412.0" stroke="#fff" stroke-opacity="0.7" stroke-width="2.5"/>
+<polyline points="315.0,166.0 315.0,386.0 360.0,412.0 405.0,386.0 405.0,166.0" fill="none" stroke="url(#edge)" stroke-width="2" stroke-linejoin="round"/>
+</g>
+<path d="M110 300 L118 230" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.5" filter="url(#blur2)"/>
+<path d="M96 250 Q220 210 300 150 T420 70" fill="none" stroke="#ffb07a" stroke-width="7" stroke-linecap="round" opacity="0.95"/>
+<path d="M398 66 L424 66 L420 92" fill="none" stroke="#ffb07a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>

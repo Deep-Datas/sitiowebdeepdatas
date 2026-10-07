@@ -1,0 +1,180 @@
+{#
+  Hero del inicio: una persona frente a un monitor. Al hacer scroll, la
+  cámara se acerca a la pantalla y se ve a un asistente de IA analizando las
+  ventas y recomendando acciones.
+
+  Capas de la escena (coordenadas en píxeles de la imagen de 3600 x 2250,
+  ver tools/hero_scene.py): fondo, pantalla en HTML y persona al frente.
+  Sin JavaScript o con "reducir movimiento" se muestra todo estático.
+  Datos ficticios.
+#}
+
+{% set zones = [
+  ('Norte', 14.2), ('Centro', 9.1), ('Sur', 3.4), ('Oeste', -4.8),
+] %}
+{% set zero = 30 %}
+{% set per_point = 70 / 14.2 %}
+
+{% set findings = [
+  ('graph-up-arrow', 'El norte explica casi la mitad del crecimiento:', 'tres distribuidores crecieron más del 20 % con la nueva línea de snacks.'),
+  ('people', '38 clientes que compraban todos los meses no compraron en septiembre.', 'Representan $ 420 mil de venta mensual.'),
+  ('funnel', 'La línea de snacks llega solo al 35 % de los puntos de venta,', 'contra el 61 % de la línea de papas.'),
+  ('exclamation-circle-fill', 'En el canal mayorista los descuentos subieron 2,3 puntos', 'y el margen cayó 0,9 pp.'),
+] %}
+
+{% set recs = [
+  ('Llamá esta semana a los 38 clientes en riesgo', 'Te armé la lista por vendedor, ordenada por facturación.', 'Recuperás hasta $ 420 mil por mes', 'Esta semana'),
+  ('Llevá la línea de snacks al oeste y al sur', 'Hay 650 puntos de venta que compran papas pero todavía no snacks.', '+ $ 1,1 M estimados por trimestre', 'Próximos 30 días'),
+  ('Poné un tope a los descuentos mayoristas', 'Volver al nivel de junio recupera el margen sin afectar el volumen.', '+ 0,9 pp de margen', 'Este mes'),
+  ('Reponé 3 productos antes del 15 de octubre', 'El pronóstico anticipa quiebre de stock en Papas clásicas 400 g, Bastones 1 kg y Puré 125 g.', 'Evitás perder $ 180 mil en ventas', 'Urgente'),
+] %}
+
+{% macro window(mode) %}
+{% set full = mode == 'app' %}
+<div class="cw cw-{{ mode }}"{% if not full %} aria-hidden="true"{% endif %}>
+  <aside class="cw-side">
+    <p class="cw-brand">Asistente IA</p>
+    <p class="cw-new">{{ icon('plus-lg') }} Nuevo chat</p>
+    <p class="cw-side-title">Recientes</p>
+    <ul class="cw-recents">
+      <li class="is-current">Análisis de ventas del 3.er trimestre</li>
+      <li>Clientes en riesgo por vendedor</li>
+      <li>Pronóstico de demanda de octubre</li>
+      <li>Cobertura de la línea de snacks</li>
+      <li>Margen por canal</li>
+    </ul>
+    <p class="cw-user"><span class="cw-avatar">MG</span> <span>Martina G. <small>Gerencia comercial</small></span></p>
+  </aside>
+
+  <div class="cw-main">
+    <header class="cw-top">
+      <span class="cw-top-brand">Asistente IA</span>
+      <span class="cw-top-title">Análisis de ventas del 3.er trimestre</span>
+      <span class="cw-top-chip"><img src="/assets/img/brand/logo-mark.png" alt="" width="12" height="14"> Datos curados por DeepDatas</span>
+    </header>
+
+    <div class="cw-scroll"{% if full %} tabindex="0" role="region" aria-label="Conversación de ejemplo"{% endif %}>
+      <div class="cw-thread">
+        <div class="cw-msg-user">
+          <span class="cw-avatar">MG</span>
+          <p>Analizá las ventas del tercer trimestre y decime qué tengo que hacer para vender más y mejorar el margen.</p>
+        </div>
+
+        <ul class="cw-tools">
+          <li class="cw-step" data-step>{{ icon('check2') }} Consultó las ventas del trimestre en el ERP</li>
+          <li class="cw-step" data-step>{{ icon('check2') }} Cruzó clientes y oportunidades del CRM</li>
+          <li class="cw-step" data-step>{{ icon('check2') }} Revisó el stock y el pronóstico de demanda</li>
+        </ul>
+
+        {% if full %}
+        <div class="cw-answer">
+          <p class="cw-step" data-step>Revisé las ventas de julio a septiembre de los 40 distribuidores, junto con la cartera de clientes y el stock. <strong>El trimestre fue bueno, pero hay cuatro oportunidades claras para cerrar el año.</strong></p>
+
+          <dl class="cw-kpis cw-step" data-step>
+            <div><dt>Ventas del trimestre</dt><dd>$ 11,7 M</dd><dd class="cw-up">▲ 8,4 % interanual</dd></div>
+            <div><dt>Margen bruto</dt><dd>31,2 %</dd><dd class="cw-down">▼ 0,9 pp en mayoristas</dd></div>
+            <div><dt>Clientes activos</dt><dd>2.318</dd><dd class="cw-down">▼ 38 dejaron de comprar</dd></div>
+          </dl>
+
+          <figure class="cw-chart cw-step" data-step>
+            <figcaption>Crecimiento de ventas por zona, contra el mismo trimestre de 2025</figcaption>
+            <ul class="cw-bars">
+              {% for name, value in zones %}
+              {% set width = (value | abs) * per_point %}
+              <li>
+                <span class="cw-bar-name">{{ name }}</span>
+                <span class="cw-bar-track">
+                  <span class="cw-bar-zero {{ pos('x', zero) }}"></span>
+                  <span class="cw-bar {{ 'cw-bar-neg' if value < 0 else 'cw-bar-pos' }} {{ pos('x', zero - width if value < 0 else zero) }} {{ pos('w', width) }}"></span>
+                </span>
+                <span class="cw-bar-value">{{ '%+.1f' | format(value) | replace('.', ',') | replace('-', '−') }} %</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </figure>
+
+          <h3 class="cw-h cw-step" data-step>Lo que encontré</h3>
+          <ul class="cw-findings">
+            {% for ic, strong, rest in findings %}
+            <li class="cw-step" data-step>{{ icon(ic) }}<span><strong>{{ strong }}</strong> {{ rest }}</span></li>
+            {% endfor %}
+          </ul>
+
+          <h3 class="cw-h cw-step" data-step>Qué te recomiendo hacer</h3>
+          <ol class="cw-recs">
+            {% for title, detail, impact, when in recs %}
+            <li class="cw-step" data-step>
+              <span class="cw-rec-num">{{ loop.index }}</span>
+              <div>
+                <p class="cw-rec-title">{{ title }} <span class="cw-when{{ ' cw-when-urgent' if when == 'Urgente' }}">{{ when }}</span></p>
+                <p class="cw-rec-detail">{{ detail }}</p>
+                <p class="cw-impact">{{ icon('graph-up-arrow') }} {{ impact }}</p>
+              </div>
+            </li>
+            {% endfor %}
+          </ol>
+
+          <p class="cw-step" data-step>¿Querés que le mande a cada vendedor su lista de clientes con el producto sugerido para la próxima visita?</p>
+          <ul class="cw-suggest cw-step" data-step aria-label="Sugerencias de respuesta">
+            <li>Sí, armá las listas</li>
+            <li>Proyectá el cierre de octubre</li>
+            <li>Mostrame el detalle del oeste</li>
+          </ul>
+          <p class="cw-sources cw-step" data-step>{{ icon('database') }} Fuentes: ERP, CRM y pronóstico de demanda, curados por DeepDatas · actualizado hoy a las 7:00</p>
+        </div>
+        {% else %}
+        <p class="cw-thinking"><span class="cw-dot"></span><span class="cw-dot"></span><span class="cw-dot"></span> Analizando ventas, clientes y stock…</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="cw-input" aria-hidden="true">
+      <span>Escribí tu consulta…</span>
+      <span class="cw-send">{{ icon('arrow-right') }}</span>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro scene() %}
+<section class="hs" id="inicio" aria-labelledby="hs-title" data-hero-scene>
+  <a class="hs-skip" href="#despues-del-inicio">Saltar la animación {{ icon('arrow-right') }}</a>
+  <div class="hs-stage">
+    <div class="hs-frame">
+      <div class="hs-scene" aria-hidden="true">
+        <img class="hs-back" src="{{ hero_img('fondo', 1800) }}"
+             srcset="{{ hero_img('fondo', 1800) }} 1800w, {{ hero_img('fondo', 3600) }} 3600w"
+             sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
+        <div class="hs-screen">{{ window('screen') }}</div>
+      </div>
+      <div class="hs-front" aria-hidden="true">
+        <img src="{{ hero_img('frente', 1800) }}"
+             srcset="{{ hero_img('frente', 1800) }} 1800w, {{ hero_img('frente', 3600) }} 3600w"
+             sizes="(min-width: 1024px) 100vw, 200vw" width="3600" height="2250" alt="" fetchpriority="high">
+      </div>
+    </div>
+
+    <div class="hs-shade" aria-hidden="true"></div>
+
+    <div class="hs-copy">
+      <div class="container">
+        <p class="eyebrow">Consultora de datos e IA · Buenos Aires</p>
+        <h1 id="hs-title">Tus datos ya tienen las respuestas. <em>Te ayudamos a encontrarlas.</em></h1>
+        <p class="lead">Integramos tu ERP, tu CRM y tus planillas en datos confiables, y construimos tableros y agentes de IA que te dicen dónde estás perdiendo ventas y qué hacer.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" href="{{ booking_url() }}">Coordinar una llamada {{ icon('arrow-right') }}</a>
+          <a class="btn btn-secondary btn-lg hs-secondary" href="/diagnostico/">Conocé el diagnóstico</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="hs-hint" aria-hidden="true"><span>Deslizá para ver la IA en acción</span>{{ icon('chevron-down') }}</p>
+
+    <div class="hs-app" role="region" aria-label="Ejemplo: un asistente de IA analiza las ventas y recomienda acciones (datos ficticios)">
+      {{ window('app') }}
+    </div>
+  </div>
+  <p class="hs-note">Interfaz ilustrativa con datos ficticios.</p>
+</section>
+<span id="despues-del-inicio"></span>
+{% endmacro %}
