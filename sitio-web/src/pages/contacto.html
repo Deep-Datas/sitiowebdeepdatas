@@ -11,7 +11,7 @@
   ('¿Cómo cuidan la seguridad de la información?',
    'La seguridad es uno de nuestros pilares: usamos las mejores tecnologías y respetamos los protocolos y regulaciones aplicables a cada industria y a cada cliente.'),
   ('¿Qué es el Portal clientes?',
-   'Es el espacio privado donde nuestros clientes y distribuidores consultan sus tableros e informes. Se ingresa desde el botón «Portal clientes» del menú con las credenciales asignadas.'),
+   'Es el espacio privado donde nuestros clientes y distribuidores consultan sus tableros e informes. Se ingresa desde el enlace «Portal clientes» del pie de página, con las credenciales asignadas.'),
   ('¿Cuál es el primer paso?',
    'Completá el formulario o escribinos por WhatsApp. Coordinamos una primera conversación para entender tu desafío y, a partir de ahí, te presentamos una propuesta a medida.'),
 ] %}
@@ -26,6 +26,18 @@
 </section>
 
 <section class="section section-tight">
+  {% if booking %}
+  <div class="container">
+    <div class="booking-card">
+      <div>
+        <h2 class="h3-like">Elegí día y horario</h2>
+        <p>Agendá directamente una primera reunión con nuestro equipo, sin intercambiar correos.</p>
+      </div>
+      <a class="btn btn-primary btn-lg" {{ booking_link() }}>Ver horarios disponibles {{ icon('arrow-right') }}</a>
+    </div>
+    <p class="booking-or">o dejanos tu consulta y te respondemos</p>
+  </div>
+  {% endif %}
   <div class="container contact-grid">
     {{ forms.contact_form() }}
 

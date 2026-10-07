@@ -455,9 +455,8 @@
     });
   });
 
-  /* ---------- Formulario de contacto ---------- */
-  var form = document.querySelector('.contact-form');
-  if (form && window.fetch) {
+  /* ---------- Formularios de contacto ---------- */
+  var setupForm = function (form) {
     var status = form.querySelector('.form-status');
     var button = form.querySelector('button[type="submit"]');
     var buttonHtml = button.innerHTML;
@@ -476,7 +475,7 @@
       analitica: 'Analítica y modelos predictivos'
     };
     var wanted = interestMap[new URLSearchParams(window.location.search).get('interes')];
-    var select = form.querySelector('#interest');
+    var select = form.querySelector('select#interest');
     if (wanted && select && !select.value) select.value = wanted;
 
     var showStatus = function (type, message) {
@@ -528,7 +527,7 @@
         .then(function (data) {
           if (data.ok) {
             document.dispatchEvent(new CustomEvent('deepdatas:form-sent', {
-              detail: { interest: form.querySelector('#interest').value }
+              detail: { interest: form.elements.interest ? form.elements.interest.value : '' }
             }));
             form.reset();
             showStatus('ok', '¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.');
@@ -544,6 +543,119 @@
           button.innerHTML = buttonHtml;
         });
     });
+  };
+  if (window.fetch) document.querySelectorAll('.contact-form').forEach(setupForm);
+
+  /* ---------- Autoevaluación de datos ---------- */
+  var quiz = document.querySelector('[data-quiz]');
+  var quizResult = document.querySelector('[data-quiz-result]');
+  if (quiz && quizResult) {
+    var groups = Array.prototype.slice.call(quiz.querySelectorAll('[data-dimension]'));
+    var progress = quiz.querySelector('[data-quiz-progress]');
+    var progressText = progress.textContent;
+    var quizError = quiz.querySelector('[data-quiz-error]');
+    var levels = Array.prototype.slice.call(quizResult.querySelectorAll('[data-level-from]'));
+    var tips = quizResult.querySelector('.quiz-tips');
+    var allGood = quizResult.querySelector('[data-quiz-all-good]');
+    var leadMessage = quizResult.querySelector('[data-lead-message]');
+
+    var choice = function (group) { return group.querySelector('input:checked'); };
+    var answered = function () { return groups.filter(choice).length; };
+
+    quiz.addEventListener('change', function (event) {
+      var group = event.target.closest('[data-dimension]');
+      if (group) group.classList.add('is-answered');
+      progress.textContent = progressText.replace(/^\d+/, answered());
+      if (answered() === groups.length) quizError.hidden = true;
+    });
+
+    quiz.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var missing = groups.filter(function (group) { return !choice(group); });
+      if (missing.length) {
+        quizError.hidden = false;
+        missing[0].querySelector('input').focus();
+        return;
+      }
+      // Cada respuesta vale de 0 a 3; el resultado va de 0 a 100
+      var scores = groups.map(function (group) { return Number(choice(group).value); });
+      var total = scores.reduce(function (a, b) { return a + b; }, 0);
+      var score = Math.round(total / (3 * groups.length) * 100);
+      var level = levels.filter(function (el) {
+        return score >= Number(el.getAttribute('data-level-from')) && score <= Number(el.getAttribute('data-level-to'));
+      })[0];
+      levels.forEach(function (el) { el.hidden = el !== level; });
+      quizResult.querySelector('[data-quiz-score]').textContent = score;
+      quizResult.querySelector('[data-quiz-meter]').style.width = score + '%';
+
+      // Prioridades: las áreas con menos puntaje (0 o 1); si no hay, las que tienen 2
+      var limit = scores.some(function (s) { return s <= 1; }) ? 1 : 2;
+      var order = groups.map(function (group, i) { return { id: group.getAttribute('data-dimension'), score: scores[i] }; })
+        .sort(function (a, b) { return a.score - b.score; });
+      tips.querySelectorAll('[data-tip]').forEach(function (tip) { tip.hidden = true; });
+      order.forEach(function (item) {
+        var tip = tips.querySelector('[data-tip="' + item.id + '"]');
+        tip.hidden = item.score > limit;
+        tips.appendChild(tip);
+      });
+      var anyTip = order.some(function (item) { return item.score <= limit; });
+      tips.hidden = !anyTip;
+      allGood.hidden = anyTip;
+
+      // Resumen que recibe el equipo si la persona deja sus datos
+      if (leadMessage) {
+        var lines = [quizResult.getAttribute('data-summary').replace('{score}', score).replace('{level}', level.querySelector('h2').textContent), ''];
+        groups.forEach(function (group) {
+          lines.push(group.querySelector('.quiz-q-title').textContent.trim());
+          lines.push('→ ' + choice(group).parentNode.textContent.trim());
+        });
+        leadMessage.value = lines.join('\n');
+      }
+
+      quiz.hidden = true;
+      quizResult.hidden = false;
+      quizResult.focus();
+      quizResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    quizResult.querySelector('[data-quiz-print]').addEventListener('click', function () { window.print(); });
+    quizResult.querySelector('[data-quiz-reset]').addEventListener('click', function () {
+      quiz.reset();
+      groups.forEach(function (group) { group.classList.remove('is-answered'); });
+      progress.textContent = progressText;
+      quizResult.hidden = true;
+      quiz.hidden = false;
+      quiz.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      groups[0].querySelector('input').focus({ preventScroll: true });
+    });
+  }
+
+  /* ---------- Botón flotante de WhatsApp (celulares) ---------- */
+  var waFloat = document.querySelector('[data-wa-float]');
+  if (waFloat) {
+    var heroBlock = document.querySelector('[data-hero-scene]');
+    var covered = 0;
+    var updateWa = function () {
+      // Aparece después del inicio (o de la primera pantalla) y no donde ya hay un botón de WhatsApp
+      var start = heroBlock ? heroBlock.offsetTop + heroBlock.offsetHeight - window.innerHeight * 0.5 : window.innerHeight * 0.6;
+      waFloat.classList.toggle('is-visible', window.scrollY > start && covered === 0);
+    };
+    if ('IntersectionObserver' in window) {
+      var zones = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var was = entry.target.getAttribute('data-wa-zone') === 'in';
+          if (entry.isIntersecting !== was) {
+            covered += entry.isIntersecting ? 1 : -1;
+            entry.target.setAttribute('data-wa-zone', entry.isIntersecting ? 'in' : 'out');
+          }
+        });
+        updateWa();
+      });
+      document.querySelectorAll('.cta-band, .site-footer').forEach(function (zone) { zones.observe(zone); });
+    }
+    window.addEventListener('scroll', updateWa, { passive: true });
+    window.addEventListener('resize', updateWa);
+    updateWa();
   }
 
   /* ---------- Año actual en el pie ---------- */

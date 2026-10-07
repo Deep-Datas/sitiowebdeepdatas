@@ -43,7 +43,7 @@
       <h2 id="puente-title">Así trabaja la IA cuando tus datos <em>están listos.</em></h2>
       <p class="lead">Detrás de cada respuesta hay cuatro pasos que hacemos por vos. Son nuestros servicios.</p>
       <div class="actions">
-        <a class="btn btn-primary btn-lg" href="{{ booking_url() }}">Coordinar una llamada {{ icon('arrow-right') }}</a>
+        <a class="btn btn-primary btn-lg" {{ booking_link() }}>Coordinar una llamada {{ icon('arrow-right') }}</a>
         <a class="btn btn-secondary btn-lg" href="/diagnostico/">Conocé el diagnóstico</a>
       </div>
     </div>
@@ -159,6 +159,7 @@
       <h2 id="empezar-title">Tres formas de empezar, según dónde estés hoy</h2>
     </div>
     {{ plans.plans() }}
+    <p class="section-foot reveal"><a class="link-arrow" href="/autoevaluacion/">¿No sabés cuál te conviene? Hacé la autoevaluación de 2 minutos {{ icon('arrow-right') }}</a></p>
   </div>
 </section>
 

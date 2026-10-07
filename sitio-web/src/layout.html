@@ -60,7 +60,7 @@
         <span>DeepDatas</span>
       </a>
 
-      <a class="btn btn-primary nav-cta-mobile" href="{{ booking_url() }}">Hablemos</a>
+      <a class="btn btn-primary nav-cta-mobile" {{ booking_link() }}>Hablemos</a>
 
       <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false">
         <span class="visually-hidden">Abrir menú</span>
@@ -75,8 +75,7 @@
           {% endfor %}
         </ul>
         <div class="nav-actions">
-          <a class="nav-portal" href="{{ portal_url }}" target="_blank" rel="noopener">Portal clientes {{ icon('box-arrow-up-right') }}</a>
-          <a class="btn btn-primary nav-cta" href="{{ booking_url() }}">Coordinar llamada</a>
+          <a class="btn btn-primary nav-cta" {{ booking_link() }}>Coordinar llamada</a>
         </div>
       </nav>
     </div>
@@ -94,7 +93,7 @@
             <p>{% block cta_text %}Contanos tu desafío y armamos juntos el primer paso. Sin costo ni compromiso.{% endblock %}</p>
           </div>
           <div class="cta-actions">
-            <a class="btn btn-primary btn-lg" href="{{ booking_url() }}">Coordinar una llamada {{ icon('arrow-right') }}</a>
+            <a class="btn btn-primary btn-lg" {{ booking_link() }}>Coordinar una llamada {{ icon('arrow-right') }}</a>
             <a class="btn btn-secondary btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} Escribinos por WhatsApp</a>
           </div>
         </div>
@@ -123,6 +122,7 @@
             <li><a href="/servicios/#tableros">Tableros de gestión</a></li>
             <li><a href="/inteligencia-artificial/">Inteligencia artificial</a></li>
             <li><a href="/diagnostico/">Diagnóstico de datos</a></li>
+            <li><a href="/autoevaluacion/">Autoevaluación de datos</a></li>
           </ul>
         </div>
 
@@ -155,6 +155,8 @@
       </div>
     </div>
   </footer>
+
+  <a class="wa-float" href="{{ whatsapp_url }}" target="_blank" rel="noopener" data-wa-float>{{ icon('whatsapp') }}<span class="visually-hidden">Escribinos por WhatsApp</span></a>
 </body>
 
 </html>

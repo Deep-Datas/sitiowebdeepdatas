@@ -26,7 +26,8 @@
     var link = event.target.closest('a[href]');
     if (!link) return;
     var href = link.getAttribute('href');
-    if (href.indexOf('https://wa.me/') === 0) track('whatsapp');
+    if (link.hasAttribute('data-booking')) track('agendar_reunion');
+    else if (href.indexOf('https://wa.me/') === 0) track('whatsapp');
     else if (href.indexOf('mailto:') === 0) track('email');
     else if (href.indexOf('tel:') === 0) track('telefono');
     else if (href.indexOf('/diagnostico/') === 0 && location.pathname !== '/diagnostico/') track('ver_diagnostico');

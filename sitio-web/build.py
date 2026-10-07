@@ -17,7 +17,7 @@ from datetime import date
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 from blog import load_posts, long_date
 from casos import CASES, PENDIENTE
@@ -51,6 +51,11 @@ PAGES = [
         'template': 'diagnostico.html', 'path': '/diagnostico/', 'nav': 'diagnostico',
         'title': 'Diagnóstico de datos | DeepDatas',
         'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
+    },
+    {
+        'template': 'autoevaluacion.html', 'path': '/autoevaluacion/', 'nav': 'autoevaluacion',
+        'title': 'Autoevaluación: ¿qué tan listos están tus datos para la IA? | DeepDatas',
+        'description': 'Seis preguntas y dos minutos para saber en qué punto están los datos de tu empresa, qué priorizar y cómo prepararte para aplicar inteligencia artificial.',
     },
     {
         'template': 'casos.html', 'path': '/casos/', 'nav': 'casos', 'requires_cases': True,
@@ -179,12 +184,20 @@ def hero_scene():
             'config': json.dumps(config, separators=(',', ':'))}
 
 
-# Enlace para agendar una llamada (por ejemplo, Microsoft Bookings). Vacío = formulario de contacto.
+# Enlace para agendar una llamada (página de Microsoft Bookings o Calendly). Con un enlace, los
+# botones «Coordinar llamada» abren la agenda en otra pestaña y Contacto la ofrece primero.
+# Vacío = los botones llevan al formulario de contacto.
 BOOKING_URL = ''
 
 
 def booking_url(interest='llamada'):
     return BOOKING_URL or f'/contacto/?interes={interest}'
+
+
+def booking_link(interest='llamada'):
+    """Atributos del enlace para agendar: abre la agenda externa en otra pestaña."""
+    extra = ' target="_blank" rel="noopener" data-booking' if BOOKING_URL else ''
+    return Markup(f'href="{escape(booking_url(interest))}"{extra}')
 
 
 WHATSAPP_NUMBER = '5491161527387'
@@ -195,6 +208,7 @@ WHATSAPP_MESSAGES = {
     'diagnostico': 'Hola, vengo de la web de DeepDatas y me interesa el diagnóstico de datos.',
     'casos': 'Hola, vengo de la web de DeepDatas, vi sus casos de éxito y quiero consultar por un proyecto.',
     'ia': 'Hola, vengo de la web de DeepDatas y me interesa aplicar inteligencia artificial en mi empresa.',
+    'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
 }
 
@@ -335,7 +349,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, booking_url=booking_url, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
                        theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero=hero_scene())
 

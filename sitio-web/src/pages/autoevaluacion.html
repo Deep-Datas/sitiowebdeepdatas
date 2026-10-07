@@ -1,0 +1,135 @@
+{% extends 'layout.html' %}
+{% import 'forms.html' as forms with context %}
+
+{# Autoevaluación: cada respuesta vale de 0 a 3 puntos; site.js calcula el resultado (0 a 100)
+   y muestra el nivel y las prioridades. El texto de todo el resultado está acá, en la página. #}
+{% set questions = [
+  {'id': 'integracion', 'area': 'Integración',
+   'q': '¿Dónde están hoy los datos de ventas, clientes y stock?',
+   'options': ['En planillas y correos sueltos', 'En el ERP o el CRM, pero cada área los exporta a Excel', 'En sistemas integrados, con algunos reportes automáticos', 'En un repositorio central que se actualiza solo'],
+   'tip': 'Unificar las fuentes principales en un modelo que se actualice solo. Sin eso, cada análisis empieza de cero.'},
+  {'id': 'actualizacion', 'area': 'Actualización',
+   'q': '¿Cuánto tardan en tener los números del cierre del mes?',
+   'options': ['Más de una semana', 'Entre tres y siete días', 'Uno o dos días', 'Están disponibles al día siguiente o en el momento'],
+   'tip': 'Automatizar la carga y los cálculos para tener los indicadores el primer día del mes, no el quinto.'},
+  {'id': 'confianza', 'area': 'Gobierno de datos',
+   'q': '¿Las distintas áreas confían en los mismos números?',
+   'options': ['Cada área tiene su propia versión', 'Discutimos seguido cuál es el número correcto', 'Casi siempre coinciden', 'Sí, hay definiciones comunes y documentadas'],
+   'tip': 'Acordar una sola definición por indicador (venta neta, margen, cliente activo) y quién responde por cada una.'},
+  {'id': 'calidad', 'area': 'Calidad',
+   'q': '¿Qué tan seguido encuentran errores o duplicados, como clientes repetidos o códigos distintos para un mismo producto?',
+   'options': ['Todo el tiempo', 'Seguido', 'A veces', 'Casi nunca, hay controles automáticos'],
+   'tip': 'Limpiar y unificar los maestros de clientes y productos, con reglas que detecten los errores antes de que lleguen a los reportes.'},
+  {'id': 'decisiones', 'area': 'Uso para decidir',
+   'q': '¿Cómo se toman hoy las decisiones comerciales?',
+   'options': ['Por experiencia e intuición', 'Con reportes armados a mano', 'Con tableros de gestión', 'Con tableros, alertas y pronósticos'],
+   'tip': 'Llevar los indicadores clave a tableros que cada persona use en su día a día, con alertas cuando algo se desvía.'},
+  {'id': 'ia', 'area': 'Inteligencia artificial',
+   'q': '¿Qué uso le dan hoy a la inteligencia artificial?',
+   'options': ['Ninguno todavía', 'Algunas personas usan herramientas como ChatGPT por su cuenta', 'Probamos algún piloto', 'Tenemos casos en uso con datos de la empresa'],
+   'tip': 'Elegir un caso acotado y de impacto (consultas de ventas, alertas o pedidos) y probarlo con datos curados.'},
+] %}
+
+{% set levels = [
+  {'from': 0, 'to': 34, 'name': 'Datos dispersos',
+   'text': 'Hoy la información está repartida y cuesta confiar en los números. Antes de pensar en inteligencia artificial conviene ordenar la base: integrar las fuentes principales y definir los indicadores clave. Es el punto de partida más común y donde un diagnóstico rinde más.'},
+  {'from': 35, 'to': 59, 'name': 'Base en construcción',
+   'text': 'Ya tienen sistemas y algunos reportes, pero buena parte del trabajo sigue siendo manual y los números no siempre coinciden. Automatizar la integración y la calidad de los datos les va a liberar horas y a preparar el terreno para la IA.'},
+  {'from': 60, 'to': 84, 'name': 'Listos para escalar',
+   'text': 'Tienen una base sólida. El próximo salto es pasar de mirar lo que pasó a anticiparse: modelos de demanda, alertas y un primer agente de IA sobre datos curados.'},
+  {'from': 85, 'to': 100, 'name': 'Listos para la IA',
+   'text': 'Sus datos están integrados, son confiables y se usan para decidir. Pueden aplicar agentes de IA en procesos concretos, con un impacto medible desde el primer piloto.'},
+] %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Autoevaluación · 2 minutos</p>
+    <h1>¿Qué tan listos están tus datos <em>para la IA?</em></h1>
+    <p class="lead">Respondé seis preguntas y te mostramos en qué punto está tu empresa y por dónde conviene empezar. El resultado es inmediato y no hace falta dejar tus datos.</p>
+  </div>
+</section>
+
+<section class="section section-tight quiz-page">
+  <div class="container">
+    <form class="quiz" data-quiz novalidate>
+      <div class="quiz-questions">
+      <noscript><p class="quiz-note">Para ver tu resultado necesitás tener JavaScript activado. También podés <a href="/diagnostico/">pedir el diagnóstico de datos</a> y lo vemos juntos.</p></noscript>
+      {% for q in questions %}
+      <fieldset class="quiz-q" data-dimension="{{ q.id }}">
+        <legend>
+          <span class="label">{{ loop.index }} de {{ questions | length }} · {{ q.area }}</span>
+          <span class="quiz-q-title">{{ q.q }}</span>
+        </legend>
+        <div class="quiz-options">
+          {% for option in q.options %}
+          <label class="quiz-option">
+            <input type="radio" name="{{ q.id }}" value="{{ loop.index0 }}" required>
+            <span>{{ option }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+      {% endfor %}
+      <div class="quiz-actions">
+        <button class="btn btn-primary btn-lg" type="submit">Ver mi resultado {{ icon('arrow-right') }}</button>
+        <p class="quiz-progress" data-quiz-progress aria-live="polite">0 de {{ questions | length }} respondidas</p>
+      </div>
+      <p class="quiz-error" data-quiz-error role="alert" hidden>Respondé todas las preguntas para ver tu resultado.</p>
+      </div>
+      <aside class="quiz-aside" aria-label="Qué vas a obtener">
+        <p class="label">Qué vas a obtener</p>
+        <ul class="quiz-aside-list">
+          <li>{{ icon('check2') }} Tu nivel de preparación, de 0 a 100</li>
+          <li>{{ icon('check2') }} Las prioridades para tu empresa, área por área</li>
+          <li>{{ icon('check2') }} Próximos pasos concretos, listos para guardar en PDF</li>
+        </ul>
+        <p class="quiz-aside-note">{{ icon('lock') }} Es anónimo: no hace falta dejar tus datos para ver el resultado.</p>
+      </aside>
+    </form>
+
+    <section class="quiz-result" data-quiz-result data-summary="Resultado de la autoevaluación: {score}/100 ({level})" aria-label="Tu resultado" tabindex="-1" hidden>
+      <div class="quiz-result-head">
+        <div>
+          <p class="eyebrow">Tu resultado</p>
+          {% for level in levels %}
+          <div class="quiz-level" data-level-from="{{ level.from }}" data-level-to="{{ level.to }}" hidden>
+            <h2>{{ level.name }}</h2>
+            <p>{{ level.text }}</p>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="quiz-score">
+          <p class="quiz-score-value"><span data-quiz-score>0</span><small>/100</small></p>
+          <span class="quiz-meter"><span class="quiz-meter-fill" data-quiz-meter></span></span>
+        </div>
+      </div>
+
+      <h3>Tus prioridades</h3>
+      <ol class="quiz-tips">
+        {% for q in questions %}
+        <li data-tip="{{ q.id }}" hidden><strong>{{ q.area }}.</strong> {{ q.tip }}</li>
+        {% endfor %}
+      </ol>
+      <p class="quiz-all-good" data-quiz-all-good hidden>Tus respuestas muestran una base muy sólida en todas las áreas. El próximo paso es elegir el caso de IA con más impacto para tu negocio.</p>
+
+      <div class="actions quiz-result-actions">
+        <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>
+        <button class="btn btn-secondary btn-lg" type="button" data-quiz-print>{{ icon('download') }} Guardar como PDF</button>
+        <button class="text-link-quiet" type="button" data-quiz-reset>Volver a empezar</button>
+      </div>
+
+      <div class="quiz-lead">
+        <div>
+          <h3>¿Lo revisamos juntos?</h3>
+          <p>Dejanos tus datos y te contactamos con una propuesta de próximos pasos para tu empresa, sin costo. Te llega junto con tus respuestas, así no tenés que repetirlas.</p>
+        </div>
+        {{ forms.lead_form('Autoevaluación de datos', button='Quiero que me contacten') }}
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta_title %}¿Preferís verlo con <em>tus datos reales?</em>{% endblock %}
+{% block cta_text %}En el diagnóstico relevamos tus fuentes y te entregamos una hoja de ruta priorizada en dos semanas.{% endblock %}

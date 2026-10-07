@@ -4875,7 +4875,7 @@ ol {
 
 /* Modo animado */
 .hs.is-animated {
-  height: 460vh;
+  height: 340vh;
 }
 
 .hs.is-animated .hs-stage {
@@ -4973,7 +4973,7 @@ ol {
 
 @media (max-width: 1023px) {
   .hs.is-animated {
-    height: 420vh;
+    height: 310vh;
   }
 
   .hs.is-animated .hs-copy {
@@ -5801,23 +5801,6 @@ a:hover {
   font-size: 0.88rem;
 }
 
-.nav-portal {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--fg-2);
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
-
-.nav-portal:hover {
-  color: var(--text);
-}
-
-.nav-portal .icon {
-  font-size: 0.85em;
-}
-
 .nav-cta-mobile {
   display: none;
 }
@@ -5831,12 +5814,6 @@ a:hover {
     margin: 4px auto -8px;
     border-radius: 50%;
     background: var(--accent-500);
-  }
-}
-
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .nav-portal {
-    display: none;
   }
 }
 
@@ -5880,11 +5857,6 @@ a:hover {
 
   .nav-actions {
     align-items: stretch;
-  }
-
-  .nav-portal {
-    justify-content: center;
-    padding: 12px;
   }
 }
 
@@ -7130,4 +7102,423 @@ h2 em,
 
 [data-theme="claro"] .footer-about p {
   color: var(--fg-3);
+}
+
+/* Botón flotante de WhatsApp: solo en celulares y tablets, aparece después del inicio
+   y se oculta donde ya hay un botón de WhatsApp (franja final y pie) */
+.wa-float {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #128c7e;
+  color: #fff;
+  box-shadow: 0 12px 28px -10px rgba(11, 18, 32, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px) scale(0.92);
+  transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+}
+
+.wa-float:hover {
+  color: #fff;
+  background: #0f7a6e;
+}
+
+.wa-float .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.wa-float.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+@media (min-width: 1024px) {
+  .wa-float {
+    display: none;
+  }
+}
+
+/* ---------- Autoevaluación de datos ---------- */
+.quiz {
+  display: grid;
+  gap: 48px;
+}
+
+.quiz-questions {
+  display: grid;
+  gap: 20px;
+  max-width: 820px;
+}
+
+.quiz-aside {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  .quiz {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    align-items: start;
+  }
+
+  .quiz-aside {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    display: block;
+    padding: 24px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    background: var(--surface-2);
+  }
+}
+
+.quiz-aside-list {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 20px;
+}
+
+.quiz-aside-list li {
+  display: flex;
+  gap: 10px;
+  color: var(--fg-2);
+  font-size: 0.93rem;
+  line-height: 1.45;
+}
+
+.quiz-aside-list .icon {
+  margin-top: 3px;
+  color: var(--accent-600);
+}
+
+.quiz-aside-note {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+  color: var(--fg-3);
+  font-size: 0.85rem;
+}
+
+.quiz-aside-note .icon {
+  margin-top: 3px;
+}
+
+.quiz[hidden],
+.quiz-result[hidden] {
+  display: none;
+}
+
+.quiz-q {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  transition: border-color 0.2s;
+}
+
+.quiz-q.is-answered {
+  border-color: var(--hairline-strong);
+}
+
+.quiz-q legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+.quiz-q legend + * {
+  clear: both;
+}
+
+.quiz-q .label {
+  margin-bottom: 6px;
+}
+
+.quiz-q-title {
+  display: block;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 720px) {
+  .quiz-options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--fg-2);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.quiz-option:hover {
+  border-color: var(--accent-500);
+}
+
+.quiz-option input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--accent-600);
+}
+
+.quiz-option:has(input:checked) {
+  border-color: var(--accent-500);
+  background: color-mix(in srgb, var(--accent-500) 8%, var(--surface));
+  color: var(--text);
+}
+
+.quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 8px;
+}
+
+.quiz-progress,
+.quiz-note {
+  margin: 0;
+  color: var(--fg-3);
+  font-size: 0.9rem;
+}
+
+.quiz-error {
+  margin: 0;
+  color: var(--bad);
+  font-weight: 500;
+}
+
+.quiz-result {
+  max-width: 900px;
+  outline: none;
+}
+
+.quiz-result-head {
+  display: grid;
+  gap: 24px;
+  align-items: end;
+  padding: 32px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--lift, none);
+}
+
+@media (min-width: 768px) {
+  .quiz-result-head {
+    grid-template-columns: 1fr 240px;
+  }
+}
+
+.quiz-level h2 {
+  margin-bottom: 0.4em;
+}
+
+.quiz-level p {
+  margin: 0;
+  max-width: 56ch;
+}
+
+.quiz-score-value {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-stat);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.quiz-score-value small {
+  margin-left: 4px;
+  color: var(--fg-3);
+  font-size: 0.4em;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.quiz-meter {
+  display: block;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-3);
+}
+
+.quiz-meter-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent-500);
+  transition: width 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.quiz-result h3 {
+  margin: 40px 0 16px;
+}
+
+.quiz-tips {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 1.4em;
+  list-style: decimal;
+}
+
+.quiz-tips li {
+  padding-left: 4px;
+  color: var(--fg-2);
+}
+
+.quiz-tips li::marker {
+  color: var(--accent-600);
+  font-weight: 600;
+}
+
+.quiz-tips strong {
+  color: var(--text);
+}
+
+.quiz-all-good {
+  margin: 0;
+}
+
+.quiz-result-actions {
+  margin-top: 32px;
+  align-items: center;
+}
+
+button.text-link-quiet {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.quiz-lead {
+  display: grid;
+  gap: 24px;
+  margin-top: 48px;
+  padding: 32px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+@media (min-width: 900px) {
+  .quiz-lead {
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: start;
+  }
+}
+
+.quiz-lead h3 {
+  margin-top: 0;
+}
+
+.quiz-lead .contact-form {
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+@media print {
+  .site-header,
+  .site-footer,
+  .cta-band,
+  .wa-float,
+  .skip-link,
+  .quiz-lead,
+  .quiz-result-actions,
+  .page-hero .lead {
+    display: none !important;
+  }
+
+  .page-hero {
+    padding: 0 0 16px;
+  }
+
+  .quiz-result-head {
+    box-shadow: none;
+  }
+
+  .quiz-meter,
+  .quiz-meter-fill {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+.dx-quiz-link {
+  margin: 20px 0 0;
+  font-size: 0.95rem;
+}
+
+/* Agenda online en Contacto (cuando BOOKING_URL está configurado en build.py) */
+.booking-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  padding: 28px 32px;
+  border: 1px solid color-mix(in srgb, var(--accent-500) 40%, transparent);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--accent-500) 6%, var(--surface));
+}
+
+.booking-card h2 {
+  margin: 0 0 6px;
+}
+
+.booking-card p {
+  max-width: 52ch;
+  margin: 0;
+}
+
+.booking-or {
+  margin: 28px 0 20px;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
 }

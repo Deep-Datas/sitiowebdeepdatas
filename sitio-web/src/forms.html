@@ -48,3 +48,35 @@
   <div class="form-status" role="status" aria-live="polite"></div>
 </form>
 {% endmacro %}
+
+{# Formulario corto para dejar los datos de contacto junto con información que completa la página
+   (por ejemplo, el resultado de la autoevaluación en el campo oculto «message»). #}
+{% macro lead_form(interest, button='Quiero que me contacten') %}
+<form class="contact-form contact-form-compact" action="/api/contacto" method="post">
+  <div class="form-row">
+    <div class="field">
+      <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
+      <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
+    </div>
+    <div class="field">
+      <label for="email">Email laboral <span aria-hidden="true">*</span></label>
+      <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
+    </div>
+  </div>
+  <div class="field">
+    <label for="company">Empresa</label>
+    <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
+  </div>
+  <input type="hidden" name="interest" value="{{ interest }}">
+  <input type="hidden" name="message" value="" data-lead-message>
+  <div class="hp-field" aria-hidden="true">
+    <label for="website">No completar</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+  </div>
+  <div class="form-footer">
+    <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder. <a href="/privacidad/">Política de privacidad</a>.</p>
+    <button class="btn btn-primary btn-lg" type="submit">{{ button }} {{ icon('arrow-right') }}</button>
+  </div>
+  <div class="form-status" role="status" aria-live="polite"></div>
+</form>
+{% endmacro %}

@@ -12,13 +12,13 @@
     <span class="label">Proyecto</span>
     <h3>Proyecto a medida</h3>
     <p>Integramos tus fuentes y construimos tableros, modelos o agentes de IA con alcance, plazos y entregables definidos.</p>
-    <a class="link-arrow plan-link" href="{{ booking_url('proyecto') }}">Hablemos de tu proyecto {{ icon('arrow-right') }}</a>
+    <a class="link-arrow plan-link" {{ booking_link('proyecto') }}>Hablemos de tu proyecto {{ icon('arrow-right') }}</a>
   </article>
   <article class="plan-card reveal">
     <span class="label">Mes a mes</span>
     <h3>Acompañamiento continuo</h3>
     <p>Tu equipo de datos externo: mantenemos, mejoramos y ampliamos tus soluciones mes a mes.</p>
-    <a class="link-arrow plan-link" href="{{ booking_url('acompanamiento') }}">Consultar por acompañamiento {{ icon('arrow-right') }}</a>
+    <a class="link-arrow plan-link" {{ booking_link('acompanamiento') }}>Consultar por acompañamiento {{ icon('arrow-right') }}</a>
   </article>
 </div>
 {% endmacro %}
