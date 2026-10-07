@@ -82,3 +82,16 @@ CASES = [
         'example': 'pronostico',
     },
 ]
+
+
+# Textos de cada caso en inglés (para /en/case-studies/). Mismas claves que en CASES;
+# lo que no está acá se toma del caso en español.
+CASES_EN = {}
+
+
+def localized_cases(cases, lang):
+    """Casos con los textos del idioma pedido."""
+    if lang == 'es':
+        return cases
+    texts = {'en': CASES_EN}[lang]
+    return [{**case, **texts.get(case['id'], {})} for case in cases]

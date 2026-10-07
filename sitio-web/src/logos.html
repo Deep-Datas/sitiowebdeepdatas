@@ -1,6 +1,6 @@
 {# Logos de clientes (monocromos) con su título y los rubros. #}
 {% macro wall(title_id='logos-title') %}
-<h2 class="logos-title" id="{{ title_id }}">Confían en DeepDatas</h2>
+<h2 class="logos-title" id="{{ title_id }}">{{ t.logos_title }}</h2>
 <ul class="logos-row">
   <li><img src="/assets/img/clientes/kelloggs.png" alt="Kellogg's" width="337" height="120" loading="lazy"></li>
   <li><img src="/assets/img/clientes/mccain.png" alt="McCain" width="202" height="120" loading="lazy"></li>
@@ -10,5 +10,5 @@
   <li><img src="/assets/img/clientes/romemi.svg" alt="Romemi Materiales Eléctricos" width="402" height="128" loading="lazy"></li>
   <li><img class="logo-round" src="/assets/img/clientes/cafe-m.png" alt="Café M" width="108" height="120" loading="lazy"></li>
 </ul>
-<p class="logos-caption">Consumo masivo · Salud · Tecnología · Distribución · Retail</p>
+<p class="logos-caption">{{ t.logos_caption }}</p>
 {% endmacro %}

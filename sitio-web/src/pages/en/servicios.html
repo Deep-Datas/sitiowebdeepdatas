@@ -1,0 +1,166 @@
+{% extends 'layout.html' %}
+{% import 'pipeline.html' as pipeline_chart with context %}
+{% import 'plans.html' as plans with context %}
+
+{% set services = [
+  {
+    'id': 'ingenieria', 'num': '01', 'icon': 'hdd-network', 'glass': 'cubo', 'short': 'Engineering', 'case': 'distribuidores',
+    'title': 'Data engineering',
+    'lead': 'We connect all your data sources and automate their updates, so data reaches wherever it’s needed on its own.',
+    'includes': [
+      'Discovery of your sources: ERP, CRM, spreadsheets, databases and APIs',
+      'Automated, cross-platform ingestion pipelines',
+      'A centralized data model, ready for analysis',
+      'Load monitoring and error alerts',
+    ],
+    'outcome': 'A single source of truth that updates without manual work.',
+  },
+  {
+    'id': 'calidad', 'num': '02', 'icon': 'funnel', 'glass': 'embudo', 'short': 'Quality', 'case': None,
+    'title': 'Data quality and preparation',
+    'lead': 'Reliable data comes first: we detect errors, duplicates and gaps, and fix them with business rules and machine learning models.',
+    'includes': [
+      'Quality assessment of every source',
+      'Cleaning, deduplication and standardization',
+      'Unified customer, product and distributor master data',
+      'Data governance: definitions, owners and shared criteria',
+    ],
+    'outcome': 'Numbers every department trusts, with documented criteria.',
+  },
+  {
+    'id': 'analitica', 'num': '03', 'icon': 'graph-up-arrow', 'glass': 'barras', 'short': 'Analytics', 'case': 'pronostico',
+    'title': 'Analytics and predictive models',
+    'lead': 'We design the KPIs that best explain your business and models that anticipate what’s coming, so you can move from reacting to planning.',
+    'includes': [
+      'Industry-standard KPIs',
+      'KPIs tailored to your business',
+      'Predictive models for demand, sales and customer behavior',
+      'Customer and point-of-sale segmentation',
+    ],
+    'outcome': 'KPIs that show where to act, and forecasts that let you decide sooner.',
+  },
+  {
+    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line', 'glass': 'esfera', 'short': 'Dashboards', 'case': 'distribuidores',
+    'title': 'Management dashboards',
+    'lead': 'Dashboards for every team, from leadership to sales, with key information one click away.',
+    'includes': [
+      'Dashboards designed to drive decisions, not to decorate',
+      'Built in Power BI or other visualization platforms',
+      'A private portal where customers and distributors can check their own data',
+      'User training and documentation',
+    ],
+    'outcome': 'Everyone sees what they need to make decisions, always up to date and on any device.',
+  },
+] %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Services</p>
+    <h1>One team for the entire lifecycle of your data</h1>
+    <p class="lead">We integrate, clean and analyze your data. Hire us for the full journey or just the stage you need.</p>
+    <nav class="pill-nav" aria-label="Services">
+      {% for s in services %}
+      <a href="#{{ s.id }}">{{ s.short }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container">
+    {% for s in services %}
+    <article class="service-detail reveal" id="{{ s.id }}">
+      <div class="service-detail-head">
+        <span class="service-num">{{ s.num }}</span>
+        <img class="glass-icon glass-icon-lg" src="{{ glass(s.glass) }}" alt="" width="112" height="112" loading="lazy">
+        <h2>{{ s.title }}</h2>
+        <p class="lead-sm">{{ s.lead }}</p>
+      </div>
+      <div class="service-detail-body">
+        <h3 class="mini-title">What’s included</h3>
+        <ul class="check-list">
+          {% for item in s.includes %}
+          <li>{{ icon('check2') }} {{ item }}</li>
+          {% endfor %}
+        </ul>
+        <p class="outcome"><span class="label">Outcome</span>{{ s.outcome }}</p>
+        {% set related = cases | selectattr('id', 'eq', s.case) | list if s.case else [] %}
+        {% if related or s.id == 'tableros' %}
+        <p class="service-links">
+          {% if related %}<a class="link-arrow" href="{{ url('casos') }}#{{ s.case }}">Related case study {{ icon('arrow-right') }}</a>{% endif %}
+          {% if s.id == 'tableros' %}<a class="link-arrow" href="{{ url('ejemplos') }}">See sample dashboards {{ icon('arrow-right') }}</a>{% endif %}
+        </p>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ======= ANALYTICS MATURITY ======= -->
+<section class="section section-stage" aria-labelledby="madurez-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Analytics maturity</p>
+      <h2 id="madurez-title">From looking back to <em>knowing what to do tomorrow.</em></h2>
+    </div>
+    <ol class="hairline-grid hairline-grid-4 maturity reveal">
+      <li><span class="label">01</span><h3>See what happened</h3><p>Standard KPIs in a single dashboard.</p></li>
+      <li><span class="label">02</span><h3>Understand why</h3><p>KPIs tailored to your business.</p></li>
+      <li><span class="label">03</span><h3>Anticipate</h3><p>Models that predict demand and customer churn.</p></li>
+      <li class="maturity-top"><span class="label">04 · What you saw on the home page</span><h3>Know what to do</h3><p>AI-powered recommendations based on your data.</p></li>
+    </ol>
+    <p class="section-foot"><a class="link-arrow" href="{{ url('autoevaluacion') }}">Where does your company stand today? Find out in 2 minutes with the AI readiness check {{ icon('arrow-right') }}</a></p>
+  </div>
+</section>
+
+<!-- ======= HOW WE WORK ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">How we work</p>
+      <h2>Start wherever it helps you most</h2>
+      <p>We adapt to where your company is today: from an initial assessment to a data team that supports you month after month.</p>
+    </div>
+    {{ plans.plans() }}
+  </div>
+</section>
+
+<!-- ======= DATA FOR AI ======= -->
+<section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow-light">Data ready for artificial intelligence</p>
+      <h2 id="pipeline-title">How we prepare your data for AI</h2>
+      <p>Our data engineering and data quality services are the foundation of any artificial intelligence project: we connect your sources, curate the information and organize it so an AI agent can answer questions, forecast and automate with reliable data.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
+    <div class="pl-cta">
+      <a class="btn btn-primary btn-lg" href="{{ url('ia') }}">See AI solutions for business {{ icon('arrow-right') }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======= TOOLS ======= -->
+<section class="section section-paper section-tight">
+  <div class="container tools reveal">
+    <div>
+      <p class="eyebrow">Technology</p>
+      <h2>We work with the platforms you already use</h2>
+      <p>We assess each company’s context and infrastructure to recommend the right tool, without locking you into a single vendor.</p>
+    </div>
+    <ul class="tool-list" aria-label="Platforms">
+      <li>Power BI</li>
+      <li>Microsoft Azure</li>
+      <li>SQL</li>
+      <li>Python</li>
+      <li>Excel and SharePoint</li>
+      <li>Machine Learning</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta_title %}Tell us which stage <em>you want to start with.</em>{% endblock %}
+{% block cta_text %}One call is all it takes to define the first step. No cost, no commitment.{% endblock %}

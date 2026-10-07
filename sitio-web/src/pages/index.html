@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
-{% import 'charts.html' as charts %}
-{% import 'hero.html' as hero %}
+{% import 'charts.html' as charts with context %}
+{% import 'hero.html' as hero with context %}
 {% import 'plans.html' as plans with context %}
-{% import 'logos.html' as logos %}
-{% import 'pipeline.html' as pipeline_chart %}
+{% import 'logos.html' as logos with context %}
+{% import 'pipeline.html' as pipeline_chart with context %}
 
 {% block head %}
   <script type="application/ld+json">

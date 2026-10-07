@@ -15,7 +15,7 @@
 
 {% macro data_table(table) %}
 <details class="db-data">
-  <summary>Ver datos</summary>
+  <summary>{{ t.charts.see_data }}</summary>
   <table>
     <thead><tr>{% for h in table.headers %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>
     <tbody>
@@ -42,14 +42,14 @@
 {% endmacro %}
 
 {% macro columns(p) %}
-<div class="db-chart" role="img" aria-label="{{ p.title }}. El detalle está en la tabla de datos.">
+<div class="db-chart" role="img" aria-label="{{ t.charts.chart_label.format(title=p.title) }}">
   <div class="db-plot">
     {% for t in p.data.ticks %}
     <div class="db-gridline {{ pos('y', t.y) }}"><span>{{ t.label }}</span></div>
     {% endfor %}
     <div class="db-cols">
       {% for it in p.data['items'] %}
-      <div class="db-col" data-tip-title="{{ it.label }}" data-tip="Real: {{ it.value_label }}|Objetivo: {{ it.target_label }}">
+      <div class="db-col" data-tip-title="{{ it.label }}" data-tip="{{ t.charts.tip_actual }}: {{ it.value_label }}|{{ t.charts.tip_target }}: {{ it.target_label }}">
         <span class="db-col-bar {{ pos('h', it.h) }}">
           {% if it.show_label %}<span class="db-col-value">{{ it.value_label }}</span>{% endif %}
         </span>
@@ -102,7 +102,7 @@
 {% macro stack(p) %}
 <div class="db-stack" role="img" aria-label="{% for s in p.data %}{{ s.label }}: {{ s.value_label }}{{ '. ' if not loop.last }}{% endfor %}">
   {% for s in p.data %}
-  <span class="db-seg seg-{{ s.key }} {{ pos('w', s.w) }}" data-tip-title="{{ s.label }}" data-tip="{{ s.value_label }} de los puntos de venta">
+  <span class="db-seg seg-{{ s.key }} {{ pos('w', s.w) }}" data-tip-title="{{ s.label }}" data-tip="{{ s.value_label }} {{ t.charts.of_points }}">
     {% if s.inside %}<span>{{ s.value_label }}</span>{% endif %}
   </span>
   {% endfor %}
@@ -116,12 +116,12 @@
 
 {% macro line(p) %}
 {% set d = p.data %}
-<div class="db-chart" role="img" aria-label="{{ p.title }}. El detalle está en la tabla de datos.">
+<div class="db-chart" role="img" aria-label="{{ t.charts.chart_label.format(title=p.title) }}">
   <div class="db-plot db-plot-line" data-line>
     {% for t in d.ticks %}
     <div class="db-gridline {{ pos('y', t.y) }}"><span>{{ t.label }}</span></div>
     {% endfor %}
-    <span class="db-split {{ pos('x', d.split_x) }}"><span>Pronóstico</span></span>
+    <span class="db-split {{ pos('x', d.split_x) }}"><span>{{ t.charts.forecast }}</span></span>
     <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
       <path class="db-band" d="{{ d.band }}"></path>
       <path class="db-area" d="{{ d.real_area }}"></path>
@@ -150,10 +150,10 @@
 {% endmacro %}
 
 {% macro ranking(p) %}
-<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: {{ p.title }}">
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="{{ t.charts.table_label.format(title=p.title) }}">
   <table class="db-table">
     <thead>
-      <tr><th scope="col">Distribuidor</th><th scope="col">Facturación</th><th scope="col">vs. objetivo</th><th scope="col">Estado</th></tr>
+      <tr>{% for h in t.charts.ranking_head %}<th scope="col">{{ h }}</th>{% endfor %}</tr>
     </thead>
     <tbody>
       {% for r in p.rows %}
@@ -179,9 +179,9 @@
 
 {% macro opportunities(p) %}
 <p class="db-caption">{{ p.caption }}</p>
-<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: {{ p.title }}">
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="{{ t.charts.table_label.format(title=p.title) }}">
   <table class="db-table">
-    <thead><tr><th scope="col">Zona</th><th scope="col">Vendedor</th><th scope="col">Puntos de venta</th><th scope="col">Potencial mensual</th></tr></thead>
+    <thead><tr>{% for h in t.charts.opps_head %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>
     <tbody>
       {% for r in p.rows %}
       <tr><th scope="row">{{ r.zone }}</th><td>{{ r.seller }}</td><td class="num">{{ r.pdv }}</td><td class="num">{{ r.potential }}</td></tr>
@@ -193,9 +193,9 @@
 
 {% macro replenish(p) %}
 <p class="db-caption">{{ p.caption }}</p>
-<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: {{ p.title }}">
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="{{ t.charts.table_label.format(title=p.title) }}">
   <table class="db-table">
-    <thead><tr><th scope="col">Producto</th><th scope="col">Stock</th><th scope="col">Demanda prevista</th><th scope="col">Reponer</th><th scope="col">Estado</th></tr></thead>
+    <thead><tr>{% for h in t.charts.replenish_head %}<th scope="col">{{ h }}</th>{% endfor %}</tr></thead>
     <tbody>
       {% for r in p.rows %}
       <tr><th scope="row">{{ r.product }}</th><td class="num">{{ r.stock }}</td><td class="num">{{ r.demand }}</td><td class="num"><strong>{{ r.suggested }}</strong></td><td>{{ status_pill(r.status) }}</td></tr>
@@ -210,9 +210,9 @@
   <div class="db-top">
     <span class="db-dots" aria-hidden="true"><i></i><i></i><i></i></span>
     <span class="db-app">{{ d.app_title }}</span>
-    <span class="db-badge">Datos ficticios</span>
+    <span class="db-badge">{{ t.charts.fictional }}</span>
   </div>
-  <ul class="db-filters" aria-label="Filtros aplicados">
+  <ul class="db-filters" aria-label="{{ t.charts.filters }}">
     {% for k, v in d.filters %}
     <li><span>{{ k }}:</span> {{ v }} {{ icon('chevron-down') }}</li>
     {% endfor %}

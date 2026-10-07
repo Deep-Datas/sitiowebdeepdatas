@@ -1,0 +1,248 @@
+"""Idiomas del sitio: rutas equivalentes y textos de los componentes compartidos.
+
+El sitio está en español (raíz) y en inglés (/en/). Cada página en inglés tiene
+su propia plantilla en src/pages/en/; acá están las rutas que conectan cada
+página con su versión en el otro idioma (para el selector de idioma y las
+etiquetas hreflang) y los textos de los componentes que usan todas las páginas:
+encabezado, pie, formularios, planes, logos y tableros.
+
+El blog se publica solo en español.
+"""
+
+LANGS = ('es', 'en')
+
+# Página -> ruta en cada idioma. None = la página no existe en ese idioma.
+ROUTES = {
+    'inicio': {'es': '/', 'en': '/en/'},
+    'servicios': {'es': '/servicios/', 'en': '/en/services/'},
+    'ia': {'es': '/inteligencia-artificial/', 'en': '/en/ai-for-business/'},
+    'diagnostico': {'es': '/diagnostico/', 'en': '/en/data-assessment/'},
+    'autoevaluacion': {'es': '/autoevaluacion/', 'en': '/en/ai-readiness-check/'},
+    'casos': {'es': '/casos/', 'en': '/en/case-studies/'},
+    'ejemplos': {'es': '/ejemplos/', 'en': '/en/dashboard-examples/'},
+    'nosotros': {'es': '/nosotros/', 'en': '/en/about/'},
+    'contacto': {'es': '/contacto/', 'en': '/en/contact/'},
+    'privacidad': {'es': '/privacidad/', 'en': '/en/privacy/'},
+    'gracias': {'es': '/gracias/', 'en': '/en/thank-you/'},
+    'blog': {'es': '/blog/', 'en': None},
+}
+
+
+def route(key, lang):
+    """Ruta de una página en un idioma (o la versión en español si no existe)."""
+    paths = ROUTES[key]
+    return paths.get(lang) or paths['es']
+
+
+UI = {
+    'es': {
+        'locale': 'es_AR',
+        'skip': 'Saltar al contenido',
+        'home_label': 'DeepDatas, ir al inicio',
+        'menu_open': 'Abrir menú',
+        'menu_close': 'Cerrar menú',
+        'nav_label': 'Principal',
+        'nav': {
+            'servicios': 'Servicios', 'ia': 'IA para empresas', 'diagnostico': 'Diagnóstico',
+            'casos': 'Casos', 'blog': 'Blog', 'nosotros': 'Nosotros',
+        },
+        'cta_short': 'Hablemos',
+        'cta_nav': 'Coordinar llamada',
+        'cta_call': 'Coordinar una llamada',
+        'cta_whatsapp': 'Escribinos por WhatsApp',
+        'cta_title': 'Empecemos por una <em>conversación.</em>',
+        'cta_text': 'Contanos tu desafío y armamos juntos el primer paso. Sin costo ni compromiso.',
+        'switch_label': 'English',
+        'switch_lang': 'en',
+        'switch_title': 'Read this page in English',
+        'footer_about': 'Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.',
+        'footer_services': 'Servicios',
+        'footer_company': 'Empresa',
+        'footer_contact': 'Contacto',
+        'footer_links_services': [
+            ('servicios', '#ingenieria', 'Ingeniería de datos'),
+            ('servicios', '#calidad', 'Calidad y preparación'),
+            ('servicios', '#analitica', 'Analítica y modelos predictivos'),
+            ('servicios', '#tableros', 'Tableros de gestión'),
+            ('ia', '', 'Inteligencia artificial'),
+            ('diagnostico', '', 'Diagnóstico de datos'),
+            ('autoevaluacion', '', 'Autoevaluación de datos'),
+        ],
+        'footer_cases': 'Casos de éxito',
+        'footer_examples': 'Ejemplos de tableros',
+        'footer_about_us': 'Nosotros',
+        'footer_blog': 'Blog',
+        'footer_contact_page': 'Contacto',
+        'portal': 'Portal clientes',
+        'address': 'Bernardo de Irigoyen 330<br>C1072 CABA, Argentina',
+        'privacy': 'Privacidad',
+        'made_in': 'Hecho en Buenos Aires',
+        # Formularios
+        'form': {
+            'name': 'Nombre y apellido',
+            'email': 'Email laboral',
+            'company': 'Empresa',
+            'phone': 'Teléfono',
+            'interest': '¿Qué te interesa?',
+            'choose': 'Elegí una opción',
+            'options': [
+                ('ingenieria', 'Ingeniería de datos'),
+                ('calidad', 'Calidad y preparación de datos'),
+                ('analitica', 'Analítica y modelos predictivos'),
+                ('tableros', 'Tableros de gestión'),
+                ('ia', 'Inteligencia artificial'),
+                ('diagnostico', 'Diagnóstico de datos'),
+                ('nolose', 'Todavía no lo sé'),
+            ],
+            'message': 'Contanos tu desafío',
+            'placeholder': 'Por ejemplo: queremos unificar las ventas de nuestros distribuidores en un único tablero.',
+            'honeypot': 'No completar',
+            'note': 'Los campos con * son obligatorios. Usamos tus datos solo para responder tu consulta.',
+            'note_short': 'Los campos con * son obligatorios. Usamos tus datos solo para responder.',
+            'privacy_link': 'Política de privacidad',
+            'send': 'Enviar mensaje',
+            'lead_send': 'Quiero que me contacten',
+        },
+        # Formas de empezar
+        'plans': {
+            'recommended': 'Recomendado para empezar',
+            'items': [
+                {'label': '2 semanas', 'title': 'Diagnóstico de datos', 'featured': True,
+                 'text': 'En dos semanas sabés qué datos tenés, qué falta y por dónde empezar, con un plan priorizado.',
+                 'link': 'Conocé el diagnóstico', 'page': 'diagnostico'},
+                {'label': 'Proyecto', 'title': 'Proyecto a medida',
+                 'text': 'Integramos tus fuentes y construimos tableros, modelos o agentes de IA con alcance, plazos y entregables definidos.',
+                 'link': 'Hablemos de tu proyecto', 'booking': 'proyecto'},
+                {'label': 'Mes a mes', 'title': 'Acompañamiento continuo',
+                 'text': 'Tu equipo de datos externo: mantenemos, mejoramos y ampliamos tus soluciones mes a mes.',
+                 'link': 'Consultar por acompañamiento', 'booking': 'acompanamiento'},
+            ],
+        },
+        'logos_title': 'Confían en DeepDatas',
+        'logos_caption': 'Consumo masivo · Salud · Tecnología · Distribución · Retail',
+        # Tableros de ejemplo
+        'charts': {
+            'see_data': 'Ver datos',
+            'chart_label': '{title}. El detalle está en la tabla de datos.',
+            'table_label': 'Tabla: {title}',
+            'tip_actual': 'Real',
+            'tip_target': 'Objetivo',
+            'of_points': 'de los puntos de venta',
+            'forecast': 'Pronóstico',
+            'ranking_head': ['Distribuidor', 'Facturación', 'vs. objetivo', 'Estado'],
+            'opps_head': ['Zona', 'Vendedor', 'Puntos de venta', 'Potencial mensual'],
+            'replenish_head': ['Producto', 'Stock', 'Demanda prevista', 'Reponer', 'Estado'],
+            'fictional': 'Datos ficticios',
+            'filters': 'Filtros aplicados',
+        },
+        # Gráfico del recorrido de los datos
+        'pipeline': {
+            'aria': 'Recorrido de los datos: ocho orígenes de datos pasan por una etapa de curado, limpieza y ordenamiento y son consumidos por un agente de IA que genera respuestas, pronósticos, alertas y automatizaciones',
+            'explore': 'Explorá el gráfico',
+            'explore_text': 'Pasá el mouse o navegá con el teclado por cada elemento para ver qué aporta y cómo lo tratamos.',
+        },
+    },
+    'en': {
+        'locale': 'en_US',
+        'skip': 'Skip to content',
+        'home_label': 'DeepDatas, go to the home page',
+        'menu_open': 'Open menu',
+        'menu_close': 'Close menu',
+        'nav_label': 'Main',
+        'nav': {
+            'servicios': 'Services', 'ia': 'AI for business', 'diagnostico': 'Data assessment',
+            'casos': 'Case studies', 'nosotros': 'About',
+        },
+        'cta_short': "Let's talk",
+        'cta_nav': 'Book a call',
+        'cta_call': 'Book a call',
+        'cta_whatsapp': 'Message us on WhatsApp',
+        'cta_title': "Let's start with a <em>conversation.</em>",
+        'cta_text': "Tell us about your challenge and we'll map out the first step together. No cost, no commitment.",
+        'switch_label': 'Español',
+        'switch_lang': 'es',
+        'switch_title': 'Ver esta página en español',
+        'footer_about': "Data and business intelligence consultancy. We integrate, clean and analyze your company's information so you can make better decisions.",
+        'footer_services': 'Services',
+        'footer_company': 'Company',
+        'footer_contact': 'Contact',
+        'footer_links_services': [
+            ('servicios', '#ingenieria', 'Data engineering'),
+            ('servicios', '#calidad', 'Data quality and preparation'),
+            ('servicios', '#analitica', 'Analytics and predictive models'),
+            ('servicios', '#tableros', 'Management dashboards'),
+            ('ia', '', 'Artificial intelligence'),
+            ('diagnostico', '', 'Data assessment'),
+            ('autoevaluacion', '', 'AI readiness check'),
+        ],
+        'footer_cases': 'Case studies',
+        'footer_examples': 'Dashboard examples',
+        'footer_about_us': 'About us',
+        'footer_blog': 'Blog (Spanish)',
+        'footer_contact_page': 'Contact',
+        'portal': 'Client portal',
+        'address': 'Bernardo de Irigoyen 330<br>C1072 Buenos Aires, Argentina',
+        'privacy': 'Privacy',
+        'made_in': 'Made in Buenos Aires',
+        'form': {
+            'name': 'Full name',
+            'email': 'Work email',
+            'company': 'Company',
+            'phone': 'Phone',
+            'interest': 'What are you interested in?',
+            'choose': 'Choose an option',
+            'options': [
+                ('ingenieria', 'Data engineering'),
+                ('calidad', 'Data quality and preparation'),
+                ('analitica', 'Analytics and predictive models'),
+                ('tableros', 'Management dashboards'),
+                ('ia', 'Artificial intelligence'),
+                ('diagnostico', 'Data assessment'),
+                ('nolose', "I'm not sure yet"),
+            ],
+            'message': 'Tell us about your challenge',
+            'placeholder': 'For example: we want to bring all our distributors’ sales into a single dashboard.',
+            'honeypot': 'Leave blank',
+            'note': 'Fields marked * are required. We only use your details to reply to you.',
+            'note_short': 'Fields marked * are required. We only use your details to reply to you.',
+            'privacy_link': 'Privacy policy',
+            'send': 'Send message',
+            'lead_send': 'Contact me',
+        },
+        'plans': {
+            'recommended': 'Recommended first step',
+            'items': [
+                {'label': '2 weeks', 'title': 'Data assessment', 'featured': True,
+                 'text': 'In two weeks you know what data you have, what is missing and where to start, with a prioritized plan.',
+                 'link': 'Explore the assessment', 'page': 'diagnostico'},
+                {'label': 'Project', 'title': 'Custom project',
+                 'text': 'We integrate your sources and build dashboards, models or AI agents with a defined scope, timeline and deliverables.',
+                 'link': "Let's talk about your project", 'booking': 'proyecto'},
+                {'label': 'Monthly', 'title': 'Ongoing partnership',
+                 'text': 'Your external data team: we maintain, improve and extend your solutions month after month.',
+                 'link': 'Ask about ongoing support', 'booking': 'acompanamiento'},
+            ],
+        },
+        'logos_title': 'Trusted by',
+        'logos_caption': 'Consumer goods · Healthcare · Technology · Distribution · Retail',
+        'charts': {
+            'see_data': 'View data',
+            'chart_label': '{title}. Details are in the data table.',
+            'table_label': 'Table: {title}',
+            'tip_actual': 'Actual',
+            'tip_target': 'Target',
+            'of_points': 'of points of sale',
+            'forecast': 'Forecast',
+            'ranking_head': ['Distributor', 'Revenue', 'vs. target', 'Status'],
+            'opps_head': ['Region', 'Sales rep', 'Points of sale', 'Monthly potential'],
+            'replenish_head': ['Product', 'Stock', 'Forecast demand', 'Reorder', 'Status'],
+            'fictional': 'Sample data',
+            'filters': 'Applied filters',
+        },
+        'pipeline': {
+            'aria': 'Data journey: eight data sources go through a curation, cleaning and organization stage and are used by an AI agent that delivers answers, forecasts, alerts and automations',
+            'explore': 'Explore the chart',
+            'explore_text': 'Hover over or tab through each element to see what it contributes and how we handle it.',
+        },
+    },
+}

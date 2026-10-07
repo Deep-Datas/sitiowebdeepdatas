@@ -16,13 +16,14 @@ from urllib.parse import quote
 from datetime import date
 from pathlib import Path
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined
+from jinja2 import Environment, FileSystemLoader, StrictUndefined, pass_context
 from markupsafe import Markup, escape
 
 from blog import load_posts, long_date
-from casos import CASES, PENDIENTE
+from casos import CASES, PENDIENTE, localized_cases
 from dashboards import EXAMPLES
 from pipeline import pipeline
+from i18n import ROUTES, UI, route
 
 
 ROOT = Path(__file__).parent
@@ -33,57 +34,57 @@ SITE_URL = 'https://deepdatas.com'
 # Páginas del sitio: plantilla, ruta pública, título y descripción para buscadores.
 PAGES = [
     {
-        'template': 'index.html', 'path': '/', 'nav': 'inicio',
+        'template': 'index.html', 'key': 'inicio', 'path': '/', 'nav': 'inicio',
         'title': 'DeepDatas | Consultora de datos e inteligencia de negocios',
         'description': 'Integramos, limpiamos y analizamos los datos de tu empresa para convertirlos en tableros de gestión y modelos predictivos que ayudan a vender más y gastar menos.',
     },
     {
-        'template': 'servicios.html', 'path': '/servicios/', 'nav': 'servicios',
+        'template': 'servicios.html', 'key': 'servicios', 'path': '/servicios/', 'nav': 'servicios',
         'title': 'Servicios | DeepDatas',
         'description': 'Ingeniería de datos, calidad y preparación, analítica avanzada con modelos predictivos y tableros de gestión en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
     },
     {
-        'template': 'inteligencia-artificial.html', 'path': '/inteligencia-artificial/', 'nav': 'ia',
+        'template': 'inteligencia-artificial.html', 'key': 'ia', 'path': '/inteligencia-artificial/', 'nav': 'ia',
         'title': 'Inteligencia artificial para empresas: agentes de IA con tus datos | DeepDatas',
         'description': 'Agentes de IA conectados a los datos de tu empresa: consultas a tus indicadores, tus números en WhatsApp o Teams, pedidos automáticos, alertas y pronósticos, con datos curados y seguros.',
     },
     {
-        'template': 'diagnostico.html', 'path': '/diagnostico/', 'nav': 'diagnostico',
+        'template': 'diagnostico.html', 'key': 'diagnostico', 'path': '/diagnostico/', 'nav': 'diagnostico',
         'title': 'Diagnóstico de datos | DeepDatas',
         'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
     },
     {
-        'template': 'autoevaluacion.html', 'path': '/autoevaluacion/', 'nav': 'autoevaluacion',
+        'template': 'autoevaluacion.html', 'key': 'autoevaluacion', 'path': '/autoevaluacion/', 'nav': 'autoevaluacion',
         'title': 'Autoevaluación: ¿qué tan listos están tus datos para la IA? | DeepDatas',
         'description': 'Seis preguntas y dos minutos para saber en qué punto están los datos de tu empresa, qué priorizar y cómo prepararte para aplicar inteligencia artificial.',
     },
     {
-        'template': 'casos.html', 'path': '/casos/', 'nav': 'casos', 'requires_cases': True,
+        'template': 'casos.html', 'key': 'casos', 'path': '/casos/', 'nav': 'casos', 'requires_cases': True,
         'title': 'Casos de éxito | DeepDatas',
         'description': 'Proyectos reales de integración de datos, tableros de gestión y modelos predictivos, con los resultados que obtuvieron nuestros clientes.',
     },
     {
-        'template': 'ejemplos.html', 'path': '/ejemplos/', 'nav': 'ejemplos',
+        'template': 'ejemplos.html', 'key': 'ejemplos', 'path': '/ejemplos/', 'nav': 'ejemplos',
         'title': 'Ejemplos de tableros | DeepDatas',
         'description': 'Tableros interactivos de ejemplo, con datos ficticios: performance de distribuidores, cobertura de puntos de venta y pronóstico de demanda.',
     },
     {
-        'template': 'nosotros.html', 'path': '/nosotros/', 'nav': 'nosotros',
+        'template': 'nosotros.html', 'key': 'nosotros', 'path': '/nosotros/', 'nav': 'nosotros',
         'title': 'Nosotros | DeepDatas',
         'description': 'Somos un equipo de especialistas en datos con más de 10 años de experiencia, con base en Buenos Aires, Argentina.',
     },
     {
-        'template': 'contacto.html', 'path': '/contacto/', 'nav': 'contacto',
+        'template': 'contacto.html', 'key': 'contacto', 'path': '/contacto/', 'nav': 'contacto',
         'title': 'Contacto | DeepDatas',
         'description': 'Contanos tu desafío y coordinamos una reunión de diagnóstico sin costo. Bernardo de Irigoyen 330, CABA, Argentina.',
     },
     {
-        'template': 'privacidad.html', 'path': '/privacidad/', 'nav': None,
+        'template': 'privacidad.html', 'key': 'privacidad', 'path': '/privacidad/', 'nav': None,
         'title': 'Política de privacidad | DeepDatas',
         'description': 'Qué datos recibe DeepDatas a través de su sitio, para qué los usa y cómo ejercer tus derechos según la Ley 25.326.',
     },
     {
-        'template': 'gracias.html', 'path': '/gracias/', 'nav': None, 'noindex': True,
+        'template': 'gracias.html', 'key': 'gracias', 'path': '/gracias/', 'nav': None, 'noindex': True,
         'title': 'Mensaje enviado | DeepDatas',
         'description': 'Gracias por escribirnos.',
     },
@@ -93,6 +94,67 @@ PAGES = [
         'description': 'La página que buscás no existe.',
     },
 ]
+
+# Versión en inglés (src/pages/en/). Las rutas salen de i18n.ROUTES.
+PAGES_EN = [
+    {
+        'template': 'en/index.html', 'key': 'inicio', 'nav': 'inicio',
+        'title': 'DeepDatas | Data and AI consultancy',
+        'description': 'We integrate, clean and analyze your company’s data and turn it into dashboards, predictive models and AI agents that help you sell more and spend less.',
+    },
+    {
+        'template': 'en/servicios.html', 'key': 'servicios', 'nav': 'servicios',
+        'title': 'Services | DeepDatas',
+        'description': 'Data engineering, data quality and preparation, advanced analytics with predictive models and Power BI dashboards. One team for the whole data lifecycle.',
+    },
+    {
+        'template': 'en/inteligencia-artificial.html', 'key': 'ia', 'nav': 'ia',
+        'title': 'AI for business: AI agents connected to your data | DeepDatas',
+        'description': 'AI agents connected to your company data: ask about your KPIs, get your numbers on WhatsApp or Teams, automate orders, alerts and forecasts, with curated, secure data.',
+    },
+    {
+        'template': 'en/diagnostico.html', 'key': 'diagnostico', 'nav': 'diagnostico',
+        'title': 'Data assessment | DeepDatas',
+        'description': 'In two weeks we map your data sources, measure their quality and deliver a prioritized roadmap to make better decisions and put artificial intelligence to work.',
+    },
+    {
+        'template': 'en/autoevaluacion.html', 'key': 'autoevaluacion', 'nav': 'autoevaluacion',
+        'title': 'AI readiness check: is your data ready for AI? | DeepDatas',
+        'description': 'Six questions and two minutes to find out where your company’s data stands, what to prioritize and how to get ready to apply artificial intelligence.',
+    },
+    {
+        'template': 'en/casos.html', 'key': 'casos', 'nav': 'casos', 'requires_cases': True,
+        'title': 'Case studies | DeepDatas',
+        'description': 'Real data integration, dashboard and predictive modeling projects, with the results our clients achieved.',
+    },
+    {
+        'template': 'en/ejemplos.html', 'key': 'ejemplos', 'nav': 'ejemplos',
+        'title': 'Dashboard examples | DeepDatas',
+        'description': 'Interactive sample dashboards with fictional data: distributor performance, point-of-sale coverage and demand forecasting.',
+    },
+    {
+        'template': 'en/nosotros.html', 'key': 'nosotros', 'nav': 'nosotros',
+        'title': 'About us | DeepDatas',
+        'description': 'A team of data specialists with more than 10 years of experience, based in Buenos Aires, Argentina.',
+    },
+    {
+        'template': 'en/contacto.html', 'key': 'contacto', 'nav': 'contacto',
+        'title': 'Contact | DeepDatas',
+        'description': 'Tell us about your challenge and we will set up a free first conversation. Bernardo de Irigoyen 330, Buenos Aires, Argentina.',
+    },
+    {
+        'template': 'en/privacidad.html', 'key': 'privacidad', 'nav': None,
+        'title': 'Privacy policy | DeepDatas',
+        'description': 'What data DeepDatas receives through its website, what it is used for and how to exercise your rights under Argentine Law 25,326.',
+    },
+    {
+        'template': 'en/gracias.html', 'key': 'gracias', 'nav': None, 'noindex': True,
+        'title': 'Message sent | DeepDatas',
+        'description': 'Thank you for reaching out.',
+    },
+]
+for _page in PAGES_EN:
+    _page.update(lang='en', path=ROUTES[_page['key']]['en'])
 
 
 ICON_STROKE = '1.75'
@@ -190,14 +252,22 @@ def hero_scene():
 BOOKING_URL = ''
 
 
-def booking_url(interest='llamada'):
-    return BOOKING_URL or f'/contacto/?interes={interest}'
+@pass_context
+def booking_url(ctx, interest='llamada'):
+    return BOOKING_URL or f"{route('contacto', ctx.get('lang', 'es'))}?interes={interest}"
 
 
-def booking_link(interest='llamada'):
+@pass_context
+def booking_link(ctx, interest='llamada'):
     """Atributos del enlace para agendar: abre la agenda externa en otra pestaña."""
     extra = ' target="_blank" rel="noopener" data-booking' if BOOKING_URL else ''
-    return Markup(f'href="{escape(booking_url(interest))}"{extra}')
+    return Markup(f'href="{escape(booking_url(ctx, interest))}"{extra}')
+
+
+@pass_context
+def url(ctx, key):
+    """Ruta de una página en el idioma de la página actual."""
+    return route(key, ctx.get('lang', 'es'))
 
 
 WHATSAPP_NUMBER = '5491161527387'
@@ -211,11 +281,22 @@ WHATSAPP_MESSAGES = {
     'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
 }
+WHATSAPP_MESSAGES_EN = {
+    None: "Hi, I'm coming from the DeepDatas website and I have a question.",
+    'servicios': "Hi, I'm coming from the DeepDatas website and I'd like to ask about your services.",
+    'diagnostico': "Hi, I'm coming from the DeepDatas website and I'm interested in the data assessment.",
+    'casos': "Hi, I'm coming from the DeepDatas website. I saw your case studies and I'd like to discuss a project.",
+    'ia': "Hi, I'm coming from the DeepDatas website and I'm interested in applying AI in my company.",
+    'autoevaluacion': "Hi, I took the AI readiness check on the DeepDatas website and I'd like to discuss next steps.",
+    'ejemplos': "Hi, I'm coming from the DeepDatas website. I saw the sample dashboards and I'd like to ask about one for my company.",
+}
 
 
-def whatsapp(nav=None):
-    """Enlace a WhatsApp con un mensaje inicial acorde a la página."""
-    text = WHATSAPP_MESSAGES.get(nav, WHATSAPP_MESSAGES[None])
+@pass_context
+def whatsapp(ctx, nav=None):
+    """Enlace a WhatsApp con un mensaje inicial acorde a la página y al idioma."""
+    messages = WHATSAPP_MESSAGES_EN if ctx.get('lang') == 'en' else WHATSAPP_MESSAGES
+    text = messages.get(nav, messages[None])
     return f'https://wa.me/{WHATSAPP_NUMBER}?text={quote(text)}'
 
 
@@ -321,9 +402,17 @@ def published_cases(drafts):
     return cases
 
 
+def alternates(page):
+    """Versiones de la página en cada idioma, para hreflang y el selector de idioma."""
+    key = page.get('key')
+    if not key or page.get('post'):
+        return {}
+    return {lang: path for lang, path in ROUTES[key].items() if path}
+
+
 def build(drafts=False):
     cases = published_cases(drafts)
-    pages = [p for p in PAGES if cases or not p.get('requires_cases')]
+    pages = [p for p in PAGES + PAGES_EN if cases or not p.get('requires_cases')]
     posts = load_posts(include_future=drafts)
     if posts:
         pages.append({
@@ -349,13 +438,18 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
+    env.globals.update(icon=icon, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos, examples=EXAMPLES,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
                        theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero=hero_scene())
 
+    def render(page):
+        lang = page.get('lang', 'es')
+        return env.get_template(page['template']).render(
+            page=page, lang=lang, t=UI[lang], alt=alternates(page),
+            examples=EXAMPLES[lang], cases=localized_cases(cases, lang))
+
     def render_all():
-        return [(page, env.get_template(page['template']).render(page=page))
-                for page in ({'noindex': drafts, **p} for p in pages)]
+        return [(page, render(page)) for page in ({'noindex': drafts, **p} for p in pages)]
 
     # Primera pasada: junta las posiciones de los gráficos para escribir charts.css.
     # Segunda pasada: las páginas ya pueden enlazar charts.css con su versión.
@@ -365,16 +459,21 @@ def build(drafts=False):
         target = output_file(page['path'])
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(html, encoding='utf-8')
-        print(f'  {page["path"]:<14} -> {target.relative_to(ROOT)}')
+        print(f'  {page["path"]:<14} -> {target}')
 
     indexable = [p for p in pages if not p.get('noindex')]
-    urls = '\n'.join(f'  <url><loc>{SITE_URL}{p["path"]}</loc></url>' for p in indexable)
+    entries = []
+    for p in indexable:
+        links = ''.join(f'\n    <xhtml:link rel="alternate" hreflang="{lang}" href="{SITE_URL}{path}"/>'
+                        for lang, path in alternates(p).items()) if len(alternates(p)) > 1 else ''
+        entries.append(f'  <url><loc>{SITE_URL}{p["path"]}</loc>{links}</url>')
+    urls = '\n'.join(entries)
     (OUT / 'sitemap.xml').write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
         f'{urls}\n</urlset>\n', encoding='utf-8')
     (OUT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n', encoding='utf-8')
-    print(f'Sitio generado en {OUT.relative_to(ROOT)}/')
+    print(f'Sitio generado en {OUT}/')
 
 
 if __name__ == '__main__':

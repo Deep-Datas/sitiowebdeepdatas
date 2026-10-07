@@ -1,0 +1,180 @@
+{% extends 'layout.html' %}
+{% import 'charts.html' as charts with context %}
+{% import 'hero.html' as hero with context %}
+{% import 'plans.html' as plans with context %}
+{% import 'logos.html' as logos with context %}
+{% import 'pipeline.html' as pipeline_chart with context %}
+
+{% block head %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "DeepDatas",
+    "description": "{{ page.description }}",
+    "url": "{{ site_url }}{{ url('inicio') }}",
+    "logo": "{{ site_url }}/assets/img/brand/icon-512.png",
+    "image": "{{ og_image }}",
+    "email": "fbloise@deepdatas.com",
+    "telephone": "+54 9 11 6152-7387",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Bernardo de Irigoyen 330",
+      "addressLocality": "Buenos Aires",
+      "postalCode": "C1072",
+      "addressCountry": "AR"
+    },
+    "areaServed": "AR",
+    "knowsAbout": ["Business intelligence", "Data engineering", "Data science", "Machine Learning", "Power BI"]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= HERO: scroll-driven scene (src/hero.html) ======= -->
+{{ hero.scene() }}
+
+<!-- ======= BRIDGE: what you just saw ======= -->
+<section class="section section-bridge section-stage" aria-labelledby="puente-title">
+  <div class="container">
+    <div class="bridge">
+      <p class="eyebrow">What you just saw</p>
+      <h2 id="puente-title">This is how AI works when your data <em>is ready.</em></h2>
+      <p class="lead">Behind every answer are four steps we handle for you. Those steps are our services.</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" {{ booking_link() }}>Book a call {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment</a>
+      </div>
+    </div>
+
+    <ol class="hairline-grid hairline-grid-4 journey">
+      {% for num, service, verb, text, href, obj in [
+        ('01', 'Data engineering', 'Integrate', 'We connect your ERP, CRM, spreadsheets and APIs into a single model that updates itself.', url('servicios') ~ '#ingenieria', 'cubo'),
+        ('02', 'Data quality', 'Curate', 'We clean your data, unify codes and validate every number against business rules.', url('servicios') ~ '#calidad', 'embudo'),
+        ('03', 'Analytics', 'Model', 'KPIs built around your business and models that anticipate demand and customer churn.', url('servicios') ~ '#analitica', 'barras'),
+        ('04', 'Dashboards and AI', 'Recommend', 'Dashboards and AI agents that tell you what happened, why, and what to do next.', url('ia'), 'esfera'),
+      ] %}
+      <li class="reveal">
+        <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
+        <span class="label">{{ num }} · {{ service }}</span>
+        <h3>{{ verb }}</h3>
+        <p>{{ text }}</p>
+        <a class="link-arrow" href="{{ href }}">{{ 'See AI solutions' if num == '04' else 'Explore the service' }} {{ icon('arrow-right') }}</a>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<!-- ======= CLIENTS AND NUMBERS ======= -->
+<section class="logos" aria-labelledby="logos-title">
+  <div class="container">
+    {{ logos.wall() }}
+    <dl class="stats">
+      <div><dt>distributors integrated into a single model for a leading consumer goods company</dt><dd>40</dd></div>
+      <div><dt>fewer stockouts with a demand forecast</dt><dd>12<span>%</span></dd></div>
+      <div><dt>to get a complete assessment of your data</dt><dd>2<span>weeks</span></dd></div>
+      <div><dt>of team experience in data, technology and business</dt><dd>10+<span>years</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ======= PROBLEM / SOLUTION ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">The problem</p>
+      <h2>You’re not short on data. You’re short on data that’s <em>ready for decisions.</em></h2>
+    </div>
+
+    <div class="pain-grid">
+      <article class="pain-card reveal">
+        <h3>Scattered information</h3>
+        <p>Sales in the ERP, inventory in one spreadsheet, targets in another. Every department has its own version of the numbers.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} A single data model that updates itself.</p>
+      </article>
+      <article class="pain-card reveal">
+        <h3>Reports that arrive too late</h3>
+        <p>Every month-end close means days of copying, pasting and checking data by hand. By the time the report is ready, it’s too late to act.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Dashboards ready on the first day of the month, not the fifth.</p>
+      </article>
+      <article class="pain-card reveal">
+        <h3>Flying blind</h3>
+        <p>Without clear KPIs, it’s hard to tell which customer, product or channel is underperforming, and why.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Alerts and recommendations when something goes off track.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======= DATA FOR AI ======= -->
+<section class="section section-dark section-stage section-pipeline" aria-labelledby="pipeline-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Data ready for AI</p>
+      <h2 id="pipeline-title">From scattered data to an AI agent that answers <em>with precision.</em></h2>
+      <p>AI is only as good as the data it runs on. We bring together the information now spread across systems, spreadsheets and messages, curate it and organize it so an AI agent can use it with confidence.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
+    <div class="pl-cta">
+      <p>Want to know how ready your data is?</p>
+      <a class="btn btn-primary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment {{ icon('arrow-right') }}</a>
+      <a class="btn btn-ghost-light btn-lg" href="{{ url('ia') }}">See AI solutions</a>
+    </div>
+  </div>
+</section>
+
+{% if cases %}
+<!-- ======= CASE STUDIES ======= -->
+<section class="section" aria-labelledby="casos-title">
+  <div class="container">
+    <div class="section-head section-head-split reveal">
+      <div>
+        <p class="eyebrow">Case studies</p>
+        <h2 id="casos-title">Results you can measure</h2>
+      </div>
+      <a class="btn btn-secondary" href="{{ url('casos') }}">See all case studies {{ icon('arrow-right') }}</a>
+    </div>
+    <div class="case-cards">
+      {% for c in cases[:3] %}
+      <a class="case-card reveal" href="{{ url('casos') }}#{{ c.id }}">
+        <span class="case-card-industry">{{ c.industry }}</span>
+        <strong class="case-card-number">{{ c.results[0][0] }}</strong>
+        <span class="case-card-label">{{ c.results[0][1] }}</span>
+        <span class="case-card-title">{{ c.title }}</span>
+        <span class="case-card-more">Read the case study {{ icon('arrow-right') }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ======= HOW TO GET STARTED ======= -->
+<section class="section" aria-labelledby="empezar-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">How to get started</p>
+      <h2 id="empezar-title">Three ways to get started, depending on where you are today</h2>
+    </div>
+    {{ plans.plans() }}
+    <p class="section-foot reveal"><a class="link-arrow" href="{{ url('autoevaluacion') }}">Not sure which one is right for you? Take the 2-minute AI readiness check {{ icon('arrow-right') }}</a></p>
+  </div>
+</section>
+
+<!-- ======= WHY DEEPDATAS ======= -->
+<section class="section" aria-labelledby="porque-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Why DeepDatas</p>
+      <h2 id="porque-title">Your data, always <em>under your control.</em></h2>
+    </div>
+    <dl class="reasons-list reveal">
+      <div><dt>Tailored solutions</dt><dd>We work with the platforms you already use, without locking you into a single vendor.</dd></div>
+      <div><dt>Confidentiality</dt><dd>Read-only access and role-based permissions: each person sees only what they’re meant to see.</dd></div>
+      <div><dt>Scalable from day one</dt><dd>We design every solution to grow with your company, so you never have to rebuild it.</dd></div>
+    </dl>
+  </div>
+</section>
+{% endblock %}

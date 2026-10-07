@@ -1,49 +1,50 @@
-{# Formulario de contacto. Lo procesa api/contacto. #}
-{% set options = ['Ingeniería de datos', 'Calidad y preparación de datos', 'Analítica y modelos predictivos', 'Tableros de gestión', 'Inteligencia artificial', 'Diagnóstico de datos', 'Todavía no lo sé'] %}
+{# Formularios de contacto. Los procesa api/contacto. Los textos están en i18n.py (t.form). #}
 
-{% macro contact_form(selected='', placeholder='Por ejemplo: queremos unificar las ventas de nuestros distribuidores en un único tablero.', button='Enviar mensaje') %}
+{% macro contact_form(selected='', placeholder=None, button=None) %}
+{% set f = t.form %}
 <form class="contact-form" action="/api/contacto" method="post">
+  <input type="hidden" name="lang" value="{{ lang }}">
   <div class="form-row">
     <div class="field">
-      <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
+      <label for="name">{{ f.name }} <span aria-hidden="true">*</span></label>
       <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
     </div>
     <div class="field">
-      <label for="email">Email laboral <span aria-hidden="true">*</span></label>
+      <label for="email">{{ f.email }} <span aria-hidden="true">*</span></label>
       <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
     </div>
   </div>
   <div class="form-row">
     <div class="field">
-      <label for="company">Empresa</label>
+      <label for="company">{{ f.company }}</label>
       <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
     </div>
     <div class="field">
-      <label for="phone">Teléfono</label>
+      <label for="phone">{{ f.phone }}</label>
       <input type="tel" id="phone" name="phone" autocomplete="tel" maxlength="40">
     </div>
   </div>
   <div class="field">
-    <label for="interest">¿Qué te interesa?</label>
+    <label for="interest">{{ f.interest }}</label>
     <select id="interest" name="interest">
-      <option value="">Elegí una opción</option>
-      {% for o in options %}
-      <option{% if o == selected %} selected{% endif %}>{{ o }}</option>
+      <option value="">{{ f.choose }}</option>
+      {% for key, label in f.options %}
+      <option data-key="{{ key }}"{% if label == selected or key == selected %} selected{% endif %}>{{ label }}</option>
       {% endfor %}
     </select>
   </div>
   <div class="field">
-    <label for="message">Contanos tu desafío <span aria-hidden="true">*</span></label>
-    <textarea id="message" name="message" rows="6" maxlength="5000" required placeholder="{{ placeholder }}"></textarea>
+    <label for="message">{{ f.message }} <span aria-hidden="true">*</span></label>
+    <textarea id="message" name="message" rows="6" maxlength="5000" required placeholder="{{ placeholder or f.placeholder }}"></textarea>
   </div>
   <!-- Campo trampa anti-spam: debe quedar vacío -->
   <div class="hp-field" aria-hidden="true">
-    <label for="website">No completar</label>
+    <label for="website">{{ f.honeypot }}</label>
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
   </div>
   <div class="form-footer">
-    <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder tu consulta. <a href="/privacidad/">Política de privacidad</a>.</p>
-    <button class="btn btn-primary btn-lg" type="submit">{{ button }} {{ icon('arrow-right') }}</button>
+    <p class="form-note">{{ f.note }} <a href="{{ url('privacidad') }}">{{ f.privacy_link }}</a>.</p>
+    <button class="btn btn-primary btn-lg" type="submit">{{ button or f.send }} {{ icon('arrow-right') }}</button>
   </div>
   <div class="form-status" role="status" aria-live="polite"></div>
 </form>
@@ -51,31 +52,33 @@
 
 {# Formulario corto para dejar los datos de contacto junto con información que completa la página
    (por ejemplo, el resultado de la autoevaluación en el campo oculto «message»). #}
-{% macro lead_form(interest, button='Quiero que me contacten') %}
+{% macro lead_form(interest, button=None) %}
+{% set f = t.form %}
 <form class="contact-form contact-form-compact" action="/api/contacto" method="post">
+  <input type="hidden" name="lang" value="{{ lang }}">
   <div class="form-row">
     <div class="field">
-      <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
+      <label for="name">{{ f.name }} <span aria-hidden="true">*</span></label>
       <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
     </div>
     <div class="field">
-      <label for="email">Email laboral <span aria-hidden="true">*</span></label>
+      <label for="email">{{ f.email }} <span aria-hidden="true">*</span></label>
       <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
     </div>
   </div>
   <div class="field">
-    <label for="company">Empresa</label>
+    <label for="company">{{ f.company }}</label>
     <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
   </div>
   <input type="hidden" name="interest" value="{{ interest }}">
   <input type="hidden" name="message" value="" data-lead-message>
   <div class="hp-field" aria-hidden="true">
-    <label for="website">No completar</label>
+    <label for="website">{{ f.honeypot }}</label>
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
   </div>
   <div class="form-footer">
-    <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder. <a href="/privacidad/">Política de privacidad</a>.</p>
-    <button class="btn btn-primary btn-lg" type="submit">{{ button }} {{ icon('arrow-right') }}</button>
+    <p class="form-note">{{ f.note_short }} <a href="{{ url('privacidad') }}">{{ f.privacy_link }}</a>.</p>
+    <button class="btn btn-primary btn-lg" type="submit">{{ button or f.lead_send }} {{ icon('arrow-right') }}</button>
   </div>
   <div class="form-status" role="status" aria-live="polite"></div>
 </form>

@@ -1,24 +1,21 @@
-{# Formas de trabajo: se usan en el inicio y en Servicios. #}
+{# Formas de trabajo: se usan en el inicio y en Servicios. Los textos están en i18n.py (t.plans). #}
 {% macro plans() %}
 <div class="plan-grid">
-  <article class="plan-card plan-card-featured reveal">
-    <span class="chip-recommended">Recomendado para empezar</span>
-    <span class="label">2 semanas</span>
-    <h3>Diagnóstico de datos</h3>
-    <p>En dos semanas sabés qué datos tenés, qué falta y por dónde empezar, con un plan priorizado.</p>
-    <a class="link-arrow plan-link" href="/diagnostico/">Conocé el diagnóstico {{ icon('arrow-right') }}</a>
+  {% for plan in t.plans['items'] %}
+  {% set featured = plan.get('featured') %}
+  <article class="plan-card{{ ' plan-card-featured' if featured }} reveal">
+    {% if featured %}
+    <span class="chip-recommended">{{ t.plans.recommended }}</span>
+    {% endif %}
+    <span class="label">{{ plan.label }}</span>
+    <h3>{{ plan.title }}</h3>
+    <p>{{ plan.text }}</p>
+    {% if plan.get('page') %}
+    <a class="link-arrow plan-link" href="{{ url(plan.page) }}">{{ plan.link }} {{ icon('arrow-right') }}</a>
+    {% else %}
+    <a class="link-arrow plan-link" {{ booking_link(plan.booking) }}>{{ plan.link }} {{ icon('arrow-right') }}</a>
+    {% endif %}
   </article>
-  <article class="plan-card reveal">
-    <span class="label">Proyecto</span>
-    <h3>Proyecto a medida</h3>
-    <p>Integramos tus fuentes y construimos tableros, modelos o agentes de IA con alcance, plazos y entregables definidos.</p>
-    <a class="link-arrow plan-link" {{ booking_link('proyecto') }}>Hablemos de tu proyecto {{ icon('arrow-right') }}</a>
-  </article>
-  <article class="plan-card reveal">
-    <span class="label">Mes a mes</span>
-    <h3>Acompañamiento continuo</h3>
-    <p>Tu equipo de datos externo: mantenemos, mejoramos y ampliamos tus soluciones mes a mes.</p>
-    <a class="link-arrow plan-link" {{ booking_link('acompanamiento') }}>Consultar por acompañamiento {{ icon('arrow-right') }}</a>
-  </article>
+  {% endfor %}
 </div>
 {% endmacro %}

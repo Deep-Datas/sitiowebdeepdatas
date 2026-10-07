@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+
+{% set specialties = [
+  {'icon': 'layers', 'title': 'Architecture and implementation',
+   'text': 'We design the data architecture behind each solution and support its entire lifecycle, from the first version through every iteration.'},
+  {'icon': 'funnel', 'title': 'Data governance and quality',
+   'text': 'We define shared criteria, owners and controls so every department trusts the same numbers.'},
+  {'icon': 'cpu', 'title': 'Data engineering and predictive models',
+   'text': 'We build automated pipelines and predictive models that turn information into foresight.'},
+] %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">About us</p>
+    <h1>Data consultants with <em>a business mindset.</em></h1>
+    <p class="lead">We are a data and artificial intelligence consultancy based in Buenos Aires. We integrate, organize and analyze data for companies in consumer goods, distribution, healthcare and technology.</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container split">
+    <div class="reveal">
+      <p class="eyebrow">Our mission</p>
+      <h2>Making decisions with reliable data shouldn’t be a privilege reserved for large companies.</h2>
+    </div>
+    <div class="prose reveal">
+      <p>We deliver concrete strategies to solve each organization’s toughest challenges with data: not just for large corporations, but for any company that wants to make better decisions.</p>
+      <p>That’s why we combine technical expertise with a business perspective. Before we talk about tools, we make sure we understand the decisions you need to make.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Our principles</p>
+      <h2>What guides every project</h2>
+    </div>
+    <dl class="hairline-grid hairline-grid-3 principles reveal">
+      <div><dt>Flexibility</dt><dd>We adapt to your systems and the way you work, not the other way around.</dd></div>
+      <div><dt>Scalability</dt><dd>We design every solution to grow with your company, so you never have to rebuild it.</dd></div>
+      <div><dt>Security</dt><dd>Read-only access, role-based permissions and confidentiality in every project.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Team</p>
+      <h2>A multidisciplinary team behind every project</h2>
+      <p>You work directly with specialists who bring more than 10 years of experience across data, technology and business.</p>
+    </div>
+    <dl class="hairline-grid hairline-grid-3 principles reveal">
+      {% for s in specialties %}
+      <div><dt>{{ s.title }}</dt><dd>{{ s.text }}</dd></div>
+      {% endfor %}
+    </dl>
+  </div>
+</section>
+
+<section class="section section-paper section-tight">
+  <div class="container split split-center">
+    <div class="reveal">
+      <p class="eyebrow">Where to find us</p>
+      <h2>Buenos Aires, Argentina</h2>
+      <p>Our office is in downtown Buenos Aires. We can meet in person or online, whichever works best for you.</p>
+      <ul class="contact-list">
+        <li>{{ icon('geo-alt') }} Bernardo de Irigoyen 330, C1072 Buenos Aires</li>
+        <li>{{ icon('envelope') }} <a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a></li>
+        <li>{{ icon('telephone') }} <a href="tel:+5491161527387">+54 9 11 6152-7387</a></li>
+      </ul>
+    </div>
+    <iframe class="map reveal" title="Map: Bernardo de Irigoyen 330, Buenos Aires" src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&z=15&hl=en&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</section>
+{% endblock %}

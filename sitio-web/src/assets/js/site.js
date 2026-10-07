@@ -23,7 +23,7 @@
     var setMenu = function (open) {
       menu.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', String(open));
-      label.textContent = open ? 'Cerrar menú' : 'Abrir menú';
+      label.textContent = toggle.getAttribute(open ? 'data-label-close' : 'data-label-open');
       document.body.style.overflow = open ? 'hidden' : '';
     };
     toggle.addEventListener('click', function () {
@@ -456,6 +456,23 @@
   });
 
   /* ---------- Formularios de contacto ---------- */
+  var english = document.documentElement.lang === 'en';
+  var formText = english ? {
+    sending: 'Sending…',
+    required: 'Please fill in the required fields.',
+    email: 'Please enter a valid email address.',
+    sent: 'Thank you! We received your message and will get back to you shortly.',
+    failed: 'We couldn’t send your message. Please email us at fbloise@deepdatas.com.',
+    offline: 'We couldn’t send your message. Please check your connection and try again.'
+  } : {
+    sending: 'Enviando…',
+    required: 'Completá los campos obligatorios.',
+    email: 'Ingresá un email válido.',
+    sent: '¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.',
+    failed: 'No pudimos enviar tu mensaje. Escribinos a fbloise@deepdatas.com.',
+    offline: 'No pudimos enviar tu mensaje. Revisá tu conexión e intentá nuevamente.'
+  };
+
   var setupForm = function (form) {
     var status = form.querySelector('.form-status');
     var button = form.querySelector('button[type="submit"]');
@@ -466,17 +483,12 @@
     form.setAttribute('novalidate', '');
 
     // Preselecciona el interés cuando se llega desde un botón (por ejemplo, ?interes=ia)
-    var interestMap = {
-      diagnostico: 'Diagnóstico de datos',
-      ia: 'Inteligencia artificial',
-      tableros: 'Tableros de gestión',
-      ingenieria: 'Ingeniería de datos',
-      calidad: 'Calidad y preparación de datos',
-      analitica: 'Analítica y modelos predictivos'
-    };
-    var wanted = interestMap[new URLSearchParams(window.location.search).get('interes')];
+    var wanted = new URLSearchParams(window.location.search).get('interes');
     var select = form.querySelector('select#interest');
-    if (wanted && select && !select.value) select.value = wanted;
+    if (wanted && select && !select.value) {
+      var option = select.querySelector('option[data-key="' + wanted.replace(/[^a-z]/g, '') + '"]');
+      if (option) option.selected = true;
+    }
 
     var showStatus = function (type, message) {
       status.textContent = '';
@@ -507,13 +519,13 @@
       if (invalid.length) {
         var email = form.querySelector('#email');
         var onlyEmail = invalid.length === 1 && invalid[0] === email && email.value.trim();
-        showStatus('error', onlyEmail ? 'Ingresá un email válido.' : 'Completá los campos obligatorios.');
+        showStatus('error', onlyEmail ? formText.email : formText.required);
         invalid[0].focus();
         return;
       }
 
       button.disabled = true;
-      button.textContent = 'Enviando…';
+      button.textContent = formText.sending;
       status.textContent = '';
 
       fetch(form.action, {
@@ -530,13 +542,13 @@
               detail: { interest: form.elements.interest ? form.elements.interest.value : '' }
             }));
             form.reset();
-            showStatus('ok', '¡Gracias! Recibimos tu mensaje y te responderemos a la brevedad.');
+            showStatus('ok', formText.sent);
           } else {
-            showStatus('error', data.error || 'No pudimos enviar tu mensaje. Escribinos a fbloise@deepdatas.com.');
+            showStatus('error', data.error || formText.failed);
           }
         })
         .catch(function () {
-          showStatus('error', 'No pudimos enviar tu mensaje. Revisá tu conexión e intentá nuevamente.');
+          showStatus('error', formText.offline);
         })
         .finally(function () {
           button.disabled = false;

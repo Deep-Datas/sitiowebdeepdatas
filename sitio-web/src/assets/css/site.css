@@ -7522,3 +7522,24 @@ button.text-link-quiet {
   text-align: center;
   text-transform: uppercase;
 }
+
+/* Selector de idioma en el encabezado */
+.nav-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--fg-2);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.nav-lang:hover {
+  color: var(--text);
+}
+
+@media (max-width: 1023.98px) {
+  .nav-lang {
+    justify-content: center;
+    padding: 12px;
+  }
+}

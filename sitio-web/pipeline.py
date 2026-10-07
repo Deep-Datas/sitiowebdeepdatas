@@ -2,10 +2,11 @@
 
 El gráfico de escritorio es un SVG con coordenadas fijas (viewBox); en
 pantallas chicas se muestra una versión apilada en HTML con el mismo
-contenido. Para cambiar un texto, editalo acá y volvé a ejecutar build.py.
+contenido. Para cambiar un texto, editalo acá (CONTENT, en cada idioma) y
+volvé a ejecutar build.py.
 """
 
-SOURCES = [
+SOURCES_ES = [
     ('crm', 'person-lines-fill', 'CRM', 'Salesforce · HubSpot',
      'Clientes, oportunidades y contactos. Suelen tener registros duplicados, campos incompletos y vendedores que cargan distinto.'),
     ('erp', 'building-gear', 'ERP', 'SAP · Tango · Odoo',
@@ -24,7 +25,7 @@ SOURCES = [
      'Ventas online, logística y servicios externos. Datos en tiempo real que hay que integrar con el resto.'),
 ]
 
-STEPS = [
+STEPS_ES = [
     ('ingesta', 'inboxes', 'Ingesta', 'Conectamos y centralizamos',
      'Conectamos cada fuente de forma automática y segura, y centralizamos los datos en un único repositorio, con actualizaciones programadas.'),
     ('limpieza', 'eraser', 'Limpieza', 'Errores y faltantes',
@@ -39,11 +40,11 @@ STEPS = [
      'Organizamos la información en un modelo de datos documentado, con permisos y trazabilidad: listo para tableros y para la IA.'),
 ]
 
-AGENT = ('agente', 'robot', 'Agente de IA', 'Consume datos confiables',
+AGENT_ES = ('agente', 'robot', 'Agente de IA', 'Consume datos confiables',
          'Un agente de inteligencia artificial conectado a datos curados responde con precisión, sin inventar números: '
          'consulta, cruza y analiza la información de toda la empresa en segundos.')
 
-OUTPUTS = [
+OUTPUTS_ES = [
     ('respuestas', 'chat-dots', 'Respuestas', 'En lenguaje natural',
      '«¿Cuánto vendimos en el norte este mes?» El agente responde al instante, con datos verificables.'),
     ('pronosticos', 'graph-up-arrow', 'Pronósticos', 'Ventas y demanda',
@@ -53,6 +54,89 @@ OUTPUTS = [
     ('automatizacion', 'lightning-charge', 'Automatización', 'Tareas repetitivas',
      'Carga de pedidos recibidos por WhatsApp o email, informes periódicos y respuestas a consultas frecuentes.'),
 ]
+
+SOURCES_EN = [
+    ('crm', 'person-lines-fill', 'CRM', 'Salesforce · HubSpot',
+     'Customers, opportunities and contacts. Often full of duplicate records, incomplete fields and reps who enter data differently.'),
+    ('erp', 'building-gear', 'ERP', 'SAP · Odoo · Dynamics',
+     'Sales, purchasing, inventory and finance. The most reliable source, but with codes and structures built to operate, not to analyze.'),
+    ('excel', 'file-earmark-spreadsheet', 'Excel and spreadsheets', 'Targets · prices · stock',
+     'Sales targets, price lists and manual checks. Every team has its own version and formats change month to month.'),
+    ('txt', 'file-earmark-text', '.txt and .csv files', 'Exports · logs',
+     'System exports, distributor reports and logs. Different separators, encodings and dates in every file.'),
+    ('whatsapp', 'whatsapp', 'WhatsApp', 'Orders · inquiries',
+     'Customer orders, complaints and questions in free text. Valuable information that rarely reaches your systems.'),
+    ('email', 'envelope', 'Email', 'Orders · attachments',
+     'Purchase orders, confirmations and attachments processed by hand and left in each person’s inbox.'),
+    ('db', 'database', 'Databases', 'SQL Server · Oracle',
+     'In-house and legacy systems with years of history, undocumented tables and hidden business rules.'),
+    ('api', 'cloud-arrow-down', 'APIs and e-commerce', 'Mercado Libre · Shopify',
+     'Online sales, logistics and external services. Real-time data that has to be integrated with everything else.'),
+]
+
+STEPS_EN = [
+    ('ingesta', 'inboxes', 'Ingestion', 'Connect and centralize',
+     'We connect every source automatically and securely, and centralize the data in a single repository with scheduled updates.'),
+    ('limpieza', 'eraser', 'Cleaning', 'Errors and gaps',
+     'We fix data-entry errors, invalid formats and missing values, and extract useful data from free text such as messages and emails.'),
+    ('dedup', 'intersect', 'Deduplication', 'One record per entity',
+     'We merge duplicate customers, products and suppliers across systems so each one has a single record.'),
+    ('normalizacion', 'rulers', 'Standardization', 'Units, currencies, dates',
+     'We bring everything to the same units, currencies, dates and codes so data from different sources can be compared.'),
+    ('validacion', 'shield-check', 'Validation', 'Quality rules',
+     'We apply quality rules on every update and raise alerts when something doesn’t add up, before it reaches a decision.'),
+    ('orden', 'sort-down', 'Organization', 'Model and catalog',
+     'We organize the information into a documented data model with permissions and lineage: ready for dashboards and for AI.'),
+]
+
+AGENT_EN = ('agente', 'robot', 'AI agent', 'Runs on trusted data',
+            'An artificial intelligence agent connected to curated data answers accurately, without making up numbers: '
+            'it queries, cross-references and analyzes information from across the company in seconds.')
+
+OUTPUTS_EN = [
+    ('respuestas', 'chat-dots', 'Answers', 'In plain language',
+     '“How much did we sell in the north this month?” The agent answers instantly, with verifiable data.'),
+    ('pronosticos', 'graph-up-arrow', 'Forecasts', 'Sales and demand',
+     'Sales, demand and inventory projections to plan purchasing and production ahead of time.'),
+    ('alertas', 'bell', 'Alerts', 'Proactive and timely',
+     'Automatic notices when a customer stops buying, a product runs out of stock or a KPI drifts off course.'),
+    ('automatizacion', 'lightning-charge', 'Automation', 'Repetitive tasks',
+     'Entering orders received by WhatsApp or email, periodic reports and answers to frequent questions.'),
+]
+
+# Contenido y rótulos de cada idioma
+CONTENT = {
+    'es': {
+        'sources': SOURCES_ES, 'steps': STEPS_ES, 'agent': AGENT_ES, 'outputs': OUTPUTS_ES,
+        'stage_source': 'Origen de datos', 'stage_step': 'Paso {i} de {n} · Curado',
+        'stage_agent': 'Inteligencia artificial', 'stage_output': 'Resultado',
+        'columns': ['Orígenes de datos', 'Curado y ordenamiento', 'Inteligencia artificial', 'Resultados'],
+        'labels': {
+            'curated': 'Datos curados', 'raw': 'Datos crudos',
+            'cur_kicker': 'Etapa de curado', 'cur_title': 'Limpieza y ordenamiento',
+            'journey': 'Recorrido de los datos',
+            'stack_sources': 'Orígenes de datos', 'stack_curation': 'Curado, limpieza y ordenamiento',
+            'stack_results': 'Resultados',
+            'legend_raw': 'Datos crudos: dispersos, duplicados e inconsistentes',
+            'legend_curated': 'Datos curados: limpios, unificados y documentados',
+        },
+    },
+    'en': {
+        'sources': SOURCES_EN, 'steps': STEPS_EN, 'agent': AGENT_EN, 'outputs': OUTPUTS_EN,
+        'stage_source': 'Data source', 'stage_step': 'Step {i} of {n} · Curation',
+        'stage_agent': 'Artificial intelligence', 'stage_output': 'Outcome',
+        'columns': ['Data sources', 'Curation and organization', 'Artificial intelligence', 'Outcomes'],
+        'labels': {
+            'curated': 'Curated data', 'raw': 'Raw data',
+            'cur_kicker': 'Curation stage', 'cur_title': 'Cleaning and organization',
+            'journey': 'Data journey',
+            'stack_sources': 'Data sources', 'stack_curation': 'Curation, cleaning and organization',
+            'stack_results': 'Outcomes',
+            'legend_raw': 'Raw data: scattered, duplicated and inconsistent',
+            'legend_curated': 'Curated data: clean, unified and documented',
+        },
+    },
+}
 
 # Geometría (unidades del viewBox)
 WIDTH, HEIGHT = 1120, 640
@@ -76,14 +160,16 @@ def _curve(x1, y1, x2, y2):
     return f'M{x1:.1f} {y1:.1f} C{mid:.1f} {y1:.1f} {mid:.1f} {y2:.1f} {x2:.1f} {y2:.1f}'
 
 
-def pipeline():
+def pipeline(lang='es'):
+    c = CONTENT[lang]
+    SOURCES, STEPS, AGENT, OUTPUTS = c['sources'], c['steps'], c['agent'], c['outputs']
     area = HEIGHT - TOP
     mid_y = TOP + area / 2
 
     # Orígenes
     total = len(SOURCES) * SRC_H + (len(SOURCES) - 1) * SRC_GAP
     y0 = TOP + (area - total) / 2
-    sources = [_node(s, SRC_X, y0 + i * (SRC_H + SRC_GAP), SRC_W, SRC_H, 'src', 'Origen de datos')
+    sources = [_node(s, SRC_X, y0 + i * (SRC_H + SRC_GAP), SRC_W, SRC_H, 'src', c['stage_source'])
                for i, s in enumerate(SOURCES)]
 
     # Etapa de curado: tarjeta con los pasos adentro
@@ -92,7 +178,7 @@ def pipeline():
     cur_h = head + steps_h + 20
     cur_y = mid_y - cur_h / 2
     steps = [_node(s, CUR_X + 16, cur_y + head + i * (STEP_H + STEP_GAP), CUR_W - 32, STEP_H, 'step',
-                   f'Paso {i + 1} de {len(STEPS)} · Curado')
+                   c['stage_step'].format(i=i + 1, n=len(STEPS)))
              for i, s in enumerate(STEPS)]
     curation = {'x': CUR_X, 'y': cur_y, 'w': CUR_W, 'h': cur_h}
 
@@ -107,13 +193,13 @@ def pipeline():
                   for i in range(len(steps) - 1)]
 
     agent = _node(AGENT, AGENT_CX - AGENT_R, mid_y - AGENT_R, AGENT_R * 2, AGENT_R * 2, 'agent',
-                  'Inteligencia artificial')
+                  c['stage_agent'])
     agent.update(cx=AGENT_CX, r=AGENT_R)
     curated_link = f'M{CUR_X + CUR_W} {mid_y:.1f} H{AGENT_CX - AGENT_R}'
 
     total = len(OUTPUTS) * OUT_H + (len(OUTPUTS) - 1) * OUT_GAP
     y0 = mid_y - total / 2
-    outputs = [_node(o, OUT_X, y0 + i * (OUT_H + OUT_GAP), OUT_W, OUT_H, 'out', 'Resultado')
+    outputs = [_node(o, OUT_X, y0 + i * (OUT_H + OUT_GAP), OUT_W, OUT_H, 'out', c['stage_output'])
                for i, o in enumerate(OUTPUTS)]
     for node in outputs:
         node['link'] = _curve(AGENT_CX + AGENT_R, mid_y, OUT_X, node['cy'])
@@ -129,16 +215,12 @@ def pipeline():
     for node in outputs:
         node['chain'] = [node['id'], node['id'] + '-link', agent['id'], 'curated']
 
-    columns = [
-        (SRC_X + SRC_W / 2, '1', 'Orígenes de datos'),
-        (CUR_X + CUR_W / 2, '2', 'Curado y ordenamiento'),
-        (AGENT_CX, '3', 'Inteligencia artificial'),
-        (OUT_X + OUT_W / 2, '4', 'Resultados'),
-    ]
+    columns = [(x, str(i + 1), label) for i, (x, label) in
+               enumerate(zip([SRC_X + SRC_W / 2, CUR_X + CUR_W / 2, AGENT_CX, OUT_X + OUT_W / 2], c['columns']))]
 
     return {
         'width': WIDTH, 'height': HEIGHT, 'mid_y': mid_y, 'columns': columns,
         'sources': sources, 'steps': steps, 'step_links': step_links, 'curation': curation,
         'agent': agent, 'curated_link': curated_link, 'curated_label_x': (CUR_X + CUR_W + AGENT_CX - AGENT_R) / 2,
-        'outputs': outputs,
+        'outputs': outputs, 'labels': c['labels'],
     }

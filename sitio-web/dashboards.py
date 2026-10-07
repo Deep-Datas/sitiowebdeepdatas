@@ -292,4 +292,4 @@ def build_examples():
     ]
 
 
-EXAMPLES = build_examples()
+EXAMPLES = {'es': build_examples(), 'en': build_examples()}

@@ -32,36 +32,54 @@ FIELDS = {
     'interest': (False, 80),
     'message': (True, 5000),
 }
-FALLBACK_ERROR = 'No pudimos enviar tu mensaje en este momento. Escribinos a fbloise@deepdatas.com.'
+# Mensajes al visitante, según el idioma de la página («lang» en el formulario)
+MESSAGES = {
+    'es': {
+        'required': 'Completá los campos obligatorios.',
+        'too_long': 'Uno de los campos es demasiado largo.',
+        'email': 'Ingresá un email válido.',
+        'fallback': 'No pudimos enviar tu mensaje en este momento. Escribinos a fbloise@deepdatas.com.',
+        'thanks': '/gracias/',
+    },
+    'en': {
+        'required': 'Please fill in the required fields.',
+        'too_long': 'One of the fields is too long.',
+        'email': 'Please enter a valid email address.',
+        'fallback': 'We couldn’t send your message right now. Please email us at fbloise@deepdatas.com.',
+        'thanks': '/en/thank-you/',
+    },
+}
 TIMEOUT = 10
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     wants_json = req.headers.get('X-Requested-With') == 'XMLHttpRequest'
     form = parse_form(req)
+    lang = 'en' if form.get('lang') == 'en' else 'es'
+    text = MESSAGES[lang]
 
     # Campo trampa: los humanos no lo ven, los bots suelen completarlo.
     if form.get('website'):
-        return respond(wants_json, True)
+        return respond(wants_json, True, lang=lang)
 
     data = {field: form.get(field, '').strip() for field in FIELDS}
     error = validate(data)
     if error:
-        return respond(wants_json, False, error, 400)
+        return respond(wants_json, False, text[error], 400, lang)
 
     config = {key: os.environ.get(key, '').strip() for key in ('GRAPH_TENANT_ID', 'GRAPH_CLIENT_ID', 'GRAPH_CLIENT_SECRET')}
     if not all(config.values()):
         logging.error('Formulario de contacto: faltan las variables GRAPH_TENANT_ID/GRAPH_CLIENT_ID/GRAPH_CLIENT_SECRET.')
-        return respond(wants_json, False, FALLBACK_ERROR, 503)
+        return respond(wants_json, False, text['fallback'], 503, lang)
 
     try:
-        send_mail(data, **config)
+        send_mail(data, lang, **config)
     except Exception:
         # El detalle (paso, estado HTTP y respuesta de Microsoft) queda en los registros de Azure.
         logging.exception('Formulario de contacto: error al enviar el correo.')
-        return respond(wants_json, False, FALLBACK_ERROR, 502)
+        return respond(wants_json, False, text['fallback'], 502, lang)
 
-    return respond(wants_json, True)
+    return respond(wants_json, True, lang=lang)
 
 
 def parse_form(req):
@@ -71,21 +89,24 @@ def parse_form(req):
 
 
 def validate(data):
+    """Devuelve la clave del mensaje de error (ver MESSAGES) o None si los datos son válidos."""
     for field, (required, max_length) in FIELDS.items():
         if required and not data[field]:
-            return 'Completá los campos obligatorios.'
+            return 'required'
         if len(data[field]) > max_length:
-            return 'Uno de los campos es demasiado largo.'
+            return 'too_long'
     if not EMAIL_RE.match(data['email']):
-        return 'Ingresá un email válido.'
+        return 'email'
     return None
 
 
-def send_mail(data, GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET):
+def send_mail(data, lang, GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET):
     sender = os.environ.get('MAIL_SENDER', 'fbloise@deepdatas.com').strip()
     recipients = [r.strip() for r in os.environ.get('CONTACT_RECIPIENTS', sender).split(',') if r.strip()]
     topic = data['interest'] or 'Consulta general'
     subject = ' '.join(f"{topic} - {data['company'] or data['name']}".split())
+    if lang == 'en':
+        subject = f'[EN] {subject}'
 
     token = request_json(
         f'https://login.microsoftonline.com/{GRAPH_TENANT_ID}/oauth2/v2.0/token',
@@ -109,7 +130,8 @@ def send_mail(data, GRAPH_TENANT_ID, GRAPH_CLIENT_ID, GRAPH_CLIENT_SECRET):
                     f"Email: {data['email']}\n"
                     f"Empresa: {data['company'] or '-'}\n"
                     f"Teléfono: {data['phone'] or '-'}\n"
-                    f'Interés: {topic}\n\n'
+                    f'Interés: {topic}\n'
+                    f"Idioma del sitio: {'inglés' if lang == 'en' else 'español'}\n\n"
                     f"{data['message']}\n"
                 ),
             },
@@ -142,10 +164,9 @@ def request_json(url, body, headers):
     return json.loads(payload) if payload else {}
 
 
-def respond(wants_json, ok, error=None, status=200):
+def respond(wants_json, ok, error=None, status=200, lang='es'):
     if wants_json:
         return func.HttpResponse(json.dumps({'ok': ok, 'error': error}), status_code=status, mimetype='application/json')
     # Sin JavaScript: el navegador envió el formulario de forma tradicional.
-    if ok:
-        return func.HttpResponse(status_code=303, headers={'Location': '/gracias/'})
-    return func.HttpResponse(status_code=303, headers={'Location': '/gracias/#error'})
+    thanks = MESSAGES[lang]['thanks']
+    return func.HttpResponse(status_code=303, headers={'Location': thanks if ok else f'{thanks}#error'})
