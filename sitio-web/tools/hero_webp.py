@@ -8,9 +8,9 @@ OUT = Path(__file__).parent.parent / 'src' / 'assets' / 'img' / 'hero'
 
 if __name__ == '__main__':
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, quality in (('fondo', 80), ('frente', 82)):
+    for name, quality in (('fondo', 80), ('frente', 82), ('fondo-dia', 82), ('frente-dia', 84)):
         image = Image.open(SRC / f'{name}.png')
-        image = image.convert('RGBA' if name == 'frente' else 'RGB')
+        image = image.convert('RGBA' if name.startswith('frente') else 'RGB')
         for width in (3600, 1800):
             target = OUT / f'{name}-{width}.webp'
             resized = image if width == image.width else image.resize((width, round(image.height * width / image.width)), Image.LANCZOS)

@@ -12,7 +12,7 @@ const OUT = path.join(SRC, 'png');
   fs.mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 3600, height: 2250 } });
-  for (const name of ['fondo', 'frente']) {
+  for (const name of fs.readdirSync(SRC).filter(f => f.endsWith('.svg')).map(f => f.replace('.svg', ''))) {
     const svg = fs.readFileSync(path.join(SRC, `${name}.svg`), 'utf8');
     await page.setContent(`<html><body style="margin:0;background:transparent">${svg}</body></html>`);
     const target = path.join(OUT, `${name}.png`);

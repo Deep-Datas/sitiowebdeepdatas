@@ -195,8 +195,38 @@ def ring():
 
 ICONS = {'cubo': cube, 'barras': bars, 'base-de-datos': database, 'embudo': funnel, 'esfera': sphere, 'anillo': ring}
 
+# Variante para fondo claro: vidrio con tinte azulado, contornos oscuros y halo más suave
+LIGHT_DEFS = [
+    ('<stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>\n    <stop offset="0.45" stop-color="#ffffff" stop-opacity="0.10"/>\n    <stop offset="1" stop-color="#ffffff" stop-opacity="0.22"/>',
+     '<stop offset="0" stop-color="#ffffff" stop-opacity="0.75"/>\n    <stop offset="0.45" stop-color="#e3eaf4" stop-opacity="0.3"/>\n    <stop offset="1" stop-color="#c3cfe2" stop-opacity="0.5"/>'),
+    ('<stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>\n    <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"/>',
+     '<stop offset="0" stop-color="#ccd6e6" stop-opacity="0.45"/>\n    <stop offset="1" stop-color="#b3c1d7" stop-opacity="0.35"/>'),
+    ('<stop offset="0" stop-color="#ffffff" stop-opacity="0.30"/>\n    <stop offset="1" stop-color="#ffffff" stop-opacity="0.06"/>',
+     '<stop offset="0" stop-color="#e8edf5" stop-opacity="0.45"/>\n    <stop offset="1" stop-color="#ccd6e6" stop-opacity="0.35"/>'),
+    ('<stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>\n    <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.25"/>',
+     '<stop offset="0" stop-color="#2b3a57" stop-opacity="0.75"/>\n    <stop offset="0.5" stop-color="#5b6b88" stop-opacity="0.45"/>'),
+    ('<stop offset="0" stop-color="{0}" stop-opacity="0.55"/>'.format(ORANGE), '<stop offset="0" stop-color="{0}" stop-opacity="0.22"/>'.format(ORANGE)),
+]
+
+
+def light(svg):
+    for dark, clear in LIGHT_DEFS:
+        assert dark in svg, dark[:40]
+        svg = svg.replace(dark, clear)
+    # Los filetes blancos sin desenfoque pasan a ser contornos oscuros; los reflejos desenfocados siguen blancos
+    lines = []
+    for line in svg.split('\n'):
+        if 'stroke="#fff"' in line and 'filter=' not in line:
+            line = line.replace('stroke="#fff"', 'stroke="#33415f"')
+        lines.append(line)
+    return '\n'.join(lines)
+
+
 if __name__ == '__main__':
     OUT.mkdir(exist_ok=True)
+    (OUT / 'claro').mkdir(exist_ok=True)
     for name, fn in ICONS.items():
-        (OUT / f'{name}.svg').write_text(fn(), encoding='utf-8')
-        print(f'  tools/glass/{name}.svg')
+        markup = fn()
+        (OUT / f'{name}.svg').write_text(markup, encoding='utf-8')
+        (OUT / 'claro' / f'{name}.svg').write_text(light(markup), encoding='utf-8')
+        print(f'  tools/glass/{name}.svg  tools/glass/claro/{name}.svg')

@@ -12,10 +12,12 @@ const OUT = path.join(SRC, 'png');
   fs.mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 512, height: 512 } });
-  for (const file of fs.readdirSync(SRC).filter(f => f.endsWith('.svg'))) {
+  const files = fs.readdirSync(SRC).filter(f => f.endsWith('.svg')).map(f => [f, f.replace('.svg', '.png')])
+    .concat(fs.readdirSync(path.join(SRC, 'claro')).filter(f => f.endsWith('.svg')).map(f => ['claro/' + f, f.replace('.svg', '-claro.png')]));
+  for (const [file, png] of files) {
     const svg = fs.readFileSync(path.join(SRC, file), 'utf8');
     await page.setContent(`<html><body style="margin:0;background:transparent">${svg}</body></html>`);
-    const target = path.join(OUT, file.replace('.svg', '.png'));
+    const target = path.join(OUT, png);
     await page.locator('svg').screenshot({ path: target, omitBackground: true });
     console.log('  ' + path.relative(process.cwd(), target));
   }
