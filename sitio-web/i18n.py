@@ -31,6 +31,7 @@ ROUTES = {
     'ind-pymes': {'es': '/industrias/pymes/', 'en': '/en/industries/small-and-midsize-businesses/'},
     'ind-retail': {'es': '/industrias/retail/', 'en': '/en/industries/retail/'},
     'ind-materiales': {'es': '/industrias/materiales-electricos-y-construccion/', 'en': '/en/industries/electrical-and-building-supplies/'},
+    'ind-autopartes': {'es': '/industrias/autopartes-y-repuestos/', 'en': '/en/industries/auto-parts/'},
     'ind-industria': {'es': '/industrias/industria-y-manufactura/', 'en': '/en/industries/manufacturing/'},
     'ind-agro': {'es': '/industrias/agro/', 'en': '/en/industries/agribusiness/'},
     'ind-salud': {'es': '/industrias/salud/', 'en': '/en/industries/healthcare/'},

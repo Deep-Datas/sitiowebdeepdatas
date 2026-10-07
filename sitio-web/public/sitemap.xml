@@ -75,6 +75,9 @@
   <url><loc>https://deepdatas.com/industrias/materiales-electricos-y-construccion/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/materiales-electricos-y-construccion/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/electrical-and-building-supplies/"/></url>
+  <url><loc>https://deepdatas.com/industrias/autopartes-y-repuestos/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/autopartes-y-repuestos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/auto-parts/"/></url>
   <url><loc>https://deepdatas.com/industrias/industria-y-manufactura/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/industria-y-manufactura/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/manufacturing/"/></url>
@@ -99,6 +102,9 @@
   <url><loc>https://deepdatas.com/en/industries/electrical-and-building-supplies/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/materiales-electricos-y-construccion/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/electrical-and-building-supplies/"/></url>
+  <url><loc>https://deepdatas.com/en/industries/auto-parts/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/autopartes-y-repuestos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/auto-parts/"/></url>
   <url><loc>https://deepdatas.com/en/industries/manufacturing/</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/industria-y-manufactura/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/manufacturing/"/></url>

@@ -68,6 +68,9 @@ COMMON = {
     'materiales': {'icon': 'lightning-charge', 'cases': [], 'example': 'cobertura',
                    'logos': ['romemi'],
                    'posts': ['pedidos-por-whatsapp', 'cobertura-y-venta-cruzada', 'calidad-de-datos']},
+    'autopartes': {'icon': 'car', 'cases': [], 'example': 'pronostico',
+                   'logos': [],
+                   'posts': ['pedidos-por-whatsapp', 'quiebre-de-stock-y-pronostico', 'calidad-de-datos']},
     'industria': {'icon': 'building-gear', 'cases': [], 'example': 'pronostico',
                   'logos': [],
                   'posts': ['quiebre-de-stock-y-pronostico', 'calidad-de-datos', 'integrar-erp-con-agente-de-ia']},
@@ -225,6 +228,35 @@ TEXT = {
                 ('¿Por dónde empezamos?', 'Por un diagnóstico de datos: en dos semanas sabés qué fuentes tenés y qué solución conviene hacer primero.'),
             ],
             'cta_title': '¿Tenés una distribuidora de materiales? Empecemos por <em>tus datos.</em>',
+        },
+        'autopartes': {
+            'name': 'Autopartes y repuestos',
+            'title': 'Datos e IA para distribuidoras de autopartes y casas de repuestos | DeepDatas',
+            'description': 'Catálogos con miles de códigos, equivalencias entre marcas, aplicaciones por vehículo y consultas por WhatsApp: tableros, reposición y agentes de IA para distribuidoras de autopartes y casas de repuestos.',
+            'h1': 'Datos e IA para autopartes:', 'h1_em': 'el repuesto correcto, en stock y a tiempo.',
+            'lead': 'Ordenamos tu catálogo, las equivalencias y las aplicaciones por vehículo, te mostramos qué reponer y qué está inmovilizado, y automatizamos la respuesta a las consultas y los pedidos que llegan por WhatsApp.',
+            'card': 'Catálogos con miles de códigos, equivalencias, stock inmovilizado y consultas por WhatsApp.',
+            'challenges': [
+                ('Miles de códigos y equivalencias', 'El mismo repuesto aparece con el código de fábrica, el de cada marca y el del proveedor, y encontrar el correcto depende de la experiencia del vendedor.'),
+                ('Consultas que no terminan en venta', 'Talleres y clientes preguntan por WhatsApp o por teléfono si tenés tal pieza para tal auto, y responder lleva tiempo o la consulta queda sin respuesta.'),
+                ('Stock inmovilizado y faltantes', 'Muchos artículos rotan poco: es fácil acumular repuestos que no se venden y quedarse sin los que más salen.'),
+                ('Listas de precios de muchos proveedores', 'Cada proveedor actualiza su lista en un formato distinto, y mantener los precios y los márgenes al día lleva horas.'),
+            ],
+            'build': [
+                ('eraser', 'Catálogo con equivalencias y aplicaciones', 'Unificamos los códigos de fábrica, de marca y de proveedor, con las equivalencias y los vehículos a los que aplica cada repuesto.', None),
+                ('robot', 'Agente de IA para consultas de repuestos', 'Responde por WhatsApp si hay stock de un repuesto o de su equivalente, con el precio, y deja el pedido listo para confirmar.', ('ia', '')),
+                ('graph-up-arrow', 'Reposición y stock inmovilizado', 'Qué reponer según la demanda de cada artículo, y qué está inmovilizado y conviene liquidar o devolver.', ('ejemplos', '#pronostico')),
+                ('bar-chart-line', 'Precios y márgenes al día', 'Carga automática de las listas de los proveedores y tableros de margen por marca, línea y cliente.', None),
+            ],
+            'kpis': ['Ventas y margen por marca, línea y cliente', 'Stock inmovilizado y antigüedad del inventario', 'Quiebres de stock en los artículos más vendidos',
+                     'Rotación por línea de producto', 'Consultas respondidas y convertidas en venta', 'Precio de venta contra costo de reposición',
+                     'Clientes activos e inactivos (talleres, mayoristas y mostrador)', 'Cuentas corrientes y días de cobro', 'Tiempo de respuesta a los pedidos'],
+            'faqs': [
+                ('¿El agente puede saber qué repuesto le sirve a cada vehículo?', 'Sí, si esa información está en tu catálogo o en las listas de los proveedores. Por eso el primer paso es ordenar las equivalencias y las aplicaciones: el agente responde con esos datos y, si no encuentra el repuesto, deriva la consulta a un vendedor.'),
+                ('Tenemos listas de precios de muchos proveedores, ¿se pueden automatizar?', 'Sí. Automatizamos la lectura de cada lista con su formato, unificamos códigos y marcas, y avisamos cuando un precio cambia más de lo esperado.'),
+                ('¿Por dónde empezamos?', 'Por un diagnóstico de datos: en dos semanas sabés qué fuentes tenés y qué solución conviene hacer primero.'),
+            ],
+            'cta_title': '¿Vendés autopartes o repuestos? Empecemos por <em>tus datos.</em>',
         },
         'industria': {
             'name': 'Industria y manufactura',
@@ -460,6 +492,35 @@ TEXT = {
             ],
             'cta_title': 'Run a supply distribution business? Let’s start with <em>your data.</em>',
         },
+        'autopartes': {
+            'name': 'Auto parts',
+            'title': 'Data and AI for auto parts distributors and parts stores | DeepDatas',
+            'description': 'Catalogs with thousands of part numbers, cross-brand equivalents, vehicle fitment and WhatsApp inquiries: dashboards, replenishment and AI agents for auto parts distributors and parts stores.',
+            'h1': 'Data and AI for auto parts:', 'h1_em': 'the right part, in stock and on time.',
+            'lead': 'We organize your catalog, part equivalents and vehicle fitment, show you what to restock and what’s sitting idle, and automate replies to the inquiries and orders that come in on WhatsApp.',
+            'card': 'Catalogs with thousands of part numbers, equivalents, idle inventory and WhatsApp inquiries.',
+            'challenges': [
+                ('Thousands of part numbers and equivalents', 'The same part shows up under the OEM, brand and supplier numbers, and finding the right one depends on the sales rep’s experience.'),
+                ('Inquiries that never turn into sales', 'Repair shops and customers ask on WhatsApp or by phone whether you have a certain part for a certain car, and answering takes time or the inquiry goes unanswered.'),
+                ('Idle inventory and stockouts', 'Many items move slowly: it’s easy to pile up parts that don’t sell and run out of the ones that do.'),
+                ('Price lists from many suppliers', 'Each supplier updates its list in a different format, and keeping prices and margins up to date takes hours.'),
+            ],
+            'build': [
+                ('eraser', 'A catalog with equivalents and fitment', 'We unify OEM, brand and supplier part numbers, with the equivalents and the vehicles each part fits.', None),
+                ('robot', 'An AI agent for parts inquiries', 'It replies on WhatsApp whether a part or its equivalent is in stock, with the price, and leaves the order ready to confirm.', ('ia', '')),
+                ('graph-up-arrow', 'Replenishment and idle inventory', 'What to restock based on each item’s demand, and what is sitting idle and worth clearing out or returning.', ('ejemplos', '#pronostico')),
+                ('bar-chart-line', 'Prices and margins up to date', 'Automatic loading of supplier price lists and margin dashboards by brand, product line and customer.', None),
+            ],
+            'kpis': ['Sales and margin by brand, product line and customer', 'Idle inventory and inventory age', 'Stockouts on top-selling items',
+                     'Turnover by product line', 'Inquiries answered and converted into sales', 'Selling price vs. replacement cost',
+                     'Active and inactive customers (repair shops, wholesale and counter)', 'Customer accounts and days to collect', 'Order response time'],
+            'faqs': [
+                ('Can the agent tell which part fits each vehicle?', 'Yes, if that information is in your catalog or in your suppliers’ lists. That’s why the first step is organizing equivalents and fitment: the agent answers with that data and, if it can’t find the part, hands the inquiry to a sales rep.'),
+                ('We have price lists from many suppliers. Can that be automated?', 'Yes. We automate reading each list in its own format, unify part numbers and brands, and flag when a price changes more than expected.'),
+                ('Where do we start?', 'With a data assessment: in two weeks you’ll know which sources you have and which solution to build first.'),
+            ],
+            'cta_title': 'Sell auto parts? Let’s start with <em>your data.</em>',
+        },
         'industria': {
             'name': 'Manufacturing',
             'title': 'Data and AI for manufacturers and industrial SMEs | DeepDatas',
@@ -550,7 +611,7 @@ TEXT = {
     },
 }
 
-ORDER = ['consumo', 'distribucion', 'pymes', 'retail', 'materiales', 'industria', 'agro', 'salud']
+ORDER = ['consumo', 'distribucion', 'pymes', 'retail', 'materiales', 'autopartes', 'industria', 'agro', 'salud']
 
 
 def industries(lang):

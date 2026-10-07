@@ -7562,9 +7562,9 @@ button.text-link-quiet {
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1024px) {
   .ind-cards {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
