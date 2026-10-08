@@ -146,14 +146,12 @@
     <div class="rail" data-rail>
       <div class="rail-track" tabindex="0" aria-label="Industries">
         {% for ind in industries %}
-        <a class="rail-card" href="{{ url('ind-' ~ ind.id) }}">
-          <img src="/assets/img/industrias/{{ ind.id }}-600.webp" srcset="/assets/img/industrias/{{ ind.id }}-600.webp 600w, /assets/img/industrias/{{ ind.id }}-1200.webp 1200w" sizes="(min-width: 1024px) 380px, 80vw" alt="" width="600" height="400" loading="lazy">
-          <span class="icon-arrow">{{ icon('arrow-right') }}</span>
-          <span class="rail-body">
-            <span class="rail-kicker">Industry</span>
-            <strong>{{ ind.name }}</strong>
-            <span>{{ ind.card }}</span>
-          </span>
+        <a class="rail-card rail-{{ ind.id }}" href="{{ url('ind-' ~ ind.id) }}">
+          <span class="rail-icon">{{ icon(ind.icon) }}</span>
+          <span class="rail-kicker">Industry</span>
+          <span class="rail-title">{{ ind.name }}</span>
+          <span class="rail-text">{{ ind.card }}</span>
+          <span class="case-card-more">See solutions {{ icon('arrow-right') }}</span>
         </a>
         {% endfor %}
       </div>
@@ -224,7 +222,7 @@
         <div class="phone" role="img" aria-label="Illustrative example: conversations with the AI assistant on WhatsApp (sample data)">
           <div class="phone-screen">
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="cw-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>How much did we sell yesterday in the north?</p><span class="chat-time">9:41</span></div>
                 <div class="chat-msg"><p><strong>$1.28M</strong> yesterday in the north, <strong>+9%</strong> versus the same day last week.</p><p>The three fastest-growing distributors: Norte SA, Distrisur and La Rueda.</p><span class="chat-time">9:41 · Source: ERP</span></div>
@@ -234,7 +232,7 @@
               <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="cw-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg"><span class="chat-tag">Inventory alert</span><p>Three products will run out of stock before October 15:</p>
                   <ul class="chat-list"><li><span>Classic Chips 400 g</span><span>3 days</span></li><li><span>Fries 1 kg</span><span>4 days</span></li><li><span>Mashed Potatoes 125 g</span><span>4 days</span></li></ul>
@@ -245,7 +243,7 @@
               <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="cw-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>Hi! Send me 20 boxes of classic 400 g, 10 of fries and 5 of mashed potatoes for Thursday. Thanks</p><span class="chat-time">11:20 · El Sol Minimarket</span></div>
                 <div class="chat-msg"><span class="chat-tag chat-tag-ok">Order entered</span><p>Order <strong>48,213</strong> entered into the ERP for El Sol Minimarket: 3 items, delivery Thursday 10/10.</p><p>One thing to confirm: should the fries use the wholesale price list?</p><span class="chat-time">11:21</span></div>

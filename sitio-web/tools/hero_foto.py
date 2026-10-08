@@ -1,8 +1,8 @@
-"""Escena del inicio del tema claro a partir de una foto de oficina.
+"""Foto de la oficina retocada: portadas de Nosotros, Servicios y Contacto.
 
 Parte de tools/hero/oficina-original.webp (1024 x 592: una mujer trabaja en su
 monitor y, al fondo, un compañero con una planilla) y genera
-src/assets/img/hero/oficina-{2048,4096}.webp:
+src/assets/img/covers/<nombre>-{1000,2000}.webp con estos pasos:
 
 1. Superresolución x4 con Real-ESRGAN (modelo ONNX, licencia BSD-3). El
    resultado queda en caché en tools/hero/png/oficina-x4.png.
@@ -12,21 +12,16 @@ src/assets/img/hero/oficina-{2048,4096}.webp:
    gráfico de barras a mano alzada.
 4. Desenfoque de fondo según la profundidad, como el de un lente. Después,
    una corrección de color con más contraste y luz cálida.
-5. Pinta en perspectiva, sobre la pantalla del monitor (esquinas en
-   src/hero.json), la ventana del asistente capturada por
-   tools/render_pantalla.cjs (tools/hero/png/pantalla.png), con un leve
-   resplandor. Así la escena se ve bien sin JavaScript; con JavaScript,
-   site.js pone encima la ventana real. La pantalla original (el sitio de
-   otra empresa) queda completamente tapada.
-
-Con --portadas, además recorta la foto final para los encabezados de Nosotros, Servicios y
-Contacto (src/assets/img/covers/<nombre>-{1000,2000}.webp).
+5. Si existe tools/hero/png/pantalla.png (una captura de la ventana del
+   asistente), la pinta en perspectiva sobre la pantalla del monitor, con un
+   leve resplandor, tapando el sitio de otra empresa que mostraba.
+6. Recorta la foto final (tools/hero/png/oficina-final.png) para las portadas.
 
 Los modelos se descargan de Hugging Face la primera vez en tools/hero/modelos/.
 Requiere: pip install numpy pillow opencv-contrib-python-headless onnxruntime
-Uso: python build.py && node tools/render_pantalla.cjs && python tools/hero_foto.py && python build.py
+Uso: python tools/hero_foto.py          (todo el proceso)
+     python tools/hero_foto.py --portadas   (solo los recortes, a partir de oficina-final.png)
 """
-import json
 import urllib.request
 from pathlib import Path
 
@@ -41,7 +36,9 @@ CACHE = TOOLS / 'hero' / 'png'
 MODELS = TOOLS / 'hero' / 'modelos'
 UPSCALER = ('real-esrgan-x4plus-128.onnx', 'https://huggingface.co/bukuroo/RealESRGAN-ONNX/resolve/main/real-esrgan-x4plus-128.onnx')
 DEPTH = ('depth-anything-v2-small.onnx', 'https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model.onnx')
-OUT = SITE / 'src' / 'assets' / 'img' / 'hero'
+SIZE = (4096, 2368)
+# Esquinas de la pantalla del monitor en la imagen x4 (arriba-izq., arriba-der., abajo-der., abajo-izq.)
+SCREEN = [(1579, 1037), (2135, 1013), (2134, 1462), (1586, 1581)]
 
 # Superficie blanca de la pizarra, en píxeles de la imagen x4 (arriba-izq., arriba-der., abajo-der., abajo-izq.)
 BOARD = [(1208, 573), (1554, 606), (1554, 954), (1208, 947)]
@@ -294,21 +291,17 @@ if __name__ == '__main__':
         print('  superresolución x4 (unos minutos)...')
         image = upscale(Image.open(SOURCE))
         image.save(big)
-    scene = json.loads((SITE / 'src' / 'hero.json').read_text(encoding='utf-8'))['claro']
-    assert image.size == (scene['w'], scene['h']), image.size
-    quad = [tuple(p) for p in scene['screen']]
+    assert image.size == SIZE, image.size
     depth = depth_map(Image.open(SOURCE), image.size)
     sharp = subject_mask(image, depth)
     image = clean_board(image)
     image = ink(image, marker_sketch(330, 370), BOARD)
     image = depth_of_field(image, depth, sharp)
     image = grade(image, sharp)
-    image = glow(image, quad)
-    image = screen(image, quad)
+    if (CACHE / 'pantalla.png').exists():
+        image = glow(image, SCREEN)
+        image = screen(image, SCREEN)
+    else:
+        print('  (sin tools/hero/png/pantalla.png: la pantalla del monitor queda como en la foto)')
     image.save(CACHE / 'oficina-final.png')
-    OUT.mkdir(parents=True, exist_ok=True)
-    for width in scene['widths']:
-        target = OUT / f"{scene['img']}-{width}.webp"
-        resized = image if width == image.width else image.resize((width, round(image.height * width / image.width)), Image.LANCZOS)
-        resized.save(target, 'WEBP', quality=82, method=6)
-        print(f'  {target.relative_to(SITE)} ({target.stat().st_size // 1024} KB)')
+    covers(image)

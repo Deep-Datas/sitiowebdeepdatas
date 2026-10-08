@@ -1,258 +1,191 @@
 {#
-  Hero del inicio: una persona frente a un monitor. Al hacer scroll, la
-  cámara se acerca a la pantalla y se ve a un asistente de IA analizando las
-  ventas y recomendando acciones.
+  Hero del inicio: «Una pregunta. Todos tus sistemas. Una sola respuesta.»
 
-  Capas de la escena (src/hero.json, según el tema): la imagen de fondo, la
-  ventana del asistente en HTML, que site.js ubica en perspectiva sobre las
-  esquinas de la pantalla del monitor, y una persona al frente si la escena
-  la tiene. Sin JavaScript se ve la imagen sola, con la ventana ya pintada en
-  la pantalla (tools/hero_foto.py). Datos ficticios.
+  Con animación (html.motion), la escena queda fija mientras se hace scroll y
+  la cámara avanza entre las ventanas de cada sistema (ERP, CRM, planillas,
+  WhatsApp, correo) hasta llegar a la respuesta del asistente. Las posiciones
+  de las ventanas y los estilos están en design.css (.hq*); el movimiento, en
+  site.js. Sin JavaScript o con «reducir movimiento», se ve la pregunta y la
+  respuesta sin recorrido. Datos ficticios.
 
   Los textos de cada idioma están en «copy» (abajo). Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{% set zero = 30 %}
-{% set per_point = 70 / 14.2 %}
-
 {% set copy = {
   'es': {
-    'brand': 'Asistente IA', 'new_chat': 'Nuevo chat', 'recent': 'Recientes',
-    'recents': ['Análisis de ventas del 3.er trimestre', 'Clientes en riesgo por vendedor', 'Pronóstico de demanda de octubre', 'Cobertura de la línea de snacks', 'Margen por canal'],
-    'user': 'Martín G.', 'role': 'Gerencia comercial',
-    'chip': 'Datos curados por DeepDatas', 'thread_label': 'Conversación de ejemplo',
-    'prompt': 'Analizá las ventas del tercer trimestre y decime qué tengo que hacer para vender más y mejorar el margen.',
-    'tools': ['Consultó las ventas del trimestre en el ERP', 'Cruzó clientes y oportunidades del CRM', 'Revisó el stock y el pronóstico de demanda'],
-    'intro': 'Revisé las ventas de julio a septiembre de los 40 distribuidores, junto con la cartera de clientes y el stock.',
-    'intro_strong': 'El trimestre fue bueno, pero hay cuatro oportunidades claras para cerrar el año.',
-    'kpis': [('Ventas del trimestre', '$ 11,7 M', '▲ 8,4 % interanual', True), ('Margen bruto', '31,2 %', '▼ 0,9 pp en mayoristas', False), ('Clientes activos', '2.318', '▼ 38 dejaron de comprar', False)],
-    'chart': 'Crecimiento de ventas por zona, contra el mismo trimestre de 2025',
-    'zones': [('Norte', 14.2), ('Centro', 9.1), ('Sur', 3.4), ('Oeste', -4.8)],
-    'decimal': ',',
-    'found': 'Lo que encontré',
-    'findings': [
-      ('graph-up-arrow', 'El norte explica casi la mitad del crecimiento:', 'tres distribuidores crecieron más del 20 % con la nueva línea de snacks.'),
-      ('people', '38 clientes que compraban todos los meses no compraron en septiembre.', 'Representan $ 420 mil de venta mensual.'),
-      ('funnel', 'La línea de snacks llega solo al 35 % de los puntos de venta,', 'contra el 61 % de la línea de papas.'),
-      ('exclamation-circle-fill', 'En el canal mayorista los descuentos subieron 2,3 puntos', 'y el margen cayó 0,9 pp.'),
-    ],
-    'recommend': 'Qué te recomiendo hacer',
-    'recs': [
-      ('Llamá esta semana a los 38 clientes en riesgo', 'Te armé la lista por vendedor, ordenada por facturación.', 'Recuperás hasta $ 420 mil por mes', 'Esta semana', False),
-      ('Llevá la línea de snacks al oeste y al sur', 'Hay 650 puntos de venta que compran papas pero todavía no snacks.', '+ $ 1,1 M estimados por trimestre', 'Próximos 30 días', False),
-      ('Poné un tope a los descuentos mayoristas', 'Volver al nivel de junio recupera el margen sin afectar el volumen.', '+ 0,9 pp de margen', 'Este mes', False),
-      ('Reponé 3 productos antes del 15 de octubre', 'El pronóstico anticipa quiebre de stock en Papas clásicas 400 g, Bastones 1 kg y Puré 125 g.', 'Evitás perder $ 180 mil en ventas', 'Urgente', True),
-    ],
-    'question': '¿Querés que le mande a cada vendedor su lista de clientes con el producto sugerido para la próxima visita?',
-    'suggest_label': 'Sugerencias de respuesta',
-    'suggestions': ['Sí, armá las listas', 'Proyectá el cierre de octubre', 'Mostrame el detalle del oeste'],
-    'sources': 'Fuentes: ERP, CRM y pronóstico de demanda, curados por DeepDatas · actualizado hoy a las 7:00',
-    'thinking': 'Preparando las recomendaciones…',
-    'input': 'Escribí tu consulta…',
-    'skip': 'Saltar la animación',
     'eyebrow': 'Datos e IA para distribuidoras, pymes y consumo masivo',
-    'title': 'Tus datos ya tienen las respuestas.', 'title_em': 'Te ayudamos a encontrarlas.',
-    'lead': 'Integramos tu ERP, tu CRM y las planillas de tus distribuidores en datos confiables, y construimos tableros y agentes de IA que te dicen dónde estás perdiendo ventas y qué hacer.',
+    'title': 'Una pregunta. Todos tus sistemas.', 'title_em': 'Una sola respuesta.',
+    'lead': 'Integramos tu ERP, tu CRM, las planillas y hasta los pedidos por WhatsApp en datos confiables, y construimos tableros y agentes de IA que responden preguntas de negocio con tus datos reales.',
+    'user': 'MG',
+    'question': '¿Cuánto vendimos ayer en la zona norte?',
+    'statuses': [
+      (0, 'Leyendo la pregunta…'),
+      (0.2, 'Consultando el ERP…'),
+      (0.4, 'Cruzando el CRM y las planillas…'),
+      (0.6, 'Revisando pedidos por WhatsApp y correo…'),
+      (0.8, 'Respuesta lista'),
+    ],
+    'wins': {
+      'erp': {'title': 'ERP · Ventas del día', 'head': ['Comprobante', 'Cliente', 'Importe'],
+              'rows': [('FC 0012-4471', 'Norte SA', '$ 312.400', True), ('FC 0012-4472', 'Distrisur', '$ 184.900', True), ('FC 0012-4473', 'Pampa Dist.', '$ 97.300', False), ('FC 0012-4474', 'La Rueda', '$ 141.200', True)],
+              'tag': 'Tango · SAP · Odoo'},
+      'crm': {'title': 'CRM · Visitas de la semana', 'head': ['Cliente', 'Vendedor', 'Estado'],
+              'rows': [('Norte SA', 'L. Pérez', 'Pedido cerrado', True), ('Oeste SRL', 'M. Díaz', 'Sin visita', False), ('Litoral', 'J. Sosa', 'Propuesta enviada', False), ('Distrisur', 'L. Pérez', 'Pedido cerrado', True)],
+              'tag': 'Clientes y oportunidades'},
+      'xls': {'title': 'ventas_distribuidores.xlsx', 'head': ['Distribuidor', 'Zona', 'Ayer'],
+              'rows': [('Norte SA', 'Norte', '312.400', True), ('Distrisur', 'Norte', '184.900', True), ('Pampa Dist.', 'Centro', '97.300', False), ('Oeste SRL', 'Oeste', '58.100', False)],
+              'tag': 'Planillas de los distribuidores'},
+      'wa': {'title': 'WhatsApp · Pedidos', 'msgs': [('in', 'Hola, mandame 40 cajas de papas clásicas para el jueves.'), ('out', 'Listo, pedido 7731 confirmado para el jueves.'), ('in', 'Sumale 10 de bastones.')],
+             'tag': 'Pedidos por WhatsApp'},
+      'mail': {'title': 'Correo · Bandeja de entrada', 'lines': [('Norte SA', 'Re: Nota de crédito 2214'), ('Logística Sur', 'Entrega del jueves confirmada'), ('Distrisur', 'Orden de compra 9931')],
+               'tag': 'Órdenes y notas por correo'},
+    },
+    'answer': {
+      'label': 'Ventas de ayer · Zona norte', 'big': '$ 1,28 M', 'up': '▲ 9 % contra el mismo día de la semana pasada',
+      'text': 'Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.',
+      'chart': 'Por distribuidor · contra el objetivo',
+      'bars': [('Norte SA', 92, '+14 %', False), ('Distrisur', 74, '+9 %', False), ('La Rueda', 61, '+6 %', False), ('Pampa Dist.', 38, '+2 %', False), ('Oeste SRL', 22, '−5 %', True)],
+      'sources': 'Fuentes: ERP, CRM, planillas y WhatsApp · actualizado hoy a las 7:00',
+      'fictional': 'Ejemplo con datos ficticios',
+      'region_label': 'Ejemplo: la respuesta de un asistente de IA a una pregunta de negocio (datos ficticios)',
+    },
     'cta': 'Coordinar una llamada', 'secondary': 'Conocé el diagnóstico',
-    'hint': 'Deslizá para ver la IA en acción',
-    'app_label': 'Ejemplo: un asistente de IA analiza las ventas y recomienda acciones (datos ficticios)',
-    'note': 'Interfaz ilustrativa con datos ficticios.',
+    'hint': 'Deslizá para ver cómo llega la respuesta',
+    'skip': 'Saltar la animación',
   },
   'en': {
-    'brand': 'AI Assistant', 'new_chat': 'New chat', 'recent': 'Recent',
-    'recents': ['Q3 sales analysis', 'At-risk customers by sales rep', 'October demand forecast', 'Snack line coverage', 'Margin by channel'],
-    'user': 'Martin G.', 'role': 'Head of Sales',
-    'chip': 'Data curated by DeepDatas', 'thread_label': 'Sample conversation',
-    'prompt': 'Analyze our Q3 sales and tell me what I should do to sell more and improve margins.',
-    'tools': ['Pulled Q3 sales from the ERP', 'Cross-referenced customers and opportunities in the CRM', 'Checked inventory and the demand forecast'],
-    'intro': 'I reviewed July to September sales for all 40 distributors, together with the customer base and inventory.',
-    'intro_strong': 'It was a good quarter, but there are four clear opportunities to close out the year.',
-    'kpis': [('Quarterly sales', '$11.7M', '▲ 8.4% year over year', True), ('Gross margin', '31.2%', '▼ 0.9 pp in wholesale', False), ('Active customers', '2,318', '▼ 38 stopped buying', False)],
-    'chart': 'Sales growth by region vs. the same quarter of 2025',
-    'zones': [('North', 14.2), ('Central', 9.1), ('South', 3.4), ('West', -4.8)],
-    'decimal': '.',
-    'found': 'What I found',
-    'findings': [
-      ('graph-up-arrow', 'The north accounts for almost half of the growth:', 'three distributors grew more than 20% with the new snack line.'),
-      ('people', '38 customers who used to buy every month didn’t buy in September.', 'They represent $420K in monthly sales.'),
-      ('funnel', 'The snack line reaches only 35% of points of sale,', 'versus 61% for the potato chip line.'),
-      ('exclamation-circle-fill', 'Wholesale discounts rose 2.3 points', 'and margin fell 0.9 pp.'),
-    ],
-    'recommend': 'What I recommend',
-    'recs': [
-      ('Call the 38 at-risk customers this week', 'I built the list by sales rep, sorted by revenue.', 'Recover up to $420K a month', 'This week', False),
-      ('Take the snack line to the west and south', 'There are 650 points of sale that buy chips but not snacks yet.', '+$1.1M estimated per quarter', 'Next 30 days', False),
-      ('Cap wholesale discounts', 'Going back to June levels restores margin without hurting volume.', '+0.9 pp margin', 'This month', False),
-      ('Restock 3 products before October 15', 'The forecast predicts stockouts of Classic Chips 400 g, Fries 1 kg and Mashed Potatoes 125 g.', 'Avoid losing $180K in sales', 'Urgent', True),
-    ],
-    'question': 'Should I send each sales rep their customer list with the suggested product for their next visit?',
-    'suggest_label': 'Suggested replies',
-    'suggestions': ['Yes, build the lists', 'Project the October close', 'Show me the west in detail'],
-    'sources': 'Sources: ERP, CRM and demand forecast, curated by DeepDatas · updated today at 7:00 AM',
-    'thinking': 'Preparing recommendations…',
-    'input': 'Ask anything…',
-    'skip': 'Skip the animation',
     'eyebrow': 'Data and AI for distributors, SMEs and consumer goods',
-    'title': 'Your data already has the answers.', 'title_em': 'We help you find them.',
-    'lead': 'We turn your ERP, your CRM and your distributors’ spreadsheets into trusted data, and build dashboards and AI agents that show you where you are losing sales and what to do about it.',
+    'title': 'One question. All your systems.', 'title_em': 'One single answer.',
+    'lead': 'We turn your ERP, your CRM, your spreadsheets and even WhatsApp orders into trusted data, and build dashboards and AI agents that answer business questions with your real data.',
+    'user': 'MG',
+    'question': 'How much did we sell yesterday in the north region?',
+    'statuses': [
+      (0, 'Reading the question…'),
+      (0.2, 'Querying the ERP…'),
+      (0.4, 'Cross-referencing the CRM and spreadsheets…'),
+      (0.6, 'Checking WhatsApp and email orders…'),
+      (0.8, 'Answer ready'),
+    ],
+    'wins': {
+      'erp': {'title': 'ERP · Daily sales', 'head': ['Invoice', 'Customer', 'Amount'],
+              'rows': [('INV 0012-4471', 'Norte SA', '$312,400', True), ('INV 0012-4472', 'Distrisur', '$184,900', True), ('INV 0012-4473', 'Pampa Dist.', '$97,300', False), ('INV 0012-4474', 'La Rueda', '$141,200', True)],
+              'tag': 'Tango · SAP · Odoo'},
+      'crm': {'title': 'CRM · This week’s visits', 'head': ['Customer', 'Sales rep', 'Status'],
+              'rows': [('Norte SA', 'L. Pérez', 'Order closed', True), ('Oeste SRL', 'M. Díaz', 'No visit', False), ('Litoral', 'J. Sosa', 'Proposal sent', False), ('Distrisur', 'L. Pérez', 'Order closed', True)],
+              'tag': 'Customers and opportunities'},
+      'xls': {'title': 'distributor_sales.xlsx', 'head': ['Distributor', 'Region', 'Yesterday'],
+              'rows': [('Norte SA', 'North', '312,400', True), ('Distrisur', 'North', '184,900', True), ('Pampa Dist.', 'Central', '97,300', False), ('Oeste SRL', 'West', '58,100', False)],
+              'tag': 'Distributor spreadsheets'},
+      'wa': {'title': 'WhatsApp · Orders', 'msgs': [('in', 'Hi, send me 40 boxes of classic chips for Thursday.'), ('out', 'Done, order 7731 confirmed for Thursday.'), ('in', 'Add 10 of fries.')],
+             'tag': 'WhatsApp orders'},
+      'mail': {'title': 'Email · Inbox', 'lines': [('Norte SA', 'Re: Credit note 2214'), ('Logística Sur', 'Thursday delivery confirmed'), ('Distrisur', 'Purchase order 9931')],
+               'tag': 'Orders and notes by email'},
+    },
+    'answer': {
+      'label': 'Yesterday’s sales · North region', 'big': '$1.28M', 'up': '▲ 9% vs. the same day last week',
+      'text': 'Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.',
+      'chart': 'By distributor · vs. target',
+      'bars': [('Norte SA', 92, '+14%', False), ('Distrisur', 74, '+9%', False), ('La Rueda', 61, '+6%', False), ('Pampa Dist.', 38, '+2%', False), ('Oeste SRL', 22, '−5%', True)],
+      'sources': 'Sources: ERP, CRM, spreadsheets and WhatsApp · updated today at 7:00 AM',
+      'fictional': 'Example with sample data',
+      'region_label': 'Example: an AI assistant’s answer to a business question (sample data)',
+    },
     'cta': 'Book a call', 'secondary': 'Explore the data assessment',
-    'hint': 'Scroll to see AI in action',
-    'app_label': 'Example: an AI assistant analyzes sales and recommends actions (sample data)',
-    'note': 'Illustrative interface with sample data.',
+    'hint': 'Scroll to see how the answer arrives',
+    'skip': 'Skip the animation',
   },
 } %}
 {% set C = copy[lang] %}
 
-{% macro window(mode) %}
-{% set full = mode == 'app' %}
-<div class="cw cw-{{ mode }}"{% if not full %} aria-hidden="true"{% endif %}>
-  <aside class="cw-side">
-    <p class="cw-brand">{{ C.brand }}</p>
-    <p class="cw-new">{{ icon('plus-lg') }} {{ C.new_chat }}</p>
-    <p class="cw-side-title">{{ C.recent }}</p>
-    <ul class="cw-recents">
-      {% for item in C.recents %}
-      <li{% if loop.first %} class="is-current"{% endif %}>{{ item }}</li>
-      {% endfor %}
-    </ul>
-    <p class="cw-user"><span class="cw-avatar">MG</span> <span>{{ C.user }} <small>{{ C.role }}</small></span></p>
-  </aside>
+{% macro table(win) %}
+<table>
+  <tr>{% for h in win.head %}<td class="h">{{ h }}</td>{% endfor %}</tr>
+  {% for row in win.rows %}
+  <tr{% if row[3] %} class="hl"{% endif %}><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td></tr>
+  {% endfor %}
+</table>
+{% endmacro %}
 
-  <div class="cw-main">
-    <header class="cw-top">
-      <span class="cw-top-brand">{{ C.brand }}</span>
-      <span class="cw-top-title">{{ C.recents[0] }}</span>
-      <span class="cw-top-chip"><img src="/assets/img/brand/logo-mark.png" alt="" width="12" height="14"> {{ C.chip }}</span>
-    </header>
-
-    <div class="cw-scroll"{% if full %} tabindex="0" role="region" aria-label="{{ C.thread_label }}"{% endif %}>
-      <div class="cw-thread">
-        <div class="cw-msg-user">
-          <span class="cw-avatar">MG</span>
-          <p>{{ C.prompt }}</p>
-        </div>
-
-        <ul class="cw-tools">
-          {% for tool in C.tools %}
-          <li class="cw-step" data-step data-early>{{ icon('check2') }} {{ tool }}</li>
-          {% endfor %}
-        </ul>
-
-        {# El comienzo de la respuesta (data-early) ya se ve en la pantalla del monitor #}
-        <div class="cw-answer">
-          <p class="cw-step" data-step data-early>{{ C.intro }} <strong>{{ C.intro_strong }}</strong></p>
-
-          <dl class="cw-kpis cw-step" data-step data-early>
-            {% for label, value, delta, up in C.kpis %}
-            <div><dt>{{ label }}</dt><dd>{{ value }}</dd><dd class="{{ 'cw-up' if up else 'cw-down' }}">{{ delta }}</dd></div>
-            {% endfor %}
-          </dl>
-
-          <figure class="cw-chart cw-step" data-step data-early>
-            <figcaption>{{ C.chart }}</figcaption>
-            <ul class="cw-bars">
-              {% for name, value in C.zones %}
-              {% set width = (value | abs) * per_point %}
-              <li>
-                <span class="cw-bar-name">{{ name }}</span>
-                <span class="cw-bar-track">
-                  <span class="cw-bar-zero {{ pos('x', zero) }}"></span>
-                  <span class="cw-bar {{ 'cw-bar-neg' if value < 0 else 'cw-bar-pos' }} {{ pos('x', zero - width if value < 0 else zero) }} {{ pos('w', width) }}"></span>
-                </span>
-                <span class="cw-bar-value">{{ '%+.1f' | format(value) | replace('.', C.decimal) | replace('-', '−') }}{{ ' %' if lang == 'es' else '%' }}</span>
-              </li>
-              {% endfor %}
-            </ul>
-          </figure>
-
-          {% if full %}
-          <h3 class="cw-h cw-step" data-step>{{ C.found }}</h3>
-          <ul class="cw-findings">
-            {% for ic, strong, rest in C.findings %}
-            <li class="cw-step" data-step>{{ icon(ic) }}<span><strong>{{ strong }}</strong> {{ rest }}</span></li>
-            {% endfor %}
-          </ul>
-
-          <h3 class="cw-h cw-step" data-step>{{ C.recommend }}</h3>
-          <ol class="cw-recs">
-            {% for title, detail, impact, when, urgent in C.recs %}
-            <li class="cw-step" data-step>
-              <span class="cw-rec-num">{{ loop.index }}</span>
-              <div>
-                <p class="cw-rec-title">{{ title }} <span class="cw-when{{ ' cw-when-urgent' if urgent }}">{{ when }}</span></p>
-                <p class="cw-rec-detail">{{ detail }}</p>
-                <p class="cw-impact">{{ icon('graph-up-arrow') }} {{ impact }}</p>
-              </div>
-            </li>
-            {% endfor %}
-          </ol>
-
-          <p class="cw-step" data-step>{{ C.question }}</p>
-          <ul class="cw-suggest cw-step" data-step aria-label="{{ C.suggest_label }}">
-            {% for s in C.suggestions %}
-            <li>{{ s }}</li>
-            {% endfor %}
-          </ul>
-          <p class="cw-sources cw-step" data-step>{{ icon('database') }} {{ C.sources }}</p>
-          {% else %}
-          <p class="cw-thinking"><span class="cw-dot"></span><span class="cw-dot"></span><span class="cw-dot"></span> {{ C.thinking }}</p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-
-    <div class="cw-input" aria-hidden="true">
-      <span>{{ C.input }}</span>
-      <span class="cw-send">{{ icon('arrow-right') }}</span>
-    </div>
+{% macro win(n, data, extra='') %}
+<div class="hq-win hq-win-{{ n }}{{ ' ' + extra if extra }}">
+  <div class="hq-tb"><i></i><i></i><i></i> {{ data.title }}</div>
+  <div class="hq-body">
+    {{ caller() }}
+    <span class="hq-tag">{{ data.tag }}</span>
   </div>
 </div>
 {% endmacro %}
 
 {% macro scene() %}
-<section class="hs{{ ' hs-photo' if not hero.front_img }}" id="inicio" aria-labelledby="hs-title" data-hero-scene data-scene="{{ hero.config }}">
-  <a class="hs-skip" href="#despues-del-inicio">{{ C.skip }} {{ icon('arrow-right') }}</a>
-  <div class="hs-stage">
-    <div class="hs-frame">
-      <div class="hs-scene" aria-hidden="true">
-        <img class="hs-back" src="{{ hero.back.src }}" srcset="{{ hero.back.srcset }}"
-             sizes="(min-width: 1024px) 160vw, 400vw" width="{{ hero.w }}" height="{{ hero.h }}" alt="" fetchpriority="high">
-      </div>
-      <div class="hs-screen">{{ window('screen') }}</div>
-      {% if hero.front_img %}
-      <div class="hs-front" aria-hidden="true">
-        <img src="{{ hero.front_img.src }}" srcset="{{ hero.front_img.srcset }}"
-             sizes="(min-width: 1024px) 160vw, 400vw" width="{{ hero.w }}" height="{{ hero.h }}" alt="" fetchpriority="high">
-      </div>
-      {% endif %}
-    </div>
+{% set A = C.answer %}
+<section class="hq" id="inicio" aria-labelledby="hq-title" data-hero-scene>
+  <a class="hq-skip" href="#despues-del-inicio">{{ C.skip }} {{ icon('arrow-right') }}</a>
+  <div class="hq-track">
+    <div class="hq-stage">
+      <div class="hq-aurora hq-aurora-1" aria-hidden="true"></div>
+      <div class="hq-aurora hq-aurora-2" aria-hidden="true"></div>
+      <div class="hq-speed" aria-hidden="true"></div>
 
-    <div class="hs-shade" aria-hidden="true"></div>
-
-    <div class="hs-copy">
-      <div class="container">
-        <p class="eyebrow">{{ C.eyebrow }}</p>
-        <h1 id="hs-title">{{ C.title }} <em>{{ C.title_em }}</em></h1>
-        <p class="lead">{{ C.lead }}</p>
-        <div class="actions">
-          <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ C.cta }} {{ icon('arrow-right') }}</a>
-          <a class="btn btn-secondary btn-lg hs-secondary" href="{{ url('diagnostico') }}">{{ C.secondary }}</a>
+      <div class="hq-copy">
+        <div class="container">
+          <p class="eyebrow">{{ C.eyebrow }}</p>
+          <h1 id="hq-title">{{ C.title }}<br><em>{{ C.title_em }}</em></h1>
+          <p class="hq-lead lead">{{ C.lead }}</p>
+          <p class="hq-bubble"><span class="hq-avatar" aria-hidden="true">{{ C.user }}</span> {{ C.question }}</p>
+          <p class="hq-status">
+            {%- for from, text in C.statuses -%}
+            <span data-from="{{ from }}"{% if loop.last %} class="is-on"{% endif %}>{{ text }}</span>
+            {%- endfor -%}
+          </p>
         </div>
       </div>
-    </div>
 
-    <p class="hs-hint" aria-hidden="true"><span>{{ C.hint }}</span>{{ icon('chevron-down') }}</p>
+      {# Las ventanas de los sistemas: solo se ven con animación (design.css) #}
+      <div class="hq-scene" aria-hidden="true">
+        <div class="hq-world">
+          {% call win(1, C.wins.erp) %}{{ table(C.wins.erp) }}{% endcall %}
+          {% call win(2, C.wins.crm) %}{{ table(C.wins.crm) }}{% endcall %}
+          {% call win(3, C.wins.xls) %}{{ table(C.wins.xls) }}{% endcall %}
+          {% call win(4, C.wins.wa, 'hq-win-wa') %}
+            {% for dir, text in C.wins.wa.msgs %}
+            <p class="hq-msg{{ ' hq-msg-out' if dir == 'out' }}">{{ text }}</p>
+            {% endfor %}
+          {% endcall %}
+          {% call win(5, C.wins.mail) %}
+            {% for who, subject in C.wins.mail.lines %}
+            <p class="hq-line"><b>{{ who }}</b> · <span>{{ subject }}</span></p>
+            {% endfor %}
+          {% endcall %}
+          <div class="hq-orb"></div>
+        </div>
+      </div>
 
-    {# Al final del acercamiento, el monitor gira hasta quedar de frente: marco y fondo atenuado #}
-    <div class="hs-dim" aria-hidden="true"></div>
-    <div class="hs-bezel" aria-hidden="true"></div>
+      <div class="hq-answer" role="region" aria-label="{{ A.region_label }}">
+        <span class="label">{{ A.label }}</span>
+        <div class="hq-answer-grid">
+          <div>
+            <strong class="hq-big">{{ A.big }}</strong>
+            <span class="hq-up">{{ A.up }}</span>
+            <p>{{ A.text }}</p>
+          </div>
+          <ul class="hq-bars" aria-label="{{ A.chart }}">
+            {% for name, width, delta, neg in A.bars %}
+            <li{% if neg %} class="is-neg"{% endif %}><span>{{ name }}</span><i class="{{ pos('w', width) }}" aria-hidden="true"></i><b>{{ delta }}</b></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <p class="hq-sources"><span>{{ icon('database') }} {{ A.sources }}</span><span>{{ A.fictional }}</span></p>
+      </div>
 
-    <div class="hs-app" role="region" aria-label="{{ C.app_label }}">
-      {{ window('app') }}
+      <div class="hq-actions actions">
+        <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ C.cta }} {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg hq-secondary" href="{{ url('diagnostico') }}">{{ C.secondary }}</a>
+      </div>
+
+      <p class="hq-hint" aria-hidden="true"><span>{{ C.hint }}</span>{{ icon('chevron-down') }}</p>
     </div>
   </div>
-  <p class="hs-note">{{ C.note }}</p>
 </section>
 <span id="despues-del-inicio"></span>
 {% endmacro %}

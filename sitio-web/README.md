@@ -41,10 +41,10 @@ src/testimonials.html    Testimonios (inicio, casos e industrias)
 src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y agente de IA
 src/pages/               Contenido de cada página (en src/pages/en/, la versión en inglés)
-src/hero.json            Escena del inicio de cada tema (imagen, esquinas de la pantalla y del monitor, y encuadre final)
+src/hero.html            Inicio: la pregunta que recorre los sistemas hasta la respuesta (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes: íconos de vidrio, escena del inicio (hero_foto.py) y captura de la pantalla
+tools/                   Generadores de imágenes: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs) y portadas a partir de la foto de la oficina (hero_foto.py)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -142,7 +142,8 @@ Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos»
 Las secciones claras (marfil) cuentan la historia del negocio y las «profundas» (azul noche, `section-deep`) muestran dónde viven los datos, con el naranja de la marca y una luz azul como fuentes de luz. Los estilos del rediseño están en `src/assets/css/design.css` (se carga después de `site.css`) y sus interacciones en `src/assets/js/design.js`:
 
 - **Núcleo de datos** (`[data-core]`, inicio): una secuencia de 24 cuadros (12 en celulares) renderizada en 3D que se recorre con el scroll, como en apple.com. Se genera con `tools/nucleo.cjs` (three.js en Chromium sin pantalla) en `src/assets/img/core/`; `poster.webp` es el cuadro final, que se usa sin animación y en el cierre de cada página.
-- **Portadas**: las industrias tienen una portada propia (`tools/portadas.cjs`, en `src/assets/img/industrias/`) que se ve en el carrusel del inicio y en el encabezado de su página. Nosotros, Servicios y Contacto usan recortes de la foto de la oficina (`src/assets/img/covers/`, generados con `tools/hero_foto.py --portadas`).
+- **Inicio** (`src/hero.html`, estilos `.hq*` en `design.css`): «Una pregunta. Todos tus sistemas. Una sola respuesta.» Con animación, la escena queda fija y el scroll hace avanzar la cámara en 3D entre las ventanas del ERP, el CRM, las planillas, WhatsApp y el correo hasta la respuesta del asistente; sin animación se ven la pregunta y la respuesta. Los textos de cada ventana y de la respuesta están en el mismo archivo (datos ficticios).
+- **Portadas**: Nosotros, Servicios y Contacto usan recortes de la foto de la oficina (`src/assets/img/covers/`, generados con `tools/hero_foto.py --portadas`).
 - **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **logos en movimiento** (`.marquee`), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
 
 ## Animaciones al hacer scroll

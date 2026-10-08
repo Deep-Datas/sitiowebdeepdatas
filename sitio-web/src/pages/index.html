@@ -146,14 +146,12 @@
     <div class="rail" data-rail>
       <div class="rail-track" tabindex="0" aria-label="Industrias">
         {% for ind in industries %}
-        <a class="rail-card" href="{{ url('ind-' ~ ind.id) }}">
-          <img src="/assets/img/industrias/{{ ind.id }}-600.webp" srcset="/assets/img/industrias/{{ ind.id }}-600.webp 600w, /assets/img/industrias/{{ ind.id }}-1200.webp 1200w" sizes="(min-width: 1024px) 380px, 80vw" alt="" width="600" height="400" loading="lazy">
-          <span class="icon-arrow">{{ icon('arrow-right') }}</span>
-          <span class="rail-body">
-            <span class="rail-kicker">Industria</span>
-            <strong>{{ ind.name }}</strong>
-            <span>{{ ind.card }}</span>
-          </span>
+        <a class="rail-card rail-{{ ind.id }}" href="{{ url('ind-' ~ ind.id) }}">
+          <span class="rail-icon">{{ icon(ind.icon) }}</span>
+          <span class="rail-kicker">Industria</span>
+          <span class="rail-title">{{ ind.name }}</span>
+          <span class="rail-text">{{ ind.card }}</span>
+          <span class="case-card-more">Ver soluciones {{ icon('arrow-right') }}</span>
         </a>
         {% endfor %}
       </div>
@@ -224,7 +222,7 @@
         <div class="phone" role="img" aria-label="Ejemplo ilustrativo: conversaciones con el asistente de IA por WhatsApp (datos ficticios)">
           <div class="phone-screen">
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="cw-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>¿Cuánto vendimos ayer en la zona norte?</p><span class="chat-time">9:41</span></div>
                 <div class="chat-msg"><p><strong>$ 1,28 M</strong> ayer en el norte, <strong>+9 %</strong> contra el mismo día de la semana pasada.</p><p>Los tres distribuidores que más crecieron: Norte SA, Distrisur y La Rueda.</p><span class="chat-time">9:41 · Fuente: ERP</span></div>
@@ -234,7 +232,7 @@
               <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="cw-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg"><span class="chat-tag">Alerta de stock</span><p>Tres productos van a quedarse sin stock antes del 15 de octubre:</p>
                   <ul class="chat-list"><li><span>Papas clásicas 400 g</span><span>3 días</span></li><li><span>Bastones 1 kg</span><span>4 días</span></li><li><span>Puré 125 g</span><span>4 días</span></li></ul>
@@ -245,7 +243,7 @@
               <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="cw-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>Hola! Mandame 20 cajas de clásicas 400 g, 10 de bastones y 5 de puré para el jueves. Gracias</p><span class="chat-time">11:20 · Autoservicio El Sol</span></div>
                 <div class="chat-msg"><span class="chat-tag chat-tag-ok">Pedido cargado</span><p>Pedido <strong>48.213</strong> cargado en el ERP para Autoservicio El Sol: 3 ítems, entrega jueves 10/10.</p><p>Falta confirmar el precio de los bastones: ¿aplica la lista mayorista?</p><span class="chat-time">11:21</span></div>

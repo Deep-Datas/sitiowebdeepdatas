@@ -13,8 +13,7 @@
 {% set ind_posts = (posts | selectattr('slug', 'in', ind.posts) | list) if lang == 'es' else [] %}
 
 {% block content %}
-<section class="page-hero page-hero-cover page-hero-deep ind-hero" data-deep>
-  {{ cover_img('industrias/' ~ ind.id, (600, 1200)) }}
+<section class="page-hero ind-hero">
   <div class="container">
     <p class="eyebrow">{{ L.eyebrow }} · {{ ind.name }}</p>
     <h1>{{ ind.h1 }} <em>{{ ind.h1_em }}</em></h1>
