@@ -39,7 +39,7 @@
 <!-- ======= PUENTE: qué acabás de ver ======= -->
 <section class="section section-bridge section-stage" aria-labelledby="puente-title">
   <div class="container">
-    <div class="bridge">
+    <div class="bridge reveal">
       <p class="eyebrow">Lo que acabás de ver</p>
       <h2 id="puente-title">Así trabaja la IA cuando tus datos <em>están listos.</em></h2>
       <p class="lead">Detrás de cada respuesta hay cuatro pasos que hacemos por vos. Son nuestros servicios.</p>
@@ -49,22 +49,31 @@
       </div>
     </div>
 
-    <ol class="hairline-grid hairline-grid-4 journey">
-      {% for num, service, verb, text, href, obj in [
+    {% set journey = [
         ('01', 'Ingeniería de datos', 'Integrar', 'Conectamos ERP, CRM, planillas y APIs en un único modelo que se actualiza solo.', '/servicios/#ingenieria', 'cubo'),
         ('02', 'Calidad de datos', 'Curar', 'Limpiamos, unificamos códigos y validamos cada número con reglas de negocio.', '/servicios/#calidad', 'embudo'),
         ('03', 'Analítica', 'Modelar', 'Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.', '/servicios/#analitica', 'barras'),
         ('04', 'Tableros e IA', 'Recomendar', 'Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.', '/inteligencia-artificial/', 'esfera'),
       ] %}
-      <li class="reveal">
-        <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
-        <span class="label">{{ num }} · {{ service }}</span>
-        <h3>{{ verb }}</h3>
-        <p>{{ text }}</p>
-        <a class="link-arrow" href="{{ href }}">{{ 'Ver soluciones de IA' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
-      </li>
-      {% endfor %}
-    </ol>
+    {# En escritorio, con animaciones, la imagen queda fija y cambia con cada paso (site.js) #}
+    <div class="journey-story" data-journey>
+      <div class="journey-stage" aria-hidden="true">
+        {% for num, service, verb, text, href, obj in journey %}
+        <img class="journey-stage-img" src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
+        {% endfor %}
+      </div>
+      <ol class="hairline-grid hairline-grid-4 journey">
+        {% for num, service, verb, text, href, obj in journey %}
+        <li class="reveal">
+          <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
+          <span class="label">{{ num }} · {{ service }}</span>
+          <h3>{{ verb }}</h3>
+          <p>{{ text }}</p>
+          <a class="link-arrow" href="{{ href }}">{{ 'Ver soluciones de IA' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -72,7 +81,7 @@
 <section class="logos" aria-labelledby="logos-title">
   <div class="container">
     {{ logos.wall() }}
-    <dl class="stats">
+    <dl class="stats reveal">
       <div><dt>distribuidores integrados en un único modelo para una empresa líder de consumo masivo</dt><dd>40</dd></div>
       <div><dt>menos quiebres de stock con un pronóstico de demanda</dt><dd>12<span>%</span></dd></div>
       <div><dt>para tener un diagnóstico completo de tus datos</dt><dd>2<span>semanas</span></dd></div>
@@ -103,11 +112,11 @@
 </section>
 
 <!-- ======= PROBLEMA / SOLUCIÓN ======= -->
-<section class="section">
+<section class="section" aria-labelledby="problema-title">
   <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">El problema</p>
-      <h2>No te faltan datos. Te falta que estén <em>listos para decidir.</em></h2>
+    <div class="statement-head">
+      <p class="eyebrow reveal">El problema</p>
+      <h2 class="statement" id="problema-title" data-scroll-lit>No te faltan datos. Te falta que estén <em>listos para decidir.</em></h2>
     </div>
 
     <div class="pain-grid">
@@ -222,7 +231,7 @@
     </div>
     <ul class="post-grid">
       {% for p in posts[:3] %}
-      <li>
+      <li class="reveal">
         <article class="post-card">
           <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>
           <p>{{ p.description }}</p>

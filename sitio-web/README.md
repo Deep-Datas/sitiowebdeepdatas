@@ -137,6 +137,17 @@ Los casos están en `casos.py`. Cada uno tiene `'publicado': False` hasta que se
 
 Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos» del menú y la sección de casos del inicio. `build.py` no deja publicar un caso que todavía tenga datos `[completar]`.
 
+## Animaciones al hacer scroll
+
+Inspiradas en apple.com y hechas sin librerías (`src/assets/js/motion.js` y `site.js`):
+
+- Todo elemento con la clase `reveal` sube y aparece al entrar en pantalla; los hermanos entran en cascada. Los títulos de esos bloques entran palabra por palabra y el encabezado de cada página interior se anima al cargar.
+- Un título con `data-scroll-lit` (y la clase `statement` para el tamaño grande) se ilumina palabra por palabra a medida que se avanza: la frase del problema en el inicio y la misión en Nosotros.
+- El recorrido de cuatro pasos del inicio (`data-journey`) deja fija la imagen en escritorio y destaca cada paso al pasar.
+- Las cifras del inicio y de los casos cuentan desde cero al aparecer.
+
+Con «reducir movimiento» activado en el sistema, o sin JavaScript, no hay animaciones y todo se ve desde el principio. Si `site.js` no llegara a cargar, el contenido aparece igual a los pocos segundos.
+
 ## Testimonios
 
 Los testimonios están en `testimonios.py` y la guía para pedirlos a los clientes (mensaje, preguntas, autorización y consejos para grabar un video de 30 segundos) en `contenido/testimonios.md`. Tienen que ser reales: el texto lo escribe o lo aprueba el cliente.

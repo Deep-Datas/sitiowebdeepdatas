@@ -701,6 +701,147 @@
     updateWa();
   }
 
+  /* ---------- Movimiento al hacer scroll (estilo apple.com) ----------
+     Solo con html.motion (src/assets/js/motion.js): sin JavaScript o con «reducir movimiento»
+     todo se ve desde el principio y nada se anima. */
+  var root = document.documentElement;
+  if (root.classList.contains('motion')) {
+    var clampM = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+
+    // Separa un título en palabras (conservando énfasis y enlaces) para que entren una por una
+    var splitWords = function (el, cls) {
+      var count = 0;
+      (function walk(node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+          if (child.nodeType === 3) {
+            var parts = child.textContent.split(/([ \t\n\r]+)/);
+            if (parts.length < 2 && !parts[0]) return;
+            var frag = document.createDocumentFragment();
+            parts.forEach(function (part) {
+              if (!part) return;
+              if (/^[ \t\n\r]+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+              var span = document.createElement('span');
+              span.className = cls;
+              span.textContent = part;
+              span.style.setProperty('--i', count++);
+              frag.appendChild(span);
+            });
+            node.replaceChild(frag, child);
+          } else if (child.nodeType === 1) {
+            walk(child);
+          }
+        });
+      })(el);
+      return count;
+    };
+
+    // Encabezado de las páginas interiores: entra al cargar, en cascada
+    document.querySelectorAll('.page-hero .container > *').forEach(function (el) { el.classList.add('reveal'); });
+
+    // Títulos: palabra por palabra, desde un leve desenfoque
+    document.querySelectorAll('.reveal h1, .reveal h2, h1.reveal, h2.reveal').forEach(function (heading) {
+      if (heading.hasAttribute('data-scroll-lit') || heading.closest('.hs')) return;
+      heading.classList.add('words');
+      splitWords(heading, 'w');
+      var box = heading.closest('.reveal');
+      if (box) box.classList.add('has-split');
+    });
+
+    // Aparición en cascada: los elementos hermanos entran uno detrás de otro
+    var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    reveals.forEach(function (el) {
+      var siblings = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.classList.contains('reveal'); });
+      var index = siblings.indexOf(el);
+      if (index > 0) el.style.setProperty('--reveal-delay', Math.min(index, 6) * 90 + 'ms');
+    });
+    var showNow = function (el) { el.classList.add('is-in'); };
+    var revealer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          showNow(entry.target);
+          revealer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(function (el) {
+      // Lo que ya quedó arriba (por ejemplo, al entrar con un enlace a una sección) se muestra sin animar
+      if (el.getBoundingClientRect().bottom < 0) { el.classList.add('is-in', 'no-anim'); return; }
+      revealer.observe(el);
+    });
+
+    // Frases que se iluminan palabra por palabra a medida que se avanza
+    var lit = Array.prototype.slice.call(document.querySelectorAll('[data-scroll-lit]')).map(function (el) {
+      splitWords(el, 'sw');
+      return { el: el, words: Array.prototype.slice.call(el.querySelectorAll('.sw')), shown: -1 };
+    });
+    var paintLit = function () {
+      var vh = window.innerHeight;
+      lit.forEach(function (item) {
+        var r = item.el.getBoundingClientRect();
+        if (r.bottom < -vh || r.top > vh * 2) return;
+        // Empieza cuando el texto entra por abajo y termina cuando llega a la mitad de la pantalla
+        var p = clampM((vh * 0.88 - r.top) / (vh * 0.88 - vh * 0.42 + r.height * 0.6), 0, 1);
+        var count = Math.round(p * item.words.length);
+        if (count === item.shown) return;
+        item.shown = count;
+        item.words.forEach(function (w, i) { w.classList.toggle('is-lit', i < count); });
+      });
+    };
+
+    // Cifras que cuentan desde cero al aparecer
+    var counter = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        counter.unobserve(entry.target);
+        var node = entry.target.firstChild;
+        var match = node && node.nodeType === 3 && node.textContent.match(/^(\D*)(\d+)(\D*)$/);
+        if (!match) return;
+        var target = parseInt(match[2], 10);
+        var started = null;
+        var step = function (now) {
+          if (started === null) started = now;
+          var t = clampM((now - started) / 1400, 0, 1);
+          var eased = 1 - Math.pow(1 - t, 4);
+          node.textContent = match[1] + Math.round(target * eased) + match[3];
+          if (t < 1) window.requestAnimationFrame(step);
+        };
+        node.textContent = match[1] + '0' + match[3];
+        window.requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('.stats dd, .case-card-number').forEach(function (el) { counter.observe(el); });
+
+    // Recorrido de cuatro pasos (inicio, escritorio): la imagen queda fija y cambia con cada paso
+    document.querySelectorAll('[data-journey]').forEach(function (story) {
+      var images = story.querySelectorAll('.journey-stage-img');
+      var stepsJ = Array.prototype.slice.call(story.querySelectorAll('.journey > li'));
+      var setCurrent = function (index) {
+        stepsJ.forEach(function (li, i) { li.classList.toggle('is-current', i === index); });
+        Array.prototype.forEach.call(images, function (img, i) { img.classList.toggle('is-current', i === index); });
+      };
+      setCurrent(0);
+      var watcher = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setCurrent(stepsJ.indexOf(entry.target));
+        });
+      }, { rootMargin: '-48% 0px -48% 0px' });
+      stepsJ.forEach(function (li) { watcher.observe(li); });
+    });
+
+    var motionTicking = false;
+    var onScrollMotion = function () {
+      if (motionTicking) return;
+      motionTicking = true;
+      window.requestAnimationFrame(function () { motionTicking = false; paintLit(); });
+    };
+    if (lit.length) {
+      window.addEventListener('scroll', onScrollMotion, { passive: true });
+      window.addEventListener('resize', onScrollMotion);
+      onScrollMotion();
+    }
+    root.classList.add('motion-ready');
+  }
+
   /* ---------- Año actual en el pie ---------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();

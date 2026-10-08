@@ -13,7 +13,7 @@
 {% macro row(only=none) %}
 <ul class="logos-row">
   {% for id, file, name, w, h in LOGOS if only is none or id in only %}
-  <li><img{% if id == 'cafe-m' %} class="logo-round"{% endif %} src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
+  <li class="reveal"><img{% if id == 'cafe-m' %} class="logo-round"{% endif %} src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
   {% endfor %}
 </ul>
 {% endmacro %}

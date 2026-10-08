@@ -39,7 +39,7 @@
 <!-- ======= BRIDGE: what you just saw ======= -->
 <section class="section section-bridge section-stage" aria-labelledby="puente-title">
   <div class="container">
-    <div class="bridge">
+    <div class="bridge reveal">
       <p class="eyebrow">What you just saw</p>
       <h2 id="puente-title">This is how AI works when your data <em>is ready.</em></h2>
       <p class="lead">Behind every answer are four steps we handle for you. Those steps are our services.</p>
@@ -49,22 +49,31 @@
       </div>
     </div>
 
-    <ol class="hairline-grid hairline-grid-4 journey">
-      {% for num, service, verb, text, href, obj in [
+    {% set journey = [
         ('01', 'Data engineering', 'Integrate', 'We connect your ERP, CRM, spreadsheets and APIs into a single model that updates itself.', url('servicios') ~ '#ingenieria', 'cubo'),
         ('02', 'Data quality', 'Curate', 'We clean your data, unify codes and validate every number against business rules.', url('servicios') ~ '#calidad', 'embudo'),
         ('03', 'Analytics', 'Model', 'KPIs built around your business and models that anticipate demand and customer churn.', url('servicios') ~ '#analitica', 'barras'),
         ('04', 'Dashboards and AI', 'Recommend', 'Dashboards and AI agents that tell you what happened, why, and what to do next.', url('ia'), 'esfera'),
       ] %}
-      <li class="reveal">
-        <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
-        <span class="label">{{ num }} · {{ service }}</span>
-        <h3>{{ verb }}</h3>
-        <p>{{ text }}</p>
-        <a class="link-arrow" href="{{ href }}">{{ 'See AI solutions' if num == '04' else 'Explore the service' }} {{ icon('arrow-right') }}</a>
-      </li>
-      {% endfor %}
-    </ol>
+    {# En escritorio, con animaciones, la imagen queda fija y cambia con cada paso (site.js) #}
+    <div class="journey-story" data-journey>
+      <div class="journey-stage" aria-hidden="true">
+        {% for num, service, verb, text, href, obj in journey %}
+        <img class="journey-stage-img" src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
+        {% endfor %}
+      </div>
+      <ol class="hairline-grid hairline-grid-4 journey">
+        {% for num, service, verb, text, href, obj in journey %}
+        <li class="reveal">
+          <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
+          <span class="label">{{ num }} · {{ service }}</span>
+          <h3>{{ verb }}</h3>
+          <p>{{ text }}</p>
+          <a class="link-arrow" href="{{ href }}">{{ 'See AI solutions' if num == '04' else 'Explore the service' }} {{ icon('arrow-right') }}</a>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -72,7 +81,7 @@
 <section class="logos" aria-labelledby="logos-title">
   <div class="container">
     {{ logos.wall() }}
-    <dl class="stats">
+    <dl class="stats reveal">
       <div><dt>distributors integrated into a single model for a leading consumer goods company</dt><dd>40</dd></div>
       <div><dt>fewer stockouts with a demand forecast</dt><dd>12<span>%</span></dd></div>
       <div><dt>to get a complete assessment of your data</dt><dd>2<span>weeks</span></dd></div>
@@ -103,11 +112,11 @@
 </section>
 
 <!-- ======= PROBLEM / SOLUTION ======= -->
-<section class="section">
+<section class="section" aria-labelledby="problema-title">
   <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">The problem</p>
-      <h2>You’re not short on data. You’re short on data that’s <em>ready for decisions.</em></h2>
+    <div class="statement-head">
+      <p class="eyebrow reveal">The problem</p>
+      <h2 class="statement" id="problema-title" data-scroll-lit>You’re not short on data. You’re short on data that’s <em>ready for decisions.</em></h2>
     </div>
 
     <div class="pain-grid">
