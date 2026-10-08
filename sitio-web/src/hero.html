@@ -25,7 +25,7 @@
   'w': 4096, 'h': 2368,
   'screen': [[1579, 1037], [2135, 1013], [2134, 1462], [1586, 1581]],
   'monitor': [[1550, 1016], [2140, 998], [2140, 1482], [1552, 1604]],
-  'screen2': [[345, 1003], [828, 990], [828, 1316], [345, 1306]],
+  'screen2': [[345, 1000], [835, 975], [838, 1335], [345, 1312]],
   'desk': {'x': 0.64, 'y': 0.54, 'zoom': 1.25, 'fill': 0.66, 'aim': [0.56, 0.5]},
   'mob': {'x': 0.3, 'y': 0.8, 'width': 3.0, 'fill': 0.85, 'aim': [0.5, 0.5]},
 } %}
@@ -34,7 +34,7 @@
   'es': {
     'eyebrow': 'Consultora de datos e IA para distribuidoras, pymes y consumo masivo',
     'title': 'Una pregunta. Todos tus sistemas.', 'title_em': 'Una sola respuesta.',
-    'lead': 'Conectamos tu ERP, tu CRM, las planillas y WhatsApp, y un asistente de IA responde con los datos reales de tu empresa.',
+    'lead': 'Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo, y un asistente de IA responde con los datos reales de tu empresa.',
     'photo_alt': 'Una oficina: una persona trabaja con el ERP en su monitor y, al fondo, un compañero revisa una planilla.',
     'user': 'MG',
     'question': '¿Cuánto vendimos ayer en la zona norte?',
@@ -43,7 +43,7 @@
     'statuses': [
       (0, 'Leyendo la pregunta…'),
       (0.08, 'Consultando el ERP y las planillas…'),
-      (0.36, 'Revisando el CRM y WhatsApp…'),
+      (0.36, 'Revisando el CRM, WhatsApp y el correo…'),
       (0.58, 'Uniendo todo en una sola respuesta…'),
       (0.8, 'Respuesta lista, con fuentes'),
     ],
@@ -59,7 +59,12 @@
               'tag': 'Clientes y oportunidades'},
       'wa': {'sys': 'WhatsApp', 'icon': 'whatsapp', 'title': 'Pedidos', 'msgs': [('in', 'Hola, mandame 40 cajas de papas clásicas para el jueves.'), ('out', 'Listo, pedido 7731 confirmado para el jueves.'), ('in', 'Sumale 10 de bastones.')],
              'tag': 'Pedidos por WhatsApp'},
+      'mail': {'sys': 'Correo', 'icon': 'envelope', 'title': 'Bandeja de entrada', 'lines': [('Norte SA', 'Re: Nota de crédito 2214'), ('Logística Sur', 'Entrega del jueves confirmada'), ('Distrisur', 'Orden de compra 9931')],
+               'tag': 'Órdenes y notas por correo'},
+      'mail2': {'sys': 'Correo', 'icon': 'envelope', 'title': 'Bandeja de entrada', 'lines': [('Litoral', 'Re: Propuesta comercial'), ('M. Díaz', 'Visitas de la semana'), ('Oeste SRL', 'Consulta por precios')],
+                'tag': 'Pedidos y consultas por correo'},
     },
+    'notes': {'a': ['Llamar a Norte SA por la nota de crédito', '¡Reponer papas 400 g!'], 'b': ['Pedido 7731 → jueves', 'Oeste SRL sin visita']},
     'ai': {'brand': 'Asistente de IA', 'by': 'con tus datos curados por DeepDatas', 'chips': ['¿Qué clientes dejaron de comprar?', '¿Qué productos están por quedarse sin stock?', '¿Cómo viene el margen por canal?'], 'input': 'Escribí tu consulta…'},
     'answer': {
       'label': 'Ventas de ayer · Zona norte', 'big': '$ 1,28 M', 'up': '▲ 9 % contra el mismo día de la semana pasada',
@@ -77,7 +82,7 @@
   'en': {
     'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
     'title': 'One question. All your systems.', 'title_em': 'One single answer.',
-    'lead': 'We connect your ERP, your CRM, your spreadsheets and WhatsApp, and an AI assistant answers with your company’s real data.',
+    'lead': 'We connect your ERP, your CRM, your spreadsheets, WhatsApp and email, and an AI assistant answers with your company’s real data.',
     'photo_alt': 'An office: one person works with the ERP on her monitor while, in the background, a colleague reviews a spreadsheet.',
     'user': 'MG',
     'question': 'How much did we sell yesterday in the north region?',
@@ -86,7 +91,7 @@
     'statuses': [
       (0, 'Reading the question…'),
       (0.08, 'Querying the ERP and spreadsheets…'),
-      (0.36, 'Checking the CRM and WhatsApp…'),
+      (0.36, 'Checking the CRM, WhatsApp and email…'),
       (0.58, 'Bringing it all into one answer…'),
       (0.8, 'Answer ready, with sources'),
     ],
@@ -102,7 +107,12 @@
               'tag': 'Customers and opportunities'},
       'wa': {'sys': 'WhatsApp', 'icon': 'whatsapp', 'title': 'Orders', 'msgs': [('in', 'Hi, send me 40 boxes of classic chips for Thursday.'), ('out', 'Done, order 7731 confirmed for Thursday.'), ('in', 'Add 10 of fries.')],
              'tag': 'WhatsApp orders'},
+      'mail': {'sys': 'Email', 'icon': 'envelope', 'title': 'Inbox', 'lines': [('Norte SA', 'Re: Credit note 2214'), ('Logística Sur', 'Thursday delivery confirmed'), ('Distrisur', 'Purchase order 9931')],
+               'tag': 'Orders and notes by email'},
+      'mail2': {'sys': 'Email', 'icon': 'envelope', 'title': 'Inbox', 'lines': [('Litoral', 'Re: Sales proposal'), ('M. Díaz', 'This week’s visits'), ('Oeste SRL', 'Pricing inquiry')],
+                'tag': 'Orders and inquiries by email'},
     },
+    'notes': {'a': ['Call Norte SA about the credit note', 'Restock chips 400 g!'], 'b': ['Order 7731 → Thursday', 'Oeste SRL: no visit yet']},
     'ai': {'brand': 'AI assistant', 'by': 'with your data curated by DeepDatas', 'chips': ['Which customers stopped buying?', 'Which products are about to run out of stock?', 'How is margin by channel doing?'], 'input': 'Ask anything…'},
     'answer': {
       'label': 'Yesterday’s sales · North region', 'big': '$1.28M', 'up': '▲ 9% vs. the same day last week',
@@ -140,6 +150,10 @@
         {% for dir, text in data.msgs %}
         <p class="hp-msg{{ ' hp-msg-out' if dir == 'out' }}">{{ text }}</p>
         {% endfor %}
+      {% elif data.get('lines') %}
+        {% for who, subject in data.lines %}
+        <p class="hp-line"><b>{{ who }}</b> · <span>{{ subject }}</span></p>
+        {% endfor %}
       {% else %}
         {{ table(data) }}
       {% endif %}
@@ -147,6 +161,11 @@
     </div>
   </div>
 </div>
+{% endmacro %}
+
+{# Post-its pegados en el marco del monitor #}
+{% macro notes(items) %}
+{% for text in items %}<span class="hp-note hp-note-{{ loop.index }}">{{ text }}</span>{% endfor %}
 {% endmacro %}
 
 {# La pregunta, los tres pasos y el estado. Sin JavaScript se ven los tres pasos completos;
@@ -212,8 +231,8 @@
 
       {# Los monitores: el de la mujer (ERP y planillas), el del compañero (CRM y WhatsApp) y el final, con el asistente #}
       <div class="hp-mons" aria-hidden="true">
-        <div class="hp-mon hp-mon-b"><div class="hp-screen hp-desk">{{ win(C.wins.crm, 'hp-w1') }}{{ win(C.wins.wa, 'hp-w2') }}</div></div>
-        <div class="hp-mon hp-mon-a"><div class="hp-screen hp-desk">{{ win(C.wins.erp, 'hp-w1') }}{{ win(C.wins.xls, 'hp-w2') }}</div></div>
+        <div class="hp-mon hp-mon-b"><div class="hp-screen hp-desk">{{ win(C.wins.crm, 'hp-w1') }}{{ win(C.wins.mail2, 'hp-w3') }}{{ win(C.wins.wa, 'hp-w2') }}</div>{{ notes(C.notes.b) }}</div>
+        <div class="hp-mon hp-mon-a"><div class="hp-screen hp-desk">{{ win(C.wins.erp, 'hp-w1') }}{{ win(C.wins.mail, 'hp-w3') }}{{ win(C.wins.xls, 'hp-w2') }}</div>{{ notes(C.notes.a) }}</div>
         <div class="hp-mon hp-mon-c">
           <div class="hp-screen hp-ai">
             <div class="hp-ai-top"><img src="/assets/img/brand/logo-mark.png" alt="" width="16" height="18"> <b>{{ C.ai.brand }}</b> <span>{{ C.ai.by }}</span></div>

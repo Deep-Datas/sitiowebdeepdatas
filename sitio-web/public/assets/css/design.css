@@ -2022,16 +2022,105 @@ html:not(.motion) .phone-view:first-child {
   background: linear-gradient(135deg, #e9e4dc, #d8dce6);
 }
 
+/* Reflejo suave sobre la pantalla */
+.hp-desk::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 38%, transparent 60%);
+  pointer-events: none;
+}
+
 .hp-desk .hp-w1 {
-  top: 11%;
-  left: 4%;
-  width: 60%;
+  top: 10%;
+  left: 3%;
+  z-index: 1;
+  width: 58%;
+}
+
+.hp-desk .hp-w3 {
+  bottom: 5%;
+  left: 5%;
+  z-index: 2;
+  width: 46%;
 }
 
 .hp-desk .hp-w2 {
-  top: 36%;
-  right: 4%;
-  width: 56%;
+  top: 34%;
+  right: 3%;
+  z-index: 3;
+  width: 54%;
+}
+
+.hp-line {
+  margin: 0 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hp-line b {
+  color: #111827;
+}
+
+.hp-line span {
+  color: #6b7280;
+}
+
+/* Post-its pegados en el marco del monitor */
+.hp-note {
+  position: absolute;
+  z-index: 5;
+  width: 74px;
+  padding: 8px 8px 10px;
+  background: linear-gradient(180deg, #fff6a8, #ffe86b);
+  color: #4a3f10;
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 1.15;
+  box-shadow: 0 8px 16px -8px rgba(11, 18, 32, 0.55);
+}
+
+.hp-note::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 26px;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateX(-50%) rotate(-3deg);
+}
+
+.hp-note-1 {
+  top: -8px;
+  right: 18px;
+  transform: rotate(4deg);
+}
+
+.hp-note-2 {
+  right: -14px;
+  bottom: 22%;
+  background: linear-gradient(180deg, #ffd3e0, #ffb3c9);
+  color: #5a1f33;
+  transform: rotate(-5deg);
+}
+
+.hp-mon-b .hp-note-1 {
+  top: 14%;
+  right: auto;
+  left: -12px;
+  transform: rotate(-4deg);
+}
+
+.hp-mon-b .hp-note-2 {
+  right: 26px;
+  bottom: -6px;
+  background: linear-gradient(180deg, #d6ecff, #b3d9ff);
+  color: #173a5e;
+  transform: rotate(3deg);
 }
 
 /* Destello al fundirse los dos monitores en uno */
@@ -2266,12 +2355,21 @@ html:not(.motion) .phone-view:first-child {
     display: none;
   }
 
+  /* En pantallas chicas las ventanas se escalonan para que se vean las tres etiquetas */
   .hp-desk .hp-w1 {
-    width: 68%;
+    width: 66%;
   }
 
   .hp-desk .hp-w2 {
-    width: 64%;
+    top: 30%;
+    width: 58%;
+  }
+
+  .hp-desk .hp-w3 {
+    top: 56%;
+    bottom: auto;
+    left: 3%;
+    width: 52%;
   }
 
   .motion .hp-shade {
@@ -2292,6 +2390,17 @@ html:not(.motion) .phone-view:first-child {
 
   .hp-desk .hp-win {
     font-size: 10px;
+  }
+
+  .hp-note {
+    width: 54px;
+    padding: 6px 6px 7px;
+    font-size: 9.5px;
+  }
+
+  .hp-note::before {
+    width: 18px;
+    height: 6px;
   }
 
   .hp-desk .hp-label {

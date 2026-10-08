@@ -213,7 +213,7 @@
       // Rectángulo apenas en perspectiva, con el lado interior (hacia el centro) más alto: los dos
       // monitores parecen mirarse. side: -1 para el de la izquierda, 1 para el de la derecha
       function tilted(x, y, w, h, side) {
-        var dy = h * 0.045, dx = w * 0.025;
+        var dy = h * 0.085, dx = w * 0.045;
         return side < 0
           ? [[x + dx, y + dy], [x + w, y], [x + w, y + h], [x + dx, y + h - dy]]
           : [[x, y], [x + w - dx, y + dy], [x + w - dx, y + h - dy], [x, y + h]];
