@@ -164,6 +164,7 @@
       var world = hero.querySelector('.hq-world');
       var wins = Array.prototype.slice.call(hero.querySelectorAll('.hq-win'));
       var statuses = Array.prototype.slice.call(hero.querySelectorAll('.hq-status span'));
+      var steps = Array.prototype.slice.call(hero.querySelectorAll('.hq-step'));
       var CAM = 3200;                        // cuánto avanza la cámara en todo el recorrido (px)
       var depths = [];
       var ticking = false;
@@ -200,6 +201,12 @@
         var current = 0;
         statuses.forEach(function (el, i) { if (p >= parseFloat(el.getAttribute('data-from'))) current = i; });
         statuses.forEach(function (el, i) { el.classList.toggle('is-on', i === current); });
+        var step = 0;
+        steps.forEach(function (el, i) { if (p >= parseFloat(el.getAttribute('data-from'))) step = i; });
+        steps.forEach(function (el, i) {
+          el.classList.toggle('is-on', i === step);
+          el.classList.toggle('is-done', i < step);
+        });
         hero.classList.toggle('is-done', p > 0.95);
         document.body.classList.toggle('hero-copy-visible', p < 0.06);
       }

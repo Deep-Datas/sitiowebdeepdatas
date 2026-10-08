@@ -3,10 +3,12 @@
 
   Con animación (html.motion), la escena queda fija mientras se hace scroll y
   la cámara avanza entre las ventanas de cada sistema (ERP, CRM, planillas,
-  WhatsApp, correo) hasta llegar a la respuesta del asistente. Las posiciones
-  de las ventanas y los estilos están en design.css (.hq*); el movimiento, en
-  site.js. Sin JavaScript o con «reducir movimiento», se ve la pregunta y la
-  respuesta sin recorrido. Datos ficticios.
+  WhatsApp, correo) hasta llegar a la respuesta del asistente. Tres pasos
+  (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte
+  del recorrido se está. Las posiciones de las ventanas y los estilos están
+  en design.css (.hq*); el movimiento, en site.js. Sin JavaScript o con
+  «reducir movimiento», se ven la pregunta y la respuesta sin recorrido.
+  Datos ficticios.
 
   Los textos de cada idioma están en «copy» (abajo). Se importa con contexto:
   {% import 'hero.html' as hero with context %}
@@ -14,31 +16,33 @@
 
 {% set copy = {
   'es': {
-    'eyebrow': 'Datos e IA para distribuidoras, pymes y consumo masivo',
+    'eyebrow': 'Consultora de datos e IA para distribuidoras, pymes y consumo masivo',
     'title': 'Una pregunta. Todos tus sistemas.', 'title_em': 'Una sola respuesta.',
-    'lead': 'Integramos tu ERP, tu CRM, las planillas y hasta los pedidos por WhatsApp en datos confiables, y construimos tableros y agentes de IA que responden preguntas de negocio con tus datos reales.',
+    'lead': 'Conectamos tu ERP, tu CRM, las planillas y WhatsApp, y un asistente de IA responde con los datos reales de tu empresa.',
     'user': 'MG',
     'question': '¿Cuánto vendimos ayer en la zona norte?',
+    'steps_label': 'Cómo funciona',
+    'steps': [(0, 'Preguntás'), (0.1, 'Buscamos en tus sistemas'), (0.78, 'Te respondemos')],
     'statuses': [
       (0, 'Leyendo la pregunta…'),
-      (0.2, 'Consultando el ERP…'),
-      (0.4, 'Cruzando el CRM y las planillas…'),
-      (0.6, 'Revisando pedidos por WhatsApp y correo…'),
-      (0.8, 'Respuesta lista'),
+      (0.1, 'Consultando el ERP…'),
+      (0.34, 'Cruzando el CRM y las planillas…'),
+      (0.55, 'Revisando pedidos por WhatsApp y correo…'),
+      (0.78, 'Respuesta lista, con fuentes'),
     ],
     'wins': {
-      'erp': {'title': 'ERP · Ventas del día', 'head': ['Comprobante', 'Cliente', 'Importe'],
+      'erp': {'sys': 'ERP', 'icon': 'building-gear', 'title': 'Ventas del día', 'head': ['Comprobante', 'Cliente', 'Importe'],
               'rows': [('FC 0012-4471', 'Norte SA', '$ 312.400', True), ('FC 0012-4472', 'Distrisur', '$ 184.900', True), ('FC 0012-4473', 'Pampa Dist.', '$ 97.300', False), ('FC 0012-4474', 'La Rueda', '$ 141.200', True)],
               'tag': 'Tango · SAP · Odoo'},
-      'crm': {'title': 'CRM · Visitas de la semana', 'head': ['Cliente', 'Vendedor', 'Estado'],
+      'crm': {'sys': 'CRM', 'icon': 'people', 'title': 'Visitas de la semana', 'head': ['Cliente', 'Vendedor', 'Estado'],
               'rows': [('Norte SA', 'L. Pérez', 'Pedido cerrado', True), ('Oeste SRL', 'M. Díaz', 'Sin visita', False), ('Litoral', 'J. Sosa', 'Propuesta enviada', False), ('Distrisur', 'L. Pérez', 'Pedido cerrado', True)],
               'tag': 'Clientes y oportunidades'},
-      'xls': {'title': 'ventas_distribuidores.xlsx', 'head': ['Distribuidor', 'Zona', 'Ayer'],
+      'xls': {'sys': 'Planillas', 'icon': 'file-earmark-spreadsheet', 'title': 'ventas_distribuidores.xlsx', 'head': ['Distribuidor', 'Zona', 'Ayer'],
               'rows': [('Norte SA', 'Norte', '312.400', True), ('Distrisur', 'Norte', '184.900', True), ('Pampa Dist.', 'Centro', '97.300', False), ('Oeste SRL', 'Oeste', '58.100', False)],
               'tag': 'Planillas de los distribuidores'},
-      'wa': {'title': 'WhatsApp · Pedidos', 'msgs': [('in', 'Hola, mandame 40 cajas de papas clásicas para el jueves.'), ('out', 'Listo, pedido 7731 confirmado para el jueves.'), ('in', 'Sumale 10 de bastones.')],
+      'wa': {'sys': 'WhatsApp', 'icon': 'whatsapp', 'title': 'Pedidos', 'msgs': [('in', 'Hola, mandame 40 cajas de papas clásicas para el jueves.'), ('out', 'Listo, pedido 7731 confirmado para el jueves.'), ('in', 'Sumale 10 de bastones.')],
              'tag': 'Pedidos por WhatsApp'},
-      'mail': {'title': 'Correo · Bandeja de entrada', 'lines': [('Norte SA', 'Re: Nota de crédito 2214'), ('Logística Sur', 'Entrega del jueves confirmada'), ('Distrisur', 'Orden de compra 9931')],
+      'mail': {'sys': 'Correo', 'icon': 'envelope', 'title': 'Bandeja de entrada', 'lines': [('Norte SA', 'Re: Nota de crédito 2214'), ('Logística Sur', 'Entrega del jueves confirmada'), ('Distrisur', 'Orden de compra 9931')],
                'tag': 'Órdenes y notas por correo'},
     },
     'answer': {
@@ -55,31 +59,33 @@
     'skip': 'Saltar la animación',
   },
   'en': {
-    'eyebrow': 'Data and AI for distributors, SMEs and consumer goods',
+    'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
     'title': 'One question. All your systems.', 'title_em': 'One single answer.',
-    'lead': 'We turn your ERP, your CRM, your spreadsheets and even WhatsApp orders into trusted data, and build dashboards and AI agents that answer business questions with your real data.',
+    'lead': 'We connect your ERP, your CRM, your spreadsheets and WhatsApp, and an AI assistant answers with your company’s real data.',
     'user': 'MG',
     'question': 'How much did we sell yesterday in the north region?',
+    'steps_label': 'How it works',
+    'steps': [(0, 'You ask'), (0.1, 'We search your systems'), (0.78, 'You get the answer')],
     'statuses': [
       (0, 'Reading the question…'),
-      (0.2, 'Querying the ERP…'),
-      (0.4, 'Cross-referencing the CRM and spreadsheets…'),
-      (0.6, 'Checking WhatsApp and email orders…'),
-      (0.8, 'Answer ready'),
+      (0.1, 'Querying the ERP…'),
+      (0.34, 'Cross-referencing the CRM and spreadsheets…'),
+      (0.55, 'Checking WhatsApp and email orders…'),
+      (0.78, 'Answer ready, with sources'),
     ],
     'wins': {
-      'erp': {'title': 'ERP · Daily sales', 'head': ['Invoice', 'Customer', 'Amount'],
+      'erp': {'sys': 'ERP', 'icon': 'building-gear', 'title': 'Daily sales', 'head': ['Invoice', 'Customer', 'Amount'],
               'rows': [('INV 0012-4471', 'Norte SA', '$312,400', True), ('INV 0012-4472', 'Distrisur', '$184,900', True), ('INV 0012-4473', 'Pampa Dist.', '$97,300', False), ('INV 0012-4474', 'La Rueda', '$141,200', True)],
               'tag': 'Tango · SAP · Odoo'},
-      'crm': {'title': 'CRM · This week’s visits', 'head': ['Customer', 'Sales rep', 'Status'],
+      'crm': {'sys': 'CRM', 'icon': 'people', 'title': 'This week’s visits', 'head': ['Customer', 'Sales rep', 'Status'],
               'rows': [('Norte SA', 'L. Pérez', 'Order closed', True), ('Oeste SRL', 'M. Díaz', 'No visit', False), ('Litoral', 'J. Sosa', 'Proposal sent', False), ('Distrisur', 'L. Pérez', 'Order closed', True)],
               'tag': 'Customers and opportunities'},
-      'xls': {'title': 'distributor_sales.xlsx', 'head': ['Distributor', 'Region', 'Yesterday'],
+      'xls': {'sys': 'Spreadsheets', 'icon': 'file-earmark-spreadsheet', 'title': 'distributor_sales.xlsx', 'head': ['Distributor', 'Region', 'Yesterday'],
               'rows': [('Norte SA', 'North', '312,400', True), ('Distrisur', 'North', '184,900', True), ('Pampa Dist.', 'Central', '97,300', False), ('Oeste SRL', 'West', '58,100', False)],
               'tag': 'Distributor spreadsheets'},
-      'wa': {'title': 'WhatsApp · Orders', 'msgs': [('in', 'Hi, send me 40 boxes of classic chips for Thursday.'), ('out', 'Done, order 7731 confirmed for Thursday.'), ('in', 'Add 10 of fries.')],
+      'wa': {'sys': 'WhatsApp', 'icon': 'whatsapp', 'title': 'Orders', 'msgs': [('in', 'Hi, send me 40 boxes of classic chips for Thursday.'), ('out', 'Done, order 7731 confirmed for Thursday.'), ('in', 'Add 10 of fries.')],
              'tag': 'WhatsApp orders'},
-      'mail': {'title': 'Email · Inbox', 'lines': [('Norte SA', 'Re: Credit note 2214'), ('Logística Sur', 'Thursday delivery confirmed'), ('Distrisur', 'Purchase order 9931')],
+      'mail': {'sys': 'Email', 'icon': 'envelope', 'title': 'Inbox', 'lines': [('Norte SA', 'Re: Credit note 2214'), ('Logística Sur', 'Thursday delivery confirmed'), ('Distrisur', 'Purchase order 9931')],
                'tag': 'Orders and notes by email'},
     },
     'answer': {
@@ -107,12 +113,16 @@
 </table>
 {% endmacro %}
 
+{# Una ventana de un sistema: etiqueta grande con el nombre del sistema y la ventana en sí #}
 {% macro win(n, data, extra='') %}
 <div class="hq-win hq-win-{{ n }}{{ ' ' + extra if extra }}">
-  <div class="hq-tb"><i></i><i></i><i></i> {{ data.title }}</div>
-  <div class="hq-body">
-    {{ caller() }}
-    <span class="hq-tag">{{ data.tag }}</span>
+  <span class="hq-label">{{ icon(data.icon) }} {{ data.sys }}</span>
+  <div class="hq-card">
+    <div class="hq-tb"><i></i><i></i><i></i> {{ data.title }}</div>
+    <div class="hq-body">
+      {{ caller() }}
+      <span class="hq-tag">{{ data.tag }}</span>
+    </div>
   </div>
 </div>
 {% endmacro %}
@@ -133,6 +143,12 @@
           <h1 id="hq-title">{{ C.title }}<br><em>{{ C.title_em }}</em></h1>
           <p class="hq-lead lead">{{ C.lead }}</p>
           <p class="hq-bubble"><span class="hq-avatar" aria-hidden="true">{{ C.user }}</span> {{ C.question }}</p>
+          {# Sin JavaScript, los tres pasos se ven completos; site.js los va encendiendo con el scroll #}
+          <ol class="hq-steps" aria-label="{{ C.steps_label }}">
+            {%- for from, text in C.steps -%}
+            <li class="hq-step {{ 'is-on' if loop.last else 'is-done' }}" data-from="{{ from }}"><span class="hq-step-n" aria-hidden="true">{{ loop.index }}</span><span>{{ text }}</span></li>
+            {%- endfor -%}
+          </ol>
           <p class="hq-status">
             {%- for from, text in C.statuses -%}
             <span data-from="{{ from }}"{% if loop.last %} class="is-on"{% endif %}>{{ text }}</span>
