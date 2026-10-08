@@ -44,7 +44,7 @@ src/pages/               Contenido de cada página (en src/pages/en/, la versió
 src/hero.html            Inicio: la pregunta que recorre los sistemas hasta la respuesta (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs) y portadas a partir de la foto de la oficina (hero_foto.py)
+tools/                   Generadores de imágenes: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs) y la foto de la oficina del inicio y las portadas (hero_foto.py)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -142,8 +142,8 @@ Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos»
 Las secciones claras (marfil) cuentan la historia del negocio y las «profundas» (azul noche, `section-deep`) muestran dónde viven los datos, con el naranja de la marca y una luz azul como fuentes de luz. Los estilos del rediseño están en `src/assets/css/design.css` (se carga después de `site.css`) y sus interacciones en `src/assets/js/design.js`:
 
 - **Núcleo de datos** (`[data-core]`, inicio): una secuencia de 24 cuadros (12 en celulares) renderizada en 3D que se recorre con el scroll, como en apple.com. Se genera con `tools/nucleo.cjs` (three.js en Chromium sin pantalla) en `src/assets/img/core/`; `poster.webp` es el cuadro final, que se usa sin animación y en el cierre de cada página.
-- **Inicio** (`src/hero.html`, estilos `.hq*` en `design.css`): «Una pregunta. Todos tus sistemas. Una sola respuesta.» Con animación, la escena queda fija y el scroll hace avanzar la cámara en 3D entre las ventanas del ERP, el CRM, las planillas, WhatsApp y el correo hasta la respuesta del asistente, mientras tres pasos (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte del recorrido se está; sin animación se ven la pregunta, los pasos y la respuesta. Los textos de cada ventana, de los pasos y de la respuesta están en el mismo archivo (datos ficticios).
-- **Portadas**: Nosotros, Servicios y Contacto usan recortes de la foto de la oficina (`src/assets/img/covers/`, generados con `tools/hero_foto.py --portadas`).
+- **Inicio** (`src/hero.html`, estilos `.hp*` en `design.css`): «Una pregunta. Todos tus sistemas. Una sola respuesta.» sobre la foto de la oficina. Con animación, la escena queda fija y el scroll acerca la cámara al monitor de la mujer (ERP y planillas), trae al lado el monitor del compañero (CRM y WhatsApp), los deja de frente y los funde en un solo monitor con el asistente y la respuesta; tres pasos (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte del recorrido se está. Sin animación se ven el texto, la foto, los pasos y la respuesta. Las esquinas de los monitores en la foto (`src/assets/img/hero/oficina-*.webp`, que genera `tools/hero_foto.py`) y los textos están en el mismo archivo (datos ficticios).
+- **Portadas**: Nosotros, Servicios y Contacto usan recortes de la misma foto de la oficina (`src/assets/img/covers/`); `tools/hero_foto.py --portadas` regenera la foto del inicio y los recortes a partir de `tools/hero/png/oficina-final.png`.
 - **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **logos en movimiento** (`.marquee`), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
 
 ## Animaciones al hacer scroll

@@ -1,4 +1,4 @@
-"""Foto de la oficina retocada: portadas de Nosotros, Servicios y Contacto.
+"""Foto de la oficina retocada: el inicio y las portadas de Nosotros, Servicios y Contacto.
 
 Parte de tools/hero/oficina-original.webp (1024 x 592: una mujer trabaja en su
 monitor y, al fondo, un compañero con una planilla) y genera
@@ -15,12 +15,14 @@ src/assets/img/covers/<nombre>-{1000,2000}.webp con estos pasos:
 5. Si existe tools/hero/png/pantalla.png (una captura de la ventana del
    asistente), la pinta en perspectiva sobre la pantalla del monitor, con un
    leve resplandor, tapando el sitio de otra empresa que mostraba.
-6. Recorta la foto final (tools/hero/png/oficina-final.png) para las portadas.
+6. Guarda la foto final (tools/hero/png/oficina-final.png) en dos tamaños para el
+   inicio (src/assets/img/hero/oficina-{2048,4096}.webp; las esquinas de los
+   monitores están en src/hero.html) y la recorta para las portadas.
 
 Los modelos se descargan de Hugging Face la primera vez en tools/hero/modelos/.
 Requiere: pip install numpy pillow opencv-contrib-python-headless onnxruntime
 Uso: python tools/hero_foto.py          (todo el proceso)
-     python tools/hero_foto.py --portadas   (solo los recortes, a partir de oficina-final.png)
+     python tools/hero_foto.py --portadas   (solo las salidas, a partir de oficina-final.png)
 """
 import urllib.request
 from pathlib import Path
@@ -266,6 +268,15 @@ COVERS = {
 }
 
 
+def hero(image):
+    dest = SITE / 'src' / 'assets' / 'img' / 'hero'
+    dest.mkdir(parents=True, exist_ok=True)
+    for width in (4096, 2048):
+        out = image if image.width == width else image.resize((width, round(image.height * width / image.width)), Image.LANCZOS)
+        out.save(dest / f'oficina-{width}.webp', 'WEBP', quality=78, method=6)
+        print(f'  inicio: {out.size}')
+
+
 def covers(image):
     dest = SITE / 'src' / 'assets' / 'img' / 'covers'
     dest.mkdir(parents=True, exist_ok=True)
@@ -281,7 +292,9 @@ def covers(image):
 if __name__ == '__main__':
     import sys
     if '--portadas' in sys.argv:
-        covers(Image.open(CACHE / 'oficina-final.png').convert('RGB'))
+        final = Image.open(CACHE / 'oficina-final.png').convert('RGB')
+        hero(final)
+        covers(final)
         raise SystemExit
     CACHE.mkdir(parents=True, exist_ok=True)
     big = CACHE / 'oficina-x4.png'
@@ -304,4 +317,5 @@ if __name__ == '__main__':
     else:
         print('  (sin tools/hero/png/pantalla.png: la pantalla del monitor queda como en la foto)')
     image.save(CACHE / 'oficina-final.png')
+    hero(image)
     covers(image)

@@ -153,61 +153,236 @@
     board.addEventListener('pointerleave', hide);
   });
 
-  /* ---------- Inicio: la pregunta recorre los sistemas con el scroll ----------
-     Solo con html.motion (src/assets/js/motion.js). Las posiciones de las ventanas están en
-     design.css (--x, --y, --z); acá se mueve la cámara (--cam) y se calcula qué se ve. */
+  /* ---------- Inicio: la oficina, los sistemas y una sola respuesta ----------
+     Solo con html.motion (src/assets/js/motion.js). La escena (tamaño de la foto y esquinas de los
+     monitores) viene de data-scene (src/hero.html). El scroll acerca la cámara al monitor de la
+     foto, los dos monitores quedan de frente y se funden en uno solo con el asistente. */
   var heroScene = document.querySelector('[data-hero-scene]');
   if (heroScene && document.documentElement.classList.contains('motion')) {
     (function (hero) {
-      var track = hero.querySelector('.hq-track');
-      var stage = hero.querySelector('.hq-stage');
-      var world = hero.querySelector('.hq-world');
-      var wins = Array.prototype.slice.call(hero.querySelectorAll('.hq-win'));
-      var statuses = Array.prototype.slice.call(hero.querySelectorAll('.hq-status span'));
-      var steps = Array.prototype.slice.call(hero.querySelectorAll('.hq-step'));
-      var CAM = 3200;                        // cuánto avanza la cámara en todo el recorrido (px)
-      var depths = [];
+      var cfg = JSON.parse(hero.getAttribute('data-scene'));
+      var IMG_W = cfg.w;
+      var IMG_H = cfg.h;
+      var all = function (sel) { return Array.prototype.slice.call(hero.querySelectorAll(sel)); };
+      var track = hero.querySelector('.hp-track');
+      var stage = hero.querySelector('.hp-stage');
+      var photo = hero.querySelector('.hp-photo');
+      var copy = hero.querySelector('.hp-copy');
+      var bar = hero.querySelector('.hp-bar');
+      var actions = hero.querySelector('.hp-actions');
+      var mons = { a: hero.querySelector('.hp-mon-a'), b: hero.querySelector('.hp-mon-b'), c: hero.querySelector('.hp-mon-c') };
+      var statuses = all('.hp-status span');
+      var steps = all('.hp-step');
+      var view = {};
       var ticking = false;
 
       function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+      function lerp(a, b, t) { return a + (b - a) * t; }
       function ramp(a, b, v) { return clamp((v - a) / (b - a), 0, 1); }
+      function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+      function bounds(points) {
+        var xs = points.map(function (q) { return q[0]; });
+        var ys = points.map(function (q) { return q[1]; });
+        var b = { x: Math.min.apply(null, xs), y: Math.min.apply(null, ys) };
+        b.w = Math.max.apply(null, xs) - b.x;
+        b.h = Math.max.apply(null, ys) - b.y;
+        b.cx = b.x + b.w / 2;
+        b.cy = b.y + b.h / 2;
+        return b;
+      }
+
+      // Cuadrilátero con un margen alrededor (el marco de un monitor a partir de su pantalla)
+      function grow(quad, m) {
+        var c = bounds(quad);
+        return quad.map(function (q) {
+          var dx = q[0] - c.cx, dy = q[1] - c.cy;
+          var d = Math.sqrt(dx * dx + dy * dy) || 1;
+          return [q[0] + dx / d * m, q[1] + dy / d * m];
+        });
+      }
+
+      var QUAD_A = cfg.screen;                 // pantalla del monitor de la mujer (arriba-izq., arriba-der., abajo-der., abajo-izq.)
+      var SCREEN = bounds(QUAD_A);
+      var MON_A = cfg.monitor;                 // su marco
+      var MONITOR = bounds(MON_A);
+      var MON_B = grow(cfg.screen2, Math.max(bounds(cfg.screen2).w, bounds(cfg.screen2).h) * 0.045);  // el monitor del compañero
+
+      function rect(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
+
+      // Rectángulo apenas en perspectiva, con el lado interior (hacia el centro) más alto: los dos
+      // monitores parecen mirarse. side: -1 para el de la izquierda, 1 para el de la derecha
+      function tilted(x, y, w, h, side) {
+        var dy = h * 0.045, dx = w * 0.025;
+        return side < 0
+          ? [[x + dx, y + dy], [x + w, y], [x + w, y + h], [x + dx, y + h - dy]]
+          : [[x, y], [x + w - dx, y + dy], [x + w - dx, y + h - dy], [x, y + h]];
+      }
+
+      function mix(q1, q2, t) {
+        return q1.map(function (q, i) { return [lerp(q[0], q2[i][0], t), lerp(q[1], q2[i][1], t)]; });
+      }
+
+      function scaled(quad, k) {
+        var c = bounds(quad);
+        return quad.map(function (q) { return [c.cx + (q[0] - c.cx) * k, c.cy + (q[1] - c.cy) * k]; });
+      }
+
+      function warp(c, box) {
+        // Transformación proyectiva que lleva la caja (box) a las cuatro esquinas c
+        // (cuadrado unitario a cuadrilátero, P. Heckbert), escrita como matrix3d
+        var x0 = c[0][0], y0 = c[0][1], x1 = c[1][0], y1 = c[1][1];
+        var x2 = c[2][0], y2 = c[2][1], x3 = c[3][0], y3 = c[3][1];
+        var sx = x0 - x1 + x2 - x3;
+        var sy = y0 - y1 + y2 - y3;
+        var g = 0;
+        var h = 0;
+        if (Math.abs(sx) > 1e-9 || Math.abs(sy) > 1e-9) {
+          var dx1 = x1 - x2, dx2 = x3 - x2, dy1 = y1 - y2, dy2 = y3 - y2;
+          var den = dx1 * dy2 - dx2 * dy1;
+          g = (sx * dy2 - dx2 * sy) / den;
+          h = (dx1 * sy - sx * dy1) / den;
+        }
+        var a = x1 - x0 + g * x1, b = x3 - x0 + h * x3;
+        var d = y1 - y0 + g * y1, e = y3 - y0 + h * y3;
+        var m = [a / box.w, d / box.w, 0, g / box.w, b / box.h, e / box.h, 0, h / box.h, 0, 0, 1, 0, x0, y0, 0, 1];
+        return 'matrix3d(' + m.map(function (v) { return +v.toFixed(8); }).join(',') + ')';
+      }
+
+      function fit(pos, s, center, size, length) {
+        // Corre el punto donde va el centro de la pantalla para que la foto cubra la vista en ese eje
+        var lo = length - s * (size - center);
+        var hi = s * center;
+        return lo > hi ? (lo + hi) / 2 : clamp(pos, lo, hi);
+      }
+
+      function size(el, box) {
+        el.style.width = box.w + 'px';
+        el.style.height = box.h + 'px';
+      }
 
       function measure() {
-        depths = wins.map(function (w) { return parseFloat(getComputedStyle(w).getPropertyValue('--z')) || 0; });
+        var w = stage.clientWidth;
+        var h = stage.clientHeight;
+        var desk = w >= 1024;
+        var shot = desk ? cfg.desk : cfg.mob;
+        var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 64;
+        // Espacio libre entre la barra de arriba y los botones de abajo
+        var top = header + bar.offsetHeight + 24;
+        var bottom = h - actions.offsetHeight - (desk ? 64 : 48);
+        var room = Math.max(bottom - top, 200);
+
+        // Plano general: la foto cubre la vista (escritorio) o asoma debajo del texto (celulares)
+        var s0 = shot.width ? (w * shot.width) / IMG_W : Math.max(w / IMG_W, h / IMG_H) * shot.zoom;
+        var start = { x: w * shot.x, y: h * shot.y };
+        if (!shot.width) {
+          start.x = fit(start.x, s0, SCREEN.cx, IMG_W, w);
+          start.y = fit(start.y, s0, SCREEN.cy, IMG_H, h);
+        }
+        // Fin del acercamiento: el monitor de la mujer, con su marco, ocupa buena parte del espacio libre
+        var s1 = Math.min((w * shot.fill) / MONITOR.w, (room * shot.fill) / MONITOR.h);
+        var end = {
+          x: w * shot.aim[0] + s1 * (SCREEN.cx - MONITOR.cx),
+          y: top + room * shot.aim[1] + s1 * (SCREEN.cy - MONITOR.cy)
+        };
+        end.x = fit(end.x, s1, SCREEN.cx, IMG_W, w);
+        end.y = fit(end.y, s1, SCREEN.cy, IMG_H, h);
+
+        // Los dos monitores de frente: lado a lado en escritorio, uno sobre otro en celulares
+        var gap = desk ? 28 : 14;
+        var sw, sh, rectA, rectB;
+        if (desk) {
+          sw = Math.min(w * 0.42, 640, (room - 40) * 16 / 10);
+          sh = sw * 10 / 16;
+          var sy = top + (room - sh) / 2;
+          rectB = tilted(w / 2 - gap / 2 - sw, sy, sw, sh, -1);
+          rectA = tilted(w / 2 + gap / 2, sy, sw, sh, 1);
+        } else {
+          sw = Math.min(w * 0.88, 560, ((room - gap) / 2) * 16 / 10);
+          sh = sw * 10 / 16;
+          var y0 = top + (room - 2 * sh - gap) / 2;
+          rectB = rect(w / 2 - sw / 2, y0, sw, sh);
+          rectA = rect(w / 2 - sw / 2, y0 + sh + gap, sw, sh);
+        }
+        // El monitor final, con el asistente
+        var devH = room * 0.96;
+        var devW = desk ? Math.min(w * 0.86, devH * 16 / 10) : w * 0.92;
+        if (desk) devH = Math.min(devH, devW * 10 / 16); else devH = Math.min(devH, devW * 1.5);
+        if (desk && devH < 440) { devH = Math.min(room * 0.96, 440); devW = Math.min(w * 0.86, devH * 16 / 9); }
+        var fin = rect((w - devW) / 2, top + (room - devH) / 2, devW, devH);
+
+        var sideBox = { w: Math.round(sw), h: Math.round(sh) };
+        var finBox = { w: Math.round(devW), h: Math.round(devH) };
+        size(mons.a, sideBox);
+        size(mons.b, sideBox);
+        size(mons.c, finBox);
+        size(photo, { w: IMG_W, h: IMG_H });
+        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: end, rectA: rectA, rectB: rectB, fin: fin, sideBox: sideBox, finBox: finBox };
+      }
+
+      function show(el, opacity) {
+        el.style.opacity = opacity.toFixed(3);
+        el.style.visibility = opacity > 0.01 ? '' : 'hidden';
       }
 
       function render() {
         ticking = false;
-        var rect = track.getBoundingClientRect();
+        var r = track.getBoundingClientRect();
         var total = track.offsetHeight - stage.offsetHeight;
-        var p = total > 0 ? clamp(-rect.top / total, 0, 1) : 1;
-        var cam = p * CAM;
-        world.style.setProperty('--cam', cam.toFixed(1) + 'px');
-        // Cada ventana aparece a lo lejos y se desvanece justo antes de pasar la cámara
-        wins.forEach(function (w, i) {
-          var dz = depths[i] + cam;
-          var op = ramp(-2600, -1900, dz) * (1 - ramp(-320, -120, dz));
-          w.style.opacity = op.toFixed(3);
-          w.style.visibility = op > 0.01 ? '' : 'hidden';
+        var p = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+
+        // El texto se va y aparece la barra compacta con la pregunta y los pasos
+        var out = ramp(0.005, 0.06, p);
+        stage.style.setProperty('--cop', (1 - out).toFixed(3));
+        stage.style.setProperty('--cty', (-40 * out).toFixed(1) + 'px');
+        copy.classList.toggle('is-out', out >= 1);
+        stage.style.setProperty('--bar', ramp(0.05, 0.1, p).toFixed(3));
+        stage.style.setProperty('--shade', (1 - ramp(0.04, 0.22, p)).toFixed(3));
+        stage.style.setProperty('--hop', (1 - ramp(0.005, 0.05, p)).toFixed(3));
+
+        // 1. Acercamiento al monitor de la mujer
+        var t = ease(ramp(0.04, 0.36, p));
+        var s = view.s0 * Math.pow(view.s1 / view.s0, t);
+        var ax = lerp(view.start.x, view.end.x, t);
+        var ay = lerp(view.start.y, view.end.y, t);
+        photo.style.transform = 'translate3d(' + (ax - s * SCREEN.cx).toFixed(2) + 'px,' + (ay - s * SCREEN.cy).toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
+        function onPhoto(quad) {
+          return quad.map(function (q) { return [ax + s * (q[0] - SCREEN.cx), ay + s * (q[1] - SCREEN.cy)]; });
+        }
+
+        // 2. Los dos monitores se despegan de la foto y quedan de frente; la oficina se desvanece
+        var u = ease(ramp(0.34, 0.52, p));
+        stage.style.setProperty('--veil', (0.94 * u).toFixed(3));
+        var quadA = mix(onPhoto(MON_A), view.rectA, u);
+        var quadB = mix(onPhoto(MON_B), view.rectB, u);
+
+        // 3. Se funden en uno solo, con el asistente
+        var v = ease(ramp(0.58, 0.8, p));
+        var meet = scaled(view.fin, 0.72);
+        quadA = mix(quadA, meet, v);
+        quadB = mix(quadB, meet, v);
+        mons.a.style.transform = warp(quadA, view.sideBox);
+        mons.b.style.transform = warp(quadB, view.sideBox);
+        var gone = 1 - ramp(0.35, 0.8, v);
+        show(mons.a, gone);
+        // El monitor del compañero aparece sobre la foto cuando empieza el recorrido (antes se ve su planilla)
+        show(mons.b, gone * ramp(0.03, 0.14, p));
+        mons.c.style.transform = warp(scaled(view.fin, 0.9 + 0.1 * v), view.finBox);
+        show(mons.c, ramp(0.4, 0.85, v));
+        stage.style.setProperty('--flash', (0.85 * Math.sin(Math.PI * ramp(0.25, 0.9, v))).toFixed(3));
+
+        var froms = statuses.map(function (el) { return parseFloat(el.getAttribute('data-from')); });
+        statuses.forEach(function (el, i) {
+          var on = p >= froms[i] && (i === statuses.length - 1 || p < froms[i + 1] || froms[i + 1] === froms[i]);
+          el.classList.toggle('is-on', on);
         });
-        var fin = ramp(0.78, 0.96, p);
-        stage.style.setProperty('--ao', fin.toFixed(3));
-        stage.style.setProperty('--as', (0.6 + 0.4 * fin).toFixed(3));
-        stage.style.setProperty('--os', (1 + 22 * ramp(0.55, 0.85, p) * (1 - fin)).toFixed(2));
-        stage.style.setProperty('--oo', (1 - fin).toFixed(3));
-        stage.style.setProperty('--sp', (ramp(0.08, 0.3, p) * (1 - ramp(0.8, 0.95, p))).toFixed(3));
-        stage.style.setProperty('--ss', (0.6 + 1.6 * p).toFixed(3));
-        stage.style.setProperty('--hop', (1 - ramp(0.02, 0.1, p)).toFixed(3));
-        var current = 0;
-        statuses.forEach(function (el, i) { if (p >= parseFloat(el.getAttribute('data-from'))) current = i; });
-        statuses.forEach(function (el, i) { el.classList.toggle('is-on', i === current); });
-        var step = 0;
-        steps.forEach(function (el, i) { if (p >= parseFloat(el.getAttribute('data-from'))) step = i; });
+        var stepFroms = steps.map(function (el) { return parseFloat(el.getAttribute('data-from')); });
         steps.forEach(function (el, i) {
-          el.classList.toggle('is-on', i === step);
-          el.classList.toggle('is-done', i < step);
+          var on = p >= stepFroms[i] && (i === steps.length - 1 || p < stepFroms[i + 1] || stepFroms[i + 1] === stepFroms[i]);
+          el.classList.toggle('is-on', on);
+          el.classList.toggle('is-done', !on && p >= stepFroms[i]);
         });
-        hero.classList.toggle('is-done', p > 0.95);
+        hero.classList.toggle('is-done', p > 0.92);
         document.body.classList.toggle('hero-copy-visible', p < 0.06);
       }
 
@@ -223,6 +398,8 @@
       render();
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', function () { measure(); render(); });
+      // Si la barra cambia de altura al cargar las tipografías, se vuelve a medir
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); render(); });
     })(heroScene);
   }
 
@@ -539,7 +716,7 @@
 
     // Títulos: palabra por palabra, desde un leve desenfoque
     document.querySelectorAll('.reveal h1, .reveal h2, h1.reveal, h2.reveal').forEach(function (heading) {
-      if (heading.hasAttribute('data-scroll-lit') || heading.closest('.hq')) return;
+      if (heading.hasAttribute('data-scroll-lit') || heading.closest('.hp')) return;
       heading.classList.add('words');
       splitWords(heading, 'w');
       var box = heading.closest('.reveal');
