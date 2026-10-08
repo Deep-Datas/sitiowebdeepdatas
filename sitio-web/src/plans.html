@@ -3,7 +3,7 @@
 <div class="plan-grid">
   {% for plan in t.plans['items'] %}
   {% set featured = plan.get('featured') %}
-  <article class="plan-card{{ ' plan-card-featured' if featured }} reveal">
+  <article class="plan-card{{ ' plan-card-featured' if featured }} glow-card reveal">
     {% if featured %}
     <span class="chip-recommended">{{ t.plans.recommended }}</span>
     {% endif %}

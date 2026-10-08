@@ -137,6 +137,14 @@ Los casos están en `casos.py`. Cada uno tiene `'publicado': False` hasta que se
 
 Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos» del menú y la sección de casos del inicio. `build.py` no deja publicar un caso que todavía tenga datos `[completar]`.
 
+## Diseño 2026: «luz sobre los datos»
+
+Las secciones claras (marfil) cuentan la historia del negocio y las «profundas» (azul noche, `section-deep`) muestran dónde viven los datos, con el naranja de la marca y una luz azul como fuentes de luz. Los estilos del rediseño están en `src/assets/css/design.css` (se carga después de `site.css`) y sus interacciones en `src/assets/js/design.js`:
+
+- **Núcleo de datos** (`[data-core]`, inicio): una secuencia de 24 cuadros (12 en celulares) renderizada en 3D que se recorre con el scroll, como en apple.com. Se genera con `tools/nucleo.cjs` (three.js en Chromium sin pantalla) en `src/assets/img/core/`; `poster.webp` es el cuadro final, que se usa sin animación y en el cierre de cada página.
+- **Portadas**: las industrias tienen una portada propia (`tools/portadas.cjs`, en `src/assets/img/industrias/`) que se ve en el carrusel del inicio y en el encabezado de su página. Nosotros, Servicios y Contacto usan recortes de la foto de la oficina (`src/assets/img/covers/`, generados con `tools/hero_foto.py --portadas`).
+- **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **logos en movimiento** (`.marquee`), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
+
 ## Animaciones al hacer scroll
 
 Inspiradas en apple.com y hechas sin librerías (`src/assets/js/motion.js` y `site.js`):

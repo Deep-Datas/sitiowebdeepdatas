@@ -55,16 +55,16 @@
         ('03', 'Analítica', 'Modelar', 'Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.', '/servicios/#analitica', 'barras'),
         ('04', 'Tableros e IA', 'Recomendar', 'Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.', '/inteligencia-artificial/', 'esfera'),
       ] %}
-    {# En escritorio, con animaciones, la imagen queda fija y cambia con cada paso (site.js) #}
-    <div class="journey-story" data-journey>
+    {# En escritorio, con animaciones, la imagen queda fija y cambia con cada paso (design.js) #}
+    <div class="journey-story" data-journey data-pin>
       <div class="journey-stage" aria-hidden="true">
         {% for num, service, verb, text, href, obj in journey %}
-        <img class="journey-stage-img" src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
+        <img class="journey-stage-img" data-pin-view src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
         {% endfor %}
       </div>
       <ol class="hairline-grid hairline-grid-4 journey">
         {% for num, service, verb, text, href, obj in journey %}
-        <li class="reveal">
+        <li class="reveal" data-pin-step>
           <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
           <span class="label">{{ num }} · {{ service }}</span>
           <h3>{{ verb }}</h3>
@@ -78,9 +78,18 @@
 </section>
 
 <!-- ======= CLIENTES Y CIFRAS ======= -->
-<section class="logos" aria-labelledby="logos-title">
+<section class="trust" aria-labelledby="logos-title">
   <div class="container">
-    {{ logos.wall() }}
+    <h2 class="logos-title reveal" id="logos-title">{{ t.logos_title }}</h2>
+  </div>
+  <div class="marquee reveal">
+    <div class="marquee-track">
+      {{ logos.row(reveal=false) }}
+      {{ logos.row(reveal=false, hidden=true) }}
+    </div>
+  </div>
+  <div class="container">
+    <p class="logos-caption reveal">{{ t.logos_caption }}</p>
     <dl class="stats reveal">
       <div><dt>distribuidores integrados en un único modelo para una empresa líder de consumo masivo</dt><dd>40</dd></div>
       <div><dt>menos quiebres de stock con un pronóstico de demanda</dt><dd>12<span>%</span></dd></div>
@@ -90,23 +99,68 @@
   </div>
 </section>
 
+<!-- ======= NÚCLEO DE DATOS: del dato disperso a la IA ======= -->
+<section class="section section-deep core" data-deep aria-labelledby="core-title">
+  <div class="core-stage">
+    <div class="core-sticky">
+      <canvas class="core-canvas" data-core data-src="/assets/img/core/" data-frames-d="24" data-frames-m="12" aria-hidden="true"></canvas>
+      <img class="core-poster" src="/assets/img/core/poster.webp" alt="" width="1600" height="1000" loading="lazy">
+      <div class="core-copy">
+        <p class="eyebrow">Datos listos para la IA</p>
+        <div class="core-text">
+        <h2 class="core-title" id="core-title">Del dato disperso a un agente de IA que responde <em>con precisión.</em></h2>
+        <div class="core-captions">
+          <p class="core-caption" data-at="0.12">Hoy tus datos están <strong>repartidos</strong> en sistemas, planillas y mensajes.</p>
+          <p class="core-caption" data-at="0.42">Los reunimos, los limpiamos y los <strong>ordenamos</strong> con reglas de negocio.</p>
+          <p class="core-caption" data-at="0.68">El resultado: <strong>una sola fuente confiable</strong> que una IA puede usar sin equivocarse.</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container core-diagram">
+    <div class="section-head reveal">
+      <p class="eyebrow">El recorrido de tus datos</p>
+      <h2>Una IA es tan buena como los datos que consume</h2>
+      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Explorá cada etapa.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
+    <div class="pl-cta">
+      <p>¿Querés saber qué tan listos están tus datos?</p>
+      <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>
+      <a class="btn btn-ghost-light btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+    </div>
+  </div>
+</section>
+
 <!-- ======= INDUSTRIAS ======= -->
 <section class="section" id="industrias" aria-labelledby="industrias-title">
   <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">Industrias</p>
-      <h2 id="industrias-title">Para empresas que crecieron más rápido que <em>sus sistemas.</em></h2>
-      <p>Distribuidoras, pymes y empresas medianas que se gestionan con el ERP, Excel y WhatsApp, sin un equipo de datos propio. Conocemos los indicadores y los problemas típicos de cada sector, por eso arrancamos con las preguntas correctas.</p>
+    <div class="section-head section-head-rail reveal">
+      <div>
+        <p class="eyebrow">Industrias</p>
+        <h2 id="industrias-title">Para empresas que crecieron más rápido que <em>sus sistemas.</em></h2>
+        <p>Distribuidoras, pymes y empresas medianas que se gestionan con el ERP, Excel y WhatsApp, sin un equipo de datos propio. Conocemos los indicadores y los problemas típicos de cada sector.</p>
+      </div>
     </div>
-    <div class="ind-cards">
-      {% for ind in industries %}
-      <a class="ind-card reveal" href="{{ url('ind-' ~ ind.id) }}">
-        <span class="pain-icon">{{ icon(ind.icon) }}</span>
-        <h3>{{ ind.name }}</h3>
-        <p>{{ ind.card }}</p>
-        <span class="case-card-more">Ver soluciones {{ icon('arrow-right') }}</span>
-      </a>
-      {% endfor %}
+    <div class="rail" data-rail>
+      <div class="rail-track" tabindex="0" aria-label="Industrias">
+        {% for ind in industries %}
+        <a class="rail-card" href="{{ url('ind-' ~ ind.id) }}">
+          <img src="/assets/img/industrias/{{ ind.id }}-600.webp" srcset="/assets/img/industrias/{{ ind.id }}-600.webp 600w, /assets/img/industrias/{{ ind.id }}-1200.webp 1200w" sizes="(min-width: 1024px) 380px, 80vw" alt="" width="600" height="400" loading="lazy">
+          <span class="icon-arrow">{{ icon('arrow-right') }}</span>
+          <span class="rail-body">
+            <span class="rail-kicker">Industria</span>
+            <strong>{{ ind.name }}</strong>
+            <span>{{ ind.card }}</span>
+          </span>
+        </a>
+        {% endfor %}
+      </div>
+      <div class="rail-nav">
+        <button class="rail-btn rail-btn-prev" type="button" data-rail-prev aria-label="Anteriores">{{ icon('arrow-right') }}</button>
+        <button class="rail-btn" type="button" data-rail-next aria-label="Siguientes">{{ icon('arrow-right') }}</button>
+      </div>
     </div>
   </div>
 </section>
@@ -120,17 +174,17 @@
     </div>
 
     <div class="pain-grid">
-      <article class="pain-card reveal">
+      <article class="pain-card glow-card reveal">
         <h3>Información dispersa</h3>
         <p>Ventas en el ERP, stock en una planilla, objetivos en otra. Cada área tiene su propia versión de los números.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Un único modelo de datos que se actualiza solo.</p>
       </article>
-      <article class="pain-card reveal">
+      <article class="pain-card glow-card reveal">
         <h3>Reportes que llegan tarde</h3>
         <p>Cada cierre implica días de copiar, pegar y validar datos a mano. Cuando el informe está listo, ya es tarde para actuar.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Tableros listos el primer día del mes, no el quinto.</p>
       </article>
-      <article class="pain-card reveal">
+      <article class="pain-card glow-card reveal">
         <h3>Decisiones a ciegas</h3>
         <p>Sin indicadores claros es difícil saber qué cliente, producto o canal está dejando de rendir, y por qué.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Alertas y recomendaciones cuando algo se desvía.</p>
@@ -139,19 +193,70 @@
   </div>
 </section>
 
-<!-- ======= DATOS PARA IA ======= -->
-<section class="section section-dark section-stage section-pipeline" aria-labelledby="pipeline-title">
+<!-- ======= LA IA EN EL BOLSILLO ======= -->
+<section class="section section-paper pin" data-pin aria-labelledby="bolsillo-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">Datos listos para la IA</p>
-      <h2 id="pipeline-title">Del dato disperso a un agente de IA que responde <em>con precisión.</em></h2>
-      <p>Una IA es tan buena como los datos que consume. Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza.</p>
+      <p class="eyebrow">IA para empresas</p>
+      <h2 id="bolsillo-title">Tus datos, en la aplicación que tu equipo <em>ya usa.</em></h2>
     </div>
-    {{ pipeline_chart.diagram() }}
-    <div class="pl-cta">
-      <p>¿Querés saber qué tan listos están tus datos?</p>
-      <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>
-      <a class="btn btn-ghost-light btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+    <div class="pin-grid">
+      <div class="pin-steps">
+        <div class="pin-step reveal" data-pin-step>
+          <span class="label">01 · Consultas</span>
+          <h3>Preguntale a tus datos como a un analista</h3>
+          <p>Ventas, stock, clientes y objetivos, respondidos al instante desde WhatsApp o Teams, con la fuente de donde sale cada número.</p>
+        </div>
+        <div class="pin-step reveal" data-pin-step>
+          <span class="label">02 · Alertas</span>
+          <h3>Alertas que explican qué pasó</h3>
+          <p>El agente detecta desvíos en ventas, stock o cobranzas y avisa con contexto, antes de que el problema crezca.</p>
+        </div>
+        <div class="pin-step reveal" data-pin-step>
+          <span class="label">03 · Automatización</span>
+          <h3>Pedidos que se cargan solos</h3>
+          <p>Lee los pedidos que llegan por WhatsApp o email, los carga en tu sistema y pregunta solo cuando falta un dato.</p>
+          <p class="section-foot"><a class="link-arrow" href="/inteligencia-artificial/">Ver todas las soluciones de IA {{ icon('arrow-right') }}</a></p>
+        </div>
+      </div>
+      <div class="pin-stage reveal">
+        <div class="phone-halo" aria-hidden="true"></div>
+        <div class="phone" role="img" aria-label="Ejemplo ilustrativo: conversaciones con el asistente de IA por WhatsApp (datos ficticios)">
+          <div class="phone-screen">
+            <div class="phone-view" data-pin-view>
+              <div class="chat-top"><span class="cw-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-body">
+                <div class="chat-msg chat-out"><p>¿Cuánto vendimos ayer en la zona norte?</p><span class="chat-time">9:41</span></div>
+                <div class="chat-msg"><p><strong>$ 1,28 M</strong> ayer en el norte, <strong>+9 %</strong> contra el mismo día de la semana pasada.</p><p>Los tres distribuidores que más crecieron: Norte SA, Distrisur y La Rueda.</p><span class="chat-time">9:41 · Fuente: ERP</span></div>
+                <div class="chat-msg chat-out"><p>¿Y qué clientes dejaron de comprar?</p><span class="chat-time">9:42</span></div>
+                <div class="chat-msg"><p><strong>38 clientes</strong> que compraban todos los meses no compraron en septiembre. Te mando la lista por vendedor, ordenada por facturación.</p><span class="chat-time">9:42 · Fuente: ERP y CRM</span></div>
+              </div>
+              <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
+            </div>
+            <div class="phone-view" data-pin-view>
+              <div class="chat-top"><span class="cw-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-body">
+                <div class="chat-msg"><span class="chat-tag">Alerta de stock</span><p>Tres productos van a quedarse sin stock antes del 15 de octubre:</p>
+                  <ul class="chat-list"><li><span>Papas clásicas 400 g</span><span>3 días</span></li><li><span>Bastones 1 kg</span><span>4 días</span></li><li><span>Puré 125 g</span><span>4 días</span></li></ul>
+                  <p>¿Preparo la orden de reposición sugerida?</p><span class="chat-time">7:05 · Fuente: pronóstico de demanda</span></div>
+                <div class="chat-msg chat-out"><p>Sí, armala.</p><span class="chat-time">8:10</span></div>
+                <div class="chat-msg"><span class="chat-tag chat-tag-ok">Listo</span><p>Orden de reposición creada: <strong>1.240 bultos</strong>. La dejé para aprobar en el ERP.</p><span class="chat-time">8:10</span></div>
+              </div>
+              <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
+            </div>
+            <div class="phone-view" data-pin-view>
+              <div class="chat-top"><span class="cw-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-body">
+                <div class="chat-msg chat-out"><p>Hola! Mandame 20 cajas de clásicas 400 g, 10 de bastones y 5 de puré para el jueves. Gracias</p><span class="chat-time">11:20 · Autoservicio El Sol</span></div>
+                <div class="chat-msg"><span class="chat-tag chat-tag-ok">Pedido cargado</span><p>Pedido <strong>48.213</strong> cargado en el ERP para Autoservicio El Sol: 3 ítems, entrega jueves 10/10.</p><p>Falta confirmar el precio de los bastones: ¿aplica la lista mayorista?</p><span class="chat-time">11:21</span></div>
+                <div class="chat-msg chat-out"><p>Sí, lista mayorista.</p><span class="chat-time">11:24</span></div>
+                <div class="chat-msg"><p>Perfecto, pedido confirmado. Le envié la confirmación al cliente.</p><span class="chat-time">11:24</span></div>
+              </div>
+              <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -169,7 +274,7 @@
     </div>
     <div class="case-cards">
       {% for c in cases[:3] %}
-      <a class="case-card reveal" href="/casos/#{{ c.id }}">
+      <a class="case-card glow-card reveal" href="/casos/#{{ c.id }}">
         <span class="case-card-industry">{{ c.industry }}</span>
         <strong class="case-card-number">{{ c.results[0][0] }}</strong>
         <span class="case-card-label">{{ c.results[0][1] }}</span>
@@ -232,7 +337,7 @@
     <ul class="post-grid">
       {% for p in posts[:3] %}
       <li class="reveal">
-        <article class="post-card">
+        <article class="post-card glow-card">
           <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>
           <p>{{ p.description }}</p>
           <p class="post-meta">{{ p.minutes }} min de lectura</p>

@@ -19,6 +19,9 @@ src/assets/img/hero/oficina-{2048,4096}.webp:
    site.js pone encima la ventana real. La pantalla original (el sitio de
    otra empresa) queda completamente tapada.
 
+Con --portadas, además recorta la foto final para los encabezados de Nosotros, Servicios y
+Contacto (src/assets/img/covers/<nombre>-{1000,2000}.webp).
+
 Los modelos se descargan de Hugging Face la primera vez en tools/hero/modelos/.
 Requiere: pip install numpy pillow opencv-contrib-python-headless onnxruntime
 Uso: python build.py && node tools/render_pantalla.cjs && python tools/hero_foto.py && python build.py
@@ -258,7 +261,31 @@ def screen(image, quad):
     return paste_warped(image, ui, quad)
 
 
+# Recortes de la foto final para los encabezados de página (en píxeles de la imagen x4)
+COVERS = {
+    'nosotros': (700, 420, 3900, 1900),       # las dos personas y las ventanas
+    'servicios': (640, 300, 2240, 1300),      # la pizarra y el monitor
+    'contacto': (1500, 1450, 3300, 2300),     # el escritorio: teclado y manos
+}
+
+
+def covers(image):
+    dest = SITE / 'src' / 'assets' / 'img' / 'covers'
+    dest.mkdir(parents=True, exist_ok=True)
+    for name, box in COVERS.items():
+        crop = image.crop(box)
+        crop.thumbnail((2000, 2000), Image.LANCZOS)
+        for width in (2000, 1000):
+            out = crop if crop.width <= width else crop.resize((width, round(crop.height * width / crop.width)), Image.LANCZOS)
+            out.save(dest / f'{name}-{width}.webp', 'WEBP', quality=80, method=6)
+        print(f'  {name}: {crop.size}')
+
+
 if __name__ == '__main__':
+    import sys
+    if '--portadas' in sys.argv:
+        covers(Image.open(CACHE / 'oficina-final.png').convert('RGB'))
+        raise SystemExit
     CACHE.mkdir(parents=True, exist_ok=True)
     big = CACHE / 'oficina-x4.png'
     if big.exists():

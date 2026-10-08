@@ -10,10 +10,10 @@
 ] %}
 
 {# Lista de logos; con «only», solo los de esos clientes (por ejemplo, los de una industria). #}
-{% macro row(only=none) %}
-<ul class="logos-row">
+{% macro row(only=none, reveal=true, hidden=false) %}
+<ul class="logos-row"{% if hidden %} aria-hidden="true"{% endif %}>
   {% for id, file, name, w, h in LOGOS if only is none or id in only %}
-  <li class="reveal"><img{% if id == 'cafe-m' %} class="logo-round"{% endif %} src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
+  <li{% if reveal %} class="reveal"{% endif %}><img{% if id == 'cafe-m' %} class="logo-round"{% endif %} src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
   {% endfor %}
 </ul>
 {% endmacro %}

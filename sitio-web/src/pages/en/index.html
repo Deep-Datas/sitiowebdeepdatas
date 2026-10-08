@@ -55,16 +55,16 @@
         ('03', 'Analytics', 'Model', 'KPIs built around your business and models that anticipate demand and customer churn.', url('servicios') ~ '#analitica', 'barras'),
         ('04', 'Dashboards and AI', 'Recommend', 'Dashboards and AI agents that tell you what happened, why, and what to do next.', url('ia'), 'esfera'),
       ] %}
-    {# En escritorio, con animaciones, la imagen queda fija y cambia con cada paso (site.js) #}
-    <div class="journey-story" data-journey>
+    {# On desktop, with animations, the image stays put and changes with each step (design.js) #}
+    <div class="journey-story" data-journey data-pin>
       <div class="journey-stage" aria-hidden="true">
         {% for num, service, verb, text, href, obj in journey %}
-        <img class="journey-stage-img" src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
+        <img class="journey-stage-img" data-pin-view src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
         {% endfor %}
       </div>
       <ol class="hairline-grid hairline-grid-4 journey">
         {% for num, service, verb, text, href, obj in journey %}
-        <li class="reveal">
+        <li class="reveal" data-pin-step>
           <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
           <span class="label">{{ num }} · {{ service }}</span>
           <h3>{{ verb }}</h3>
@@ -78,9 +78,18 @@
 </section>
 
 <!-- ======= CLIENTS AND NUMBERS ======= -->
-<section class="logos" aria-labelledby="logos-title">
+<section class="trust" aria-labelledby="logos-title">
   <div class="container">
-    {{ logos.wall() }}
+    <h2 class="logos-title reveal" id="logos-title">{{ t.logos_title }}</h2>
+  </div>
+  <div class="marquee reveal">
+    <div class="marquee-track">
+      {{ logos.row(reveal=false) }}
+      {{ logos.row(reveal=false, hidden=true) }}
+    </div>
+  </div>
+  <div class="container">
+    <p class="logos-caption reveal">{{ t.logos_caption }}</p>
     <dl class="stats reveal">
       <div><dt>distributors integrated into a single model for a leading consumer goods company</dt><dd>40</dd></div>
       <div><dt>fewer stockouts with a demand forecast</dt><dd>12<span>%</span></dd></div>
@@ -90,23 +99,68 @@
   </div>
 </section>
 
+<!-- ======= DATA CORE: from scattered data to AI ======= -->
+<section class="section section-deep core" data-deep aria-labelledby="core-title">
+  <div class="core-stage">
+    <div class="core-sticky">
+      <canvas class="core-canvas" data-core data-src="/assets/img/core/" data-frames-d="24" data-frames-m="12" aria-hidden="true"></canvas>
+      <img class="core-poster" src="/assets/img/core/poster.webp" alt="" width="1600" height="1000" loading="lazy">
+      <div class="core-copy">
+        <p class="eyebrow">Data ready for AI</p>
+        <div class="core-text">
+        <h2 class="core-title" id="core-title">From scattered data to an AI agent that answers <em>with precision.</em></h2>
+        <div class="core-captions">
+          <p class="core-caption" data-at="0.12">Today your data is <strong>scattered</strong> across systems, spreadsheets and messages.</p>
+          <p class="core-caption" data-at="0.42">We bring it together, clean it and <strong>organize it</strong> with business rules.</p>
+          <p class="core-caption" data-at="0.68">The result: <strong>a single reliable source</strong> that an AI can use without getting it wrong.</p>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container core-diagram">
+    <div class="section-head reveal">
+      <p class="eyebrow">Your data’s journey</p>
+      <h2>AI is only as good as the data it runs on</h2>
+      <p>We bring together the information now spread across systems, spreadsheets and messages, curate it and organize it so an AI agent can use it with confidence. Explore each stage.</p>
+    </div>
+    {{ pipeline_chart.diagram() }}
+    <div class="pl-cta">
+      <p>Want to know how ready your data is?</p>
+      <a class="btn btn-primary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment {{ icon('arrow-right') }}</a>
+      <a class="btn btn-ghost-light btn-lg" href="{{ url('ia') }}">See AI solutions</a>
+    </div>
+  </div>
+</section>
+
 <!-- ======= INDUSTRIES ======= -->
 <section class="section" id="industrias" aria-labelledby="industrias-title">
   <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">Industries</p>
-      <h2 id="industrias-title">For companies that grew faster than <em>their systems.</em></h2>
-      <p>Distributors and small and midsize companies that run on their ERP, Excel and WhatsApp, without an in-house data team. We know the KPIs and typical problems of each sector, so we start with the right questions.</p>
+    <div class="section-head section-head-rail reveal">
+      <div>
+        <p class="eyebrow">Industries</p>
+        <h2 id="industrias-title">For companies that grew faster than <em>their systems.</em></h2>
+        <p>Distributors and small and midsize companies that run on their ERP, Excel and WhatsApp, without an in-house data team. We know the KPIs and typical problems of each sector.</p>
+      </div>
     </div>
-    <div class="ind-cards">
-      {% for ind in industries %}
-      <a class="ind-card reveal" href="{{ url('ind-' ~ ind.id) }}">
-        <span class="pain-icon">{{ icon(ind.icon) }}</span>
-        <h3>{{ ind.name }}</h3>
-        <p>{{ ind.card }}</p>
-        <span class="case-card-more">See solutions {{ icon('arrow-right') }}</span>
-      </a>
-      {% endfor %}
+    <div class="rail" data-rail>
+      <div class="rail-track" tabindex="0" aria-label="Industries">
+        {% for ind in industries %}
+        <a class="rail-card" href="{{ url('ind-' ~ ind.id) }}">
+          <img src="/assets/img/industrias/{{ ind.id }}-600.webp" srcset="/assets/img/industrias/{{ ind.id }}-600.webp 600w, /assets/img/industrias/{{ ind.id }}-1200.webp 1200w" sizes="(min-width: 1024px) 380px, 80vw" alt="" width="600" height="400" loading="lazy">
+          <span class="icon-arrow">{{ icon('arrow-right') }}</span>
+          <span class="rail-body">
+            <span class="rail-kicker">Industry</span>
+            <strong>{{ ind.name }}</strong>
+            <span>{{ ind.card }}</span>
+          </span>
+        </a>
+        {% endfor %}
+      </div>
+      <div class="rail-nav">
+        <button class="rail-btn rail-btn-prev" type="button" data-rail-prev aria-label="Previous">{{ icon('arrow-right') }}</button>
+        <button class="rail-btn" type="button" data-rail-next aria-label="Next">{{ icon('arrow-right') }}</button>
+      </div>
     </div>
   </div>
 </section>
@@ -120,17 +174,17 @@
     </div>
 
     <div class="pain-grid">
-      <article class="pain-card reveal">
+      <article class="pain-card glow-card reveal">
         <h3>Scattered information</h3>
         <p>Sales in the ERP, inventory in one spreadsheet, targets in another. Every department has its own version of the numbers.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} A single data model that updates itself.</p>
       </article>
-      <article class="pain-card reveal">
+      <article class="pain-card glow-card reveal">
         <h3>Reports that arrive too late</h3>
         <p>Every month-end close means days of copying, pasting and checking data by hand. By the time the report is ready, it’s too late to act.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Dashboards ready on the first day of the month, not the fifth.</p>
       </article>
-      <article class="pain-card reveal">
+      <article class="pain-card glow-card reveal">
         <h3>Flying blind</h3>
         <p>Without clear KPIs, it’s hard to tell which customer, product or channel is underperforming, and why.</p>
         <p class="pain-answer">{{ icon('arrow-right') }} Alerts and recommendations when something goes off track.</p>
@@ -139,19 +193,70 @@
   </div>
 </section>
 
-<!-- ======= DATA FOR AI ======= -->
-<section class="section section-dark section-stage section-pipeline" aria-labelledby="pipeline-title">
+<!-- ======= AI IN YOUR POCKET ======= -->
+<section class="section section-paper pin" data-pin aria-labelledby="bolsillo-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">Data ready for AI</p>
-      <h2 id="pipeline-title">From scattered data to an AI agent that answers <em>with precision.</em></h2>
-      <p>AI is only as good as the data it runs on. We bring together the information now spread across systems, spreadsheets and messages, curate it and organize it so an AI agent can use it with confidence.</p>
+      <p class="eyebrow">AI for business</p>
+      <h2 id="bolsillo-title">Your data, in the app your team <em>already uses.</em></h2>
     </div>
-    {{ pipeline_chart.diagram() }}
-    <div class="pl-cta">
-      <p>Want to know how ready your data is?</p>
-      <a class="btn btn-primary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment {{ icon('arrow-right') }}</a>
-      <a class="btn btn-ghost-light btn-lg" href="{{ url('ia') }}">See AI solutions</a>
+    <div class="pin-grid">
+      <div class="pin-steps">
+        <div class="pin-step reveal" data-pin-step>
+          <span class="label">01 · Questions</span>
+          <h3>Ask your data like you’d ask an analyst</h3>
+          <p>Sales, inventory, customers and targets, answered instantly on WhatsApp or Teams, with the source behind every number.</p>
+        </div>
+        <div class="pin-step reveal" data-pin-step>
+          <span class="label">02 · Alerts</span>
+          <h3>Alerts that explain what happened</h3>
+          <p>The agent spots deviations in sales, inventory or collections and warns you with context, before the problem grows.</p>
+        </div>
+        <div class="pin-step reveal" data-pin-step>
+          <span class="label">03 · Automation</span>
+          <h3>Orders that enter themselves</h3>
+          <p>It reads the orders that arrive on WhatsApp or email, enters them into your system and asks only when something is missing.</p>
+          <p class="section-foot"><a class="link-arrow" href="{{ url('ia') }}">See all AI solutions {{ icon('arrow-right') }}</a></p>
+        </div>
+      </div>
+      <div class="pin-stage reveal">
+        <div class="phone-halo" aria-hidden="true"></div>
+        <div class="phone" role="img" aria-label="Illustrative example: conversations with the AI assistant on WhatsApp (sample data)">
+          <div class="phone-screen">
+            <div class="phone-view" data-pin-view>
+              <div class="chat-top"><span class="cw-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-body">
+                <div class="chat-msg chat-out"><p>How much did we sell yesterday in the north?</p><span class="chat-time">9:41</span></div>
+                <div class="chat-msg"><p><strong>$1.28M</strong> yesterday in the north, <strong>+9%</strong> versus the same day last week.</p><p>The three fastest-growing distributors: Norte SA, Distrisur and La Rueda.</p><span class="chat-time">9:41 · Source: ERP</span></div>
+                <div class="chat-msg chat-out"><p>And which customers stopped buying?</p><span class="chat-time">9:42</span></div>
+                <div class="chat-msg"><p><strong>38 customers</strong> who used to buy every month didn’t buy in September. I’m sending you the list by sales rep, sorted by revenue.</p><span class="chat-time">9:42 · Source: ERP and CRM</span></div>
+              </div>
+              <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
+            </div>
+            <div class="phone-view" data-pin-view>
+              <div class="chat-top"><span class="cw-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-body">
+                <div class="chat-msg"><span class="chat-tag">Inventory alert</span><p>Three products will run out of stock before October 15:</p>
+                  <ul class="chat-list"><li><span>Classic Chips 400 g</span><span>3 days</span></li><li><span>Fries 1 kg</span><span>4 days</span></li><li><span>Mashed Potatoes 125 g</span><span>4 days</span></li></ul>
+                  <p>Should I prepare the suggested replenishment order?</p><span class="chat-time">7:05 · Source: demand forecast</span></div>
+                <div class="chat-msg chat-out"><p>Yes, go ahead.</p><span class="chat-time">8:10</span></div>
+                <div class="chat-msg"><span class="chat-tag chat-tag-ok">Done</span><p>Replenishment order created: <strong>1,240 cases</strong>. It’s waiting for approval in the ERP.</p><span class="chat-time">8:10</span></div>
+              </div>
+              <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
+            </div>
+            <div class="phone-view" data-pin-view>
+              <div class="chat-top"><span class="cw-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-body">
+                <div class="chat-msg chat-out"><p>Hi! Send me 20 boxes of classic 400 g, 10 of fries and 5 of mashed potatoes for Thursday. Thanks</p><span class="chat-time">11:20 · El Sol Minimarket</span></div>
+                <div class="chat-msg"><span class="chat-tag chat-tag-ok">Order entered</span><p>Order <strong>48,213</strong> entered into the ERP for El Sol Minimarket: 3 items, delivery Thursday 10/10.</p><p>One thing to confirm: should the fries use the wholesale price list?</p><span class="chat-time">11:21</span></div>
+                <div class="chat-msg chat-out"><p>Yes, wholesale list.</p><span class="chat-time">11:24</span></div>
+                <div class="chat-msg"><p>Perfect, order confirmed. I sent the confirmation to the customer.</p><span class="chat-time">11:24</span></div>
+              </div>
+              <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -169,7 +274,7 @@
     </div>
     <div class="case-cards">
       {% for c in cases[:3] %}
-      <a class="case-card reveal" href="{{ url('casos') }}#{{ c.id }}">
+      <a class="case-card glow-card reveal" href="{{ url('casos') }}#{{ c.id }}">
         <span class="case-card-industry">{{ c.industry }}</span>
         <strong class="case-card-number">{{ c.results[0][0] }}</strong>
         <span class="case-card-label">{{ c.results[0][1] }}</span>

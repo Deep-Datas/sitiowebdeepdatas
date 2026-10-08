@@ -694,7 +694,7 @@
         });
         updateWa();
       });
-      document.querySelectorAll('.cta-band, .site-footer').forEach(function (zone) { zones.observe(zone); });
+      document.querySelectorAll('.finale, .cta-band, .site-footer').forEach(function (zone) { zones.observe(zone); });
     }
     window.addEventListener('scroll', updateWa, { passive: true });
     window.addEventListener('resize', updateWa);
@@ -810,23 +810,6 @@
       });
     }, { threshold: 0.6 });
     document.querySelectorAll('.stats dd, .case-card-number').forEach(function (el) { counter.observe(el); });
-
-    // Recorrido de cuatro pasos (inicio, escritorio): la imagen queda fija y cambia con cada paso
-    document.querySelectorAll('[data-journey]').forEach(function (story) {
-      var images = story.querySelectorAll('.journey-stage-img');
-      var stepsJ = Array.prototype.slice.call(story.querySelectorAll('.journey > li'));
-      var setCurrent = function (index) {
-        stepsJ.forEach(function (li, i) { li.classList.toggle('is-current', i === index); });
-        Array.prototype.forEach.call(images, function (img, i) { img.classList.toggle('is-current', i === index); });
-      };
-      setCurrent(0);
-      var watcher = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) setCurrent(stepsJ.indexOf(entry.target));
-        });
-      }, { rootMargin: '-48% 0px -48% 0px' });
-      stepsJ.forEach(function (li) { watcher.observe(li); });
-    });
 
     var motionTicking = false;
     var onScrollMotion = function () {

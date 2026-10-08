@@ -48,7 +48,9 @@
   <script src="{{ asset('js/motion.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('css/site.css') }}">
   <link rel="stylesheet" href="{{ asset('css/charts.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/design.css') }}">
   <script src="{{ asset('js/site.js') }}" defer></script>
+  <script src="{{ asset('js/design.js') }}" defer></script>
   {% if clarity_id and not drafts %}
   <script src="{{ asset('js/analytics.js') }}" data-clarity="{{ clarity_id }}" defer></script>
   {% endif %}
@@ -91,13 +93,13 @@
     {% block content %}{% endblock %}
 
     {% block cta %}
-    <section class="cta-band" aria-labelledby="cta-title">
+    <section class="finale section-deep" data-deep aria-labelledby="cta-title">
+      <img class="finale-bg" src="/assets/img/core/poster.webp" alt="" width="1600" height="1000" loading="lazy">
       <div class="container">
-        <div class="cta-inner reveal">
-          <div>
-            <h2 id="cta-title">{% block cta_title %}{{ t.cta_title | safe }}{% endblock %}</h2>
-            <p>{% block cta_text %}{{ t.cta_text }}{% endblock %}</p>
-          </div>
+        <div class="finale-inner reveal">
+          <p class="eyebrow">{{ t.cta_eyebrow }}</p>
+          <h2 id="cta-title">{% block cta_title %}{{ t.cta_title | safe }}{% endblock %}</h2>
+          <p>{% block cta_text %}{{ t.cta_text }}{% endblock %}</p>
           <div class="cta-actions">
             <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ t.cta_call }} {{ icon('arrow-right') }}</a>
             <a class="btn btn-secondary btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} {{ t.cta_whatsapp }}</a>
@@ -108,7 +110,7 @@
     {% endblock %}
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" data-deep>
     <div class="container">
       <div class="footer-grid">
         <div class="footer-about">

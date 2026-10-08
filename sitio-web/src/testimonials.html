@@ -8,7 +8,7 @@
 {# Una cita. variant='case' la muestra dentro de un caso de éxito (casos.html). #}
 {% macro quote(item, variant='card') %}
 {% set es_marks = item.quote_lang == 'es' %}
-<figure class="{{ 'case-quote' if variant == 'case' else 'testimonial' }} reveal">
+<figure class="{{ 'case-quote' if variant == 'case' else 'testimonial glow-card' }} reveal">
   {% set external_video = item.video and item.video.startswith('http') %}
   {% if item.video and not external_video %}
   <video class="testimonial-video" controls preload="none" playsinline{% if item.poster %} poster="/assets/img/{{ item.poster }}"{% endif %}>

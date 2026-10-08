@@ -336,6 +336,13 @@ def whatsapp(ctx, nav=None):
     return f'https://wa.me/{WHATSAPP_NUMBER}?text={quote(text)}'
 
 
+def cover_img(name, widths=(1000, 2000)):
+    """Imagen de portada de un encabezado de página (src/assets/img/<name>-<ancho>.webp)."""
+    srcset = ', '.join(f'/assets/img/{name}-{w}.webp {w}w' for w in widths)
+    return Markup(f'<div class="page-hero-media" aria-hidden="true"><img src="/assets/img/{name}-{widths[0]}.webp" '
+                  f'srcset="{srcset}" sizes="100vw" alt="" fetchpriority="high"></div>')
+
+
 def asset(path):
     """URL de un archivo de assets con un hash de su contenido, para que los
     navegadores descarguen la versión nueva cuando cambia."""
@@ -475,7 +482,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
+    env.globals.update(icon=icon, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
                        theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass, hero=hero_scene())
 

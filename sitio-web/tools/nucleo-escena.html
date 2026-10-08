@@ -1,0 +1,123 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#060913;overflow:hidden}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const W = 1600, H = 1000;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.95;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#060913');
+const camera = new THREE.PerspectiveCamera(34, W / H, 0.1, 50);
+
+// ---- Partículas: de una nube dispersa a una esfera ordenada ----
+const N = 9000;
+const start = new Float32Array(N * 3), end = new Float32Array(N * 3);
+const colors = new Float32Array(N * 3), sizes = new Float32Array(N), delays = new Float32Array(N);
+const ember = new THREE.Color('#ff7a45'), blue = new THREE.Color('#5b8cff'), cyan = new THREE.Color('#67d8ff'), warm = new THREE.Color('#ffd2b8');
+let seed = 7;
+const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+const golden = Math.PI * (3 - Math.sqrt(5));
+for (let i = 0; i < N; i++) {
+  const core = i < N * 0.22;
+  // Destino: superficie de la esfera (Fibonacci) o núcleo denso
+  const k = core ? i : i - N * 0.22;
+  const count = core ? N * 0.22 : N * 0.78;
+  const y = 1 - (k / (count - 1)) * 2;
+  const r = Math.sqrt(1 - y * y);
+  const th = golden * k;
+  const R = core ? 0.22 + rnd() * 0.3 : 1.0 + (rnd() - 0.5) * 0.05;
+  end[i * 3] = Math.cos(th) * r * R; end[i * 3 + 1] = y * R; end[i * 3 + 2] = Math.sin(th) * r * R;
+  // Origen: dispersos en un volumen amplio, más hacia los lados
+  const a = rnd() * Math.PI * 2, b = (rnd() - 0.5) * Math.PI;
+  const d = 1.4 + Math.pow(rnd(), 0.7) * 2.6;
+  start[i * 3] = Math.cos(a) * Math.cos(b) * d * 1.6; start[i * 3 + 1] = Math.sin(b) * d * 0.75; start[i * 3 + 2] = Math.sin(a) * Math.cos(b) * d * 0.9 - 0.3;
+  const c = core ? (rnd() < 0.7 ? warm : ember) : (rnd() < 0.62 ? blue : (rnd() < 0.5 ? cyan : ember));
+  colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+  sizes[i] = core ? 2.2 + rnd() * 2.5 : 1.6 + rnd() * 2.6;
+  delays[i] = rnd();
+}
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('aStart', new THREE.BufferAttribute(start, 3));
+geo.setAttribute('aEnd', new THREE.BufferAttribute(end, 3));
+geo.setAttribute('position', new THREE.BufferAttribute(end.slice(), 3));
+geo.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
+geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+geo.setAttribute('aDelay', new THREE.BufferAttribute(delays, 1));
+const mat = new THREE.ShaderMaterial({
+  uniforms: { uT: { value: 0 }, uSpin: { value: 0 } },
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  vertexShader: `
+    attribute vec3 aStart, aEnd, aColor; attribute float aSize, aDelay;
+    uniform float uT, uSpin; varying vec3 vColor; varying float vA;
+    vec3 spinY(vec3 p, float a){ float c=cos(a), s=sin(a); return vec3(c*p.x + s*p.z, p.y, -s*p.x + c*p.z); }
+    void main(){
+      float p = clamp((uT - aDelay * 0.45) / 0.55, 0.0, 1.0);
+      p = p * p * (3.0 - 2.0 * p);
+      vec3 s = spinY(aStart, uSpin * (1.0 - p) * 2.2);
+      vec3 pos = mix(s, aEnd, p);
+      pos = spinY(pos, uSpin * 0.6);
+      vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+      gl_Position = projectionMatrix * mv;
+      float depthFade = clamp(1.0 - (-mv.z - 2.0) / 5.0, 0.35, 1.0);
+      gl_PointSize = aSize * (11.0 / -mv.z) * mix(1.15, 1.0, p);
+      vColor = aColor; vA = mix(0.5, 0.75, p) * depthFade;
+    }`,
+  fragmentShader: `
+    varying vec3 vColor; varying float vA;
+    void main(){
+      vec2 uv = gl_PointCoord - 0.5; float d = length(uv);
+      float a = smoothstep(0.5, 0.08, d) * vA;
+      gl_FragColor = vec4(vColor * (0.85 + 0.45 * smoothstep(0.3, 0.0, d)), a);
+    }`
+});
+scene.add(new THREE.Points(geo, mat));
+
+// ---- Núcleo luminoso y anillos ----
+const coreMat = new THREE.MeshBasicMaterial({ color: '#ffb088', transparent: true, opacity: 0 });
+const core = new THREE.Mesh(new THREE.SphereGeometry(0.16, 48, 48), coreMat);
+scene.add(core);
+const rings = [];
+for (const [rx, rz, rad] of [[1.15, 0.25, 1.42], [-0.6, 0.9, 1.62]]) {
+  const m = new THREE.MeshBasicMaterial({ color: '#5b8cff', transparent: true, opacity: 0 });
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(rad, 0.004, 8, 240), m);
+  ring.rotation.set(rx, 0, rz);
+  scene.add(ring); rings.push(ring);
+}
+
+// ---- Postproceso: bloom ----
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.7, 0.6, 0.3);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+window.renderFrame = function (t) {
+  const e = t * t * (3 - 2 * t);
+  mat.uniforms.uT.value = t;
+  mat.uniforms.uSpin.value = 0.9 * (1 - t);
+  coreMat.opacity = Math.max(0, (t - 0.55) / 0.45) * 0.95;
+  core.scale.setScalar(0.6 + 0.4 * Math.max(0, (t - 0.55) / 0.45));
+  rings.forEach((r, i) => { r.material.opacity = Math.max(0, (t - 0.6) / 0.4) * (i ? 0.35 : 0.5); r.rotation.y = t * (i ? -0.5 : 0.8); });
+  const ang = -0.35 + 0.55 * e;
+  camera.position.set(Math.sin(ang) * 4.1, 0.22 - 0.12 * e, Math.cos(ang) * 4.1);
+  camera.lookAt(0, 0, 0);
+  bloom.strength = 0.45 + 0.35 * e;
+  composer.render();
+  return renderer.domElement.toDataURL('image/png');
+};
+window.sceneReady = true;
+</script>
+</body></html>
