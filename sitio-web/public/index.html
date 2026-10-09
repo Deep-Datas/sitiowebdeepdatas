@@ -29,9 +29,9 @@
   <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
-  <link rel="stylesheet" href="/assets/css/site.css?v=6730267757">
+  <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
   <link rel="stylesheet" href="/assets/css/charts.css?v=7ff7a63882">
-  <link rel="stylesheet" href="/assets/css/design.css?v=a33fdc7f3b">
+  <link rel="stylesheet" href="/assets/css/design.css?v=fcc5050373">
   <script src="/assets/js/site.js?v=812892a085" defer></script>
   <script src="/assets/js/design.js?v=8d79bd9285" defer></script>
   <script src="/assets/js/analytics.js?v=7307831a15" data-clarity="ytmns2p931" defer></script>
@@ -293,43 +293,52 @@
       </div>
     </div>
 
-    <div class="journey-story" data-journey data-pin>
-      <div class="journey-stage" aria-hidden="true">
-        <img class="journey-stage-img" data-pin-view src="/assets/img/glass/cubo-claro-512.webp" alt="" width="400" height="400" loading="lazy">
-        <img class="journey-stage-img" data-pin-view src="/assets/img/glass/embudo-claro-512.webp" alt="" width="400" height="400" loading="lazy">
-        <img class="journey-stage-img" data-pin-view src="/assets/img/glass/barras-claro-512.webp" alt="" width="400" height="400" loading="lazy">
-        <img class="journey-stage-img" data-pin-view src="/assets/img/glass/esfera-claro-512.webp" alt="" width="400" height="400" loading="lazy">
+    <div class="chain reveal">
+      <div class="chain-track" tabindex="0" aria-label="Los cuatro pasos">
+        <ol class="chain-steps">
+          <li class="chain-step">
+            <div class="chain-node">
+              <img class="chain-glass" src="/assets/img/glass/cubo-claro-256.webp" alt="" width="256" height="256" loading="lazy">
+              <span class="chain-num">01</span>
+            </div>
+            <span class="label">Ingeniería de datos</span>
+            <h3>Integrar</h3>
+            <p>Conectamos ERP, CRM, planillas y APIs en un único modelo que se actualiza solo.</p>
+            <a class="link-arrow" href="/servicios/#ingenieria">Conocer el servicio <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+          </li>
+          <li class="chain-step">
+            <div class="chain-node">
+              <img class="chain-glass" src="/assets/img/glass/embudo-claro-256.webp" alt="" width="256" height="256" loading="lazy">
+              <span class="chain-num">02</span>
+            </div>
+            <span class="label">Calidad de datos</span>
+            <h3>Curar</h3>
+            <p>Limpiamos, unificamos códigos y validamos cada número con reglas de negocio.</p>
+            <a class="link-arrow" href="/servicios/#calidad">Conocer el servicio <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+          </li>
+          <li class="chain-step">
+            <div class="chain-node">
+              <img class="chain-glass" src="/assets/img/glass/barras-claro-256.webp" alt="" width="256" height="256" loading="lazy">
+              <span class="chain-num">03</span>
+            </div>
+            <span class="label">Analítica</span>
+            <h3>Modelar</h3>
+            <p>Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.</p>
+            <a class="link-arrow" href="/servicios/#analitica">Conocer el servicio <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+          </li>
+          <li class="chain-step">
+            <div class="chain-node">
+              <img class="chain-glass" src="/assets/img/glass/esfera-claro-256.webp" alt="" width="256" height="256" loading="lazy">
+              <span class="chain-num">04</span>
+            </div>
+            <span class="label">Tableros e IA</span>
+            <h3>Recomendar</h3>
+            <p>Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.</p>
+            <a class="link-arrow" href="/inteligencia-artificial/">Ver soluciones de IA <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+          </li>
+        </ol>
       </div>
-      <ol class="hairline-grid hairline-grid-4 journey">
-        <li class="reveal" data-pin-step>
-          <img class="journey-glass" src="/assets/img/glass/cubo-claro-256.webp" alt="" width="88" height="88" loading="lazy">
-          <span class="label">01 · Ingeniería de datos</span>
-          <h3>Integrar</h3>
-          <p>Conectamos ERP, CRM, planillas y APIs en un único modelo que se actualiza solo.</p>
-          <a class="link-arrow" href="/servicios/#ingenieria">Conocer el servicio <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-        </li>
-        <li class="reveal" data-pin-step>
-          <img class="journey-glass" src="/assets/img/glass/embudo-claro-256.webp" alt="" width="88" height="88" loading="lazy">
-          <span class="label">02 · Calidad de datos</span>
-          <h3>Curar</h3>
-          <p>Limpiamos, unificamos códigos y validamos cada número con reglas de negocio.</p>
-          <a class="link-arrow" href="/servicios/#calidad">Conocer el servicio <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-        </li>
-        <li class="reveal" data-pin-step>
-          <img class="journey-glass" src="/assets/img/glass/barras-claro-256.webp" alt="" width="88" height="88" loading="lazy">
-          <span class="label">03 · Analítica</span>
-          <h3>Modelar</h3>
-          <p>Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.</p>
-          <a class="link-arrow" href="/servicios/#analitica">Conocer el servicio <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-        </li>
-        <li class="reveal" data-pin-step>
-          <img class="journey-glass" src="/assets/img/glass/esfera-claro-256.webp" alt="" width="88" height="88" loading="lazy">
-          <span class="label">04 · Tableros e IA</span>
-          <h3>Recomendar</h3>
-          <p>Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.</p>
-          <a class="link-arrow" href="/inteligencia-artificial/">Ver soluciones de IA <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-        </li>
-      </ol>
+      <p class="chain-hint" aria-hidden="true">Deslizá para ver los cuatro pasos <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></p>
     </div>
   </div>
 </section>

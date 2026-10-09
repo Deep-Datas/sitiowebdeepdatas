@@ -5670,32 +5670,6 @@ h2 em,
   justify-content: center;
 }
 
-.journey > li {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.journey-glass {
-  width: 88px;
-  height: 88px;
-  margin: -8px 0 12px -10px;
-}
-
-.journey h3 {
-  margin: 4px 0 8px;
-  font-size: var(--fs-h3);
-}
-
-.journey p {
-  margin: 0 0 20px;
-}
-
-.journey .link-arrow {
-  margin-top: auto;
-  font-size: 0.9rem;
-}
-
 .logos-caption {
   margin: 20px 0 0;
   color: var(--fg-3);
@@ -6982,98 +6956,6 @@ button.text-link-quiet {
 
 .motion [data-scroll-lit] .sw:not(.is-lit) {
   color: #858c9b;
-}
-
-/* Recorrido de cuatro pasos: en escritorio la imagen queda fija y cambia con cada paso */
-.journey-stage {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .motion .journey-story {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: clamp(40px, 5vw, 96px);
-    align-items: start;
-  }
-
-  .motion .journey-stage {
-    position: sticky;
-    top: calc(var(--header-h) + 6vh);
-    display: grid;
-    place-items: center;
-    height: calc(88vh - var(--header-h));
-  }
-
-  .motion .journey-stage-img {
-    grid-area: 1 / 1;
-    width: min(400px, 82%);
-    height: auto;
-    opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.9);
-    filter: blur(6px);
-    transition: opacity 0.7s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease;
-  }
-
-  .motion .journey-stage-img.is-current {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-
-  .motion .journey-story .journey {
-    grid-template-columns: 1fr;
-    gap: 0;
-    overflow: visible;
-    border: 0;
-    border-radius: 0;
-    background: none;
-  }
-
-  .motion .journey-story .journey > li {
-    justify-content: center;
-    min-height: 58vh;
-    padding: 0 0 0 clamp(24px, 3vw, 48px);
-    border-left: 1px solid var(--hairline-strong);
-    background: none;
-  }
-
-  /* El paso activo se destaca; los demás quedan en gris (con contraste suficiente para leerse) */
-  .motion .journey-story .journey h3,
-  .motion .journey-story .journey p {
-    transition: color 0.5s ease;
-  }
-
-  .motion .journey-story .journey > li:not(.is-current) h3 {
-    color: #858c9b;
-  }
-
-  .motion .journey-story .journey > li:not(.is-current) p {
-    color: var(--fg-3);
-  }
-
-  .motion .journey-story .journey > li.is-current {
-    border-left-color: var(--accent-500);
-  }
-
-  .motion .journey-story .journey-glass {
-    display: none;
-  }
-
-  .motion .journey-story .journey h3 {
-    font-size: clamp(2.6rem, 1.2rem + 3vw, 4.4rem);
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-
-  .motion .journey-story .journey p {
-    max-width: 38ch;
-    font-size: 1.12rem;
-  }
-
-  .motion .journey-story .journey .link-arrow {
-    margin-top: 8px;
-  }
 }
 
 @media print {

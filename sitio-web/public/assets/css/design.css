@@ -2475,3 +2475,247 @@ html:not(.motion) .phone-view:first-child {
     display: none;
   }
 }
+
+/* ---------- Cadena de cuatro pasos (inicio): Integrar, Curar, Modelar, Recomendar ----------
+   Los pasos van uno al lado del otro, unidos por una línea que pasa por detrás de cada nodo.
+   Con animación (html.motion), al entrar en pantalla la línea se dibuja, los nodos se encienden
+   en orden y un flujo de datos recorre la cadena. En pantallas angostas la cadena se desliza. */
+.chain {
+  --node: 124px;
+  --chain-gap: clamp(20px, 3vw, 48px);
+  margin-top: clamp(40px, 5vw, 72px);
+}
+
+.chain-track {
+  position: relative;
+}
+
+.chain-steps {
+  /* Distancia del borde derecho al centro del último nodo (ancho de una columna menos medio nodo) */
+  --tail: calc((100% - 3 * var(--chain-gap)) / 4 - var(--node) / 2);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--chain-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* La línea de la cadena */
+.chain-steps::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--node) / 2 - 1px);
+  right: var(--tail);
+  left: calc(var(--node) / 2);
+  z-index: 0;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--ember) 0 10px, transparent 10px 22px);
+  opacity: 0.6;
+  transform-origin: 0 50%;
+}
+
+/* El paquete de datos que la recorre */
+.chain-steps::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--node) / 2 - 6px);
+  left: calc(var(--node) / 2 - 6px);
+  z-index: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 106, 58, 0.35), 0 0 20px 6px rgba(255, 106, 58, 0.55);
+  opacity: 0;
+}
+
+.chain-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chain-step:nth-child(1) { --d: 0.15s; }
+.chain-step:nth-child(2) { --d: 0.5s; }
+.chain-step:nth-child(3) { --d: 0.85s; }
+.chain-step:nth-child(4) { --d: 1.2s; }
+
+.chain-node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  margin-bottom: 20px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--bg) 72%);
+  box-shadow: 0 24px 44px -28px rgba(11, 18, 32, 0.4);
+  transition: border-color 0.6s, box-shadow 0.6s;
+}
+
+.chain-step:hover .chain-node {
+  border-color: var(--ember);
+  box-shadow: 0 24px 44px -28px rgba(11, 18, 32, 0.4), 0 0 0 6px rgba(255, 106, 58, 0.12);
+}
+
+.chain-glass {
+  width: 84%;
+  height: auto;
+}
+
+.chain-num {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 3px var(--bg);
+  transition: background 0.4s, color 0.4s;
+}
+
+.chain-step:hover .chain-num {
+  background: var(--ember);
+  color: #1a0e08;
+}
+
+.chain-step h3 {
+  margin: 4px 0 8px;
+  font-size: clamp(1.7rem, 1rem + 1.4vw, 2.3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.chain-step p {
+  margin: 0 0 18px;
+  color: var(--fg-2);
+}
+
+.chain-step .link-arrow {
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+.chain-hint {
+  display: none;
+  margin: 14px 0 0;
+  color: var(--fg-3);
+  font-size: 0.82rem;
+}
+
+/* Con animación: la línea se dibuja, cada paso se enciende en orden y los datos fluyen */
+.motion .chain-steps::before {
+  transform: scaleX(0);
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.motion .chain.is-in .chain-steps::before {
+  transform: scaleX(1);
+  animation: chain-dash 1.1s linear infinite;
+}
+
+.motion .chain.is-in .chain-steps::after {
+  animation: chain-packet 5.5s cubic-bezier(0.45, 0, 0.55, 1) 1.4s infinite;
+}
+
+.motion .chain-node {
+  border-color: var(--hairline);
+  transition: border-color 0.6s var(--d), box-shadow 0.6s var(--d);
+}
+
+.motion .chain.is-in .chain-node {
+  border-color: color-mix(in srgb, var(--ember) 55%, var(--hairline-strong));
+  box-shadow: 0 24px 44px -28px rgba(11, 18, 32, 0.4), 0 0 0 6px rgba(255, 106, 58, 0.1);
+  animation: chain-float 7s ease-in-out calc(var(--d) + 1s) infinite;
+}
+
+.motion .chain-glass {
+  opacity: 0;
+  transform: scale(0.6) translateY(12px);
+  transition: opacity 0.7s var(--d), transform 1s cubic-bezier(0.16, 1, 0.3, 1) var(--d);
+}
+
+.motion .chain-step .label,
+.motion .chain-step h3,
+.motion .chain-step p,
+.motion .chain-step .link-arrow {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s calc(var(--d) + 0.15s), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--d) + 0.15s);
+}
+
+.motion .chain.is-in .chain-glass,
+.motion .chain.is-in .chain-step .label,
+.motion .chain.is-in .chain-step h3,
+.motion .chain.is-in .chain-step p,
+.motion .chain.is-in .chain-step .link-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes chain-dash {
+  to { background-position: 22px 0; }
+}
+
+@keyframes chain-packet {
+  0% { left: calc(var(--node) / 2 - 6px); opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { left: calc(100% - var(--tail) - 6px); opacity: 0; }
+}
+
+@keyframes chain-float {
+  50% { transform: translateY(-7px); }
+}
+
+/* Pantallas angostas: la cadena se desliza de lado, un paso a la vez */
+@media (max-width: 1023.98px) {
+  .chain {
+    --node: 104px;
+  }
+
+  .chain-track {
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .chain-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chain-steps {
+    --tail: calc(min(76vw, 300px) - var(--node) / 2);
+    display: flex;
+    width: max-content;
+    gap: 20px;
+    padding-bottom: 4px;
+  }
+
+  .chain-step {
+    flex: 0 0 min(76vw, 300px);
+    scroll-snap-align: start;
+  }
+
+  .chain-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}

@@ -55,24 +55,25 @@
         ('03', 'Analítica', 'Modelar', 'Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.', '/servicios/#analitica', 'barras'),
         ('04', 'Tableros e IA', 'Recomendar', 'Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.', '/inteligencia-artificial/', 'esfera'),
       ] %}
-    {# En escritorio, con animaciones, la imagen queda fija y cambia con cada paso (design.js) #}
-    <div class="journey-story" data-journey data-pin>
-      <div class="journey-stage" aria-hidden="true">
-        {% for num, service, verb, text, href, obj in journey %}
-        <img class="journey-stage-img" data-pin-view src="{{ glass(obj, 512) }}" alt="" width="400" height="400" loading="lazy">
-        {% endfor %}
+    {# Cadena de cuatro pasos, uno al lado del otro: la línea se enciende y un flujo de datos la recorre (design.css) #}
+    <div class="chain reveal">
+      <div class="chain-track" tabindex="0" aria-label="Los cuatro pasos">
+        <ol class="chain-steps">
+          {% for num, service, verb, text, href, obj in journey %}
+          <li class="chain-step">
+            <div class="chain-node">
+              <img class="chain-glass" src="{{ glass(obj) }}" alt="" width="256" height="256" loading="lazy">
+              <span class="chain-num">{{ num }}</span>
+            </div>
+            <span class="label">{{ service }}</span>
+            <h3>{{ verb }}</h3>
+            <p>{{ text }}</p>
+            <a class="link-arrow" href="{{ href }}">{{ 'Ver soluciones de IA' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
+          </li>
+          {% endfor %}
+        </ol>
       </div>
-      <ol class="hairline-grid hairline-grid-4 journey">
-        {% for num, service, verb, text, href, obj in journey %}
-        <li class="reveal" data-pin-step>
-          <img class="journey-glass" src="{{ glass(obj) }}" alt="" width="88" height="88" loading="lazy">
-          <span class="label">{{ num }} · {{ service }}</span>
-          <h3>{{ verb }}</h3>
-          <p>{{ text }}</p>
-          <a class="link-arrow" href="{{ href }}">{{ 'Ver soluciones de IA' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
-        </li>
-        {% endfor %}
-      </ol>
+      <p class="chain-hint" aria-hidden="true">Deslizá para ver los cuatro pasos {{ icon('arrow-right') }}</p>
     </div>
   </div>
 </section>

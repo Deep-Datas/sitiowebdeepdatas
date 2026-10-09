@@ -152,7 +152,7 @@ Inspiradas en apple.com y hechas sin librerías (`src/assets/js/motion.js` y `si
 
 - Todo elemento con la clase `reveal` sube y aparece al entrar en pantalla; los hermanos entran en cascada. Los títulos de esos bloques entran palabra por palabra y el encabezado de cada página interior se anima al cargar.
 - Un título con `data-scroll-lit` (y la clase `statement` para el tamaño grande) se ilumina palabra por palabra a medida que se avanza: la frase del problema en el inicio y la misión en Nosotros.
-- El recorrido de cuatro pasos del inicio (`data-journey`) deja fija la imagen en escritorio y destaca cada paso al pasar.
+- La cadena de cuatro pasos del inicio (`.chain`) va en horizontal: al entrar en pantalla la línea se dibuja, los nodos se encienden en orden y un paquete de datos la recorre; en pantallas angostas se desliza de lado.
 - Las cifras del inicio y de los casos cuentan desde cero al aparecer.
 
 Con «reducir movimiento» activado en el sistema, o sin JavaScript, no hay animaciones y todo se ve desde el principio. Si `site.js` no llegara a cargar, el contenido aparece igual a los pocos segundos.
