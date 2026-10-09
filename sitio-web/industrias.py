@@ -54,7 +54,7 @@ LABELS = {
 # notas del blog, que se muestran solo en español)
 COMMON = {
     'consumo': {'icon': 'cart3', 'cases': ['distribuidores', 'cobertura'], 'example': 'cobertura',
-                'logos': ['kelloggs', 'mccain', 'cafe-m'],
+                'logos': ['kelloggs', 'mccain'],
                 'posts': ['unificar-ventas-de-distribuidores', 'cobertura-y-venta-cruzada', 'kpis-comerciales']},
     'distribucion': {'icon': 'truck', 'cases': ['pronostico'], 'example': 'pronostico',
                      'logos': ['romemi'],
@@ -77,9 +77,6 @@ COMMON = {
     'agro': {'icon': 'sprout', 'cases': [], 'example': None,
              'logos': [],
              'posts': ['excel-o-power-bi', 'pedidos-por-whatsapp', 'donde-guardar-los-datos']},
-    'salud': {'icon': 'heart-pulse', 'cases': [], 'example': None,
-              'logos': ['lilly'],
-              'posts': ['kpis-comerciales', 'calidad-de-datos', 'donde-guardar-los-datos']},
 }
 
 TEXT = {
@@ -316,35 +313,6 @@ TEXT = {
             ],
             'cta_title': '¿Trabajás en el agro? Empecemos por <em>tus datos.</em>',
         },
-        'salud': {
-            'name': 'Laboratorios y salud',
-            'title': 'Datos e IA para laboratorios y distribución farmacéutica | DeepDatas',
-            'description': 'Tableros comerciales, priorización de la fuerza de ventas y seguimiento del stock en la cadena para laboratorios y distribución farmacéutica, con datos protegidos y permisos por rol.',
-            'h1': 'Datos e IA para laboratorios: decisiones comerciales', 'h1_em': 'con datos confiables.',
-            'lead': 'Integramos ventas, fuerza de ventas y stock en la cadena para que tu equipo comercial sepa dónde enfocar cada visita, con datos protegidos y permisos por rol.',
-            'card': 'Tableros comerciales, foco para la fuerza de ventas y stock en la cadena, con datos protegidos.',
-            'challenges': [
-                ('Ventas que pasan por muchos intermediarios', 'Droguerías, distribuidoras y farmacias informan en formatos distintos y la visión de la demanda final llega tarde.'),
-                ('Visitas sin una prioridad clara', 'Los representantes tienen agendas largas y pocos datos para decidir a quién visitar primero.'),
-                ('Stock y vencimientos en la cadena', 'Sin seguimiento del stock en los canales, aparecen faltantes en un lugar y productos por vencer en otro.'),
-                ('Datos que requieren cuidado', 'La información comercial y de clientes necesita permisos estrictos y trazabilidad de quién ve qué.'),
-            ],
-            'build': [
-                ('bar-chart-line', 'Tablero comercial por zona, canal y producto', 'Ventas, objetivos y tendencias en un solo lugar, para la dirección y para cada gerente regional.', None),
-                ('people', 'Foco para la fuerza de ventas', 'Listas priorizadas para cada representante, según potencial, frecuencia de visita y oportunidades.', None),
-                ('truck', 'Stock y vencimientos en la cadena', 'Seguimiento del stock en distribuidores y alertas de faltantes y productos próximos a vencer.', None),
-                ('robot', 'Agente de IA con permisos por rol', 'Consultas en lenguaje natural sobre los indicadores, donde cada persona ve solo lo que le corresponde.', ('ia', '')),
-            ],
-            'kpis': ['Ventas por canal, droguería y zona', 'Participación de mercado, cuando hay datos de auditoría', 'Cobertura de farmacias',
-                     'Frecuencia y efectividad de las visitas', 'Cumplimiento de objetivos por representante', 'Stock en la cadena y días de cobertura',
-                     'Productos próximos a vencer'],
-            'faqs': [
-                ('¿Cómo protegen información sensible?', 'Trabajamos con accesos de solo lectura y permisos por rol, firmamos acuerdos de confidencialidad y, siempre que es posible, implementamos la solución en la nube de tu empresa.'),
-                ('¿Pueden integrar datos de auditoría de mercado?', 'Sí. Integramos los archivos de auditoría que recibe tu empresa con las ventas internas y los datos de la fuerza de ventas.'),
-                ('¿Por dónde empezamos?', 'Por un diagnóstico de datos: en dos semanas sabés qué fuentes tenés y qué tablero o caso de IA conviene hacer primero.'),
-            ],
-            'cta_title': '¿Trabajás en un laboratorio? Empecemos por <em>tus datos.</em>',
-        },
     },
     'en': {
         'consumo': {
@@ -579,39 +547,10 @@ TEXT = {
             ],
             'cta_title': 'In agribusiness? Let’s start with <em>your data.</em>',
         },
-        'salud': {
-            'name': 'Pharma and healthcare',
-            'title': 'Data and AI for pharmaceutical companies and distribution | DeepDatas',
-            'description': 'Sales dashboards, sales force prioritization and supply chain inventory tracking for pharmaceutical companies and distributors, with protected data and role-based permissions.',
-            'h1': 'Data and AI for pharma: commercial decisions', 'h1_em': 'backed by reliable data.',
-            'lead': 'We integrate sales, sales force and supply chain inventory data so your commercial team knows where to focus every visit, with protected data and role-based permissions.',
-            'card': 'Sales dashboards, sales force focus and supply chain inventory, with protected data.',
-            'challenges': [
-                ('Sales that go through many intermediaries', 'Wholesalers, distributors and pharmacies report in different formats, and visibility into end demand arrives late.'),
-                ('Visits without clear priorities', 'Sales reps have long call lists and little data to decide whom to visit first.'),
-                ('Inventory and expiry dates across the chain', 'Without tracking inventory in the channel, you get shortages in one place and products about to expire in another.'),
-                ('Data that needs care', 'Commercial and customer information requires strict permissions and a clear record of who sees what.'),
-            ],
-            'build': [
-                ('bar-chart-line', 'Sales dashboard by region, channel and product', 'Sales, targets and trends in one place, for leadership and for every regional manager.', None),
-                ('people', 'Focus for your sales force', 'Prioritized lists for every sales rep, based on potential, visit frequency and opportunities.', None),
-                ('truck', 'Inventory and expiry dates across the chain', 'Tracking of inventory at distributors and alerts for shortages and products nearing expiry.', None),
-                ('robot', 'An AI agent with role-based permissions', 'Plain-language questions about your KPIs, where everyone sees only what they should.', ('ia', '')),
-            ],
-            'kpis': ['Sales by channel, wholesaler and region', 'Market share, when audit data is available', 'Pharmacy coverage',
-                     'Visit frequency and effectiveness', 'Target attainment by sales rep', 'Channel inventory and days of coverage',
-                     'Products nearing expiry'],
-            'faqs': [
-                ('How do you protect sensitive information?', 'We work with read-only access and role-based permissions, sign confidentiality agreements and, whenever possible, deploy the solution in your company’s cloud.'),
-                ('Can you integrate market audit data?', 'Yes. We integrate the audit files your company receives with internal sales and sales force data.'),
-                ('Where do we start?', 'With a data assessment: in two weeks you’ll know which sources you have and which dashboard or AI use case to build first.'),
-            ],
-            'cta_title': 'In pharma? Let’s start with <em>your data.</em>',
-        },
     },
 }
 
-ORDER = ['consumo', 'distribucion', 'pymes', 'retail', 'materiales', 'autopartes', 'industria', 'agro', 'salud']
+ORDER = ['consumo', 'distribucion', 'pymes', 'retail', 'materiales', 'autopartes', 'industria', 'agro']
 
 
 def industries(lang):

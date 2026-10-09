@@ -2,18 +2,14 @@
 {% set LOGOS = [
   ('kelloggs', 'kelloggs.png', "Kellogg's", 337, 120),
   ('mccain', 'mccain.png', 'McCain', 202, 120),
-  ('lilly', 'lilly.png', 'Lilly', 219, 120),
-  ('trustly', 'trustly.png', 'Trustly', 384, 120),
-  ('citrus', 'citrus.png', 'Citrus', 361, 120),
   ('romemi', 'romemi.svg', 'Romemi Materiales Eléctricos', 402, 128),
-  ('cafe-m', 'cafe-m.png', 'Café M', 108, 120),
 ] %}
 
 {# Lista de logos; con «only», solo los de esos clientes (por ejemplo, los de una industria). #}
 {% macro row(only=none, reveal=true, hidden=false) %}
 <ul class="logos-row"{% if hidden %} aria-hidden="true"{% endif %}>
   {% for id, file, name, w, h in LOGOS if only is none or id in only %}
-  <li{% if reveal %} class="reveal"{% endif %}><img{% if id == 'cafe-m' %} class="logo-round"{% endif %} src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
+  <li{% if reveal %} class="reveal"{% endif %}><img src="/assets/img/clientes/{{ file }}" alt="{{ name }}" width="{{ w }}" height="{{ h }}" loading="lazy"></li>
   {% endfor %}
 </ul>
 {% endmacro %}

@@ -418,46 +418,17 @@ html:not(.motion) .core-captions {
   color: #fff;
 }
 
-/* ---------- Logos en movimiento y cifras ---------- */
+/* ---------- Logos y cifras ---------- */
 .trust {
   padding-block: clamp(56px, 5vw, 96px) clamp(72px, 7vw, 128px);
 }
 
-.marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+.trust .logos-row {
+  gap: 28px clamp(48px, 7vw, 120px);
 }
 
-.marquee-track {
-  display: flex;
-  width: max-content;
-}
-
-.marquee .logos-row {
-  flex-wrap: nowrap;
-  gap: 72px;
-  padding-right: 72px;
-}
-
-.marquee .logos-row img {
-  height: 36px;
-}
-
-.marquee .logos-row img.logo-round {
-  height: 52px;
-}
-
-.motion .marquee-track {
-  animation: marquee 42s linear infinite;
-}
-
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  to { transform: translateX(-50%); }
+.trust .logos-row img {
+  height: 40px;
 }
 
 .trust .logos-title {
@@ -619,7 +590,6 @@ html:not(.motion) .core-captions {
 .rail-autopartes { --tint: #67d8ff; --tint-ink: #0e7490; }
 .rail-industria { --tint: #5b8cff; --tint-ink: #1d4ed8; }
 .rail-agro { --tint: #34d399; --tint-ink: #047857; }
-.rail-salud { --tint: #2dd4bf; --tint-ink: #0f766e; }
 
 .rail-nav {
   display: flex;

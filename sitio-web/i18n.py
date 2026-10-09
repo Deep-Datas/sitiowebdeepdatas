@@ -34,7 +34,6 @@ ROUTES = {
     'ind-autopartes': {'es': '/industrias/autopartes-y-repuestos/', 'en': '/en/industries/auto-parts/'},
     'ind-industria': {'es': '/industrias/industria-y-manufactura/', 'en': '/en/industries/manufacturing/'},
     'ind-agro': {'es': '/industrias/agro/', 'en': '/en/industries/agribusiness/'},
-    'ind-salud': {'es': '/industrias/salud/', 'en': '/en/industries/healthcare/'},
 }
 
 
@@ -134,7 +133,7 @@ UI = {
         'testimonials_title': 'Lo que dicen nuestros clientes',
         'testimonial_video': 'Ver el video',
         'testimonial_translated': '',
-        'logos_caption': 'Consumo masivo · Salud · Tecnología · Distribución · Retail',
+        'logos_caption': 'Consumo masivo · Distribución · Materiales eléctricos',
         # Tableros de ejemplo
         'charts': {
             'see_data': 'Ver datos',
@@ -244,7 +243,7 @@ UI = {
         'testimonials_title': 'What our clients say',
         'testimonial_video': 'Watch the video',
         'testimonial_translated': 'Translated from Spanish',
-        'logos_caption': 'Consumer goods · Healthcare · Technology · Distribution · Retail',
+        'logos_caption': 'Consumer goods · Distribution · Electrical supplies',
         'charts': {
             'see_data': 'View data',
             'chart_label': '{title}. Details are in the data table.',

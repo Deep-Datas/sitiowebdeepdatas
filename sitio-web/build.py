@@ -290,7 +290,6 @@ WHATSAPP_MESSAGES = {
     'ind-autopartes': 'Hola, vengo de la web de DeepDatas. Trabajo en autopartes y repuestos y quiero hacer una consulta.',
     'ind-industria': 'Hola, vengo de la web de DeepDatas. Trabajo en una empresa industrial y quiero hacer una consulta.',
     'ind-agro': 'Hola, vengo de la web de DeepDatas. Trabajo en el agro y quiero hacer una consulta.',
-    'ind-salud': 'Hola, vengo de la web de DeepDatas. Trabajo en un laboratorio o empresa de salud y quiero hacer una consulta.',
 }
 WHATSAPP_MESSAGES_EN = {
     None: "Hi, I'm coming from the DeepDatas website and I have a question.",
@@ -308,7 +307,6 @@ WHATSAPP_MESSAGES_EN = {
     'ind-autopartes': "Hi, I'm coming from the DeepDatas website. I work in auto parts and I have a question.",
     'ind-industria': "Hi, I'm coming from the DeepDatas website. I work at a manufacturing company and I have a question.",
     'ind-agro': "Hi, I'm coming from the DeepDatas website. I work in agribusiness and I have a question.",
-    'ind-salud': "Hi, I'm coming from the DeepDatas website. I work at a pharmaceutical or healthcare company and I have a question.",
 }
 
 

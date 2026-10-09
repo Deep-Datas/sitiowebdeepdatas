@@ -82,13 +82,8 @@
   <div class="container">
     <h2 class="logos-title reveal" id="logos-title">{{ t.logos_title }}</h2>
   </div>
-  <div class="marquee reveal">
-    <div class="marquee-track">
-      {{ logos.row(reveal=false) }}
-      {{ logos.row(reveal=false, hidden=true) }}
-    </div>
-  </div>
   <div class="container">
+    {{ logos.row() }}
     <p class="logos-caption reveal">{{ t.logos_caption }}</p>
     <dl class="stats reveal">
       <div><dt>distributors integrated into a single model for a leading consumer goods company</dt><dd>40</dd></div>

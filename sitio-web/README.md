@@ -7,7 +7,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | Ruta | Contenido |
 | --- | --- |
 | `/` | Propuesta de valor (datos e IA para distribuidoras, pymes y consumo masivo), clientes, industrias, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, casos, testimonios, formas de empezar |
-| `/industrias/…` | Una página por industria (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura, agro, laboratorios y salud): desafíos, soluciones, indicadores, tablero de ejemplo, casos, testimonios, preguntas frecuentes y notas del blog |
+| `/industrias/…` | Una página por industria (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura y agro): desafíos, soluciones, indicadores, tablero de ejemplo, casos, testimonios, preguntas frecuentes y notas del blog |
 | `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
 | `/blog/` | Artículos (uno por archivo en `blog/`), cada uno en `/blog/<archivo>/` |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
@@ -144,7 +144,7 @@ Las secciones claras (marfil) cuentan la historia del negocio y las «profundas�
 - **Núcleo de datos** (`[data-core]`, inicio): una secuencia de 24 cuadros (12 en celulares) renderizada en 3D que se recorre con el scroll, como en apple.com. Se genera con `tools/nucleo.cjs` (three.js en Chromium sin pantalla) en `src/assets/img/core/`; `poster.webp` es el cuadro final, que se usa sin animación y en el cierre de cada página.
 - **Inicio** (`src/hero.html`, estilos `.hp*` en `design.css`): «Una pregunta. Todos tus sistemas. Una sola respuesta.» sobre la foto de la oficina. Con animación, la escena queda fija y el scroll acerca la cámara al monitor de la mujer (ERP y planillas), trae al lado el monitor del compañero (CRM y WhatsApp), los deja de frente y los funde en un solo monitor con el asistente y la respuesta; tres pasos (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte del recorrido se está. Sin animación se ven el texto, la foto, los pasos y la respuesta. Las esquinas de los monitores en la foto (`src/assets/img/hero/oficina-*.webp`, que genera `tools/hero_foto.py`) y los textos están en el mismo archivo (datos ficticios).
 - **Portadas**: Nosotros, Servicios y Contacto usan recortes de la misma foto de la oficina (`src/assets/img/covers/`); `tools/hero_foto.py --portadas` regenera la foto del inicio y los recortes a partir de `tools/hero/png/oficina-final.png`.
-- **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **logos en movimiento** (`.marquee`), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
+- **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
 
 ## Animaciones al hacer scroll
 
@@ -169,7 +169,7 @@ Cada testimonio publicado aparece en la sección «Lo que dicen nuestros cliente
 
 ## Industrias
 
-Las páginas de `/industrias/` (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura, agro, y laboratorios y salud; en inglés, en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-<id>`). Para sumar una industria, agregala en `industrias.py` (textos en los dos idiomas, datos comunes y `ORDER`) y su ruta en `i18n.py`; aparece sola en el inicio, en el pie y en el sitemap. Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
+Las páginas de `/industrias/` (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura y agro; en inglés, en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-<id>`). Para sumar una industria, agregala en `industrias.py` (textos en los dos idiomas, datos comunes y `ORDER`) y su ruta en `i18n.py`; aparece sola en el inicio, en el pie y en el sitemap. Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
 
 ## Analítica de visitas
 

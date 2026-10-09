@@ -1120,11 +1120,6 @@ ol {
   transition: filter 0.3s, opacity 0.3s;
 }
 
-.logos-row img.logo-round,
-.logos-grid img.logo-round {
-  height: 52px;
-}
-
 .logos-row img:hover,
 .logos-grid li:hover img {
   filter: none;
@@ -5140,19 +5135,14 @@ a:hover {
 }
 
 .logos-row {
-  justify-content: space-between;
-  gap: 28px 40px;
+  justify-content: center;
+  gap: 28px clamp(40px, 6vw, 96px);
 }
 
 .logos-row img,
 .logos-grid img {
   height: 30px;
   opacity: 0.8;
-}
-
-.logos-row img.logo-round,
-.logos-grid img.logo-round {
-  height: 44px;
 }
 
 .stats {
@@ -6668,10 +6658,6 @@ button.text-link-quiet {
 
 .ind-trust .logos-row img {
   height: 28px;
-}
-
-.ind-trust .logos-row img.logo-round {
-  height: 44px;
 }
 
 .pain-card > .label {
