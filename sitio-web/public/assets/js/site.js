@@ -605,6 +605,10 @@
       })[0];
       levels.forEach(function (el) { el.hidden = el !== level; });
       quizResult.querySelector('[data-quiz-score]').textContent = score;
+      // Aviso para la analítica: autoevaluación completada y su nivel
+      document.dispatchEvent(new CustomEvent('deepdatas:quiz-done', {
+        detail: { score: score, level: level ? level.querySelector('h2').textContent.trim() : '' }
+      }));
       quizResult.querySelector('[data-quiz-meter]').style.width = score + '%';
 
       // Prioridades: las áreas con menos puntaje (0 o 1); si no hay, las que tienen 2

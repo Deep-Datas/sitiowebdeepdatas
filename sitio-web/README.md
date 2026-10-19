@@ -169,7 +169,7 @@ Cada testimonio publicado aparece en la sección «Lo que dicen nuestros cliente
 
 ## Industrias
 
-Las páginas de `/industrias/` (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura y agro; en inglés, en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-<id>`). Para sumar una industria, agregala en `industrias.py` (textos en los dos idiomas, datos comunes y `ORDER`) y su ruta en `i18n.py`; aparece sola en el inicio, en el pie y en el sitemap. Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
+Las páginas de `/industrias/` (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura y agro; en inglés, en `/en/industries/…`) se generan con la plantilla `src/pages/industria.html` a partir de `industrias.py`: desafíos, soluciones, indicadores, preguntas frecuentes, y qué casos, tablero de ejemplo, logos y notas del blog mostrar. Las rutas están en `i18n.py` (`ind-<id>`). Para sumar una industria, agregala en `industrias.py` (textos en los dos idiomas, datos comunes y `ORDER`) y su ruta en `i18n.py`; aparece sola en el inicio, en el pie y en el sitemap. Para quitar una, hacé lo inverso y agregá en `src/staticwebapp.config.json` una redirección de su dirección vieja (en los dos idiomas) a `/#industrias`, así los enlaces guardados no caen en un error. Solo se muestran los casos publicados; no sumes resultados que no estén en un caso real.
 
 ## Analítica de visitas
 
@@ -179,7 +179,12 @@ El sitio está preparado para [Microsoft Clarity](https://clarity.microsoft.com)
 2. Recomendado: en Settings > Setup, desactivá las cookies y dejá el enmascarado de datos en modo estricto.
 3. Pegá el identificador en `CLARITY_ID` y ejecutá `python build.py`: se agrega el script y la política de seguridad habilita solo los dominios de Clarity.
 
-Además de las visitas, se registran estos eventos (Clarity > Filtros > Eventos personalizados): `whatsapp`, `email`, `telefono`, `agendar_reunion`, `ver_diagnostico`, `ver_autoevaluacion` y `formulario_enviado` (con la etiqueta `interes`). La etiqueta `idioma` permite comparar las visitas en español e inglés.
+Además de las visitas, se registran estos eventos (Clarity > Filtros > Eventos personalizados):
+
+- Contacto: `agendar_reunion`, `whatsapp`, `email`, `telefono`, `formulario_enviado` (con la etiqueta `interes`) y `autoevaluacion_completada` (con la etiqueta `autoevaluacion_nivel`).
+- Interés: `ver_diagnostico`, `ver_autoevaluacion`, `ver_ia`, `ver_servicios`, `ver_casos` y `ver_industria`.
+
+Para saber qué botón convierte, cada acción de contacto y las dos de interés principales se registran también con el lugar de la página desde donde se hizo el clic, como `agendar_reunion:inicio-portada` o `whatsapp:boton-flotante`. Los lugares son `encabezado`, `inicio-portada`, `inicio-pasos`, `inicio-asistente`, `inicio-industrias`, `planes`, `cierre`, `pie`, `encabezado-pagina` (las páginas interiores), `contacto-otros-medios`, `boton-flotante` y `contenido` (cualquier otro). La etiqueta `origen_<evento>` guarda el último lugar de cada acción en la sesión, y `idioma` permite comparar las visitas en español e inglés. Para comparar botones, en Clarity filtrá por evento y mirá la página (URL) y la etiqueta de origen.
 
 ## Contenido a revisar
 
