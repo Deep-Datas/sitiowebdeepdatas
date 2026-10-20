@@ -2,9 +2,10 @@
   Hero del inicio: la oficina, los sistemas y una sola respuesta.
 
   Con animación (html.motion), la escena queda fija mientras se hace scroll:
-  la cámara se acerca al monitor de la foto (ERP y planillas), el monitor del
-  compañero (CRM y WhatsApp) viene a su lado, los dos quedan de frente y se
-  funden en un solo monitor con el asistente de IA y la respuesta. Tres pasos
+  la cámara se acerca al monitor principal de la foto (ERP y planillas), el
+  segundo monitor (CRM y WhatsApp) viene a su lado, los dos quedan de frente y
+  el nombre de cada sistema vuela hasta un solo monitor con el asistente de IA,
+  donde se arma la respuesta. Tres pasos
   (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte
   del recorrido se está. Los estilos están en design.css (.hp*) y el
   movimiento en site.js, que lee la escena de data-scene. Sin JavaScript o
@@ -42,13 +43,13 @@
     'user': 'MG',
     'question': '¿Cuánto vendimos ayer en la zona norte?',
     'steps_label': 'Cómo funciona',
-    'steps': [(0, 'Preguntás'), (0.08, 'Buscamos en tus sistemas'), (0.58, 'Te respondemos')],
+    'steps': [(0, 'Preguntás'), (0.06, 'Buscamos en tus sistemas'), (0.48, 'Te respondemos')],
     'statuses': [
       (0, 'Leyendo la pregunta…'),
-      (0.08, 'Consultando el ERP y las planillas…'),
-      (0.36, 'Revisando el CRM, WhatsApp y el correo…'),
-      (0.58, 'Uniendo todo en una sola respuesta…'),
-      (0.8, 'Respuesta lista, con fuentes'),
+      (0.06, 'Consultando el ERP y las planillas…'),
+      (0.3, 'Revisando el CRM, WhatsApp y el correo…'),
+      (0.48, 'Uniendo todo en una sola respuesta…'),
+      (0.68, 'Respuesta lista, con fuentes'),
     ],
     'wins': {
       'erp': {'sys': 'ERP', 'icon': 'building-gear', 'title': 'Ventas del día', 'head': ['Comprobante', 'Cliente', 'Importe'],
@@ -90,13 +91,13 @@
     'user': 'MG',
     'question': 'How much did we sell yesterday in the north region?',
     'steps_label': 'How it works',
-    'steps': [(0, 'You ask'), (0.08, 'We search your systems'), (0.58, 'You get the answer')],
+    'steps': [(0, 'You ask'), (0.06, 'We search your systems'), (0.48, 'You get the answer')],
     'statuses': [
       (0, 'Reading the question…'),
-      (0.08, 'Querying the ERP and spreadsheets…'),
-      (0.36, 'Checking the CRM, WhatsApp and email…'),
-      (0.58, 'Bringing it all into one answer…'),
-      (0.8, 'Answer ready, with sources'),
+      (0.06, 'Querying the ERP and spreadsheets…'),
+      (0.3, 'Checking the CRM, WhatsApp and email…'),
+      (0.48, 'Bringing it all into one answer…'),
+      (0.68, 'Answer ready, with sources'),
     ],
     'wins': {
       'erp': {'sys': 'ERP', 'icon': 'building-gear', 'title': 'Daily sales', 'head': ['Invoice', 'Customer', 'Amount'],
@@ -249,6 +250,12 @@
             {# En escritorio, el asistente en acción: video sin sonido, en bucle (site.js lo carga al llegar al final) #}
             <video class="hp-video" muted loop playsinline preload="none" poster="/assets/video/asistente-{{ lang }}.webp" data-video="/assets/video/asistente-{{ lang }}"></video>
           </div>
+        </div>
+        {# Al fundirse los monitores, el nombre de cada sistema sale de su pantalla y vuela hasta la respuesta (site.js) #}
+        <div class="hp-flies">
+          {%- for key, mon in [('erp', 'a'), ('mail', 'a'), ('xls', 'a'), ('crm', 'b'), ('mail2', 'b'), ('wa', 'b')] %}
+          <span class="hp-fly{{ ' hp-fly-wa' if key == 'wa' }}" data-mon="{{ mon }}" data-slot="{{ loop.index0 % 3 }}">{{ icon(C.wins[key].icon) }} {{ C.wins[key].sys }}</span>
+          {%- endfor %}
         </div>
         <div class="hp-flash"></div>
       </div>
