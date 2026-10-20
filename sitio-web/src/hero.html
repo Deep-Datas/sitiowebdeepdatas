@@ -2,9 +2,10 @@
   Hero del inicio: la oficina, los sistemas y una sola respuesta.
 
   Con animación (html.motion), la escena queda fija mientras se hace scroll:
-  la cámara se acerca al monitor de la foto (ERP y planillas), el monitor del
-  compañero (CRM y WhatsApp) viene a su lado, los dos quedan de frente y se
-  funden en un solo monitor con el asistente de IA y la respuesta. Tres pasos
+  la cámara se acerca al monitor principal de la foto (ERP y planillas), el
+  segundo monitor (CRM y WhatsApp) viene a su lado, los dos quedan de frente y
+  el nombre de cada sistema vuela hasta un solo monitor con el asistente de IA,
+  donde se arma la respuesta. Tres pasos
   (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte
   del recorrido se está. Los estilos están en design.css (.hp*) y el
   movimiento en site.js, que lee la escena de data-scene. Sin JavaScript o
@@ -15,19 +16,22 @@
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Escena: tamaño de la foto (src/assets/img/hero/oficina-*.webp) y, en sus píxeles, las esquinas
+{# Escena: tamaño de la foto (src/assets/img/hero/equipo-*.webp; foto de Compagnons en Unsplash, licencia de Unsplash) y, en sus píxeles, las esquinas
    (arriba-izq., arriba-der., abajo-der., abajo-izq.) de la pantalla y del marco del monitor de la
-   mujer (screen, monitor) y de la pantalla del compañero (screen2). desk y mob: plano inicial en
+   monitor principal (screen, monitor; el de la derecha) y de la pantalla del segundo monitor (screen2),
+   y front: posición y tamaño (x, y, ancho, alto) del recorte de la persona que está delante del segundo
+   monitor (equipo-frente.webp), que se dibuja por encima de él mientras está sobre la foto. desk y mob: plano inicial en
    escritorio y celulares (x, y: dónde queda el centro de la pantalla, en fracciones de la vista;
    zoom: sobre la escala que cubre la vista; width: ancho de la foto en anchos de la vista), fill:
    qué parte del espacio libre ocupa el monitor al final del acercamiento, y aim: dónde queda. #}
 {% set SCENE = {
-  'w': 4096, 'h': 2368,
-  'screen': [[1579, 1037], [2135, 1013], [2134, 1462], [1586, 1581]],
-  'monitor': [[1550, 1016], [2140, 998], [2140, 1482], [1552, 1604]],
-  'screen2': [[345, 1000], [835, 975], [838, 1335], [345, 1312]],
-  'desk': {'x': 0.64, 'y': 0.54, 'zoom': 1.25, 'fill': 0.66, 'aim': [0.56, 0.5]},
-  'mob': {'x': 0.3, 'y': 0.8, 'width': 3.0, 'fill': 0.85, 'aim': [0.5, 0.5]},
+  'w': 4096, 'h': 2731,
+  'screen': [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]],
+  'monitor': [[3012, 1118], [3896, 1118], [3892, 1792], [3008, 1796]],
+  'screen2': [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]],
+  'front': [1300, 1147, 1024, 1584],
+  'desk': {'x': 0.7, 'y': 0.55, 'zoom': 1.08, 'fill': 0.62, 'aim': [0.56, 0.5]},
+  'mob': {'x': 0.62, 'y': 0.8, 'width': 2.2, 'fill': 0.85, 'aim': [0.5, 0.5]},
 } %}
 
 {% set copy = {
@@ -35,7 +39,7 @@
     'eyebrow': 'Consultora de datos e IA para distribuidoras, pymes y consumo masivo',
     'title': 'Una pregunta. Todos tus sistemas.', 'title_em': 'Una sola respuesta.',
     'lead': 'Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo, y un asistente de IA responde con los datos reales de tu empresa.',
-    'photo_alt': 'Una oficina: una persona trabaja con el ERP en su monitor y, al fondo, un compañero revisa una planilla.',
+    'photo_alt': 'Un equipo trabaja frente a sus monitores en una oficina luminosa, junto a un ventanal.',
     'user': 'MG',
     'question': '¿Cuánto vendimos ayer en la zona norte?',
     'steps_label': 'Cómo funciona',
@@ -83,7 +87,7 @@
     'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
     'title': 'One question. All your systems.', 'title_em': 'One single answer.',
     'lead': 'We connect your ERP, your CRM, your spreadsheets, WhatsApp and email, and an AI assistant answers with your company’s real data.',
-    'photo_alt': 'An office: one person works with the ERP on her monitor while, in the background, a colleague reviews a spreadsheet.',
+    'photo_alt': 'A team works at their monitors in a bright office, next to a large window.',
     'user': 'MG',
     'question': 'How much did we sell yesterday in the north region?',
     'steps_label': 'How it works',
@@ -219,9 +223,9 @@
       </div>
 
       <div class="hp-photo">
-        <img class="hp-img" src="/assets/img/hero/oficina-2048.webp"
-             srcset="/assets/img/hero/oficina-2048.webp 2048w, /assets/img/hero/oficina-4096.webp 4096w"
-             sizes="300vw" width="4096" height="2368" alt="{{ C.photo_alt }}" fetchpriority="high">
+        <img class="hp-img" src="/assets/img/hero/equipo-2048.webp"
+             srcset="/assets/img/hero/equipo-2048.webp 2048w, /assets/img/hero/equipo-4096.webp 4096w"
+             sizes="300vw" width="4096" height="2731" alt="{{ C.photo_alt }}" fetchpriority="high">
       </div>
       <div class="hp-veil" aria-hidden="true"></div>
       <div class="hp-shade" aria-hidden="true"></div>
@@ -229,8 +233,9 @@
       {# Barra compacta con la pregunta y los pasos, mientras dura el recorrido #}
       <div class="hp-bar" aria-hidden="true">{{ ask() }}</div>
 
-      {# Los monitores: el de la mujer (ERP y planillas), el del compañero (CRM y WhatsApp) y el final, con el asistente #}
+      {# Los monitores: el principal (ERP y planillas), el segundo (CRM y WhatsApp) y el final, con el asistente #}
       <div class="hp-mons" aria-hidden="true">
+        <img class="hp-front" src="/assets/img/hero/equipo-frente.webp" alt="" width="{{ SCENE.front[2] }}" height="{{ SCENE.front[3] }}" loading="lazy">
         <div class="hp-mon hp-mon-b"><div class="hp-screen hp-desk">{{ win(C.wins.crm, 'hp-w1') }}{{ win(C.wins.mail2, 'hp-w3') }}{{ win(C.wins.wa, 'hp-w2') }}</div>{{ notes(C.notes.b) }}</div>
         <div class="hp-mon hp-mon-a"><div class="hp-screen hp-desk">{{ win(C.wins.erp, 'hp-w1') }}{{ win(C.wins.mail, 'hp-w3') }}{{ win(C.wins.xls, 'hp-w2') }}</div>{{ notes(C.notes.a) }}</div>
         <div class="hp-mon hp-mon-c">

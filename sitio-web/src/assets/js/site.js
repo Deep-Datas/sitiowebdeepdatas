@@ -167,6 +167,7 @@
       var track = hero.querySelector('.hp-track');
       var stage = hero.querySelector('.hp-stage');
       var photo = hero.querySelector('.hp-photo');
+      var front = hero.querySelector('.hp-front');
       var copy = hero.querySelector('.hp-copy');
       var bar = hero.querySelector('.hp-bar');
       var actions = hero.querySelector('.hp-actions');
@@ -210,11 +211,11 @@
         });
       }
 
-      var QUAD_A = cfg.screen;                 // pantalla del monitor de la mujer (arriba-izq., arriba-der., abajo-der., abajo-izq.)
+      var QUAD_A = cfg.screen;                 // pantalla del monitor principal (arriba-izq., arriba-der., abajo-der., abajo-izq.)
       var SCREEN = bounds(QUAD_A);
       var MON_A = cfg.monitor;                 // su marco
       var MONITOR = bounds(MON_A);
-      var MON_B = grow(cfg.screen2, Math.max(bounds(cfg.screen2).w, bounds(cfg.screen2).h) * 0.045);  // el monitor del compañero
+      var MON_B = grow(cfg.screen2, Math.max(bounds(cfg.screen2).w, bounds(cfg.screen2).h) * 0.045);  // el segundo monitor
 
       function rect(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
 
@@ -298,7 +299,7 @@
           start.x = fit(start.x, s0, SCREEN.cx, IMG_W, w);
           start.y = fit(start.y, s0, SCREEN.cy, IMG_H, h);
         }
-        // Fin del acercamiento: el monitor de la mujer, con su marco, ocupa buena parte del espacio libre
+        // Fin del acercamiento: el monitor principal, con su marco, ocupa buena parte del espacio libre
         var s1 = Math.min((w * shot.fill) / MONITOR.w, (room * shot.fill) / MONITOR.h);
         var end = {
           x: w * shot.aim[0] + s1 * (SCREEN.cx - MONITOR.cx),
@@ -336,6 +337,7 @@
         size(mons.b, sideBox);
         size(mons.c, finBox);
         size(photo, { w: IMG_W, h: IMG_H });
+        if (front && cfg.front) size(front, { w: cfg.front[2], h: cfg.front[3] });
         view = { w: w, h: h, desk: desk, s0: s0, s1: s1, start: start, end: end, rectA: rectA, rectB: rectB, fin: fin, sideBox: sideBox, finBox: finBox };
       }
 
@@ -388,7 +390,7 @@
         stage.style.setProperty('--shade', (1 - ramp(0.03, 0.18, p)).toFixed(3));
         stage.style.setProperty('--hop', (1 - ramp(0.005, 0.04, p)).toFixed(3));
 
-        // 1. Acercamiento al monitor de la mujer
+        // 1. Acercamiento al monitor principal
         var t = ease(ramp(0.03, 0.28, p));
         var s = view.s0 * Math.pow(view.s1 / view.s0, t);
         var ax = lerp(view.start.x, view.end.x, t);
@@ -401,6 +403,13 @@
         // 2. Los dos monitores se despegan de la foto y quedan de frente; la oficina se desvanece
         var u = ease(ramp(0.26, 0.42, p));
         stage.style.setProperty('--veil', (0.94 * u).toFixed(3));
+        // La persona de la foto queda por delante del segundo monitor hasta que este se despega
+        if (front && cfg.front) {
+          var fx = ax + s * (cfg.front[0] - SCREEN.cx);
+          var fy = ay + s * (cfg.front[1] - SCREEN.cy);
+          front.style.transform = 'translate3d(' + fx.toFixed(2) + 'px,' + fy.toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
+          show(front, 1 - ramp(0, 0.3, u));
+        }
         var quadA = mix(onPhoto(MON_A), view.rectA, u);
         var quadB = mix(onPhoto(MON_B), view.rectB, u);
 
@@ -415,7 +424,7 @@
         mons.b.style.transform = warp(qb, view.sideBox);
         var gone = 1 - ramp(0.45, 0.78, v);
         show(mons.a, gone);
-        // El monitor del compañero aparece sobre la foto cuando empieza el recorrido (antes se ve su planilla)
+        // El segundo monitor aparece sobre la foto cuando empieza el recorrido
         show(mons.b, gone * ramp(0.03, 0.12, p));
 
         var arrive = at(view.fin, 0.5, view.desk ? 0.42 : 0.4);
