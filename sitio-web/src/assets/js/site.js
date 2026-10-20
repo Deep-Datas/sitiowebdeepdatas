@@ -204,11 +204,11 @@
         });
       }
 
-      var QUAD_A = cfg.screen;                 // pantalla del monitor de la mujer (arriba-izq., arriba-der., abajo-der., abajo-izq.)
+      var QUAD_A = cfg.screen;                 // pantalla del monitor principal (arriba-izq., arriba-der., abajo-der., abajo-izq.)
       var SCREEN = bounds(QUAD_A);
       var MON_A = cfg.monitor;                 // su marco
       var MONITOR = bounds(MON_A);
-      var MON_B = grow(cfg.screen2, Math.max(bounds(cfg.screen2).w, bounds(cfg.screen2).h) * 0.045);  // el monitor del compañero
+      var MON_B = grow(cfg.screen2, Math.max(bounds(cfg.screen2).w, bounds(cfg.screen2).h) * 0.045);  // el segundo monitor
 
       function rect(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
 
@@ -281,7 +281,7 @@
           start.x = fit(start.x, s0, SCREEN.cx, IMG_W, w);
           start.y = fit(start.y, s0, SCREEN.cy, IMG_H, h);
         }
-        // Fin del acercamiento: el monitor de la mujer, con su marco, ocupa buena parte del espacio libre
+        // Fin del acercamiento: el monitor principal, con su marco, ocupa buena parte del espacio libre
         var s1 = Math.min((w * shot.fill) / MONITOR.w, (room * shot.fill) / MONITOR.h);
         var end = {
           x: w * shot.aim[0] + s1 * (SCREEN.cx - MONITOR.cx),
@@ -362,7 +362,7 @@
         stage.style.setProperty('--shade', (1 - ramp(0.04, 0.22, p)).toFixed(3));
         stage.style.setProperty('--hop', (1 - ramp(0.005, 0.05, p)).toFixed(3));
 
-        // 1. Acercamiento al monitor de la mujer
+        // 1. Acercamiento al monitor principal
         var t = ease(ramp(0.04, 0.36, p));
         var s = view.s0 * Math.pow(view.s1 / view.s0, t);
         var ax = lerp(view.start.x, view.end.x, t);
@@ -387,7 +387,7 @@
         mons.b.style.transform = warp(quadB, view.sideBox);
         var gone = 1 - ramp(0.35, 0.8, v);
         show(mons.a, gone);
-        // El monitor del compañero aparece sobre la foto cuando empieza el recorrido (antes se ve su planilla)
+        // El segundo monitor aparece sobre la foto cuando empieza el recorrido
         show(mons.b, gone * ramp(0.03, 0.14, p));
         mons.c.style.transform = warp(scaled(view.fin, 0.9 + 0.1 * v), view.finBox);
         show(mons.c, ramp(0.4, 0.85, v));
