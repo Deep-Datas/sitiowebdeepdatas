@@ -27,18 +27,8 @@
       "statusCode": 301
     },
     {
-      "route": "/industrias/salud",
-      "redirect": "/#industrias",
-      "statusCode": 301
-    },
-    {
       "route": "/industrias/salud/",
       "redirect": "/#industrias",
-      "statusCode": 301
-    },
-    {
-      "route": "/en/industries/healthcare",
-      "redirect": "/en/#industrias",
       "statusCode": 301
     },
     {
