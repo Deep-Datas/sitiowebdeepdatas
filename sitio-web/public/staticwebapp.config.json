@@ -48,5 +48,10 @@
     "X-Frame-Options": "SAMEORIGIN",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=()"
+  },
+  "mimeTypes": {
+    ".mp4": "video/mp4",
+    ".webm": "video/webm",
+    ".webp": "image/webp"
   }
 }
