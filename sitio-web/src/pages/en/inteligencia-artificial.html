@@ -49,7 +49,7 @@
 
 {% block content %}
 <section class="page-hero ai-hero">
-  <div class="container dx-hero-grid">
+  <div class="container">
     <div>
       <p class="eyebrow">AI for business</p>
       <h1>AI agents that work with your company’s data</h1>
@@ -59,34 +59,18 @@
         <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} or message us on WhatsApp</a>
       </div>
     </div>
+  </div>
 
-    <div class="chat-wrap">
-    <figure class="chat-demo screen" aria-labelledby="chat-demo-title">
-      <div class="chat-head">
-        <span class="chat-avatar">{{ icon('robot') }}</span>
-        <div>
-          <p class="chat-name" id="chat-demo-title">Sales assistant</p>
-          <p class="chat-status">Illustrative example · sample data</p>
-        </div>
+  <div class="container">
+    <figure class="demo-video demo-wide reveal" aria-label="Sample video: the assistant answers sales, customer and inventory questions with sample data">
+      <div class="demo-screen">
+        <video controls muted loop playsinline preload="metadata" poster="/assets/video/asistente-en.webp" data-autoplay>
+          <source src="/assets/video/asistente-en.webm" type="video/webm">
+          <source src="/assets/video/asistente-en.mp4" type="video/mp4">
+        </video>
       </div>
-      <ol class="chat-thread">
-        <li class="msg msg-user"><span class="visually-hidden">Martina (Head of Sales):</span> Which customers stopped buying this month?</li>
-        <li class="msg msg-agent"><span class="visually-hidden">Assistant:</span> <strong>38 customers</strong> who used to buy every month didn’t buy in September. They represent <strong>$420K</strong> in monthly sales. I’ve already built the list by sales rep, sorted by revenue.<span class="msg-source">Source: ERP and CRM · updated today at 7:00 AM</span></li>
-        <li class="msg msg-user"><span class="visually-hidden">User:</span> Which products are about to run out of stock?</li>
-        <li class="msg msg-agent"><span class="visually-hidden">Assistant:</span> Three products have less than 5 days of stock left:
-          <ul>
-            <li>Classic Chips 400 g: 3 days</li>
-            <li>Frozen Fries 1 kg: 4 days</li>
-            <li>Instant Mashed Potatoes 125 g: 4 days</li>
-          </ul>
-          Should I prepare the suggested restocking order?<span class="msg-source">Source: demand forecast</span></li>
-      </ol>
-      <div class="chat-input" aria-hidden="true">
-        <span>Ask anything…</span>
-        {{ icon('send') }}
-      </div>
+      <figcaption>The assistant in action: a sales question, two follow-ups and the answers with their sources (example with sample data).</figcaption>
     </figure>
-    </div>
   </div>
 </section>
 

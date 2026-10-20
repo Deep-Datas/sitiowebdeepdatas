@@ -242,6 +242,8 @@
               <div class="hp-ai-chips">{% for chip in C.ai.chips %}<span>{{ chip }}</span>{% endfor %}</div>
               <div class="hp-ai-input"><span>{{ C.ai.input }}</span><i>{{ icon('arrow-right') }}</i></div>
             </div>
+            {# En escritorio, el asistente en acción: video sin sonido, en bucle (site.js lo carga al llegar al final) #}
+            <video class="hp-video" muted loop playsinline preload="none" poster="/assets/video/asistente-{{ lang }}.webp" data-video="/assets/video/asistente-{{ lang }}"></video>
           </div>
         </div>
         <div class="hp-flash"></div>

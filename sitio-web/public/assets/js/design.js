@@ -90,6 +90,25 @@
     steps.forEach(function (el) { io.observe(el); });
   });
 
+  /* ---------- Videos que se reproducen solos mientras se ven ---------- */
+  if (motion && 'IntersectionObserver' in window) {
+    var videos = Array.prototype.slice.call(document.querySelectorAll('video[data-autoplay]'));
+    if (videos.length) {
+      var seen = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          var v = entry.target;
+          if (entry.isIntersecting) {
+            var p = v.play();
+            if (p && p.catch) p.catch(function () {});
+          } else if (!v.paused) {
+            v.pause();
+          }
+        });
+      }, { threshold: 0.35 });
+      videos.forEach(function (v) { seen.observe(v); });
+    }
+  }
+
   /* ---------- Núcleo de datos ---------- */
   document.querySelectorAll('[data-core]').forEach(function (canvas) {
     var stage = canvas.closest('.core-stage');

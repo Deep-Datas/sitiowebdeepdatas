@@ -173,6 +173,8 @@
       var mons = { a: hero.querySelector('.hp-mon-a'), b: hero.querySelector('.hp-mon-b'), c: hero.querySelector('.hp-mon-c') };
       var statuses = all('.hp-status span');
       var steps = all('.hp-step');
+      var video = mons.c.querySelector('.hp-video');
+      var videoReady = false;
       var view = {};
       var ticking = false;
 
@@ -317,12 +319,32 @@
         size(mons.b, sideBox);
         size(mons.c, finBox);
         size(photo, { w: IMG_W, h: IMG_H });
-        view = { w: w, h: h, s0: s0, s1: s1, start: start, end: end, rectA: rectA, rectB: rectB, fin: fin, sideBox: sideBox, finBox: finBox };
+        view = { w: w, h: h, desk: desk, s0: s0, s1: s1, start: start, end: end, rectA: rectA, rectB: rectB, fin: fin, sideBox: sideBox, finBox: finBox };
       }
 
       function show(el, opacity) {
         el.style.opacity = opacity.toFixed(3);
         el.style.visibility = opacity > 0.01 ? '' : 'hidden';
+      }
+
+      // El video del asistente se carga recién cuando hace falta y se pausa fuera de vista
+      function playVideo() {
+        if (!videoReady) {
+          videoReady = true;
+          var base = video.getAttribute('data-video');
+          [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(function (f) {
+            var source = document.createElement('source');
+            source.src = base + '.' + f[0];
+            source.type = f[1];
+            video.appendChild(source);
+          });
+          video.addEventListener('playing', function () { video.classList.add('is-playing'); });
+          video.load();
+        }
+        if (video.paused) {
+          var promise = video.play();
+          if (promise && promise.catch) promise.catch(function () {});
+        }
       }
 
       function render() {
@@ -369,6 +391,10 @@
         show(mons.b, gone * ramp(0.03, 0.14, p));
         mons.c.style.transform = warp(scaled(view.fin, 0.9 + 0.1 * v), view.finBox);
         show(mons.c, ramp(0.4, 0.85, v));
+        if (video && view.desk) {
+          if (v > 0.5) playVideo();
+          else if (videoReady && !video.paused) video.pause();
+        }
         stage.style.setProperty('--flash', (0.85 * Math.sin(Math.PI * ramp(0.25, 0.9, v))).toFixed(3));
 
         var froms = statuses.map(function (el) { return parseFloat(el.getAttribute('data-from')); });

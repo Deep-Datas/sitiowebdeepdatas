@@ -49,7 +49,7 @@
 
 {% block content %}
 <section class="page-hero ai-hero">
-  <div class="container dx-hero-grid">
+  <div class="container">
     <div>
       <p class="eyebrow">IA para empresas</p>
       <h1>Agentes de IA que trabajan con los datos de tu empresa</h1>
@@ -59,34 +59,18 @@
         <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} o escribinos por WhatsApp</a>
       </div>
     </div>
+  </div>
 
-    <div class="chat-wrap">
-    <figure class="chat-demo screen" aria-labelledby="chat-demo-title">
-      <div class="chat-head">
-        <span class="chat-avatar">{{ icon('robot') }}</span>
-        <div>
-          <p class="chat-name" id="chat-demo-title">Asistente comercial</p>
-          <p class="chat-status">Ejemplo ilustrativo · datos ficticios</p>
-        </div>
+  <div class="container">
+    <figure class="demo-video demo-wide reveal" aria-label="Video de ejemplo: el asistente responde preguntas de ventas, clientes y stock con datos ficticios">
+      <div class="demo-screen">
+        <video controls muted loop playsinline preload="metadata" poster="/assets/video/asistente-es.webp" data-autoplay>
+          <source src="/assets/video/asistente-es.webm" type="video/webm">
+          <source src="/assets/video/asistente-es.mp4" type="video/mp4">
+        </video>
       </div>
-      <ol class="chat-thread">
-        <li class="msg msg-user"><span class="visually-hidden">Martina (Gerencia comercial):</span> ¿Qué clientes dejaron de comprar este mes?</li>
-        <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> <strong>38 clientes</strong> que compraban todos los meses no compraron en septiembre. Representan <strong>$ 420 mil</strong> de venta mensual. Ya armé la lista por vendedor, ordenada por facturación.<span class="msg-source">Fuente: ERP y CRM · actualizado hoy 7:00</span></li>
-        <li class="msg msg-user"><span class="visually-hidden">Usuario:</span> ¿Qué productos están por quedarse sin stock?</li>
-        <li class="msg msg-agent"><span class="visually-hidden">Asistente:</span> Tres productos tienen stock para menos de 5 días:
-          <ul>
-            <li>Papas clásicas 400 g: 3 días</li>
-            <li>Bastones congelados 1 kg: 4 días</li>
-            <li>Puré instantáneo 125 g: 4 días</li>
-          </ul>
-          ¿Querés que prepare la orden de reposición sugerida?<span class="msg-source">Fuente: pronóstico de demanda</span></li>
-      </ol>
-      <div class="chat-input" aria-hidden="true">
-        <span>Escribí tu consulta…</span>
-        {{ icon('send') }}
-      </div>
+      <figcaption>El asistente en acción: una pregunta de ventas, dos de seguimiento y las respuestas con sus fuentes (ejemplo con datos ficticios).</figcaption>
     </figure>
-    </div>
   </div>
 </section>
 

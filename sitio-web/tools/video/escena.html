@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<style>
+@font-face { font-family: "Inter"; src: url("/assets/fonts/inter-latin.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist"; src: url("/assets/fonts/geist-latin.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist Mono"; src: url("/assets/fonts/geist-mono-latin.woff2") format("woff2"); font-weight: 100 900; }
+html, body { margin: 0; }
+body { width: 1280px; height: 800px; overflow: hidden; background: #faf9f5; color: #0b1220; font-family: "Inter", sans-serif; font-size: 17px; line-height: 1.45; }
+.top { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 28px; background: #fff; border-bottom: 1px solid rgba(11,18,32,.08); font-size: 15px; color: #4b5466; }
+.top img { width: 20px; height: auto; }
+.top b { color: #0b1220; font-weight: 650; }
+.top .dot { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-family: "Geist Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #6b7280; }
+.top .dot i { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
+.view { position: relative; height: 656px; overflow: hidden; }
+.thread { position: absolute; left: 0; right: 0; top: 0; padding: 26px 180px 0; box-sizing: border-box; }
+.block { overflow: hidden; }
+.block > .in { padding-bottom: 16px; }
+.greet { color: #4b5466; font-size: 17px; }
+.bubble { display: inline-flex; align-items: center; gap: 12px; max-width: 70%; padding: 12px 20px 12px 14px; border-radius: 999px; background: #fff; box-shadow: 0 16px 40px -22px rgba(11,18,32,.4), 0 0 0 1px rgba(11,18,32,.08); font-weight: 500; font-size: 18px; }
+.right { text-align: right; }
+.avatar { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #ff6a3a; color: #1a0e08; font-family: "Geist Mono", monospace; font-size: 12px; font-weight: 700; flex: none; }
+.status { display: flex; flex-direction: column; gap: 8px; font-family: "Geist Mono", monospace; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: #6b7280; }
+.status div { display: flex; align-items: center; gap: 10px; }
+.status .ok { width: 16px; height: 16px; border-radius: 50%; background: #0b1220; color: #fff; display: grid; place-items: center; font-size: 10px; }
+.status .spin { width: 14px; height: 14px; border: 2px solid rgba(11,18,32,.15); border-top-color: #ff6a3a; border-radius: 50%; }
+.card { padding: 22px 26px; border-radius: 22px; background: #fff; box-shadow: 0 0 0 1px rgba(11,18,32,.08), 0 30px 60px -40px rgba(11,18,32,.4); }
+.label { font-family: "Geist Mono", monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #c2410c; font-weight: 600; margin-bottom: 10px; }
+.grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; }
+.big { font-family: "Geist", sans-serif; font-size: 58px; font-weight: 600; letter-spacing: -.045em; line-height: 1; font-variant-numeric: tabular-nums; }
+.up { display: inline-block; margin: 10px 0 12px; padding: 5px 12px; border-radius: 999px; background: #dcf5e4; color: #1e7a4c; font-size: 14px; font-weight: 650; }
+.card p { margin: 0; color: #2a3345; font-size: 16px; }
+.bars { display: grid; gap: 10px; align-content: center; }
+.bars div { display: grid; grid-template-columns: 96px 1fr 60px; align-items: center; gap: 10px; font-size: 14px; }
+.bars i { display: block; height: 11px; border-radius: 4px; background: #0b1220; transform-origin: 0 50%; }
+.bars .neg i { background: #b4472c; }
+.bars b { text-align: right; font-variant-numeric: tabular-nums; }
+.src { display: flex; justify-content: space-between; margin-top: 16px; color: #6b7280; font-size: 13px; }
+.chips { display: flex; gap: 10px; }
+.chips span { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(11,18,32,.16); background: #fff; color: #4b5466; font-size: 15px; }
+.chips span::before { content: "↗ "; color: #ff6a3a; }
+.chips span.hot { border-color: #ff6a3a; color: #0b1220; box-shadow: 0 10px 26px -16px rgba(255,106,58,.9); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 8px; }
+td, th { padding: 9px 8px; border-bottom: 1px solid #eef0f3; text-align: left; }
+th { color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+td.n { text-align: right; font-variant-numeric: tabular-nums; }
+tr.row { overflow: hidden; }
+.action { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; padding: 11px 18px; border-radius: 999px; background: #ff6a3a; color: #1a0e08; font-weight: 650; font-size: 15px; }
+.alert { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding: 10px 14px; border-radius: 14px; background: #fff3ea; color: #9a3412; font-weight: 600; font-size: 15px; }
+.alert i { width: 10px; height: 10px; border-radius: 50%; background: #ff6a3a; box-shadow: 0 0 0 4px rgba(255,106,58,.2); }
+.list div { display: grid; grid-template-columns: 1.4fr .7fr 1fr; gap: 12px; padding: 9px 0; border-bottom: 1px solid #eef0f3; font-size: 15px; }
+.list div span:nth-child(2) { font-weight: 650; color: #b4472c; }
+.list div span:nth-child(3) { color: #4b5466; text-align: right; }
+.input { position: absolute; left: 180px; right: 180px; bottom: 26px; display: flex; align-items: center; justify-content: space-between; height: 58px; padding: 0 8px 0 22px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px rgba(11,18,32,.14), 0 20px 50px -30px rgba(11,18,32,.5); font-size: 17px; color: #0b1220; }
+.input .ph { color: #8590a3; }
+.input .caret { display: inline-block; width: 2px; height: 22px; margin-left: 2px; background: #ff6a3a; vertical-align: -4px; }
+.input .send { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: #ff6a3a; color: #1a0e08; font-size: 18px; }
+.fade { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: linear-gradient(180deg, rgba(250,249,245,0), #faf9f5 70%); pointer-events: none; }
+.foot { position: absolute; right: 28px; bottom: 100px; color: #8590a3; font-size: 12px; font-family: "Geist Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
+</style></head>
+<body>
+<div class="top"><img src="/assets/img/brand/logo-mark.png" alt=""> <b data-i18n="brand"></b> <span data-i18n="by"></span><span class="dot"><i></i><span data-i18n="live"></span><span style="color:#aab2c0">·</span><span data-i18n="fict"></span></span></div>
+<div class="view"><div class="thread" id="thread"></div><div class="fade"></div></div>
+<div class="input" id="input"><span><span id="typed"></span><span class="caret" id="caret"></span><span class="ph" id="ph"></span></span><span class="send">→</span></div>
+<script>
+(function () {
+  var L = {
+    es: {
+      brand: 'Asistente de IA', by: 'con tus datos curados por DeepDatas', live: 'Datos de hoy 7:00', fict: 'Ejemplo con datos ficticios', user: 'MG', ph: 'Escribí tu consulta…',
+      greet: 'Hola, Martín. ¿Qué querés saber hoy de tu negocio?',
+      q1: '¿Cuánto vendimos ayer en la zona norte?',
+      s1: ['Consultando el ERP', 'Cruzando el CRM y las planillas', 'Revisando WhatsApp y correo'],
+      a1: { label: 'Ventas de ayer · Zona norte', big: '$ 1,28 M', up: '▲ 9 % contra el mismo día de la semana pasada', text: 'Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.', chart: 'Por distribuidor · contra el objetivo', src: 'Fuentes: ERP, CRM, planillas y WhatsApp', src2: 'actualizado hoy a las 7:00',
+            bars: [['Norte SA', 92, '+14 %'], ['Distrisur', 74, '+9 %'], ['La Rueda', 61, '+6 %'], ['Pampa Dist.', 38, '+2 %'], ['Oeste SRL', 22, '−5 %', true]] },
+      chips: ['¿Qué clientes dejaron de comprar?', '¿Qué productos están por quedarse sin stock?', '¿Cómo viene el margen por canal?'],
+      s2: ['Comparando las compras de los últimos tres meses'],
+      a2: { label: 'Clientes en riesgo · Septiembre', text: '<b>38 clientes</b> que compraban todos los meses no compraron en septiembre. Representan <b>$ 420 mil</b> de venta mensual. Estos son los cinco más grandes:',
+            head: ['Cliente', 'Vendedor', 'Última compra', 'Promedio mensual'],
+            rows: [['Almacén Don Pedro', 'L. Pérez', '14 ago', '$ 48.200'], ['Súper La Esquina', 'M. Díaz', '21 ago', '$ 41.900'], ['Kiosco Central', 'J. Sosa', '9 ago', '$ 36.400'], ['Autoservicio Mitre', 'M. Díaz', '27 ago', '$ 31.700'], ['Despensa Norte', 'L. Pérez', '18 ago', '$ 29.300']],
+            action: 'Enviar la lista a cada vendedor por WhatsApp', src: 'Fuentes: ERP y CRM', src2: 'actualizado hoy a las 7:00' },
+      s3: ['Revisando el stock y el pronóstico de demanda'],
+      a3: { label: 'Stock · Próximos 15 días', alert: '3 productos se quedan sin stock antes del 15 de octubre', head: ['Producto', 'Días de stock', 'Pedido sugerido'],
+            rows: [['Papas clásicas 400 g', '6 días', '1.200 cajas'], ['Bastones congelados 1 kg', '9 días', '800 cajas'], ['Puré instantáneo 125 g', '11 días', '500 cajas']],
+            text: '¿Querés que prepare la orden de reposición para que la apruebe Compras?', src: 'Fuentes: ERP y pronóstico de demanda', src2: 'actualizado hoy a las 7:00' },
+    },
+    en: {
+      brand: 'AI assistant', by: 'with your data curated by DeepDatas', live: 'Data as of 7:00 AM', fict: 'Example with sample data', user: 'MG', ph: 'Ask anything…',
+      greet: 'Hi Martin. What would you like to know about your business today?',
+      q1: 'How much did we sell yesterday in the north region?',
+      s1: ['Querying the ERP', 'Cross-referencing the CRM and spreadsheets', 'Checking WhatsApp and email'],
+      a1: { label: 'Yesterday’s sales · North region', big: '$1.28M', up: '▲ 9% vs. the same day last week', text: 'Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.', chart: 'By distributor · vs. target', src: 'Sources: ERP, CRM, spreadsheets and WhatsApp', src2: 'updated today at 7:00 AM',
+            bars: [['Norte SA', 92, '+14%'], ['Distrisur', 74, '+9%'], ['La Rueda', 61, '+6%'], ['Pampa Dist.', 38, '+2%'], ['Oeste SRL', 22, '−5%', true]] },
+      chips: ['Which customers stopped buying?', 'Which products are about to run out?', 'How is margin by channel doing?'],
+      s2: ['Comparing purchases over the last three months'],
+      a2: { label: 'At-risk customers · September', text: '<b>38 customers</b> who used to buy every month didn’t buy in September. They represent <b>$420K</b> in monthly sales. These are the five largest:',
+            head: ['Customer', 'Sales rep', 'Last purchase', 'Monthly average'],
+            rows: [['Almacén Don Pedro', 'L. Pérez', 'Aug 14', '$48,200'], ['Súper La Esquina', 'M. Díaz', 'Aug 21', '$41,900'], ['Kiosco Central', 'J. Sosa', 'Aug 9', '$36,400'], ['Autoservicio Mitre', 'M. Díaz', 'Aug 27', '$31,700'], ['Despensa Norte', 'L. Pérez', 'Aug 18', '$29,300']],
+            action: 'Send each sales rep their list on WhatsApp', src: 'Sources: ERP and CRM', src2: 'updated today at 7:00 AM' },
+      s3: ['Checking inventory and the demand forecast'],
+      a3: { label: 'Inventory · Next 15 days', alert: '3 products run out of stock before October 15', head: ['Product', 'Days of stock', 'Suggested order'],
+            rows: [['Classic chips 400 g', '6 days', '1,200 boxes'], ['Frozen fries 1 kg', '9 days', '800 boxes'], ['Instant mash 125 g', '11 days', '500 boxes']],
+            text: 'Want me to prepare the replenishment order for Purchasing to approve?', src: 'Sources: ERP and demand forecast', src2: 'updated today at 7:00 AM' },
+    }
+  };
+  var lang = (location.search.match(/lang=(\w+)/) || [])[1] || 'es';
+  var T = L[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = T[el.getAttribute('data-i18n')]; });
+
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function ramp(a, b, v) { return clamp((v - a) / (b - a), 0, 1); }
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function esc(s) { return s.replace(/</g, '&lt;'); }
+
+  // Guion: cada bloque aparece en «at» (segundos) y sus animaciones internas se calculan desde ese momento
+  var typed = { start: 0.8, dur: 2.4, text: T.q1 };
+  var Q2_AT = 14.2, Q3_AT = 23.2;
+  var blocks = [
+    { at: 0, html: '<p class="greet">' + esc(T.greet) + '</p>' },
+    { at: 3.4, html: '<div class="right"><span class="bubble"><span class="avatar">' + T.user + '</span>' + esc(T.q1) + '</span></div>' },
+    { at: 3.9, kind: 'status', items: T.s1, step: 0.75 },
+    { at: 6.4, kind: 'a1' },
+    { at: 11.4, kind: 'chips', hot: [13.0, 0] },
+    { at: Q2_AT, html: '<div class="right"><span class="bubble"><span class="avatar">' + T.user + '</span>' + esc(T.chips[0]) + '</span></div>' },
+    { at: Q2_AT + 0.5, kind: 'status', items: T.s2, step: 0.9 },
+    { at: Q2_AT + 1.9, kind: 'a2' },
+    { at: Q3_AT, html: '<div class="right"><span class="bubble"><span class="avatar">' + T.user + '</span>' + esc(T.chips[1]) + '</span></div>' },
+    { at: Q3_AT + 0.5, kind: 'status', items: T.s3, step: 0.9 },
+    { at: Q3_AT + 1.9, kind: 'a3' },
+  ];
+  var thread = document.getElementById('thread');
+  blocks.forEach(function (b) {
+    var el = document.createElement('div'); el.className = 'block';
+    var inner = document.createElement('div'); inner.className = 'in';
+    if (b.html) inner.innerHTML = b.html;
+    if (b.kind === 'status') inner.innerHTML = '<div class="status">' + b.items.map(function (s) { return '<div><span class="ic"></span><span>' + esc(s) + '…</span></div>'; }).join('') + '</div>';
+    if (b.kind === 'a1') { var A = T.a1; inner.innerHTML = '<div class="card"><div class="label">' + esc(A.label) + '</div><div class="grid"><div><div class="big" data-big></div><span class="up" data-up>' + esc(A.up) + '</span><p data-text>' + esc(A.text) + '</p></div><div><div class="label" style="color:#6b7280">' + esc(A.chart) + '</div><div class="bars">' + A.bars.map(function (r) { return '<div class="' + (r[3] ? 'neg' : '') + '"><span>' + r[0] + '</span><i style="width:' + r[1] + '%"></i><b>' + r[2] + '</b></div>'; }).join('') + '</div></div></div><div class="src" data-src><span>⛁ ' + esc(A.src) + ' · ' + esc(A.src2) + '</span><span>' + esc(T.fict) + '</span></div></div>'; }
+    if (b.kind === 'chips') inner.innerHTML = '<div class="chips">' + T.chips.map(function (c) { return '<span>' + esc(c) + '</span>'; }).join('') + '</div>';
+    if (b.kind === 'a2') { var B = T.a2; inner.innerHTML = '<div class="card"><div class="label">' + esc(B.label) + '</div><p data-text>' + B.text + '</p><table><tr>' + B.head.map(function (h, i) { return '<th' + (i >= 2 ? ' class="n"' : '') + '>' + h + '</th>'; }).join('') + '</tr>' + B.rows.map(function (r) { return '<tr class="row"><td>' + r[0] + '</td><td>' + r[1] + '</td><td class="n">' + r[2] + '</td><td class="n"><b>' + r[3] + '</b></td></tr>'; }).join('') + '</table><div data-action><span class="action">⌁ ' + esc(B.action) + '</span></div><div class="src" data-src><span>⛁ ' + esc(B.src) + ' · ' + esc(B.src2) + '</span><span>' + esc(T.fict) + '</span></div></div>'; }
+    if (b.kind === 'a3') { var C = T.a3; inner.innerHTML = '<div class="card"><div class="label">' + esc(C.label) + '</div><div class="alert" data-alert><i></i>' + esc(C.alert) + '</div><div class="list"><div><span style="color:#6b7280;font-size:12px;text-transform:uppercase;letter-spacing:.05em">' + C.head[0] + '</span><span style="color:#6b7280;font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:500">' + C.head[1] + '</span><span style="font-size:12px;text-transform:uppercase;letter-spacing:.05em">' + C.head[2] + '</span></div>' + C.rows.map(function (r) { return '<div class="row"><span>' + r[0] + '</span><span>' + r[1] + '</span><span>' + r[2] + '</span></div>'; }).join('') + '</div><p data-text style="margin-top:14px">' + esc(C.text) + '</p><div class="src" data-src><span>⛁ ' + esc(C.src) + ' · ' + esc(C.src2) + '</span><span>' + esc(T.fict) + '</span></div></div>'; }
+    el.appendChild(inner); thread.appendChild(el); b.el = el; b.inner = inner;
+  });
+  // Altura natural de cada bloque (con todo visible)
+  blocks.forEach(function (b) { b.h = b.inner.offsetHeight; });
+  var VIEW = 656 - 26 - 90;
+
+  var typedEl = document.getElementById('typed'), caret = document.getElementById('caret'), ph = document.getElementById('ph');
+
+  window.seek = function (t) {
+    // Entrada: se escribe la primera pregunta y se envía
+    var n = Math.floor(ramp(typed.start, typed.start + typed.dur, t) * typed.text.length);
+    var sent = t >= 3.3;
+    typedEl.textContent = sent ? '' : typed.text.slice(0, n);
+    ph.textContent = (sent || n === 0) ? T.ph : '';
+    caret.style.display = sent ? 'none' : '';
+    caret.style.opacity = Math.floor(t * 2) % 2 ? 0 : 1;
+
+    var total = 0;
+    blocks.forEach(function (b) {
+      var k = easeOut(ramp(b.at, b.at + 0.45, t));
+      b.el.style.height = (b.h * k).toFixed(1) + 'px';
+      b.el.style.opacity = k.toFixed(3);
+      total += b.h * k;
+      if (b.kind === 'status') {
+        b.inner.querySelectorAll('.status > div').forEach(function (row, i) {
+          var s = b.at + 0.2 + i * b.step;
+          var vis = ramp(s, s + 0.3, t);
+          row.style.opacity = vis.toFixed(3);
+          var ic = row.querySelector('.ic');
+          var done = t >= s + b.step * 0.85;
+          ic.className = 'ic ' + (done ? 'ok' : 'spin');
+          ic.textContent = done ? '✓' : '';
+          if (!done) ic.style.transform = 'rotate(' + ((t * 540) % 360).toFixed(0) + 'deg)'; else ic.style.transform = '';
+        });
+      }
+      if (b.kind === 'a1') {
+        var s0 = b.at + 0.3;
+        var kk = easeOut(ramp(s0, s0 + 1.3, t));
+        var big = b.inner.querySelector('[data-big]');
+        var target = 1.28, val = target * kk;
+        big.textContent = lang === 'es' ? '$ ' + val.toFixed(2).replace('.', ',') + ' M' : '$' + val.toFixed(2) + 'M';
+        b.inner.querySelector('[data-up]').style.opacity = ramp(s0 + 1.1, s0 + 1.5, t).toFixed(3);
+        b.inner.querySelectorAll('.bars i').forEach(function (bar, i) { bar.style.transform = 'scaleX(' + easeOut(ramp(s0 + 1.2 + i * 0.3, s0 + 1.9 + i * 0.3, t)).toFixed(3) + ')'; });
+        b.inner.querySelector('[data-text]').style.opacity = ramp(s0 + 2.8, s0 + 3.4, t).toFixed(3);
+        b.inner.querySelector('[data-src]').style.opacity = ramp(s0 + 3.6, s0 + 4.1, t).toFixed(3);
+      }
+      if (b.kind === 'chips') {
+        var chips = b.inner.querySelectorAll('.chips span');
+        chips.forEach(function (c, i) {
+          c.style.opacity = ramp(b.at + 0.2 + i * 0.2, b.at + 0.6 + i * 0.2, t).toFixed(3);
+          c.classList.toggle('hot', (t >= 13.0 && t < Q2_AT + 0.3 && i === 0) || (t >= 22.2 && t < Q3_AT + 0.3 && i === 1));
+        });
+      }
+      if (b.kind === 'a2') {
+        var s2 = b.at + 0.3;
+        b.inner.querySelector('[data-text]').style.opacity = ramp(s2, s2 + 0.5, t).toFixed(3);
+        b.inner.querySelectorAll('tr.row').forEach(function (row, i) { row.style.opacity = ramp(s2 + 0.8 + i * 0.35, s2 + 1.2 + i * 0.35, t).toFixed(3); });
+        b.inner.querySelector('[data-action]').style.opacity = ramp(s2 + 3.0, s2 + 3.5, t).toFixed(3);
+        b.inner.querySelector('[data-src]').style.opacity = ramp(s2 + 3.4, s2 + 3.9, t).toFixed(3);
+      }
+      if (b.kind === 'a3') {
+        var s3 = b.at + 0.3;
+        b.inner.querySelector('[data-alert]').style.opacity = ramp(s3, s3 + 0.5, t).toFixed(3);
+        b.inner.querySelectorAll('.list .row').forEach(function (row, i) { row.style.opacity = ramp(s3 + 0.8 + i * 0.4, s3 + 1.2 + i * 0.4, t).toFixed(3); });
+        b.inner.querySelector('[data-text]').style.opacity = ramp(s3 + 2.3, s3 + 2.8, t).toFixed(3);
+        b.inner.querySelector('[data-src]').style.opacity = ramp(s3 + 2.8, s3 + 3.3, t).toFixed(3);
+      }
+    });
+    // El hilo se desplaza para que lo último quede a la vista
+    var offset = Math.max(0, total - VIEW);
+    thread.style.transform = 'translateY(' + (-offset).toFixed(1) + 'px)';
+    // Cierre: todo se desvanece para que el bucle vuelva a empezar
+    document.body.style.opacity = (1 - ramp(31.0, 31.9, t)).toFixed(3);
+  };
+  window.DURATION = 32;
+  window.seek(0);
+})();
+</script>
+</body></html>

@@ -44,7 +44,7 @@ src/pages/               Contenido de cada página (en src/pages/en/, la versió
 src/hero.html            Inicio: la pregunta que recorre los sistemas hasta la respuesta (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs) y la foto de la oficina del inicio y las portadas (hero_foto.py)
+tools/                   Generadores de imágenes y video: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs), la foto de la oficina del inicio y las portadas (hero_foto.py) y el video del asistente (video/)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -145,6 +145,10 @@ Las secciones claras (marfil) cuentan la historia del negocio y las «profundas�
 - **Inicio** (`src/hero.html`, estilos `.hp*` en `design.css`): «Una pregunta. Todos tus sistemas. Una sola respuesta.» sobre la foto de la oficina. Con animación, la escena queda fija y el scroll acerca la cámara al monitor de la mujer (ERP y planillas), trae al lado el monitor del compañero (CRM y WhatsApp), los deja de frente y los funde en un solo monitor con el asistente y la respuesta; tres pasos (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte del recorrido se está. Sin animación se ven el texto, la foto, los pasos y la respuesta. Las esquinas de los monitores en la foto (`src/assets/img/hero/oficina-*.webp`, que genera `tools/hero_foto.py`) y los textos están en el mismo archivo (datos ficticios).
 - **Portadas**: Nosotros, Servicios y Contacto usan recortes de la misma foto de la oficina (`src/assets/img/covers/`); `tools/hero_foto.py --portadas` regenera la foto del inicio y los recortes a partir de `tools/hero/png/oficina-final.png`.
 - **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
+
+## Video del asistente
+
+El monitor final del inicio (en escritorio) y el encabezado de la página de IA muestran un video de 32 segundos del asistente respondiendo tres preguntas (ventas de ayer, clientes que dejaron de comprar y productos por quedarse sin stock), sin sonido y en bucle, con datos ficticios. No es una grabación: se renderiza cuadro a cuadro desde `tools/video/escena.html` (un guion determinista en el que cada instante se calcula a partir del tiempo) con `tools/video/render.cjs`, y `tools/video/codificar.sh` lo convierte a `src/assets/video/asistente-{es,en}.{mp4,webm}` más el cuadro de portada `.webp`. Para cambiar textos o cifras, editá `escena.html` y volvé a correr el script. Para reemplazarlo por una grabación real del asistente, exportala en 1280 × 800 (16:10), sin sonido, y guardala con los mismos nombres.
 
 ## Animaciones al hacer scroll
 
