@@ -1,4 +1,4 @@
-{# Formas de trabajo: se usan en el inicio y en Servicios. Los textos están en i18n.py (t.plans). #}
+{# Formas de trabajo: se usan en el inicio y en Servicios. Los textos y los precios (USD, sin IVA) están en i18n.py (t.plans). #}
 {% macro plans() %}
 <div class="plan-grid">
   {% for plan in t.plans['items'] %}
@@ -10,6 +10,11 @@
     <span class="label">{{ plan.label }}</span>
     <h3>{{ plan.title }}</h3>
     <p>{{ plan.text }}</p>
+    {% if plan.get('price') %}
+    {% set since, amount, unit, note = plan.price %}
+    <div class="plan-price"><span class="plan-price-from">{{ since }}</span> <strong>{{ amount }}</strong>{% if unit %} <span class="plan-price-unit">{{ unit }}</span>{% endif %}</div>
+    <p class="plan-price-note">{{ note }}</p>
+    {% endif %}
     {% if plan.get('page') %}
     <a class="link-arrow plan-link" href="{{ url(plan.page) }}">{{ plan.link }} {{ icon('arrow-right') }}</a>
     {% else %}
