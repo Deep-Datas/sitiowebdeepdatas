@@ -174,9 +174,15 @@
       var statuses = all('.hp-status span');
       var steps = all('.hp-step');
       var video = mons.c.querySelector('.hp-video');
+      var answerCard = mons.c.querySelector('.hp-ai-answer');
+      var flash = hero.querySelector('.hp-flash');
+      var flies = all('.hp-fly');
+      var current = -1;    // avance mostrado (persigue al del scroll con inercia)
+      var target = 0;      // avance según el scroll
       var videoReady = false;
       var view = {};
       var ticking = false;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
       function lerp(a, b, t) { return a + (b - a) * t; }
@@ -211,6 +217,17 @@
       var MON_B = grow(cfg.screen2, Math.max(bounds(cfg.screen2).w, bounds(cfg.screen2).h) * 0.045);  // el monitor del compañero
 
       function rect(x, y, w, h) { return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]; }
+
+      // Punto de un cuadrilátero a partir de fracciones de su ancho y alto
+      function at(quad, fx, fy) {
+        return [
+          (1 - fx) * (1 - fy) * quad[0][0] + fx * (1 - fy) * quad[1][0] + fx * fy * quad[2][0] + (1 - fx) * fy * quad[3][0],
+          (1 - fx) * (1 - fy) * quad[0][1] + fx * (1 - fy) * quad[1][1] + fx * fy * quad[2][1] + (1 - fx) * fy * quad[3][1]
+        ];
+      }
+
+      // Dónde está la etiqueta de cada ventana dentro del monitor (ver .hp-w1, .hp-w3 y .hp-w2 en design.css)
+      var SLOTS = [[0.1, 0.1], [0.12, 0.62], [0.5, 0.36]];
 
       // Rectángulo apenas en perspectiva, con el lado interior (hacia el centro) más alto: los dos
       // monitores parecen mirarse. side: -1 para el de la izquierda, 1 para el de la derecha
@@ -347,23 +364,32 @@
         }
       }
 
-      function render() {
-        ticking = false;
+      function progress() {
         var r = track.getBoundingClientRect();
         var total = track.offsetHeight - stage.offsetHeight;
-        var p = total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+        return total > 0 ? clamp(-r.top / total, 0, 1) : 1;
+      }
+
+      function render() {
+        ticking = false;
+        // El avance mostrado se acerca al del scroll con un poco de inercia (sin ella si se pidió menos movimiento)
+        target = progress();
+        if (current < 0 || reduce || Math.abs(target - current) < 0.0004) current = target;
+        else current += (target - current) * 0.16;
+        var p = current;
+        if (current !== target) { ticking = true; window.requestAnimationFrame(render); }
 
         // El texto se va y aparece la barra compacta con la pregunta y los pasos
-        var out = ramp(0.005, 0.06, p);
+        var out = ramp(0.005, 0.05, p);
         stage.style.setProperty('--cop', (1 - out).toFixed(3));
         stage.style.setProperty('--cty', (-40 * out).toFixed(1) + 'px');
         copy.classList.toggle('is-out', out >= 1);
-        stage.style.setProperty('--bar', ramp(0.05, 0.1, p).toFixed(3));
-        stage.style.setProperty('--shade', (1 - ramp(0.04, 0.22, p)).toFixed(3));
-        stage.style.setProperty('--hop', (1 - ramp(0.005, 0.05, p)).toFixed(3));
+        stage.style.setProperty('--bar', ramp(0.04, 0.08, p).toFixed(3));
+        stage.style.setProperty('--shade', (1 - ramp(0.03, 0.18, p)).toFixed(3));
+        stage.style.setProperty('--hop', (1 - ramp(0.005, 0.04, p)).toFixed(3));
 
         // 1. Acercamiento al monitor de la mujer
-        var t = ease(ramp(0.04, 0.36, p));
+        var t = ease(ramp(0.03, 0.28, p));
         var s = view.s0 * Math.pow(view.s1 / view.s0, t);
         var ax = lerp(view.start.x, view.end.x, t);
         var ay = lerp(view.start.y, view.end.y, t);
@@ -373,29 +399,63 @@
         }
 
         // 2. Los dos monitores se despegan de la foto y quedan de frente; la oficina se desvanece
-        var u = ease(ramp(0.34, 0.52, p));
+        var u = ease(ramp(0.26, 0.42, p));
         stage.style.setProperty('--veil', (0.94 * u).toFixed(3));
         var quadA = mix(onPhoto(MON_A), view.rectA, u);
         var quadB = mix(onPhoto(MON_B), view.rectB, u);
 
-        // 3. Se funden en uno solo, con el asistente
-        var v = ease(ramp(0.58, 0.8, p));
-        var meet = scaled(view.fin, 0.72);
-        quadA = mix(quadA, meet, v);
-        quadB = mix(quadB, meet, v);
-        mons.a.style.transform = warp(quadA, view.sideBox);
-        mons.b.style.transform = warp(quadB, view.sideBox);
-        var gone = 1 - ramp(0.35, 0.8, v);
+        // 3. La fusión: los monitores se acercan al centro, el nombre de cada sistema sale de su
+        // pantalla y vuela hasta el monitor del asistente, y la respuesta se arma cuando llegan
+        var v = ramp(0.48, 0.7, p);
+        var slide = ease(ramp(0, 0.75, v));
+        var meet = scaled(view.fin, 0.55);
+        var qa = mix(quadA, meet, slide * 0.85);
+        var qb = mix(quadB, meet, slide * 0.85);
+        mons.a.style.transform = warp(qa, view.sideBox);
+        mons.b.style.transform = warp(qb, view.sideBox);
+        var gone = 1 - ramp(0.45, 0.78, v);
         show(mons.a, gone);
         // El monitor del compañero aparece sobre la foto cuando empieza el recorrido (antes se ve su planilla)
-        show(mons.b, gone * ramp(0.03, 0.14, p));
-        mons.c.style.transform = warp(scaled(view.fin, 0.9 + 0.1 * v), view.finBox);
-        show(mons.c, ramp(0.4, 0.85, v));
+        show(mons.b, gone * ramp(0.03, 0.12, p));
+
+        var arrive = at(view.fin, 0.5, view.desk ? 0.42 : 0.4);
+        var launched = 0;
+        flies.forEach(function (el, i) {
+          var quad = el.getAttribute('data-mon') === 'a' ? qa : qb;
+          var slot = SLOTS[parseInt(el.getAttribute('data-slot'), 10)];
+          var from = at(quad, slot[0], slot[1]);
+          var start = 0.04 + i * 0.045;
+          var k = ease(ramp(start, start + 0.5, v));
+          if (k > 0) launched++;
+          // Recorrido en arco hacia el punto de llegada
+          var x = lerp(from[0], arrive[0], k);
+          var y = lerp(from[1], arrive[1], k) - Math.sin(Math.PI * k) * (view.desk ? 70 : 40);
+          var sc = 1 - 0.45 * k;
+          var op = ramp(0, 0.06, k) * (1 - ramp(0.82, 1, k));
+          el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) translate(-50%,-50%) scale(' + sc.toFixed(3) + ')';
+          el.style.opacity = op.toFixed(3);
+          el.style.visibility = op > 0.01 ? 'visible' : 'hidden';
+        });
+        // Las etiquetas de los monitores se apagan a medida que salen volando
+        var lab = (1 - ramp(0.02, 0.2, v)).toFixed(3);
+        mons.a.style.setProperty('--lab', lab);
+        mons.b.style.setProperty('--lab', lab);
+
+        var appear = ease(ramp(0.35, 0.7, v));
+        mons.c.style.transform = warp(scaled(view.fin, 0.88 + 0.12 * appear), view.finBox);
+        show(mons.c, appear);
+        var card = ease(ramp(0.62, 0.92, v));
+        answerCard.style.setProperty('--card', card.toFixed(3));
+        answerCard.style.setProperty('--glow', Math.sin(Math.PI * ramp(0.7, 1, v)).toFixed(3));
+        stage.style.setProperty('--flash', (0.45 * Math.sin(Math.PI * ramp(0.5, 0.95, v))).toFixed(3));
+        flash.style.left = arrive[0].toFixed(1) + 'px';
+        flash.style.top = arrive[1].toFixed(1) + 'px';
+
+        // El video empieza cuando la respuesta ya se vio un momento
         if (video && view.desk) {
-          if (v > 0.5) playVideo();
+          if (p > 0.78) playVideo();
           else if (videoReady && !video.paused) video.pause();
         }
-        stage.style.setProperty('--flash', (0.85 * Math.sin(Math.PI * ramp(0.25, 0.9, v))).toFixed(3));
 
         var froms = statuses.map(function (el) { return parseFloat(el.getAttribute('data-from')); });
         statuses.forEach(function (el, i) {
@@ -408,7 +468,7 @@
           el.classList.toggle('is-on', on);
           el.classList.toggle('is-done', !on && p >= stepFroms[i]);
         });
-        hero.classList.toggle('is-done', p > 0.92);
+        hero.classList.toggle('is-done', p > 0.9);
         document.body.classList.toggle('hero-copy-visible', p < 0.06);
       }
 
@@ -423,9 +483,9 @@
       measure();
       render();
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', function () { measure(); render(); });
+      window.addEventListener('resize', function () { measure(); current = -1; render(); });
       // Si la barra cambia de altura al cargar las tipografías, se vuelve a medir
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); render(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); current = -1; render(); });
     })(heroScene);
   }
 

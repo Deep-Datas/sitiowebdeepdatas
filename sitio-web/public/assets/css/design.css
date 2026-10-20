@@ -1824,7 +1824,7 @@ html:not(.motion) .phone-view:first-child {
 
 /* ===== Modo animado ===== */
 .motion .hp-track {
-  height: 400vh;
+  height: 300vh;
 }
 
 .motion .hp-stage {
@@ -2093,13 +2093,67 @@ html:not(.motion) .phone-view:first-child {
   transform: rotate(3deg);
 }
 
-/* Destello al fundirse los dos monitores en uno */
+/* Las etiquetas de los sistemas que vuelan hasta la respuesta */
+.hp-mon .hp-label {
+  opacity: var(--lab, 1);
+}
+
+.hp-flies {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hp-fly {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px 6px 10px;
+  border-radius: 999px;
+  background: var(--text);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 14px 28px -12px rgba(11, 18, 32, 0.6), 0 0 0 3px rgba(255, 106, 58, 0.18);
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.hp-fly .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--ember);
+}
+
+.hp-fly-wa {
+  background: #075e54;
+}
+
+.hp-fly-wa .icon {
+  color: #fff;
+}
+
+/* La respuesta se arma cuando llegan los datos */
+.hp-mon-c .hp-ai-answer {
+  opacity: var(--card, 1);
+  transform: translateY(calc((1 - var(--card, 1)) * 18px)) scale(calc(0.97 + 0.03 * var(--card, 1)));
+  box-shadow: 0 0 0 1px var(--hairline), 0 0 0 calc(var(--glow, 0) * 8px) rgba(255, 106, 58, calc(var(--glow, 0) * 0.25));
+}
+
+/* Destello suave donde llegan los datos */
 .hp-flash {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 80vmin;
-  height: 80vmin;
+  width: 56vmin;
+  height: 56vmin;
   border-radius: 50%;
   background: radial-gradient(circle, #fff 0%, #ffe3d2 22%, rgba(255, 138, 92, 0.7) 45%, transparent 70%);
   opacity: var(--flash, 0);
@@ -2309,7 +2363,7 @@ html:not(.motion) .phone-view:first-child {
 
 @media (max-width: 1023.98px) {
   .motion .hp-track {
-    height: 340vh;
+    height: 260vh;
   }
 
   .motion .hp-copy {
