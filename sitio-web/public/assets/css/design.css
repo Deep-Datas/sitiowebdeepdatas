@@ -2839,3 +2839,43 @@ html:not(.motion) .phone-view:first-child {
   max-width: 1040px;
   margin: clamp(32px, 4vw, 56px) auto 0;
 }
+
+/* Precio de cada forma de trabajo */
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 18px 0 2px;
+  color: var(--text);
+}
+
+.plan-price strong {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.plan-price-from,
+.plan-price-unit {
+  color: var(--fg-3);
+  font-size: 0.9rem;
+}
+
+.plan-price-note {
+  margin: 0 0 18px;
+  color: var(--fg-3);
+  font-size: 0.84rem;
+}
+
+.plan-card-featured .plan-price {
+  color: #fff;
+}
+
+.plan-card-featured .plan-price-from,
+.plan-card-featured .plan-price-unit,
+.plan-card-featured .plan-price-note {
+  color: var(--deep-fg-2) !important;
+}
