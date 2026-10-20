@@ -1,0 +1,15 @@
+# Avisos y actualizaciones automáticas de dependencias (abren un pull request).
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /sitio-web
+    schedule:
+      interval: monthly
+  - package-ecosystem: pip
+    directory: /sitio-web/api
+    schedule:
+      interval: monthly
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

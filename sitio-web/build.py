@@ -262,7 +262,7 @@ def booking_url(ctx, interest='llamada'):
 @pass_context
 def booking_link(ctx, interest='llamada'):
     """Atributos del enlace para agendar: abre la agenda externa en otra pestaña."""
-    extra = ' target="_blank" rel="noopener" data-booking' if BOOKING_URL else ''
+    extra = ' target="_blank" rel="noopener noreferrer" data-booking' if BOOKING_URL else ''
     return Markup(f'href="{escape(booking_url(ctx, interest))}"{extra}')
 
 

@@ -20,7 +20,7 @@
     <p>{{ '«' if es_marks else '“' }}{{ text(item.quote) }}{{ '»' if es_marks else '”' }}</p>
   </blockquote>
   {% if external_video %}
-  <a class="testimonial-video-link" href="{{ item.video }}" target="_blank" rel="noopener">{{ icon('play') }} {{ t.testimonial_video }}</a>
+  <a class="testimonial-video-link" href="{{ item.video }}" target="_blank" rel="noopener noreferrer">{{ icon('play') }} {{ t.testimonial_video }}</a>
   {% endif %}
   <figcaption{% if item.quote_lang != lang %} lang="{{ item.quote_lang }}"{% endif %}>
     {% if item.photo %}<img class="testimonial-photo" src="/assets/img/{{ item.photo }}" alt="" width="56" height="56" loading="lazy">{% endif %}
