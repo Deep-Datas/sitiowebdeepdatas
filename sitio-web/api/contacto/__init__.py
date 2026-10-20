@@ -15,6 +15,7 @@ import json
 import logging
 import os
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -38,6 +39,7 @@ MESSAGES = {
         'required': 'Completá los campos obligatorios.',
         'too_long': 'Uno de los campos es demasiado largo.',
         'email': 'Ingresá un email válido.',
+        'rate': 'Recibimos varios mensajes seguidos. Probá de nuevo en unos minutos o escribinos a fbloise@deepdatas.com.',
         'fallback': 'No pudimos enviar tu mensaje en este momento. Escribinos a fbloise@deepdatas.com.',
         'thanks': '/gracias/',
     },
@@ -45,16 +47,24 @@ MESSAGES = {
         'required': 'Please fill in the required fields.',
         'too_long': 'One of the fields is too long.',
         'email': 'Please enter a valid email address.',
+        'rate': 'We received several messages in a row. Please try again in a few minutes or email us at fbloise@deepdatas.com.',
         'fallback': 'We couldn’t send your message right now. Please email us at fbloise@deepdatas.com.',
         'thanks': '/en/thank-you/',
     },
 }
 TIMEOUT = 10
+MAX_BODY = 20_000  # bytes; los campos suman menos de 6.000 caracteres
+# Límite de envíos por IP. Vive en la memoria de cada instancia de la función:
+# frena ráfagas de un mismo origen, no reemplaza un firewall.
+RATE_LIMIT = 5
+RATE_WINDOW = 600  # segundos
+_recent = {}
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     wants_json = req.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    form = parse_form(req)
+    body = req.get_body()
+    form = parse_form(body[:MAX_BODY])
     lang = 'en' if form.get('lang') == 'en' else 'es'
     text = MESSAGES[lang]
 
@@ -62,10 +72,17 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if form.get('website'):
         return respond(wants_json, True, lang=lang)
 
+    if len(body) > MAX_BODY:
+        return respond(wants_json, False, text['too_long'], 413, lang)
+
     data = {field: form.get(field, '').strip() for field in FIELDS}
     error = validate(data)
     if error:
         return respond(wants_json, False, text[error], 400, lang)
+
+    if too_many(client_ip(req)):
+        logging.warning('Formulario de contacto: límite de envíos alcanzado.')
+        return respond(wants_json, False, text['rate'], 429, lang)
 
     config = {key: os.environ.get(key, '').strip() for key in ('GRAPH_TENANT_ID', 'GRAPH_CLIENT_ID', 'GRAPH_CLIENT_SECRET')}
     if not all(config.values()):
@@ -82,10 +99,30 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     return respond(wants_json, True, lang=lang)
 
 
-def parse_form(req):
-    body = req.get_body().decode('utf-8', errors='replace')
-    parsed = urllib.parse.parse_qs(body, keep_blank_values=True)
+def parse_form(body):
+    parsed = urllib.parse.parse_qs(body.decode('utf-8', errors='replace'), keep_blank_values=True)
     return {key: values[0] for key, values in parsed.items()}
+
+
+def client_ip(req):
+    # Azure agrega la IP del visitante en X-Forwarded-For, a veces con el puerto.
+    forwarded = req.headers.get('X-Forwarded-For', '').split(',')[0].strip()
+    if forwarded.count(':') == 1:
+        forwarded = forwarded.split(':')[0]
+    return forwarded or 'desconocida'
+
+
+def too_many(ip, now=None):
+    """Registra el envío y devuelve True si la IP superó RATE_LIMIT en RATE_WINDOW."""
+    now = time.monotonic() if now is None else now
+    for key in [k for k, times in _recent.items() if times[-1] < now - RATE_WINDOW]:
+        del _recent[key]
+    times = [t for t in _recent.get(ip, []) if t >= now - RATE_WINDOW]
+    if len(times) >= RATE_LIMIT:
+        _recent[ip] = times
+        return True
+    _recent[ip] = times + [now]
+    return False
 
 
 def validate(data):

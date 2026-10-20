@@ -20,7 +20,7 @@
     <p class="lead">{{ ind.lead }}</p>
     <div class="actions">
       <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ L.cta_call }} {{ icon('arrow-right') }}</a>
-      <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} {{ L.whatsapp }}</a>
+      <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener noreferrer">{{ icon('whatsapp') }} {{ L.whatsapp }}</a>
     </div>
     {% if ind.logos %}
     <div class="ind-trust">

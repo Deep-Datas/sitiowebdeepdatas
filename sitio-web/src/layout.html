@@ -102,7 +102,7 @@
           <p>{% block cta_text %}{{ t.cta_text }}{% endblock %}</p>
           <div class="cta-actions">
             <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ t.cta_call }} {{ icon('arrow-right') }}</a>
-            <a class="btn btn-secondary btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener">{{ icon('whatsapp') }} {{ t.cta_whatsapp }}</a>
+            <a class="btn btn-secondary btn-lg" href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer">{{ icon('whatsapp') }} {{ t.cta_whatsapp }}</a>
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@
             <li><a href="{{ url('nosotros') }}">{{ t.footer_about_us }}</a></li>
             {% if posts %}<li><a href="/blog/"{% if lang != 'es' %} hreflang="es"{% endif %}>{{ t.footer_blog }}</a></li>{% endif %}
             <li><a href="{{ url('contacto') }}">{{ t.footer_contact_page }}</a></li>
-            <li><a href="{{ portal_url }}" target="_blank" rel="noopener">{{ t.portal }}</a></li>
+            <li><a href="{{ portal_url }}" target="_blank" rel="noopener noreferrer">{{ t.portal }}</a></li>
           </ul>
         </div>
 
@@ -156,7 +156,7 @@
           <ul class="footer-links">
             <li><a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a></li>
             <li><a href="tel:+5491124664391">+54 9 11 2466-4391</a></li>
-            <li><a href="{{ whatsapp_url }}" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
             <li>{{ t.address | safe }}</li>
           </ul>
         </div>
@@ -169,7 +169,7 @@
     </div>
   </footer>
 
-  <a class="wa-float" href="{{ whatsapp_url }}" target="_blank" rel="noopener" data-wa-float>{{ icon('whatsapp') }}<span class="visually-hidden">{{ t.cta_whatsapp }}</span></a>
+  <a class="wa-float" href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" data-wa-float>{{ icon('whatsapp') }}<span class="visually-hidden">{{ t.cta_whatsapp }}</span></a>
 </body>
 
 </html>
