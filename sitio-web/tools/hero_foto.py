@@ -1,4 +1,5 @@
-"""Foto de la oficina retocada: portadas de Nosotros, Servicios y Contacto.
+"""Foto de la oficina retocada (la usaban el inicio y las portadas; hoy esas páginas usan fotos de
+Unsplash, ver README). Se conserva por si se vuelve a usar la foto original.
 
 Parte de tools/hero/oficina-original.webp (1024 x 592: una mujer trabaja en su
 monitor y, al fondo, un compañero con una planilla) y genera
