@@ -272,7 +272,7 @@ def url(ctx, key):
     return route(key, ctx.get('lang', 'es'))
 
 
-WHATSAPP_NUMBER = '5491161527387'
+WHATSAPP_NUMBER = '5491124664391'
 # Mensaje con el que se abre el chat de WhatsApp, según la página desde la que se escribe.
 WHATSAPP_MESSAGES = {
     None: 'Hola, vengo de la web de DeepDatas y quiero hacer una consulta.',

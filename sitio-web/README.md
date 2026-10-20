@@ -44,7 +44,7 @@ src/pages/               Contenido de cada página (en src/pages/en/, la versió
 src/hero.html            Inicio: la pregunta que recorre los sistemas hasta la respuesta (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes y video: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs), la foto de la oficina del inicio y las portadas (hero_foto.py) y el video del asistente (video/)
+tools/                   Generadores de imágenes y video: íconos de vidrio, núcleo de datos en 3D (nucleo.cjs), la foto original de la oficina (hero_foto.py, hoy sin uso) y el video del asistente (video/)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -143,7 +143,7 @@ Las secciones claras (marfil) cuentan la historia del negocio y las «profundas�
 
 - **Núcleo de datos** (`[data-core]`, inicio): una secuencia de 24 cuadros (12 en celulares) renderizada en 3D que se recorre con el scroll, como en apple.com. Se genera con `tools/nucleo.cjs` (three.js en Chromium sin pantalla) en `src/assets/img/core/`; `poster.webp` es el cuadro final, que se usa sin animación y en el cierre de cada página.
 - **Inicio** (`src/hero.html`, estilos `.hp*` en `design.css`): «Una pregunta. Todos tus sistemas. Una sola respuesta.» sobre la foto de un equipo trabajando junto a un ventanal. Con animación, la escena queda fija y el scroll acerca la cámara al monitor principal (ERP y planillas), trae al lado el segundo monitor (CRM y WhatsApp), los deja de frente y los funde en un solo monitor con el asistente y la respuesta; tres pasos (Preguntás, Buscamos en tus sistemas, Te respondemos) muestran en qué parte del recorrido se está. Sin animación se ven el texto, la foto, los pasos y la respuesta. Las esquinas de los monitores en la foto (`src/assets/img/hero/equipo-*.webp`, foto de Compagnons en [Unsplash](https://unsplash.com/photos/Fa9b57hffnM), con la licencia de Unsplash, que permite el uso comercial sin atribución) y los textos están en el mismo archivo (datos ficticios).
-- **Portadas**: Nosotros, Servicios y Contacto usan recortes de la misma foto de la oficina (`src/assets/img/covers/`); `tools/hero_foto.py --portadas` regenera los recortes a partir de `tools/hero/png/oficina-final.png`.
+- **Portadas**: Nosotros, Servicios y Contacto usan fotos de Unsplash (licencia de Unsplash, uso comercial sin atribución) recortadas en `src/assets/img/covers/`: equipo trabajando en una oficina luminosa ([Vitaly Gariev](https://unsplash.com/photos/CXxH2EiX760)) para Nosotros, un consultor ayudando frente a la pantalla en un loft ([Proxyclick](https://unsplash.com/photos/l90zRbWvCoE), espejada) para Servicios y una oficina abierta con luz natural ([Arlington Research](https://unsplash.com/photos/kN_kViDchA0), espejada) para Contacto. La persona o el grupo va a la derecha, porque el texto ocupa la izquierda.
 - **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
 
 ## Video del asistente
