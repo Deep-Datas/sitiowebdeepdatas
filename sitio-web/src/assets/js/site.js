@@ -167,6 +167,7 @@
       var track = hero.querySelector('.hp-track');
       var stage = hero.querySelector('.hp-stage');
       var photo = hero.querySelector('.hp-photo');
+      var front = hero.querySelector('.hp-front');
       var copy = hero.querySelector('.hp-copy');
       var bar = hero.querySelector('.hp-bar');
       var actions = hero.querySelector('.hp-actions');
@@ -319,6 +320,7 @@
         size(mons.b, sideBox);
         size(mons.c, finBox);
         size(photo, { w: IMG_W, h: IMG_H });
+        if (front && cfg.front) size(front, { w: cfg.front[2], h: cfg.front[3] });
         view = { w: w, h: h, desk: desk, s0: s0, s1: s1, start: start, end: end, rectA: rectA, rectB: rectB, fin: fin, sideBox: sideBox, finBox: finBox };
       }
 
@@ -375,6 +377,13 @@
         // 2. Los dos monitores se despegan de la foto y quedan de frente; la oficina se desvanece
         var u = ease(ramp(0.34, 0.52, p));
         stage.style.setProperty('--veil', (0.94 * u).toFixed(3));
+        // La persona de la foto queda por delante del segundo monitor hasta que este se despega
+        if (front && cfg.front) {
+          var fx = ax + s * (cfg.front[0] - SCREEN.cx);
+          var fy = ay + s * (cfg.front[1] - SCREEN.cy);
+          front.style.transform = 'translate3d(' + fx.toFixed(2) + 'px,' + fy.toFixed(2) + 'px,0) scale(' + s.toFixed(5) + ')';
+          show(front, 1 - ramp(0, 0.3, u));
+        }
         var quadA = mix(onPhoto(MON_A), view.rectA, u);
         var quadB = mix(onPhoto(MON_B), view.rectB, u);
 

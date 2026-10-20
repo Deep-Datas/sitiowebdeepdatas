@@ -1968,6 +1968,17 @@ html:not(.motion) .phone-view:first-child {
   pointer-events: none;
 }
 
+/* La persona que está delante del segundo monitor, recortada de la foto */
+.hp-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  max-width: none;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
 .hp-mon {
   --rim: 12px;
   --chin: 26px;

@@ -17,7 +17,9 @@
 
 {# Escena: tamaño de la foto (src/assets/img/hero/equipo-*.webp; foto de Compagnons en Unsplash, licencia de Unsplash) y, en sus píxeles, las esquinas
    (arriba-izq., arriba-der., abajo-der., abajo-izq.) de la pantalla y del marco del monitor de la
-   monitor principal (screen, monitor; el de la derecha) y de la pantalla del segundo monitor (screen2). desk y mob: plano inicial en
+   monitor principal (screen, monitor; el de la derecha) y de la pantalla del segundo monitor (screen2),
+   y front: posición y tamaño (x, y, ancho, alto) del recorte de la persona que está delante del segundo
+   monitor (equipo-frente.webp), que se dibuja por encima de él mientras está sobre la foto. desk y mob: plano inicial en
    escritorio y celulares (x, y: dónde queda el centro de la pantalla, en fracciones de la vista;
    zoom: sobre la escala que cubre la vista; width: ancho de la foto en anchos de la vista), fill:
    qué parte del espacio libre ocupa el monitor al final del acercamiento, y aim: dónde queda. #}
@@ -25,7 +27,8 @@
   'w': 4096, 'h': 2731,
   'screen': [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]],
   'monitor': [[3012, 1118], [3896, 1118], [3892, 1792], [3008, 1796]],
-  'screen2': [[712, 1500], [1530, 1500], [1530, 2128], [762, 2130]],
+  'screen2': [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]],
+  'front': [1300, 1147, 1024, 1584],
   'desk': {'x': 0.7, 'y': 0.55, 'zoom': 1.08, 'fill': 0.62, 'aim': [0.56, 0.5]},
   'mob': {'x': 0.62, 'y': 0.8, 'width': 2.2, 'fill': 0.85, 'aim': [0.5, 0.5]},
 } %}
@@ -231,6 +234,7 @@
 
       {# Los monitores: el principal (ERP y planillas), el segundo (CRM y WhatsApp) y el final, con el asistente #}
       <div class="hp-mons" aria-hidden="true">
+        <img class="hp-front" src="/assets/img/hero/equipo-frente.webp" alt="" width="{{ SCENE.front[2] }}" height="{{ SCENE.front[3] }}" loading="lazy">
         <div class="hp-mon hp-mon-b"><div class="hp-screen hp-desk">{{ win(C.wins.crm, 'hp-w1') }}{{ win(C.wins.mail2, 'hp-w3') }}{{ win(C.wins.wa, 'hp-w2') }}</div>{{ notes(C.notes.b) }}</div>
         <div class="hp-mon hp-mon-a"><div class="hp-screen hp-desk">{{ win(C.wins.erp, 'hp-w1') }}{{ win(C.wins.mail, 'hp-w3') }}{{ win(C.wins.xls, 'hp-w2') }}</div>{{ notes(C.notes.a) }}</div>
         <div class="hp-mon hp-mon-c">
