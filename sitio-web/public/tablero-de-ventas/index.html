@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="claro">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tablero de ventas y stock para Tango y SAP Business One | DeepDatas</title>
+  <meta name="description" content="Tablero en Power BI conectado a Tango o SAP Business One: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar, actualizado todos los días. Precio en pesos.">
+  <link rel="canonical" href="https://deepdatas.com/tablero-de-ventas/">
+  <meta name="theme-color" content="#fafaf8">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="DeepDatas">
+  <meta property="og:title" content="Tablero de ventas y stock para Tango y SAP Business One | DeepDatas">
+  <meta property="og:description" content="Tablero en Power BI conectado a Tango o SAP Business One: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar, actualizado todos los días. Precio en pesos.">
+  <meta property="og:url" content="https://deepdatas.com/tablero-de-ventas/">
+  <meta property="og:image" content="https://deepdatas.com/assets/img/brand/og-image-claro.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
+
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
+  <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
+  <link rel="stylesheet" href="/assets/css/charts.css?v=7ff7a63882">
+  <link rel="stylesheet" href="/assets/css/design.css?v=9a0ddef936">
+  <script src="/assets/js/site.js?v=0419275043" defer></script>
+  <script src="/assets/js/design.js?v=88e79aef46" defer></script>
+  <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a href="/" class="brand" aria-label="DeepDatas, ir al inicio">
+        <img src="/assets/img/brand/logo-mark.png" alt="" width="28" height="32">
+        <span>DeepDatas</span>
+      </a>
+
+      <a class="btn btn-primary nav-cta-mobile" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Hablemos</a>
+
+      <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false" data-label-open="Abrir menú" data-label-close="Cerrar menú">
+        <span class="visually-hidden">Abrir menú</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-open" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="12" y2="12" /> <line x1="4" x2="20" y1="6" y2="6" /> <line x1="4" x2="20" y1="18" y2="18" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-close" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg>
+      </button>
+
+      <nav class="site-nav" id="menu" aria-label="Principal">
+        <ul>
+          <li><a href="/servicios/">Servicios</a></li>
+          <li><a href="/inteligencia-artificial/">IA para empresas</a></li>
+          <li><a href="/diagnostico/">Diagnóstico</a></li>
+          <li><a href="/casos/">Casos</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/nosotros/">Nosotros</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a class="nav-lang" href="/en/" hreflang="en" lang="en" title="Read this page in English"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg> English</a>
+          <a class="btn btn-primary nav-cta" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Coordinar llamada</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+<section class="page-hero tv-hero">
+  <div class="container">
+    <p class="eyebrow">Tablero de ventas y stock</p>
+    <h1>Tus ventas y tu stock de Tango o SAP Business One, <em>en un tablero que se actualiza solo.</em></h1>
+    <p class="lead">Un tablero en Power BI pensado para distribuidoras y pymes: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar.</p>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="#pedir">Quiero probarlo <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+      <a class="text-link-quiet" href="https://wa.me/5491124664391?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%20y%20me%20interesa%20el%20tablero%20de%20ventas%20y%20stock." target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> o consultanos por WhatsApp</a>
+    </div>
+    <ul class="hero-proof">
+      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Para Tango y SAP Business One</li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Acceso de solo lectura a tu sistema</li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg> Precio en pesos, abono mes a mes</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======= MUESTRA ======= -->
+<section class="section section-tight section-paper" aria-labelledby="muestra-title">
+  <div class="container">
+    <header class="example-head reveal">
+      <p class="eyebrow">Así se ve</p>
+      <h2 id="muestra-title">Un ejemplo con datos ficticios</h2>
+      <p class="lead-sm">Pasá el mouse por los gráficos o abrí «Ver datos» para consultar los números. Tu versión se arma con tus zonas, vendedores y rubros.</p>
+    </header>
+    <div class="db" data-dashboard>
+  <div class="db-top">
+    <span class="db-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="db-app">Performance comercial · Red de distribuidores</span>
+    <span class="db-badge">Datos ficticios</span>
+  </div>
+  <ul class="db-filters" aria-label="Filtros aplicados">
+    <li><span>Período:</span> Ene–Dic 2025 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></li>
+    <li><span>Región:</span> Todas <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></li>
+    <li><span>Canal:</span> Todos <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></li>
+  </ul>
+  <dl class="db-kpis">
+  <div class="db-kpi">
+    <dt>Facturación neta</dt>
+    <dd>
+      <strong>$ 48,6 M</strong>
+      <span class="db-delta is-good">▲ 9,2% vs. 2024</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Volumen vendido</dt>
+    <dd>
+      <strong>1.284 t</strong>
+      <span class="db-delta is-good">▲ 4,1% vs. 2024</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Tamaño promedio de pedido</dt>
+    <dd>
+      <strong>412 kg</strong>
+      <span class="db-delta is-bad">▼ 2,3% vs. 2024</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Clientes activos</dt>
+    <dd>
+      <strong>6.940</strong>
+      <span class="db-delta is-good">▲ 3,8% vs. 2024</span>
+    </dd>
+  </div>
+</dl>
+
+  <div class="db-grid">
+    <section class="db-panel db-panel-wide" aria-label="Facturación mensual vs. objetivo">
+      <header class="db-panel-head">
+        <div>
+          <h3>Facturación mensual vs. objetivo</h3>
+<p>Millones de $</p>        </div>
+<ul class="db-legend">
+  <li><span class="swatch swatch-real" aria-hidden="true"></span>Real</li>
+  <li><span class="swatch swatch-target" aria-hidden="true"></span>Objetivo</li>
+</ul>
+      </header>
+<div class="db-chart" role="img" aria-label="Facturación mensual vs. objetivo. El detalle está en la tabla de datos.">
+  <div class="db-plot">
+    <div class="db-gridline y-0"><span>0</span></div>
+    <div class="db-gridline y-20"><span>1</span></div>
+    <div class="db-gridline y-40"><span>2</span></div>
+    <div class="db-gridline y-60"><span>3</span></div>
+    <div class="db-gridline y-80"><span>4</span></div>
+    <div class="db-gridline y-100"><span>5</span></div>
+    <div class="db-cols">
+      <div class="db-col" data-tip-title="Ene" data-tip="Real: $ 3,6 M|Objetivo: $ 3,8 M">
+        <span class="db-col-bar h-72">
+        </span>
+        <span class="db-col-target y-76"></span>
+      </div>
+      <div class="db-col" data-tip-title="Feb" data-tip="Real: $ 3,4 M|Objetivo: $ 3,6 M">
+        <span class="db-col-bar h-68">
+        </span>
+        <span class="db-col-target y-72"></span>
+      </div>
+      <div class="db-col" data-tip-title="Mar" data-tip="Real: $ 3,9 M|Objetivo: $ 3,9 M">
+        <span class="db-col-bar h-78">
+        </span>
+        <span class="db-col-target y-78"></span>
+      </div>
+      <div class="db-col" data-tip-title="Abr" data-tip="Real: $ 3,8 M|Objetivo: $ 3,9 M">
+        <span class="db-col-bar h-76">
+        </span>
+        <span class="db-col-target y-78"></span>
+      </div>
+      <div class="db-col" data-tip-title="May" data-tip="Real: $ 4,0 M|Objetivo: $ 4,0 M">
+        <span class="db-col-bar h-80">
+        </span>
+        <span class="db-col-target y-80"></span>
+      </div>
+      <div class="db-col" data-tip-title="Jun" data-tip="Real: $ 4,1 M|Objetivo: $ 4,1 M">
+        <span class="db-col-bar h-82">
+        </span>
+        <span class="db-col-target y-82"></span>
+      </div>
+      <div class="db-col" data-tip-title="Jul" data-tip="Real: $ 4,3 M|Objetivo: $ 4,2 M">
+        <span class="db-col-bar h-86">
+        </span>
+        <span class="db-col-target y-84"></span>
+      </div>
+      <div class="db-col" data-tip-title="Ago" data-tip="Real: $ 4,2 M|Objetivo: $ 4,2 M">
+        <span class="db-col-bar h-84">
+        </span>
+        <span class="db-col-target y-84"></span>
+      </div>
+      <div class="db-col" data-tip-title="Sep" data-tip="Real: $ 4,0 M|Objetivo: $ 4,2 M">
+        <span class="db-col-bar h-80">
+        </span>
+        <span class="db-col-target y-84"></span>
+      </div>
+      <div class="db-col" data-tip-title="Oct" data-tip="Real: $ 4,3 M|Objetivo: $ 4,3 M">
+        <span class="db-col-bar h-86">
+        </span>
+        <span class="db-col-target y-86"></span>
+      </div>
+      <div class="db-col" data-tip-title="Nov" data-tip="Real: $ 4,4 M|Objetivo: $ 4,4 M">
+        <span class="db-col-bar h-88">
+        </span>
+        <span class="db-col-target y-88"></span>
+      </div>
+      <div class="db-col" data-tip-title="Dic" data-tip="Real: $ 4,6 M|Objetivo: $ 4,5 M">
+        <span class="db-col-bar h-92">
+<span class="db-col-value">$ 4,6 M</span>        </span>
+        <span class="db-col-target y-90"></span>
+      </div>
+    </div>
+  </div>
+  <div class="db-xlabels db-xlabels-cols" aria-hidden="true">
+<span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span>May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dic</span>  </div>
+</div>
+<details class="db-data">
+  <summary>Ver datos</summary>
+  <table>
+    <thead><tr><th scope="col">Mes</th><th scope="col">Real</th><th scope="col">Objetivo</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Ene</th><td>$ 3,6 M</td><td>$ 3,8 M</td></tr>
+      <tr><th scope="row">Feb</th><td>$ 3,4 M</td><td>$ 3,6 M</td></tr>
+      <tr><th scope="row">Mar</th><td>$ 3,9 M</td><td>$ 3,9 M</td></tr>
+      <tr><th scope="row">Abr</th><td>$ 3,8 M</td><td>$ 3,9 M</td></tr>
+      <tr><th scope="row">May</th><td>$ 4,0 M</td><td>$ 4,0 M</td></tr>
+      <tr><th scope="row">Jun</th><td>$ 4,1 M</td><td>$ 4,1 M</td></tr>
+      <tr><th scope="row">Jul</th><td>$ 4,3 M</td><td>$ 4,2 M</td></tr>
+      <tr><th scope="row">Ago</th><td>$ 4,2 M</td><td>$ 4,2 M</td></tr>
+      <tr><th scope="row">Sep</th><td>$ 4,0 M</td><td>$ 4,2 M</td></tr>
+      <tr><th scope="row">Oct</th><td>$ 4,3 M</td><td>$ 4,3 M</td></tr>
+      <tr><th scope="row">Nov</th><td>$ 4,4 M</td><td>$ 4,4 M</td></tr>
+      <tr><th scope="row">Dic</th><td>$ 4,6 M</td><td>$ 4,5 M</td></tr>
+    </tbody>
+  </table>
+</details>
+
+
+    </section>
+    <section class="db-panel" aria-label="Facturación por canal">
+      <header class="db-panel-head">
+        <div>
+          <h3>Facturación por canal</h3>
+<p>Millones de $</p>        </div>
+      </header>
+<ul class="db-bars">
+  <li data-tip-title="Supermercados" data-tip="$ 17,4 M">
+    <span class="db-bar-label">Supermercados</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-100"></span>
+      <span class="db-bar-value">$ 17,4 M</span>
+    </span>
+  </li>
+  <li data-tip-title="Mayoristas" data-tip="$ 12,9 M">
+    <span class="db-bar-label">Mayoristas</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-74-1"></span>
+      <span class="db-bar-value">$ 12,9 M</span>
+    </span>
+  </li>
+  <li data-tip-title="Autoservicios" data-tip="$ 9,8 M">
+    <span class="db-bar-label">Autoservicios</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-56-3"></span>
+      <span class="db-bar-value">$ 9,8 M</span>
+    </span>
+  </li>
+  <li data-tip-title="Kioscos y almacenes" data-tip="$ 6,1 M">
+    <span class="db-bar-label">Kioscos y almacenes</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-35-1"></span>
+      <span class="db-bar-value">$ 6,1 M</span>
+    </span>
+  </li>
+  <li data-tip-title="E-commerce" data-tip="$ 2,4 M">
+    <span class="db-bar-label">E-commerce</span>
+    <span class="db-bar-track">
+      <span class="db-bar db-bar-single w-13-8"></span>
+      <span class="db-bar-value">$ 2,4 M</span>
+    </span>
+  </li>
+</ul>
+<details class="db-data">
+  <summary>Ver datos</summary>
+  <table>
+    <thead><tr><th scope="col">Canal</th><th scope="col">Valor</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Supermercados</th><td>$ 17,4 M</td></tr>
+      <tr><th scope="row">Mayoristas</th><td>$ 12,9 M</td></tr>
+      <tr><th scope="row">Autoservicios</th><td>$ 9,8 M</td></tr>
+      <tr><th scope="row">Kioscos y almacenes</th><td>$ 6,1 M</td></tr>
+      <tr><th scope="row">E-commerce</th><td>$ 2,4 M</td></tr>
+    </tbody>
+  </table>
+</details>
+
+
+    </section>
+    <section class="db-panel" aria-label="Ranking de distribuidores">
+      <header class="db-panel-head">
+        <div>
+          <h3>Ranking de distribuidores</h3>
+        </div>
+      </header>
+<div class="db-table-wrap" tabindex="0" role="region" aria-label="Tabla: Ranking de distribuidores">
+  <table class="db-table">
+    <thead>
+      <tr><th scope="col">Distribuidor</th><th scope="col">Facturación</th><th scope="col">vs. objetivo</th><th scope="col">Estado</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Distribuidora Centro</th>
+        <td class="num">$ 12,8 M</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-good w-86-7"></span>
+              <span class="meter-target x-83-3"></span>
+            </span>
+            <span class="num">104%</span>
+          </span>
+        </td>
+        <td><span class="status status-good"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> En objetivo</span>
+</td>
+      </tr>
+      <tr>
+        <th scope="row">Distribuidora Norte</th>
+        <td class="num">$ 9,6 M</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-warning w-81-7"></span>
+              <span class="meter-target x-83-3"></span>
+            </span>
+            <span class="num">98%</span>
+          </span>
+        </td>
+        <td><span class="status status-warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Atención</span>
+</td>
+      </tr>
+      <tr>
+        <th scope="row">Distribuidora Litoral</th>
+        <td class="num">$ 8,7 M</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-good w-84-2"></span>
+              <span class="meter-target x-83-3"></span>
+            </span>
+            <span class="num">101%</span>
+          </span>
+        </td>
+        <td><span class="status status-good"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> En objetivo</span>
+</td>
+      </tr>
+      <tr>
+        <th scope="row">Distribuidora Cuyo</th>
+        <td class="num">$ 6,9 M</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-critical w-76-7"></span>
+              <span class="meter-target x-83-3"></span>
+            </span>
+            <span class="num">92%</span>
+          </span>
+        </td>
+        <td><span class="status status-critical"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /></svg> Debajo</span>
+</td>
+      </tr>
+      <tr>
+        <th scope="row">Distribuidora Sur</th>
+        <td class="num">$ 5,8 M</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-warning w-80"></span>
+              <span class="meter-target x-83-3"></span>
+            </span>
+            <span class="num">96%</span>
+          </span>
+        </td>
+        <td><span class="status status-warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Atención</span>
+</td>
+      </tr>
+      <tr>
+        <th scope="row">Distribuidora Patagonia</th>
+        <td class="num">$ 4,8 M</td>
+        <td>
+          <span class="meter-cell">
+            <span class="meter" aria-hidden="true">
+              <span class="meter-fill fill-critical w-74-2"></span>
+              <span class="meter-target x-83-3"></span>
+            </span>
+            <span class="num">89%</span>
+          </span>
+        </td>
+        <td><span class="status status-critical"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m15 9-6 6" /> <path d="m9 9 6 6" /></svg> Debajo</span>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    </section>
+  </div>
+  <div class="db-tooltip" hidden></div>
+</div>
+
+  </div>
+</section>
+
+<!-- ======= QUÉ MUESTRA ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Qué vas a ver</p>
+      <h2>Las preguntas de todos los días, respondidas en un solo lugar</h2>
+      <p>Sin armar planillas a mano cada lunes ni esperar el informe de fin de mes.</p>
+    </div>
+    <div class="dx-grid">
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /> <polyline points="16 7 22 7 22 13" /></svg></span>
+        <h3>Ventas</h3>
+        <p>Por cliente, zona, vendedor, producto y canal, contra el objetivo del mes y el mismo período del año anterior.</p>
+      </article>
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg></span>
+        <h3>Stock y rotación</h3>
+        <p>Cuánto stock tenés por artículo y depósito, cuántos días de venta cubre y qué productos no rotan.</p>
+      </article>
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /> <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg></span>
+        <h3>Quiebres</h3>
+        <p>Qué artículos se están por quedar sin stock según el ritmo de venta, para reponer a tiempo.</p>
+      </article>
+      <article class="plan-card reveal">
+        <span class="plan-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></span>
+        <h3>Clientes</h3>
+        <p>Quién dejó de comprar, quién compra menos que antes y qué clientes concentran la facturación.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======= VERSIONES ======= -->
+<section class="section section-paper" aria-labelledby="versiones-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Versiones</p>
+      <h2 id="versiones-title">Empezá por la que te sirva hoy</h2>
+      <p>Podés arrancar con la plantilla y pasar a la versión conectada cuando quieras.</p>
+    </div>
+    <div class="plan-grid">
+      <article class="plan-card glow-card reveal">
+        <span class="label">Pago único</span>
+        <h3>Plantilla</h3>
+        <p>El tablero en Power BI y una planilla modelo. Exportás los datos de Tango o SAP Business One, los pegás y el tablero se arma solo.</p>
+        <ul class="dx-checks tv-items">
+<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Tablero de Power BI listo para usar</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Planilla modelo e instructivo de exportación</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Una sesión de puesta en marcha</li>        </ul>
+        <p class="plan-price-note">Precio en pesos argentinos: te lo pasamos en la primera conversación.</p>
+        <a class="link-arrow plan-link" href="#pedir">Quiero esta versión <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+      </article>
+      <article class="plan-card plan-card-featured glow-card reveal">
+<span class="chip-recommended">Recomendada</span>        <span class="label">Instalación + abono mensual</span>
+        <h3>Conectado</h3>
+        <p>Conectamos el tablero a tu Tango o SAP Business One con acceso de solo lectura y se actualiza automáticamente todos los días.</p>
+        <ul class="dx-checks tv-items">
+<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Conexión a Tango o SAP Business One</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Actualización automática programada</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Ajustes a tus zonas, rubros y objetivos</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Soporte por WhatsApp y mail</li>        </ul>
+        <p class="plan-price-note">Precio en pesos argentinos: te lo pasamos en la primera conversación.</p>
+        <a class="link-arrow plan-link" href="#pedir">Quiero esta versión <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+      </article>
+      <article class="plan-card glow-card reveal">
+        <span class="label">Abono mensual</span>
+        <h3>Con asistente de IA</h3>
+        <p>Todo lo de la versión conectada, más un asistente al que le preguntás por WhatsApp: «¿cuánto vendimos ayer en zona norte?».</p>
+        <ul class="dx-checks tv-items">
+<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Todo lo de la versión conectada</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Consultas en lenguaje natural por WhatsApp</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="m9 12 2 2 4-4" /></svg> Alertas de quiebres y caídas de venta</li>        </ul>
+        <p class="plan-price-note">Precio en pesos argentinos: te lo pasamos en la primera conversación.</p>
+        <a class="link-arrow plan-link" href="#pedir">Quiero esta versión <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROCESO ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo lo ponemos en marcha</p>
+      <h2>Cuatro pasos y poco tiempo de tu equipo</h2>
+    </div>
+    <ol class="steps">
+      <li class="reveal">
+        <span class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /> <path d="M8 12h.01" /> <path d="M12 12h.01" /> <path d="M16 12h.01" /></svg></span>
+        <h3>Conversación</h3>
+        <p>Media hora para ver qué sistema usás, cómo organizás zonas y vendedores, y qué querés mirar primero.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg></span>
+        <h3>Conexión</h3>
+        <p>Instalamos la conexión de solo lectura a tu base de Tango o SAP Business One. No se modifica nada en tu sistema.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="21" x2="14" y1="4" y2="4" /> <line x1="10" x2="3" y1="4" y2="4" /> <line x1="21" x2="12" y1="12" y2="12" /> <line x1="8" x2="3" y1="12" y2="12" /> <line x1="21" x2="16" y1="20" y2="20" /> <line x1="12" x2="3" y1="20" y2="20" /> <line x1="14" x2="14" y1="2" y2="6" /> <line x1="8" x2="8" y1="10" y2="14" /> <line x1="16" x2="16" y1="18" y2="22" /></svg></span>
+        <h3>Ajuste</h3>
+        <p>Adaptamos el tablero a tus rubros, listas y objetivos, y lo revisamos con tu equipo con datos reales.</p>
+      </li>
+      <li class="reveal">
+        <span class="step-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span>
+        <h3>En uso</h3>
+        <p>Tu equipo lo abre en Power BI desde la compu o el celular, con los números del día.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======= FORMULARIO ======= -->
+<section class="section section-paper" id="pedir" aria-labelledby="pedir-title">
+  <div class="container contact-grid">
+    <div>
+      <div class="dx-form-head">
+        <p class="eyebrow">Probalo en tu empresa</p>
+        <h2 id="pedir-title">Contanos qué sistema usás</h2>
+        <p>Te respondemos a la brevedad para coordinar una conversación de 30 minutos y mostrarte el tablero.</p>
+      </div>
+      <form class="contact-form" action="/api/contacto" method="post">
+  <input type="hidden" name="lang" value="es">
+  <div class="form-row">
+    <div class="field">
+      <label for="name">Nombre y apellido <span aria-hidden="true">*</span></label>
+      <input type="text" id="name" name="name" autocomplete="name" maxlength="120" required>
+    </div>
+    <div class="field">
+      <label for="email">Email laboral <span aria-hidden="true">*</span></label>
+      <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="company">Empresa</label>
+      <input type="text" id="company" name="company" autocomplete="organization" maxlength="120">
+    </div>
+    <div class="field">
+      <label for="phone">Teléfono</label>
+      <input type="tel" id="phone" name="phone" autocomplete="tel" maxlength="40">
+    </div>
+  </div>
+  <div class="field">
+    <label for="interest">¿Qué te interesa?</label>
+    <select id="interest" name="interest">
+      <option value="">Elegí una opción</option>
+      <option data-key="ingenieria">Ingeniería de datos</option>
+      <option data-key="calidad">Calidad y preparación de datos</option>
+      <option data-key="analitica">Analítica y modelos predictivos</option>
+      <option data-key="tableros">Tableros de gestión</option>
+      <option data-key="ia">Inteligencia artificial</option>
+      <option data-key="diagnostico">Diagnóstico de datos</option>
+      <option data-key="tablero-ventas" selected>Tablero de ventas y stock</option>
+      <option data-key="nolose">Todavía no lo sé</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="message">Contanos tu desafío <span aria-hidden="true">*</span></label>
+    <textarea id="message" name="message" rows="6" maxlength="5000" required placeholder="Por ejemplo: usamos Tango, tenemos 8 vendedores en 3 zonas y queremos ver ventas y stock por rubro."></textarea>
+  </div>
+  <!-- Campo trampa anti-spam: debe quedar vacío -->
+  <div class="hp-field" aria-hidden="true">
+    <label for="website">No completar</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+  </div>
+  <div class="form-footer">
+    <p class="form-note">Los campos con * son obligatorios. Usamos tus datos solo para responder tu consulta. <a href="/privacidad/">Política de privacidad</a>.</p>
+    <button class="btn btn-primary btn-lg" type="submit">Quiero probarlo <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></button>
+  </div>
+  <div class="form-status" role="status" aria-live="polite"></div>
+</form>
+
+    </div>
+
+    <aside class="faq dx-faq" aria-label="Preguntas frecuentes sobre el tablero de ventas">
+      <h2 class="h3-like">Preguntas frecuentes</h2>
+      <details open>
+        <summary>¿Qué necesito para usarlo? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon faq-icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg></summary>
+        <p>Tango o SAP Business One con acceso a su base de datos, una computadora que quede encendida para la actualización automática y Power BI. Para compartir el tablero dentro de tu equipo, cada persona necesita una licencia de Power BI Pro, que se contrata a Microsoft.</p>
+      </details>
+      <details>
+        <summary>¿Tocan mi sistema de gestión? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon faq-icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg></summary>
+        <p>No. Usamos un usuario de solo lectura: el tablero lee los datos y no puede cambiar nada en Tango ni en SAP Business One.</p>
+      </details>
+      <details>
+        <summary>¿Y si uso otro sistema o tengo datos en Excel? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon faq-icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg></summary>
+        <p>La versión plantilla funciona con cualquier sistema que exporte a Excel. Para conectar otro sistema, lo vemos en la primera conversación.</p>
+      </details>
+      <details>
+        <summary>¿Cómo es el precio? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon faq-icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg></summary>
+        <p>Lo cobramos en pesos argentinos. La plantilla es un pago único; las versiones conectada y con asistente tienen una instalación y un abono mensual. Te pasamos el precio cerrado en la primera conversación.</p>
+      </details>
+      <details>
+        <summary>¿Puedo darlo de baja? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon faq-icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="M12 5v14" /></svg></summary>
+        <p>Sí, el abono es mes a mes y lo podés dar de baja cuando quieras.</p>
+      </details>
+    </aside>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="site-footer" data-deep>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="/" class="brand brand-light">
+            <img src="/assets/img/brand/logo-mark.png" alt="" width="28" height="32">
+            <span>DeepDatas</span>
+          </a>
+          <p>Consultora de datos e inteligencia de negocios. Integramos, limpiamos y analizamos la información de tu empresa para que decidas mejor.</p>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Servicios</h2>
+          <ul class="footer-links">
+            <li><a href="/servicios/#ingenieria">Ingeniería de datos</a></li>
+            <li><a href="/servicios/#calidad">Calidad y preparación</a></li>
+            <li><a href="/servicios/#analitica">Analítica y modelos predictivos</a></li>
+            <li><a href="/servicios/#tableros">Tableros de gestión</a></li>
+            <li><a href="/inteligencia-artificial/">Inteligencia artificial</a></li>
+            <li><a href="/diagnostico/">Diagnóstico de datos</a></li>
+            <li><a href="/tablero-de-ventas/">Tablero de ventas y stock</a></li>
+            <li><a href="/autoevaluacion/">Autoevaluación de datos</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Industrias</h2>
+          <ul class="footer-links">
+            <li><a href="/industrias/consumo-masivo/">Consumo masivo</a></li>
+            <li><a href="/industrias/distribuidoras/">Distribuidoras mayoristas</a></li>
+            <li><a href="/industrias/pymes/">Pymes</a></li>
+            <li><a href="/industrias/retail/">Retail y comercios</a></li>
+            <li><a href="/industrias/materiales-electricos-y-construccion/">Materiales eléctricos y construcción</a></li>
+            <li><a href="/industrias/autopartes-y-repuestos/">Autopartes y repuestos</a></li>
+            <li><a href="/industrias/industria-y-manufactura/">Industria y manufactura</a></li>
+            <li><a href="/industrias/agro/">Agro y agroindustria</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Empresa</h2>
+          <ul class="footer-links">
+<li><a href="/casos/">Casos de éxito</a></li>            <li><a href="/ejemplos/">Ejemplos de tableros</a></li>
+            <li><a href="/nosotros/">Nosotros</a></li>
+<li><a href="/blog/">Blog</a></li>            <li><a href="/contacto/">Contacto</a></li>
+            <li><a href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener noreferrer">Portal clientes</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Contacto</h2>
+          <ul class="footer-links">
+            <li><a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a></li>
+            <li><a href="tel:+5491124664391">+54 9 11 2466-4391</a></li>
+            <li><a href="https://wa.me/5491124664391?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%20y%20me%20interesa%20el%20tablero%20de%20ventas%20y%20stock." target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+            <li>Bernardo de Irigoyen 330<br>C1072 CABA, Argentina</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> DeepDatas · <a href="/privacidad/">Privacidad</a> · <a href="/en/" hreflang="en" lang="en">English</a></span>
+        <span>Hecho en Buenos Aires</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/5491124664391?text=Hola%2C%20vengo%20de%20la%20web%20de%20DeepDatas%20y%20me%20interesa%20el%20tablero%20de%20ventas%20y%20stock." target="_blank" rel="noopener noreferrer" data-wa-float><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg><span class="visually-hidden">Escribinos por WhatsApp</span></a>
+</body>
+
+</html>
