@@ -56,6 +56,11 @@ PAGES = [
         'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
     },
     {
+        'template': 'tablero-ventas.html', 'key': 'tablero-ventas', 'path': '/tablero-de-ventas/', 'nav': 'tablero-ventas',
+        'title': 'Tablero de ventas y stock para Tango y SAP Business One | DeepDatas',
+        'description': 'Tablero en Power BI conectado a Tango o SAP Business One: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar, actualizado todos los días. Precio en pesos.',
+    },
+    {
         'template': 'autoevaluacion.html', 'key': 'autoevaluacion', 'path': '/autoevaluacion/', 'nav': 'autoevaluacion',
         'title': 'Autoevaluación: ¿qué tan listos están tus datos para la IA? | DeepDatas',
         'description': 'Seis preguntas y dos minutos para saber en qué punto están los datos de tu empresa, qué priorizar y cómo prepararte para aplicar inteligencia artificial.',
@@ -280,6 +285,7 @@ WHATSAPP_MESSAGES = {
     'diagnostico': 'Hola, vengo de la web de DeepDatas y me interesa el diagnóstico de datos.',
     'casos': 'Hola, vengo de la web de DeepDatas, vi sus casos de éxito y quiero consultar por un proyecto.',
     'ia': 'Hola, vengo de la web de DeepDatas y me interesa aplicar inteligencia artificial en mi empresa.',
+    'tablero-ventas': 'Hola, vengo de la web de DeepDatas y me interesa el tablero de ventas y stock.',
     'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
     'ind-consumo': 'Hola, vengo de la web de DeepDatas. Trabajo en una empresa de consumo masivo y quiero hacer una consulta.',

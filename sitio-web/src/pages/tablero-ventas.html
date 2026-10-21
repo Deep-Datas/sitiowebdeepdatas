@@ -1,0 +1,181 @@
+{% extends 'layout.html' %}
+{% import 'charts.html' as charts with context %}
+{% import 'forms.html' as forms with context %}
+
+{# Producto: tablero de ventas y stock en Power BI, conectado a Tango o SAP Business One.
+   El tablero de muestra es el de distribuidores de dashboards.py (datos ficticios).
+   Precios en pesos argentinos: completá 'price' en cada versión (None = «consultanos»). #}
+{% set sample = examples[0] %}
+
+{% set metrics = [
+  ('graph-up-arrow', 'Ventas', 'Por cliente, zona, vendedor, producto y canal, contra el objetivo del mes y el mismo período del año anterior.'),
+  ('inboxes', 'Stock y rotación', 'Cuánto stock tenés por artículo y depósito, cuántos días de venta cubre y qué productos no rotan.'),
+  ('bell', 'Quiebres', 'Qué artículos se están por quedar sin stock según el ritmo de venta, para reponer a tiempo.'),
+  ('people', 'Clientes', 'Quién dejó de comprar, quién compra menos que antes y qué clientes concentran la facturación.'),
+] %}
+
+{% set tiers = [
+  {'label': 'Pago único', 'title': 'Plantilla',
+   'text': 'El tablero en Power BI y una planilla modelo. Exportás los datos de Tango o SAP Business One, los pegás y el tablero se arma solo.',
+   'items': ['Tablero de Power BI listo para usar', 'Planilla modelo e instructivo de exportación', 'Una sesión de puesta en marcha'],
+   'price': None},
+  {'label': 'Instalación + abono mensual', 'title': 'Conectado', 'featured': True,
+   'text': 'Conectamos el tablero a tu Tango o SAP Business One con acceso de solo lectura y se actualiza automáticamente todos los días.',
+   'items': ['Conexión a Tango o SAP Business One', 'Actualización automática programada', 'Ajustes a tus zonas, rubros y objetivos', 'Soporte por WhatsApp y mail'],
+   'price': None},
+  {'label': 'Abono mensual', 'title': 'Con asistente de IA',
+   'text': 'Todo lo de la versión conectada, más un asistente al que le preguntás por WhatsApp: «¿cuánto vendimos ayer en zona norte?».',
+   'items': ['Todo lo de la versión conectada', 'Consultas en lenguaje natural por WhatsApp', 'Alertas de quiebres y caídas de venta'],
+   'price': None},
+] %}
+
+{% set process = [
+  ('chat-dots', 'Conversación', 'Media hora para ver qué sistema usás, cómo organizás zonas y vendedores, y qué querés mirar primero.'),
+  ('database', 'Conexión', 'Instalamos la conexión de solo lectura a tu base de Tango o SAP Business One. No se modifica nada en tu sistema.'),
+  ('sliders', 'Ajuste', 'Adaptamos el tablero a tus rubros, listas y objetivos, y lo revisamos con tu equipo con datos reales.'),
+  ('check2', 'En uso', 'Tu equipo lo abre en Power BI desde la compu o el celular, con los números del día.'),
+] %}
+
+{% set faqs = [
+  ('¿Qué necesito para usarlo?',
+   'Tango o SAP Business One con acceso a su base de datos, una computadora que quede encendida para la actualización automática y Power BI. Para compartir el tablero dentro de tu equipo, cada persona necesita una licencia de Power BI Pro, que se contrata a Microsoft.'),
+  ('¿Tocan mi sistema de gestión?',
+   'No. Usamos un usuario de solo lectura: el tablero lee los datos y no puede cambiar nada en Tango ni en SAP Business One.'),
+  ('¿Y si uso otro sistema o tengo datos en Excel?',
+   'La versión plantilla funciona con cualquier sistema que exporte a Excel. Para conectar otro sistema, lo vemos en la primera conversación.'),
+  ('¿Cómo es el precio?',
+   'Lo cobramos en pesos argentinos. La plantilla es un pago único; las versiones conectada y con asistente tienen una instalación y un abono mensual. Te pasamos el precio cerrado en la primera conversación.'),
+  ('¿Puedo darlo de baja?',
+   'Sí, el abono es mes a mes y lo podés dar de baja cuando quieras.'),
+] %}
+
+{% block content %}
+<section class="page-hero tv-hero">
+  <div class="container">
+    <p class="eyebrow">Tablero de ventas y stock</p>
+    <h1>Tus ventas y tu stock de Tango o SAP Business One, <em>en un tablero que se actualiza solo.</em></h1>
+    <p class="lead">Un tablero en Power BI pensado para distribuidoras y pymes: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar.</p>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="#pedir">Quiero probarlo {{ icon('arrow-right') }}</a>
+      <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener noreferrer">{{ icon('whatsapp') }} o consultanos por WhatsApp</a>
+    </div>
+    <ul class="hero-proof">
+      <li>{{ icon('check2') }} Para Tango y SAP Business One</li>
+      <li>{{ icon('check2') }} Acceso de solo lectura a tu sistema</li>
+      <li>{{ icon('check2') }} Precio en pesos, abono mes a mes</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======= MUESTRA ======= -->
+<section class="section section-tight section-paper" aria-labelledby="muestra-title">
+  <div class="container">
+    <header class="example-head reveal">
+      <p class="eyebrow">Así se ve</p>
+      <h2 id="muestra-title">Un ejemplo con datos ficticios</h2>
+      <p class="lead-sm">Pasá el mouse por los gráficos o abrí «Ver datos» para consultar los números. Tu versión se arma con tus zonas, vendedores y rubros.</p>
+    </header>
+    {{ charts.dashboard(sample) }}
+  </div>
+</section>
+
+<!-- ======= QUÉ MUESTRA ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Qué vas a ver</p>
+      <h2>Las preguntas de todos los días, respondidas en un solo lugar</h2>
+      <p>Sin armar planillas a mano cada lunes ni esperar el informe de fin de mes.</p>
+    </div>
+    <div class="dx-grid">
+      {% for ic, title, text in metrics %}
+      <article class="plan-card reveal">
+        <span class="plan-icon">{{ icon(ic) }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ======= VERSIONES ======= -->
+<section class="section section-paper" aria-labelledby="versiones-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Versiones</p>
+      <h2 id="versiones-title">Empezá por la que te sirva hoy</h2>
+      <p>Podés arrancar con la plantilla y pasar a la versión conectada cuando quieras.</p>
+    </div>
+    <div class="plan-grid">
+      {% for tier in tiers %}
+      {% set featured = tier.get('featured') %}
+      <article class="plan-card{{ ' plan-card-featured' if featured }} glow-card reveal">
+        {% if featured %}<span class="chip-recommended">Recomendada</span>{% endif %}
+        <span class="label">{{ tier.label }}</span>
+        <h3>{{ tier.title }}</h3>
+        <p>{{ tier.text }}</p>
+        <ul class="dx-checks tv-items">
+          {% for item in tier['items'] %}<li>{{ icon('check-circle-fill') }} {{ item }}</li>{% endfor %}
+        </ul>
+        {% if tier.price %}
+        {% set since, amount, unit, note = tier.price %}
+        <div class="plan-price"><span class="plan-price-from">{{ since }}</span> <strong>{{ amount }}</strong>{% if unit %} <span class="plan-price-unit">{{ unit }}</span>{% endif %}</div>
+        <p class="plan-price-note">{{ note }}</p>
+        {% else %}
+        <p class="plan-price-note">Precio en pesos argentinos: te lo pasamos en la primera conversación.</p>
+        {% endif %}
+        <a class="link-arrow plan-link" href="#pedir">Quiero esta versión {{ icon('arrow-right') }}</a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROCESO ======= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Cómo lo ponemos en marcha</p>
+      <h2>Cuatro pasos y poco tiempo de tu equipo</h2>
+    </div>
+    <ol class="steps">
+      {% for ic, title, text in process %}
+      <li class="reveal">
+        <span class="step-icon">{{ icon(ic) }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<!-- ======= FORMULARIO ======= -->
+<section class="section section-paper" id="pedir" aria-labelledby="pedir-title">
+  <div class="container contact-grid">
+    <div>
+      <div class="dx-form-head">
+        <p class="eyebrow">Probalo en tu empresa</p>
+        <h2 id="pedir-title">Contanos qué sistema usás</h2>
+        <p>Te respondemos a la brevedad para coordinar una conversación de 30 minutos y mostrarte el tablero.</p>
+      </div>
+      {{ forms.contact_form(selected='tablero-ventas',
+           placeholder='Por ejemplo: usamos Tango, tenemos 8 vendedores en 3 zonas y queremos ver ventas y stock por rubro.',
+           button='Quiero probarlo') }}
+    </div>
+
+    <aside class="faq dx-faq" aria-label="Preguntas frecuentes sobre el tablero de ventas">
+      <h2 class="h3-like">Preguntas frecuentes</h2>
+      {% for q, a in faqs %}
+      <details{% if loop.first %} open{% endif %}>
+        <summary>{{ q }} {{ icon('plus-lg', cls='faq-icon') }}</summary>
+        <p>{{ a }}</p>
+      </details>
+      {% endfor %}
+    </aside>
+  </div>
+</section>
+{% endblock %}
+
+{% block cta %}{% endblock %}
