@@ -204,7 +204,7 @@
     var statusEl = track.querySelector('.hb-status');
     var captionEl = track.querySelector('.hb-caption');
     var micEl = track.querySelector('.hb-mic');
-    var scan = track.querySelector('.hb-scan');
+    var scans = slice(track.querySelectorAll('.hb-scan'));
     var wave = track.querySelector('.hb-wave path');
     var voice = track.querySelector('.hb-voice');
     var ask = track.querySelector('.hb-ask');
@@ -342,11 +342,17 @@
         set(ringTv[1], '--a', (hayGiro ? smooth(0.90, 0.95, p) * (1 - smooth(0.985, 1, p)) : 0).toFixed(3));
         set(ringTv[1], '--g', (hayGiro ? smooth(0.90, 0.96, p) : 0).toFixed(3));
       }
-      if (scan) {
-        var sc = smooth(0.80, 0.90, p);
-        set(scan, '--scan', sc.toFixed(3));
-        set(scan, '--scan-a', sc > 0.01 && sc < 0.99 ? '1' : '0');
-      }
+      // El barrido recorre justo la ventana en que la pantalla está en blanco, para que
+      // el giro se lea como un tablero rehaciéndose. Sin giro no hay blanco: ahí barre
+      // sobre el tablero ya encendido, un poco antes.
+      // Cuando no se ve queda arriba y no abajo: abajo le agregaría a la pantalla un alto
+      // de más, que es scroll que no existe.
+      var sc = smooth(hayGiro ? 0.845 : 0.80, hayGiro ? 0.925 : 0.90, p);
+      var barriendo = sc > 0.01 && sc < 0.99;
+      scans.forEach(function (n) {
+        set(n, '--scan', (barriendo ? sc : 0).toFixed(3));
+        set(n, '--scan-a', barriendo ? '1' : '0');
+      });
       kpis.forEach(function (c) {
         var f = smooth(0.82, 0.93, p);
         if (f <= 0) { c.n.textContent = c.pre + c.to.replace(/\d/g, '0') + c.post; return; }

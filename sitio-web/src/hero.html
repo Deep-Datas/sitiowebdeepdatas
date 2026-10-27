@@ -59,6 +59,16 @@
   'desde': 0.85, 'hasta': 0.91,
 } %}
 
+{# La tendencia de cada ficha: siete valores de 0 a 100, de hace una semana a ayer, en el
+   mismo orden que «tiles». Son los que dibuja la línea chiquita de cada ficha y cuentan
+   lo mismo que su variación: facturación y margen suben, los quiebres bajan. No dependen
+   del idioma, así que van una sola vez. #}
+{% set CHISPAS = [[30, 22, 45, 38, 62, 55, 88],
+                  [28, 40, 34, 52, 46, 64, 78],
+                  [82, 70, 88, 58, 64, 40, 18]] %}
+{# Dónde cae el objetivo sobre cada barra del gráfico, en porcentaje de la barra. #}
+{% set OBJETIVO = 80 %}
+
 {% set copy = {
   'es': {
     'eyebrow': 'Consultora de datos e IA para distribuidoras, pymes y consumo masivo',
@@ -150,7 +160,6 @@
    el HTML: sin JavaScript se leen los números de verdad. #}
 {% macro tablero() %}
 <div class="hb-scr">
-  <span class="hb-scan"></span>
   <div class="hb-top">
     <span class="hb-app">{{ C.app }}</span>
     <span class="hb-live"><i></i> {{ C.live }}</span>
@@ -162,15 +171,31 @@
   </div>
   <div class="hb-tiles">
     {% for label, value, pre, post, delta in C.tiles %}
+    {% set chispa = CHISPAS[loop.index0] %}
     <div class="hb-tile">
       <span class="hb-k">{{ label }}</span>
       <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
       <span class="hb-d">{{ delta }}</span>
+      {# La semana en una línea. Cada una se normaliza contra su propio mínimo y máximo,
+         así usa todo el alto de la caja: lo que importa es la forma, no comparar una
+         ficha con otra, que miden cosas distintas. viewBox fijo y preserveAspectRatio
+         "none": se estira a lo que mida la ficha en cada tablero, que son dos formas
+         distintas. #}
+      {% set bajo = chispa | min %}
+      {% set alto = chispa | max %}
+      <svg class="hb-spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <polyline points="{% for v in chispa %}{{ (loop.index0 * 100 / (chispa | length - 1)) | round(1) }},{{ (31 - (v - bajo) * 28 / (alto - bajo)) | round(1) }} {% endfor %}"/>
+      </svg>
     </div>
     {% endfor %}
   </div>
   <div class="hb-chart">
-    <h3>{{ C.chart_title }}</h3>
+    <div class="hb-chart-head">
+      <h3>{{ C.chart_title }}</h3>
+      {# La marca del objetivo cae siempre en el mismo punto de la barra, así que su
+         posición vive en el CSS (.hb-tr::after) y acá solo va la referencia. #}
+      <span class="hb-goal">{{ C.goal }}</span>
+    </div>
     <div class="hb-bars">
       {% for name, width, value in C.bars %}
       <div class="hb-bar">
@@ -204,7 +229,7 @@
                  width="1264" height="843" alt="" fetchpriority="high">
 
             {# El televisor de la oficina: el tablero, encajado en su perspectiva #}
-            <div class="hb-screen hb-s-tv" aria-hidden="true">{{ tablero() }}</div>
+            <div class="hb-screen hb-s-tv" aria-hidden="true">{{ tablero() }}<span class="hb-scan"></span></div>
 
             {# El marco que señala el televisor cuando llega la respuesta. Va sobre el
                mismo cuadrilátero que la pantalla, así que entra en su perspectiva. #}
@@ -220,7 +245,7 @@
                  srcset="/assets/img/hero/portada-tv-1024.webp 1024w, /assets/img/hero/portada-tv-2048.webp 2048w"
                  sizes="(min-width: 901px) 130vw, 260vw"
                  width="1024" height="559" alt="" loading="lazy">
-            <div class="hb-screen hb-s-tv2" aria-hidden="true">{{ tablero() }}</div>
+            <div class="hb-screen hb-s-tv2" aria-hidden="true">{{ tablero() }}<span class="hb-scan"></span></div>
             <span class="hb-ring hb-r-tv2" aria-hidden="true"></span>
           </div>
           </div>
