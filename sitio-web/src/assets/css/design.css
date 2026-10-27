@@ -1796,13 +1796,17 @@ html.motion .hb-scene {
   opacity: var(--c, 1);
 }
 
+/* El barrido de la pantalla al rehacer el tablero. Vive en la pantalla y no en el
+   tablero, para que siga estando mientras el contenido está apagado: en el giro la
+   pantalla queda en blanco, y es este barrido el que la deja leyéndose como una pantalla
+   que se rehace y no como una pantalla apagada. */
 .hb-scan {
   position: absolute;
   inset: 0;
   z-index: 5;
   opacity: var(--scan-a, 0);
   pointer-events: none;
-  background: linear-gradient(170deg, transparent 38%, rgba(35, 83, 214, 0.18) 46%, rgba(255, 255, 255, 0.95) 50%, rgba(35, 83, 214, 0.18) 54%, transparent 62%);
+  background: linear-gradient(170deg, transparent 34%, rgba(35, 83, 214, 0.22) 45%, rgba(255, 255, 255, 0.98) 50%, rgba(35, 83, 214, 0.22) 55%, transparent 66%);
   transform: translateY(calc(-100% + var(--scan, 0) * 200%));
 }
 
@@ -1877,11 +1881,13 @@ html.motion .hb-scene {
   padding: 28px 44px 16px;
 }
 
+/* Etiqueta y variación a la izquierda, la tendencia de la semana en el medio y el número
+   a la derecha: las tres cosas que mira quien decide, en una sola línea de lectura. */
 .hb-tile {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 170px auto;
   align-content: center;
-  gap: 4px 24px;
+  gap: 4px 34px;
   padding: 22px 30px;
   border: 3px solid var(--sln);
   border-radius: 24px;
@@ -1892,9 +1898,29 @@ html.motion .hb-scene {
   font-size: 44px;
 }
 
-.hb-v {
+/* La semana en una línea: siete puntos, sin ejes ni números. No es el dato, es la forma
+   del dato, que es lo que se lee de un vistazo a dos metros de la pantalla. */
+.hb-spark {
   grid-row: 1 / 3;
   grid-column: 2;
+  align-self: center;
+  width: 100%;
+  height: 82px;
+  overflow: visible;
+}
+
+.hb-spark polyline {
+  fill: none;
+  stroke: var(--s-blue);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.hb-v {
+  grid-row: 1 / 3;
+  grid-column: 3;
   align-self: center;
   font-family: var(--font-display);
   font-size: 92px;
@@ -1917,12 +1943,40 @@ html.motion .hb-scene {
   padding: 10px 44px 16px;
 }
 
+/* La referencia del objetivo se alinea con el extremo de las barras, no con el borde del
+   tablero: queda arriba de la marca que explica, y no pegada al canto de la pantalla.
+   El margen de la derecha es el ancho de la columna de importes más su separación. */
+.hb-chart-head {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  margin-bottom: 18px;
+  padding-right: 256px;
+}
+
 .hb-chart h3 {
-  margin: 0 0 18px;
+  margin: 0;
   font-size: 50px;
   font-weight: 600;
   line-height: 1.15;
   color: var(--stx);
+}
+
+/* La referencia del objetivo, con la misma línea cortada que lo marca sobre las barras */
+.hb-goal {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  color: var(--stx3);
+  font-size: 34px;
+}
+
+.hb-goal::before {
+  content: "";
+  width: 4px;
+  height: 30px;
+  background: repeating-linear-gradient(var(--stx3) 0 7px, transparent 7px 13px);
 }
 
 .hb-bar {
@@ -1949,6 +2003,18 @@ html.motion .hb-scene {
   height: 38px;
   border-radius: 8px;
   background: var(--sgr);
+}
+
+/* El objetivo, en el mismo punto de todas las barras: la de arriba lo pasa y el resto no,
+   que es lo que hace que el gráfico diga algo y no solo ordene de mayor a menor. */
+.hb-tr::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: 80%;
+  width: 4px;
+  background: repeating-linear-gradient(var(--stx3) 0 7px, transparent 7px 13px);
 }
 
 /* El ancho sale de la clase que genera build.py (pos('w', …)); con animación lo pisa design.js */
@@ -2047,6 +2113,7 @@ html.motion .hb-scene {
   padding: 16px 28px 8px;
 }
 
+/* Acá la ficha es angosta y alta: la tendencia va de ancho abajo, no al costado */
 .hb-s-tv2 .hb-tile {
   grid-template-columns: minmax(0, 1fr);
   gap: 2px;
@@ -2063,9 +2130,22 @@ html.motion .hb-scene {
   font-size: 58px;
 }
 
+.hb-s-tv2 .hb-spark {
+  grid-row: auto;
+  grid-column: auto;
+  height: 34px;
+  margin-top: 6px;
+}
+
+.hb-s-tv2 .hb-spark polyline { stroke-width: 2.5; }
+
 .hb-s-tv2 .hb-d { font-size: 22px; }
 .hb-s-tv2 .hb-chart { padding: 6px 28px 10px; }
-.hb-s-tv2 .hb-chart h3 { margin-bottom: 10px; font-size: 30px; }
+.hb-s-tv2 .hb-chart-head { margin-bottom: 10px; gap: 16px; padding-right: 156px; }
+.hb-s-tv2 .hb-chart h3 { font-size: 30px; }
+.hb-s-tv2 .hb-goal { gap: 9px; font-size: 22px; }
+.hb-s-tv2 .hb-goal::before { width: 3px; height: 18px; background: repeating-linear-gradient(var(--stx3) 0 4px, transparent 4px 8px); }
+.hb-s-tv2 .hb-tr::after { top: -3px; bottom: -3px; width: 3px; background: repeating-linear-gradient(var(--stx3) 0 4px, transparent 4px 8px); }
 .hb-s-tv2 .hb-bar { grid-template-columns: 200px minmax(0, 1fr) 140px; gap: 16px; font-size: 26px; }
 .hb-s-tv2 .hb-bar + .hb-bar { margin-top: 10px; }
 .hb-s-tv2 .hb-tr { height: 22px; border-radius: 5px; }
