@@ -1,17 +1,22 @@
-"""Prepara la foto de la portada del inicio: la aclara y la agranda lo mejor que se puede.
+"""Prepara las imágenes de la portada del inicio: las aclara y las agranda lo mejor que se puede.
 
-Parte de dos fotos del cliente, en tools/hero/:
+Parte de dos imágenes del cliente, en tools/hero/:
 
-  portada-original.webp      la oficina entera (1264 x 843): el equipo de datos de un
-                             lado y, cruzando la mampara, quien decide del otro.
-  portada-tv-original.webp   el primer plano del televisor (1024 x 559), adonde llega
-                             la cámara al final del recorrido.
+  portada-original.webp      la oficina (1264 x 843). Se usa solo la mitad del
+                             televisor, de la mampara para allá.
+  portada-tv-original.webp   el primer plano del mismo televisor visto de espaldas
+                             (1024 x 559), adonde llega la cámara al final del recorrido.
 
 y escribe src/assets/img/hero/portada-oficina-{1264,2528}.webp y portada-tv-{1024,2048}.webp.
 
+Están generadas con IA (Gemini / Nano Banana): no son fotos de una oficina real y la
+persona que aparece no existe. La licencia está anotada en el README, en «Portada del
+inicio»; si se reemplazan por fotos de verdad hay que anotar allá la licencia y la
+cesión de imagen de quien aparezca.
+
 Dos cosas pasan acá:
 
-1. Revelado. La foto viene de una tarde: tiene un velo cálido en los medios tonos y
+1. Revelado. Las dos vienen de una tarde: tienen un velo cálido en los medios tonos y
    las sombras cerradas. Se neutraliza el color por canal con una gamma que no mueve ni
    el negro ni el blanco, se levanta el medio tono, se baja un poco la saturación y se
    recupera algo de contraste arriba. Queda una oficina más clara y más blanca, sin
@@ -23,7 +28,7 @@ Dos cosas pasan acá:
    original y devolver la diferencia». Eso no inventa detalle (no hay de dónde), pero
    recupera el que el agrandado se come y deja los bordes mucho más definidos.
 
-   python tools/portada_foto.py            (regenera los tres tamaños)
+   python tools/portada_foto.py            (regenera los cuatro archivos)
    python tools/portada_foto.py --revelado (solo muestra los números del revelado)
 """
 from __future__ import annotations
