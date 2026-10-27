@@ -30,10 +30,10 @@
   <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
-  <link rel="stylesheet" href="/assets/css/charts.css?v=7ff7a63882">
-  <link rel="stylesheet" href="/assets/css/design.css?v=9b47baeab1">
-  <script src="/assets/js/site.js?v=0419275043" defer></script>
-  <script src="/assets/js/design.js?v=c5bf2b60ec" defer></script>
+  <link rel="stylesheet" href="/assets/css/charts.css?v=6dbf248c21">
+  <link rel="stylesheet" href="/assets/css/design.css?v=379af11e0b">
+  <script src="/assets/js/site.js?v=81f9af360c" defer></script>
+  <script src="/assets/js/design.js?v=b365b0574c" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -96,191 +96,118 @@
 
   <main id="contenido">
 
-<!-- ======= HERO: escena con scroll (src/hero.html) ======= -->
-<section class="hp" id="inicio" aria-labelledby="hp-title" data-hero-scene data-scene='{"desk": {"aim": [0.56, 0.5], "fill": 0.62, "x": 0.7, "y": 0.55, "zoom": 1.08}, "front": [1300, 1147, 1024, 1584], "h": 2731, "mob": {"aim": [0.5, 0.5], "fill": 0.85, "width": 2.2, "x": 0.62, "y": 0.8}, "monitor": [[3012, 1118], [3896, 1118], [3892, 1792], [3008, 1796]], "screen": [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]], "screen2": [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]], "w": 4096}'>
-  <a class="hp-skip" href="#despues-del-inicio">Saltar la animación <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-  <div class="hp-track">
-    <div class="hp-stage">
-      <div class="hp-copy">
-        <div class="container">
-          <p class="eyebrow">Consultora de datos e IA para distribuidoras, pymes y consumo masivo</p>
-          <h1 id="hp-title">Una pregunta. Todos tus sistemas.<br><em>Una sola respuesta.</em></h1>
-          <p class="hp-lead lead">Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo, y un asistente de IA responde con los datos reales de tu empresa.</p>
-          <div class="hp-ask">
-  <p class="hp-bubble"><span class="hp-avatar" aria-hidden="true">MG</span> ¿Cuánto vendimos ayer en la zona norte?</p>
-  <ol class="hp-steps" aria-label="Cómo funciona"><li class="hp-step is-done" data-from="0"><span class="hp-step-n" aria-hidden="true">1</span><span>Preguntás</span></li><li class="hp-step is-done" data-from="0.06"><span class="hp-step-n" aria-hidden="true">2</span><span>Buscamos en tus sistemas</span></li><li class="hp-step is-on" data-from="0.48"><span class="hp-step-n" aria-hidden="true">3</span><span>Te respondemos</span></li></ol>
-  <p class="hp-status"><span data-from="0">Leyendo la pregunta…</span><span data-from="0.06">Consultando el ERP y las planillas…</span><span data-from="0.3">Revisando el CRM, WhatsApp y el correo…</span><span data-from="0.48">Uniendo todo en una sola respuesta…</span><span data-from="0.68" class="is-on">Respuesta lista, con fuentes</span></p>
-</div>
-
-        </div>
-      </div>
-
-      <div class="hp-photo">
-        <img class="hp-img" src="/assets/img/hero/equipo-2048.webp"
-             srcset="/assets/img/hero/equipo-2048.webp 2048w, /assets/img/hero/equipo-4096.webp 4096w"
-             sizes="300vw" width="4096" height="2731" alt="Un equipo trabaja frente a sus monitores en una oficina luminosa, junto a un ventanal." fetchpriority="high">
-      </div>
-      <div class="hp-veil" aria-hidden="true"></div>
-      <div class="hp-shade" aria-hidden="true"></div>
-
-      <div class="hp-bar" aria-hidden="true"><div class="hp-ask">
-  <p class="hp-bubble"><span class="hp-avatar" aria-hidden="true">MG</span> ¿Cuánto vendimos ayer en la zona norte?</p>
-  <ol class="hp-steps" aria-label="Cómo funciona"><li class="hp-step is-done" data-from="0"><span class="hp-step-n" aria-hidden="true">1</span><span>Preguntás</span></li><li class="hp-step is-done" data-from="0.06"><span class="hp-step-n" aria-hidden="true">2</span><span>Buscamos en tus sistemas</span></li><li class="hp-step is-on" data-from="0.48"><span class="hp-step-n" aria-hidden="true">3</span><span>Te respondemos</span></li></ol>
-  <p class="hp-status"><span data-from="0">Leyendo la pregunta…</span><span data-from="0.06">Consultando el ERP y las planillas…</span><span data-from="0.3">Revisando el CRM, WhatsApp y el correo…</span><span data-from="0.48">Uniendo todo en una sola respuesta…</span><span data-from="0.68" class="is-on">Respuesta lista, con fuentes</span></p>
-</div>
-</div>
-
-      <div class="hp-mons" aria-hidden="true">
-        <img class="hp-front" src="/assets/img/hero/equipo-frente.webp" alt="" width="1024" height="1584" loading="lazy">
-        <div class="hp-mon hp-mon-b"><div class="hp-screen hp-desk"><div class="hp-win hp-w1">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> CRM</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Visitas de la semana</div>
-    <div class="hp-body">
-        <table>
-  <tr><td class="h">Cliente</td><td class="h">Vendedor</td><td class="h">Estado</td></tr>
-  <tr class="hl"><td>Norte SA</td><td>L. Pérez</td><td>Pedido cerrado</td></tr>
-  <tr><td>Oeste SRL</td><td>M. Díaz</td><td>Sin visita</td></tr>
-  <tr><td>Litoral</td><td>J. Sosa</td><td>Propuesta enviada</td></tr>
-  <tr class="hl"><td>Distrisur</td><td>L. Pérez</td><td>Pedido cerrado</td></tr>
-</table>
-
-      <span class="hp-tag">Clientes y oportunidades</span>
+<!-- ======= PORTADA: la pregunta en voz alta y el tablero (src/hero.html) ======= -->
+<section class="hb" aria-labelledby="hb-title">
+  <div class="container hb-copy">
+    <div class="hb-head">
+      <p class="eyebrow">Consultora de datos e IA para distribuidoras, pymes y consumo masivo</p>
+      <h1 id="hb-title">Preguntá en voz alta. <em>Tus datos responden.</em></h1>
     </div>
-  </div>
-</div>
-<div class="hp-win hp-w3">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Correo</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Bandeja de entrada</div>
-    <div class="hp-body">
-        <p class="hp-line"><b>Litoral</b> · <span>Re: Propuesta comercial</span></p>
-        <p class="hp-line"><b>M. Díaz</b> · <span>Visitas de la semana</span></p>
-        <p class="hp-line"><b>Oeste SRL</b> · <span>Consulta por precios</span></p>
-      <span class="hp-tag">Pedidos y consultas por correo</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w2 hp-win-wa">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> WhatsApp</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Pedidos</div>
-    <div class="hp-body">
-        <p class="hp-msg">Hola, mandame 40 cajas de papas clásicas para el jueves.</p>
-        <p class="hp-msg hp-msg-out">Listo, pedido 7731 confirmado para el jueves.</p>
-        <p class="hp-msg">Sumale 10 de bastones.</p>
-      <span class="hp-tag">Pedidos por WhatsApp</span>
-    </div>
-  </div>
-</div>
-</div><span class="hp-note hp-note-1">Pedido 7731 → jueves</span><span class="hp-note hp-note-2">Oeste SRL sin visita</span></div>
-        <div class="hp-mon hp-mon-a"><div class="hp-screen hp-desk"><div class="hp-win hp-w1">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg> ERP</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Ventas del día</div>
-    <div class="hp-body">
-        <table>
-  <tr><td class="h">Comprobante</td><td class="h">Cliente</td><td class="h">Importe</td></tr>
-  <tr class="hl"><td>FC 0012-4471</td><td>Norte SA</td><td>$ 312.400</td></tr>
-  <tr class="hl"><td>FC 0012-4472</td><td>Distrisur</td><td>$ 184.900</td></tr>
-  <tr><td>FC 0012-4473</td><td>Pampa Dist.</td><td>$ 97.300</td></tr>
-  <tr class="hl"><td>FC 0012-4474</td><td>La Rueda</td><td>$ 141.200</td></tr>
-</table>
-
-      <span class="hp-tag">Tango · SAP · Odoo</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w3">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Correo</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Bandeja de entrada</div>
-    <div class="hp-body">
-        <p class="hp-line"><b>Norte SA</b> · <span>Re: Nota de crédito 2214</span></p>
-        <p class="hp-line"><b>Logística Sur</b> · <span>Entrega del jueves confirmada</span></p>
-        <p class="hp-line"><b>Distrisur</b> · <span>Orden de compra 9931</span></p>
-      <span class="hp-tag">Órdenes y notas por correo</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w2">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></svg> Planillas</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> ventas_distribuidores.xlsx</div>
-    <div class="hp-body">
-        <table>
-  <tr><td class="h">Distribuidor</td><td class="h">Zona</td><td class="h">Ayer</td></tr>
-  <tr class="hl"><td>Norte SA</td><td>Norte</td><td>312.400</td></tr>
-  <tr class="hl"><td>Distrisur</td><td>Norte</td><td>184.900</td></tr>
-  <tr><td>Pampa Dist.</td><td>Centro</td><td>97.300</td></tr>
-  <tr><td>Oeste SRL</td><td>Oeste</td><td>58.100</td></tr>
-</table>
-
-      <span class="hp-tag">Planillas de los distribuidores</span>
-    </div>
-  </div>
-</div>
-</div><span class="hp-note hp-note-1">Llamar a Norte SA por la nota de crédito</span><span class="hp-note hp-note-2">¡Reponer papas 400 g!</span></div>
-        <div class="hp-mon hp-mon-c">
-          <div class="hp-screen hp-ai">
-            <div class="hp-ai-top"><img src="/assets/img/brand/logo-mark.png" alt="" width="16" height="18"> <b>Asistente de IA</b> <span>con tus datos curados por DeepDatas</span></div>
-            <div class="hp-ai-body">
-              <p class="hp-bubble"><span class="hp-avatar">MG</span> ¿Cuánto vendimos ayer en la zona norte?</p>
-              <div class="hp-ai-answer"><span class="label">Ventas de ayer · Zona norte</span>
-<div class="hp-answer-grid">
-  <div>
-    <strong class="hp-big">$ 1,28 M</strong>
-    <span class="hp-up">▲ 9 % contra el mismo día de la semana pasada</span>
-    <p>Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.</p>
-  </div>
-  <ul class="hp-bars" aria-label="Por distribuidor · contra el objetivo">
-    <li><span>Norte SA</span><i class="w-92" aria-hidden="true"></i><b>+14 %</b></li>
-    <li><span>Distrisur</span><i class="w-74" aria-hidden="true"></i><b>+9 %</b></li>
-    <li><span>La Rueda</span><i class="w-61" aria-hidden="true"></i><b>+6 %</b></li>
-    <li><span>Pampa Dist.</span><i class="w-38" aria-hidden="true"></i><b>+2 %</b></li>
-    <li class="is-neg"><span>Oeste SRL</span><i class="w-22" aria-hidden="true"></i><b>−5 %</b></li>
-  </ul>
-</div>
-<p class="hp-sources"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg> Fuentes: ERP, CRM, planillas y WhatsApp · actualizado hoy a las 7:00</span><span>Ejemplo con datos ficticios</span></p>
-</div>
-              <div class="hp-ai-chips"><span>¿Qué clientes dejaron de comprar?</span><span>¿Qué productos están por quedarse sin stock?</span><span>¿Cómo viene el margen por canal?</span></div>
-              <div class="hp-ai-input"><span>Escribí tu consulta…</span><i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></i></div>
-            </div>
-            <video class="hp-video" muted loop playsinline preload="none" poster="/assets/video/asistente-es.webp" data-video="/assets/video/asistente-es"></video>
-          </div>
-        </div>
-        <div class="hp-flies">          <span class="hp-fly" data-mon="a" data-slot="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg> ERP</span>          <span class="hp-fly" data-mon="a" data-slot="1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Correo</span>          <span class="hp-fly" data-mon="a" data-slot="2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></svg> Planillas</span>          <span class="hp-fly" data-mon="b" data-slot="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> CRM</span>          <span class="hp-fly" data-mon="b" data-slot="1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Correo</span>          <span class="hp-fly hp-fly-wa" data-mon="b" data-slot="2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> WhatsApp</span>        </div>
-        <div class="hp-flash"></div>
-      </div>
-
-      <div class="hp-answer hp-static" role="region" aria-label="Ejemplo: la respuesta de un asistente de IA a una pregunta de negocio (datos ficticios)"><span class="label">Ventas de ayer · Zona norte</span>
-<div class="hp-answer-grid">
-  <div>
-    <strong class="hp-big">$ 1,28 M</strong>
-    <span class="hp-up">▲ 9 % contra el mismo día de la semana pasada</span>
-    <p>Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.</p>
-  </div>
-  <ul class="hp-bars" aria-label="Por distribuidor · contra el objetivo">
-    <li><span>Norte SA</span><i class="w-92" aria-hidden="true"></i><b>+14 %</b></li>
-    <li><span>Distrisur</span><i class="w-74" aria-hidden="true"></i><b>+9 %</b></li>
-    <li><span>La Rueda</span><i class="w-61" aria-hidden="true"></i><b>+6 %</b></li>
-    <li><span>Pampa Dist.</span><i class="w-38" aria-hidden="true"></i><b>+2 %</b></li>
-    <li class="is-neg"><span>Oeste SRL</span><i class="w-22" aria-hidden="true"></i><b>−5 %</b></li>
-  </ul>
-</div>
-<p class="hp-sources"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg> Fuentes: ERP, CRM, planillas y WhatsApp · actualizado hoy a las 7:00</span><span>Ejemplo con datos ficticios</span></p>
-</div>
-
-      <div class="hp-actions actions">
+    <div class="hb-side">
+      <p class="lead">Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo. Preguntás como le hablarías a tu equipo y el tablero se arma solo, con la fuente de cada número.</p>
+      <div class="actions">
         <a class="btn btn-primary btn-lg" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Coordinar una llamada <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-        <a class="btn btn-secondary btn-lg hp-secondary" href="/diagnostico/">Conocé el diagnóstico</a>
+        <a class="btn btn-secondary btn-lg" href="/diagnostico/">Conocé el diagnóstico</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hb-crop" role="img" aria-label="Ejemplo: una persona pregunta en voz alta y su tablero de ventas responde en la pantalla (datos ficticios).">
+    <div class="hb-scene" data-hb data-quad='[[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]]' data-question="¿Cuánto vendimos ayer en la zona norte?"
+         data-statuses='[[0, "Escuchando\u2026"], [0.26, "Leyendo el ERP y las planillas\u2026"], [0.4, "Cruzando CRM, WhatsApp y correo\u2026"], [0.56, "Armando el tablero\u2026"], [0.86, "Respuesta lista \u00b7 con fuentes"]]'>
+      <img class="hb-photo" src="/assets/img/hero/sala-1024.webp"
+           srcset="/assets/img/hero/sala-1024.webp 1024w, /assets/img/hero/sala-2048.webp 2048w"
+           sizes="100vw" width="1024" height="559" alt="" fetchpriority="high">
+
+      <div class="hb-screen" aria-hidden="true">
+        <div class="hb-scr">
+          <span class="hb-scan"></span>
+          <div class="hb-top">
+            <span class="hb-dots"><i></i><i></i><i></i></span>
+            <span class="hb-app">DeepDatas · Tablero ejecutivo</span>
+            <span class="hb-live"><i></i> En vivo</span>
+          </div>
+          <div class="hb-board-head">
+            <h2>Ventas de ayer</h2>
+            <span class="hb-chip">Zona norte</span>
+            <span class="hb-when">07:00</span>
+          </div>
+          <div class="hb-tiles">
+            <div class="hb-tile">
+              <span class="hb-k">Facturación</span>
+              <span class="hb-v" data-kpi="1,28" data-pre="$ " data-post=" M">$ 1,28 M</span>
+              <span class="hb-d">▲ 9,0 % vs. semana pasada</span>
+            </div>
+            <div class="hb-tile">
+              <span class="hb-k">Margen bruto</span>
+              <span class="hb-v" data-kpi="24,6" data-pre="" data-post=" %">24,6 %</span>
+              <span class="hb-d">▲ 1,2 pp</span>
+            </div>
+            <div class="hb-tile">
+              <span class="hb-k">Quiebres</span>
+              <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
+              <span class="hb-d">▼ 2 vs. ayer</span>
+            </div>
+          </div>
+          <div class="hb-chart">
+            <h3>Por distribuidor</h3>
+            <p class="hb-sub">Facturación de ayer · zona norte</p>
+            <div class="hb-bars">
+              <span class="hb-goal-k">Objetivo</span>
+              <span class="hb-goal"></span>
+              <div class="hb-bar">
+                <span class="hb-nm">Norte SA</span>
+                <span class="hb-tr"><i class="w-92"></i></span>
+                <b class="hb-vl">$ 412 k</b>
+              </div>
+              <div class="hb-bar">
+                <span class="hb-nm">Distrisur</span>
+                <span class="hb-tr"><i class="w-74"></i></span>
+                <b class="hb-vl">$ 331 k</b>
+              </div>
+              <div class="hb-bar">
+                <span class="hb-nm">La Rueda</span>
+                <span class="hb-tr"><i class="w-61"></i></span>
+                <b class="hb-vl">$ 273 k</b>
+              </div>
+              <div class="hb-bar">
+                <span class="hb-nm">Pampa Dist.</span>
+                <span class="hb-tr"><i class="w-38"></i></span>
+                <b class="hb-vl">$ 170 k</b>
+              </div>
+            </div>
+          </div>
+          <div class="hb-foot"><span>Fuentes: ERP · CRM · Planillas · WhatsApp</span><span class="hb-right">Datos ficticios</span></div>
+        </div>
       </div>
 
-      <p class="hp-hint" aria-hidden="true"><span>Deslizá para ver cómo llega la respuesta</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></p>
+      <img class="hb-finger" src="/assets/img/hero/sala-mano.png" width="132" height="160" alt="" aria-hidden="true">
+      <span class="hb-grade" aria-hidden="true"></span>
+
+      <div class="hb-pnl hb-pnl-src" aria-hidden="true">
+        <span class="label">Fuentes consultadas</span>
+        <span class="hb-row"><i class="hb-sw hb-sw-erp"></i><span class="hb-nm">ERP</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+        <span class="hb-row"><i class="hb-sw hb-sw-crm"></i><span class="hb-nm">CRM</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+        <span class="hb-row"><i class="hb-sw hb-sw-xls"></i><span class="hb-nm">Planillas</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+        <span class="hb-row"><i class="hb-sw hb-sw-wa"></i><span class="hb-nm">WhatsApp</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+        <span class="hb-row"><i class="hb-sw hb-sw-mail"></i><span class="hb-nm">Correo</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+        <span class="hb-pnl-foot"><span data-count="12482">12.482</span> registros leídos · 1,4 s</span>
+      </div>
+
+      <div class="hb-pnl hb-pnl-alert" aria-hidden="true">
+        <span class="hb-alert-hd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Alerta de stock</span>
+        <span class="hb-alert-tx">Papas clásicas 400 g se queda sin stock en 3 días. ¿Preparo la reposición?</span>
+      </div>
+
+      <div class="hb-voice" aria-hidden="true">
+        <p class="hb-status">Respuesta lista · con fuentes</p>
+        <span class="hb-mic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg></span>
+        <p class="hb-q"><span data-hb-q>¿Cuánto vendimos ayer en la zona norte?</span><i class="hb-caret" hidden></i></p>
+        <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
+      </div>
     </div>
   </div>
 </section>
-<span id="despues-del-inicio"></span>
 
 
 <!-- ======= PUENTE: qué acabás de ver ======= -->

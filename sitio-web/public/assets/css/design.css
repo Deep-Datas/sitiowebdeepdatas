@@ -1545,1233 +1545,636 @@ html:not(.motion) .phone-view:first-child {
   border-color: rgba(255, 255, 255, 0.25);
   color: var(--ember-2);
 }
-
-/* ---------- Inicio: la oficina, los sistemas y una sola respuesta (src/hero.html) ----------
-   Sin animación: texto, foto y respuesta en flujo normal. Con animación (html.motion) la escena
-   queda fija: el scroll acerca la cámara al monitor de la foto, los dos monitores (ERP y planillas;
-   CRM y WhatsApp) quedan de frente y se funden en uno solo con el asistente. site.js mueve las
-   capas y escribe las variables --veil, --shade, --cop, --cty, --bar, --flash y --hop. */
-.hp {
+/* ---------- Portada del inicio: la pregunta en voz alta y el tablero (src/hero.html) ----------
+   La foto es fija. El tablero (.hb-screen) se escribe en un rectángulo de 1280 × 720 y design.js
+   lo encaja en la pantalla del televisor con una matriz de perspectiva, calculada a partir de las
+   esquinas de data-quad. Los dedos recortados (.hb-finger) vuelven por encima. Con animación el
+   recorrido se reproduce al cargar; sin animación se ve la escena final, completa y quieta. */
+.hb {
   position: relative;
-  background: var(--bg);
-}
-
-.hp-stage {
-  position: relative;
-  display: grid;
-  gap: clamp(24px, 4vh, 40px);
-  padding-top: calc(var(--header-h) + clamp(24px, 4vh, 48px));
-  padding-bottom: clamp(28px, 6vh, 64px);
   overflow: hidden;
+  padding-bottom: 0;
 }
 
-/* Texto del inicio */
-.hp-copy {
+.hb-copy {
   position: relative;
   z-index: 3;
-  text-align: center;
+  display: grid;
+  gap: 18px;
+  padding-top: calc(var(--header-h) + clamp(28px, 4vw, 56px));
+  padding-bottom: clamp(20px, 2.5vw, 34px);
 }
 
-.hp-copy .eyebrow {
-  margin-bottom: 16px;
+.hb-copy h1 {
+  max-width: 16ch;
+  margin: 0;
+  font-size: var(--fs-display);
+  line-height: 1.02;
 }
 
-.hp-copy h1 {
-  max-width: 20ch;
-  margin: 0 auto 18px;
-  font-size: clamp(2.2rem, 1rem + 2.6vw, 3.3rem);
-  line-height: 1.06;
-  letter-spacing: -0.04em;
-}
-
-@media (min-width: 768px) {
-  .hp-copy h1 {
-    max-width: none;
-  }
-}
-
-.hp-copy h1 em {
+.hb-copy h1 em {
   font-family: var(--font-accent);
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
-  color: var(--accent-300);
+  color: var(--accent-600);
 }
 
-.hp-lead {
-  max-width: 56ch;
-  margin: 0 auto 22px;
-}
-
-/* La pregunta, los tres pasos y el estado (en el texto y en la barra compacta) */
-.hp-ask {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hp-bubble {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+.hb-copy .lead {
+  max-width: 48ch;
   margin: 0;
-  padding: 12px 18px 12px 14px;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--text);
-  font-size: 1.08rem;
-  font-weight: 500;
-  box-shadow: 0 20px 50px -24px rgba(11, 18, 32, 0.4), 0 0 0 1px var(--hairline);
 }
 
-.hp-avatar {
+.hb-side {
   display: grid;
-  flex: none;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--ember);
-  color: #1a0e08;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.hp-steps {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hp-step {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 13px 5px 5px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--fg-3);
-  font-size: 0.88rem;
-  font-weight: 500;
-  transition: color 0.3s, border-color 0.3s, background 0.3s;
-}
-
-.hp-step-n {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--surface-2);
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 700;
-  transition: background 0.3s, color 0.3s;
-}
-
-.hp-step.is-done {
-  color: var(--fg-2);
-}
-
-.hp-step.is-done .hp-step-n {
-  background: var(--text);
-  color: var(--bg);
-}
-
-.hp-step.is-on {
-  border-color: var(--ember);
-  background: #fff;
-  color: var(--text);
-  box-shadow: 0 10px 30px -18px rgba(255, 106, 58, 0.8);
-}
-
-.hp-step.is-on .hp-step-n {
-  background: var(--ember);
-  color: #1a0e08;
-}
-
-.hp-status {
-  position: relative;
-  width: 100%;
-  height: 1.6em;
-  margin: 12px 0 0;
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.hp-status span {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-.hp-status span.is-on {
-  opacity: 1;
-}
-
-.hp-status span::before {
-  content: "● ";
-  color: var(--ember);
-}
-
-/* La foto: en flujo normal es una imagen; con animación, la capa que site.js mueve */
-.hp-photo {
-  position: relative;
-  z-index: 1;
-  width: min(100% - 2 * var(--gutter), 1200px);
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 20px;
-  aspect-ratio: 16 / 9;
-}
-
-.hp-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hp-veil,
-.hp-shade,
-.hp-bar,
-.hp-mons,
-.hp-hint {
-  display: none;
-}
-
-/* La respuesta del asistente (tarjeta estática y pantalla del monitor final) */
-.hp-answer {
-  position: relative;
-  z-index: 2;
-  width: min(100% - 2 * var(--gutter), 860px);
-  margin: 0 auto;
-  padding: 26px 30px;
-  border-radius: 26px;
-  background: #fff;
-  color: var(--text);
-  box-shadow: 0 40px 90px -40px rgba(11, 18, 32, 0.45), 0 0 0 1px var(--hairline);
-}
-
-.hp-answer .label,
-.hp-ai-answer .label {
-  margin-bottom: 10px;
-  color: var(--accent-700);
-}
-
-.hp-answer-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
   gap: 18px;
 }
 
-.hp-big {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 2rem + 2vw, 3.4rem);
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1;
+@media (min-width: 901px) {
+  .hb-copy {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: end;
+    column-gap: clamp(28px, 4vw, 72px);
+  }
+
+  .hb-head,
+  .hb-side {
+    grid-row: 1;
+  }
+
+  .hb-side {
+    padding-bottom: 6px;
+  }
 }
 
-.hp-up {
-  display: inline-block;
-  margin: 10px 0 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #dcf5e4;
-  color: #1e7a4c;
-  font-size: 0.85rem;
-  font-weight: 650;
-}
-
-.hp-answer p,
-.hp-ai-answer p {
-  margin: 0;
-  color: var(--fg-2);
-  font-size: 0.98rem;
-}
-
-.hp-bars {
-  display: grid;
-  align-content: center;
-  gap: 9px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hp-bars li {
-  display: grid;
-  grid-template-columns: 90px 1fr 56px;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.86rem;
-}
-
-.hp-bars i {
-  display: block;
-  width: var(--w);
-  height: 10px;
-  border-radius: 4px;
-  background: var(--text);
-}
-
-.hp-bars .is-neg i {
-  background: #b4472c;
-}
-
-.hp-bars b {
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-.hp-sources {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 16px 0 0;
-  color: var(--fg-3);
-  font-size: 0.8rem;
-}
-
-.hp-actions {
+/* La foto y todo lo que va pegado a ella */
+.hb-crop {
   position: relative;
-  z-index: 3;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Ventanas de los sistemas dentro de los monitores */
-.hp-win {
-  position: absolute;
-  color: #1f2937;
-  font-size: 12px;
-}
-
-.hp-card {
   overflow: hidden;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 24px 50px -24px rgba(11, 18, 32, 0.5), 0 0 0 1px rgba(11, 18, 32, 0.08);
+  aspect-ratio: 1024 / 559;
+  container-type: inline-size;
 }
 
-.hp-label {
+.hb-scene {
   position: absolute;
-  top: -15px;
-  left: 12px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  aspect-ratio: 1024 / 559;
+  transform-origin: 0 0;
+}
+
+.hb-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Un poco de profundidad en los bordes de la foto */
+.hb-grade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 42% 36%, rgba(255, 255, 255, 0.05), rgba(6, 10, 20, 0.1) 62%, rgba(6, 10, 20, 0.3) 100%);
+}
+
+/* ----- El tablero dentro del televisor ----- */
+.hb-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
   z-index: 1;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: #fff;
+}
+
+.hb-scr {
+  --sbg: #fff;
+  --stx: #0f172a;
+  --stx2: #566074;
+  --stx3: #7a8396;
+  --sln: #e4e7ec;
+  --sgr: #eef0f3;
+  --s-blue: #2353d6;
+
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  height: 100%;
+  background: var(--sbg);
+  color: var(--stx);
+  font-size: 34px;
+  line-height: 1.3;
+}
+
+/* Barrido de luz mientras lee los sistemas */
+.hb-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: var(--scan-a, 0);
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 42%, rgba(35, 83, 214, 0.12) 48%, rgba(255, 255, 255, 0.85) 50%, rgba(35, 83, 214, 0.12) 52%, transparent 58%);
+  transform: translateX(calc(-100% + var(--scan, 0) * 200%));
+}
+
+.hb-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 34px;
+  border-bottom: 2px solid var(--sln);
+  background: #fbfcfd;
+}
+
+.hb-dots {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.hb-dots i {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #d0d5dd;
+}
+
+.hb-app {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.hb-live {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 13px 6px 10px;
-  border-radius: 999px;
-  background: var(--text);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  box-shadow: 0 12px 24px -12px rgba(11, 18, 32, 0.6);
-}
-
-.hp-label .icon {
-  width: 16px;
-  height: 16px;
-  color: var(--ember);
-}
-
-.hp-tb {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 12px;
-  background: #f3f4f6;
-  color: #374151;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.hp-tb i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #d1d5db;
-}
-
-.hp-tb i:first-child {
-  background: var(--ember);
-}
-
-.hp-body {
-  padding: 10px;
-}
-
-.hp-win table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.hp-win td {
-  padding: 4px 6px;
-  border-bottom: 1px solid #eef0f3;
-  font-variant-numeric: tabular-nums;
-}
-
-.hp-win td.h {
-  color: #6b7280;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.hp-win .hl {
-  background: #fff3ea;
-}
-
-.hp-win-wa .hp-card {
-  background: #ece5dd;
-}
-
-.hp-win-wa .hp-tb {
-  background: #075e54;
-  color: #fff;
-}
-
-.hp-win-wa .hp-tb i {
-  background: #fff;
-}
-
-.hp-win-wa .hp-label {
-  background: #075e54;
-}
-
-.hp-win-wa .hp-label .icon {
-  color: #fff;
-}
-
-.hp-msg {
-  max-width: 88%;
-  margin: 0 0 6px;
-  padding: 6px 9px;
-  border-radius: 9px;
-  background: #fff;
-}
-
-.hp-msg-out {
+  gap: 10px;
   margin-left: auto;
-  background: #d9fdd3;
-}
-
-.hp-tag {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #0b1220;
-  color: #67d8ff;
+  color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.06em;
+  font-size: 27px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* Enlace para saltar la animación: fijo abajo a la derecha mientras dura; sin animación, solo con el teclado */
-.hp-skip {
-  position: absolute;
-  top: calc(var(--header-h) + 12px);
-  left: 16px;
-  z-index: 30;
-  padding: 10px 16px;
+.hb-live i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 0 6px rgba(30, 122, 76, 0.18);
+}
+
+.hb-board-head {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  padding: 22px 34px 6px;
+}
+
+.hb-board-head h2 {
+  margin: 0;
+  font-size: 54px;
+  letter-spacing: -0.02em;
+  color: var(--stx);
+}
+
+.hb-chip {
+  padding: 7px 20px;
   border-radius: 999px;
-  background: var(--text);
-  color: var(--bg);
+  background: #edf1fd;
+  color: var(--s-blue);
+  font-size: 27px;
   font-weight: 600;
 }
 
-.hp:not(.is-animated) .hp-skip:not(:focus) {
-  width: 1px;
-  height: 1px;
-  padding: 0;
+.hb-when {
+  margin-left: auto;
+  color: var(--stx3);
+  font-family: var(--font-mono);
+  font-size: 26px;
+}
+
+.hb-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  padding: 18px 34px 10px;
+}
+
+.hb-tile {
+  padding: 14px 18px;
+  border: 2px solid var(--sln);
+  border-radius: 16px;
+}
+
+.hb-k {
+  display: block;
+  color: var(--stx2);
+  font-size: 27px;
+}
+
+.hb-v {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.hb-d {
+  display: block;
+  margin-top: 8px;
+  color: var(--good);
+  font-size: 25px;
+  font-weight: 600;
+}
+
+/* El alto del tablero es fijo: la zona del gráfico no puede empujar al pie */
+.hb-chart {
+  min-height: 0;
   overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+  padding: 6px 34px 0;
 }
 
-.hp.is-animated .hp-skip {
-  position: fixed;
-  top: auto;
-  right: 20px;
-  bottom: 20px;
-  left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 34px;
-  padding: 0 14px;
-  border: 1px solid var(--hairline-strong);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  color: var(--text);
-  font-size: 0.8rem;
-  font-weight: 500;
-  box-shadow: var(--lift);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: opacity 0.3s;
-}
-
-.hp.is-animated .hp-skip .icon {
-  transform: rotate(90deg);
-}
-
-.hp.is-animated.is-done .hp-skip,
-.hero-copy-visible .hp.is-animated .hp-skip:not(:focus-visible) {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* El botón del encabezado espera a que se vaya el texto del inicio */
-.nav-cta,
-.nav-cta-mobile {
-  transition: opacity 0.3s;
-}
-
-.hero-copy-visible .nav-cta,
-.hero-copy-visible .nav-cta-mobile {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ===== Modo animado ===== */
-.motion .hp-track {
-  height: 300vh;
-}
-
-.motion .hp-stage {
-  position: sticky;
-  top: 0;
-  display: block;
-  height: 100vh;
-  height: 100svh;
-  padding: 0;
-}
-
-.motion .hp-photo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: auto;
+.hb-chart h3 {
   margin: 0;
-  overflow: visible;
-  border-radius: 0;
-  aspect-ratio: auto;
-  transform-origin: 0 0;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--stx);
 }
 
-.motion .hp-veil {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: block;
-  background: var(--bg);
-  opacity: var(--veil, 0);
-  pointer-events: none;
+.hb-sub {
+  margin: 0;
+  color: var(--stx3);
+  font-size: 24px;
+  line-height: 1.2;
 }
 
-.motion .hp-shade {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: block;
-  background:
-    /* Velo superior: el menú se lee sobre el ventanal antes de hacer scroll */
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 78%, transparent) 0%, color-mix(in srgb, var(--bg) 40%, transparent) var(--header-h), transparent calc(var(--header-h) + 120px)),
-    linear-gradient(90deg, color-mix(in srgb, var(--bg) 94%, transparent) 0%, color-mix(in srgb, var(--bg) 74%, transparent) 38%, transparent 66%),
-    linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent) 0%, transparent 30%);
-  opacity: var(--shade, 1);
-  pointer-events: none;
+.hb-bars {
+  --col-a: 230px;
+  --col-c: 150px;
+  --col-gap: 22px;
+  --goal: 70;
+
+  position: relative;
+  margin-top: 4px;
+  padding-top: 22px;
 }
 
-.motion .hp-copy {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: flex;
+.hb-bar {
+  display: grid;
+  grid-template-columns: var(--col-a) 1fr var(--col-c);
+  gap: var(--col-gap);
   align-items: center;
-  padding-top: var(--header-h);
-  text-align: left;
-  opacity: var(--cop, 1);
-  transform: translateY(var(--cty, 0px));
-  pointer-events: none;
+  font-size: 29px;
 }
 
-.motion .hp-copy.is-out {
-  visibility: hidden;
-}
-
-.motion .hp-copy .container {
-  pointer-events: auto;
-}
-
-.motion .hp-copy h1 {
-  max-width: 13ch;
-  margin-inline: 0;
-  font-size: clamp(2.2rem, 1rem + 2.8vw, 3.7rem);
-}
-
-.motion .hp-copy .hp-lead {
-  max-width: 42ch;
-  margin-inline: 0;
-}
-
-.motion .hp-copy .hp-ask {
-  align-items: flex-start;
-}
-
-.motion .hp-copy .hp-steps {
-  justify-content: flex-start;
-}
-
-.motion .hp-copy .hp-status {
-  text-align: left;
-}
-
-/* Barra compacta con la pregunta y los pasos, arriba, mientras dura el recorrido */
-.motion .hp-bar {
-  position: absolute;
-  top: calc(var(--header-h) + 10px);
-  right: var(--gutter);
-  left: var(--gutter);
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  opacity: var(--bar, 0);
-  pointer-events: none;
-}
-
-.hp-bar .hp-bubble {
-  padding: 8px 14px 8px 10px;
-  font-size: 0.96rem;
-}
-
-.hp-bar .hp-avatar {
-  width: 26px;
-  height: 26px;
-  font-size: 0.66rem;
-}
-
-.hp-bar .hp-steps {
+.hb-bar + .hb-bar {
   margin-top: 8px;
 }
 
-.hp-bar .hp-step {
-  padding: 4px 11px 4px 4px;
-  font-size: 0.82rem;
-}
-
-.hp-bar .hp-step-n {
-  width: 22px;
-  height: 22px;
-  font-size: 0.68rem;
-}
-
-.hp-bar .hp-status {
-  margin-top: 6px;
-  font-size: 0.72rem;
-}
-
-/* Los monitores: site.js les da tamaño en píxeles y los lleva en perspectiva a su lugar */
-.motion .hp-mons {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: block;
-  pointer-events: none;
-}
-
-/* La persona que está delante del segundo monitor, recortada de la foto */
-.hp-front {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  max-width: none;
-  transform-origin: 0 0;
-  pointer-events: none;
-}
-
-.hp-mon {
-  --rim: 12px;
-  --chin: 26px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #303033 0%, #232325 60%, #1c1c1e 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 50px 90px -40px rgba(11, 18, 32, 0.55);
-  transform-origin: 0 0;
-}
-
-.hp-screen {
-  position: absolute;
-  inset: var(--rim) var(--rim) var(--chin);
+.hb-bar .hb-nm {
   overflow: hidden;
-  border-radius: 3px;
-  background: #f3f2ee;
-}
-
-.hp-desk {
-  background: linear-gradient(135deg, #e9e4dc, #d8dce6);
-}
-
-/* Reflejo suave sobre la pantalla */
-.hp-desk::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 38%, transparent 60%);
-  pointer-events: none;
-}
-
-.hp-desk .hp-w1 {
-  top: 10%;
-  left: 3%;
-  z-index: 1;
-  width: 58%;
-}
-
-.hp-desk .hp-w3 {
-  bottom: 5%;
-  left: 5%;
-  z-index: 2;
-  width: 46%;
-}
-
-.hp-desk .hp-w2 {
-  top: 34%;
-  right: 3%;
-  z-index: 3;
-  width: 54%;
-}
-
-.hp-line {
-  margin: 0 0 5px;
-  overflow: hidden;
+  color: var(--stx2);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.hp-line b {
-  color: #111827;
+.hb-tr {
+  position: relative;
+  height: 28px;
+  border-radius: 5px;
+  background: var(--sgr);
 }
 
-.hp-line span {
-  color: #6b7280;
-}
-
-/* Post-its pegados en el marco del monitor */
-.hp-note {
+/* El ancho sale de la clase que genera build.py (pos('w', …)); con animación lo pisa design.js */
+.hb-tr i {
   position: absolute;
-  z-index: 5;
-  width: 74px;
-  padding: 8px 8px 10px;
-  background: linear-gradient(180deg, #fff6a8, #ffe86b);
-  color: #4a3f10;
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 12px;
-  line-height: 1.15;
-  box-shadow: 0 8px 16px -8px rgba(11, 18, 32, 0.55);
+  inset: 0 auto 0 0;
+  width: var(--w, 0%);
+  border-radius: 5px 10px 10px 5px;
+  background: var(--s-blue);
 }
 
-.hp-note::before {
-  content: "";
+.hb-vl {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.hb-goal,
+.hb-goal-k {
   position: absolute;
-  top: -5px;
-  left: 50%;
-  width: 26px;
-  height: 9px;
-  background: rgba(255, 255, 255, 0.55);
-  transform: translateX(-50%) rotate(-3deg);
+  left: calc(var(--col-a) + var(--col-gap) + (100% - var(--col-a) - var(--col-c) - var(--col-gap) * 2) * var(--goal) / 100);
 }
 
-.hp-note-1 {
-  top: -8px;
-  right: 18px;
-  transform: rotate(4deg);
-}
-
-.hp-note-2 {
-  right: -14px;
-  bottom: 22%;
-  background: linear-gradient(180deg, #ffd3e0, #ffb3c9);
-  color: #5a1f33;
-  transform: rotate(-5deg);
-}
-
-.hp-mon-b .hp-note-1 {
-  top: 14%;
-  right: auto;
-  left: -12px;
-  transform: rotate(-4deg);
-}
-
-.hp-mon-b .hp-note-2 {
-  right: 26px;
+.hb-goal {
+  top: 20px;
   bottom: -6px;
-  background: linear-gradient(180deg, #d6ecff, #b3d9ff);
-  color: #173a5e;
-  transform: rotate(3deg);
+  width: 0;
+  border-left: 3px dashed #98a2b3;
 }
 
-/* Las etiquetas de los sistemas que vuelan hasta la respuesta */
-.hp-mon .hp-label {
-  opacity: var(--lab, 1);
+.hb-goal-k {
+  top: 0;
+  color: var(--stx3);
+  font-family: var(--font-mono);
+  font-size: 24px;
+  white-space: nowrap;
+  transform: translateX(-50%);
 }
 
-.hp-flies {
+.hb-foot {
+  display: flex;
+  gap: 20px;
+  padding: 14px 34px;
+  border-top: 2px solid var(--sln);
+  color: var(--stx3);
+  font-family: var(--font-mono);
+  font-size: 25px;
+}
+
+.hb-right {
+  margin-left: auto;
+}
+
+/* height:auto es obligatorio: el atributo height del img estiraría el recorte */
+.hb-finger {
   position: absolute;
-  inset: 0;
-  z-index: 3;
+  left: 45.9%;
+  top: 42.6%;
+  z-index: 2;
+  width: 6.45%;
+  height: auto;
   pointer-events: none;
 }
 
-.hp-fly {
+/* ----- Paneles flotantes en la sala ----- */
+.hb-pnl {
   position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px 6px 10px;
-  border-radius: 999px;
-  background: var(--text);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  box-shadow: 0 14px 28px -12px rgba(11, 18, 32, 0.6), 0 0 0 3px rgba(255, 106, 58, 0.18);
-  opacity: 0;
-  visibility: hidden;
-  will-change: transform, opacity;
-}
-
-.hp-fly .icon {
-  width: 16px;
-  height: 16px;
-  color: var(--ember);
-}
-
-.hp-fly-wa {
-  background: #075e54;
-}
-
-.hp-fly-wa .icon {
-  color: #fff;
-}
-
-/* La respuesta se arma cuando llegan los datos */
-.hp-mon-c .hp-ai-answer {
-  opacity: var(--card, 1);
-  transform: translateY(calc((1 - var(--card, 1)) * 18px)) scale(calc(0.97 + 0.03 * var(--card, 1)));
-  box-shadow: 0 0 0 1px var(--hairline), 0 0 0 calc(var(--glow, 0) * 8px) rgba(255, 106, 58, calc(var(--glow, 0) * 0.25));
-}
-
-/* Destello suave donde llegan los datos */
-.hp-flash {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 56vmin;
-  height: 56vmin;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #ffe3d2 22%, rgba(255, 138, 92, 0.7) 45%, transparent 70%);
-  opacity: var(--flash, 0);
-  transform: translate(-50%, -50%);
-  filter: blur(10px);
-  mix-blend-mode: screen;
-}
-
-/* Pantalla del monitor final: el asistente */
-.hp-ai {
-  display: flex;
-  flex-direction: column;
-  background: #faf9f5;
-}
-
-.hp-ai-top {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  border-bottom: 1px solid var(--hairline);
-  background: #fff;
-  font-size: 0.82rem;
-  color: var(--fg-2);
-}
-
-.hp-ai-top img {
-  width: 16px;
-  height: auto;
-}
-
-.hp-ai-top b {
+  z-index: 3;
+  display: grid;
+  gap: 0.45cqw;
+  padding: 1.1cqw 1.2cqw;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.2cqw;
+  background: rgba(252, 253, 255, 0.82);
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.55);
   color: var(--text);
+  font-size: 1.05cqw;
 }
 
-.hp-ai-body {
+.hb-pnl::before,
+.hb-pnl::after {
+  content: "";
+  position: absolute;
+  width: 1cqw;
+  height: 1cqw;
+  border: 1.5px solid var(--accent-500);
+  opacity: 0.75;
+}
+
+.hb-pnl::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 1.2cqw 0 0 0;
+}
+
+.hb-pnl::after {
+  right: -1px;
+  bottom: -1px;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0 0 1.2cqw 0;
+}
+
+.hb-pnl .label {
+  margin: 0 0 0.3cqw;
+  font-size: 0.92cqw;
+}
+
+.hb-row {
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 0;
-  padding: 14px 20px 16px;
-}
-
-.hp-ai-body .hp-bubble {
-  align-self: flex-end;
-  padding: 9px 16px 9px 11px;
-  font-size: 0.96rem;
-}
-
-.hp-ai-answer {
-  padding: 14px 18px;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 0 0 1px var(--hairline);
-}
-
-.hp-ai-chips {
-  display: flex;
-  flex: none;
-  gap: 8px;
-  margin-top: auto;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.hp-ai-chips span {
-  flex: none;
-  padding: 6px 12px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--fg-2);
-  font-size: 0.82rem;
-}
-
-.hp-ai-chips span::before {
-  content: "↗ ";
-  color: var(--ember);
-}
-
-.hp-ai-input {
-  display: flex;
-  flex: none;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 6px 6px 6px 16px;
-  border-radius: 16px;
-  background: #fff;
-  color: var(--fg-3);
-  font-size: 0.92rem;
-  box-shadow: 0 0 0 1px var(--hairline-strong);
+  gap: 0.7cqw;
 }
 
-.hp-ai-input i {
+.hb-row .hb-nm {
+  color: var(--fg-2);
+}
+
+.hb-sw {
+  flex: none;
+  width: 0.75cqw;
+  height: 0.75cqw;
+  border-radius: 0.2cqw;
+  background: var(--c);
+}
+
+.hb-sw-erp { --c: #0b1220; }
+.hb-sw-crm { --c: #2353d6; }
+.hb-sw-xls { --c: #12a594; }
+.hb-sw-wa { --c: #128c7e; }
+.hb-sw-mail { --c: #e4581c; }
+
+.hb-ok {
+  margin-left: auto;
+  color: var(--good);
+}
+
+.hb-pnl-foot {
+  margin-top: 0.4cqw;
+  padding-top: 0.65cqw;
+  border-top: 1px solid var(--hairline);
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.92cqw;
+}
+
+.hb-pnl-src {
+  left: 79.5%;
+  top: 9%;
+  width: 18.5%;
+}
+
+.hb-pnl-alert {
+  left: 3.5%;
+  top: 57%;
+  width: 21%;
+}
+
+.hb-alert-hd {
+  display: flex;
+  align-items: center;
+  gap: 0.55cqw;
+  color: #b54708;
+  font-weight: 600;
+}
+
+.hb-alert-hd .icon {
+  font-size: 1.3cqw;
+}
+
+.hb-alert-tx {
+  color: var(--fg-2);
+  font-size: 1cqw;
+}
+
+/* ----- La barra de voz, apoyada en la mesa junto al micrófono ----- */
+.hb-voice {
+  position: absolute;
+  left: 50%;
+  top: 86.5%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 1.1cqw;
+  width: 46%;
+  padding: 0.95cqw 1.2cqw;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(252, 253, 255, 0.85);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
+  transform: translateX(-50%);
+}
+
+.hb-mic {
+  flex: none;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: var(--ember);
-  color: #1a0e08;
+  width: 2.8cqw;
+  height: 2.8cqw;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 50%;
+  background: var(--accent-600);
+  color: #fff;
+  box-shadow: 0 0 0 calc(var(--amp, 0) * 0.9cqw) rgba(228, 88, 28, 0.22);
+  transition: box-shadow 0.1s linear;
 }
 
-.hp-ai-input .icon {
-  width: 16px;
-  height: 16px;
+.hb-mic .icon {
+  font-size: 1.5cqw;
 }
 
-/* La tarjeta estática queda solo para los lectores de pantalla */
-.motion .hp-static {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+.hb-q {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  box-shadow: none;
+  color: var(--text);
+  font-size: 1.3cqw;
+  font-weight: 500;
 }
 
-.motion .hp-actions {
-  position: absolute;
-  right: 0;
-  bottom: clamp(28px, 6vh, 56px);
-  left: 0;
-  z-index: 6;
-  /* En celulares el botón ocupa todo el ancho: respeta el margen lateral en vez de cortarse en los bordes */
-  padding-inline: var(--gutter);
+.hb-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.14em;
+  background: var(--accent-600);
 }
 
-.motion .hp-hint {
+.hb-caret[hidden] {
+  display: none;
+}
+
+.hb-wave {
+  flex: none;
+  width: 18%;
+  height: 2.3cqw;
+}
+
+.hb-wave path {
+  fill: none;
+  stroke: var(--accent-600);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+.hb-status {
   position: absolute;
-  right: 0;
-  bottom: 8px;
   left: 0;
-  z-index: 6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
+  right: 0;
+  bottom: calc(100% + 0.8cqw);
   margin: 0;
-  color: var(--fg-3);
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  opacity: var(--hop, 1);
+  color: #5a6475;
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9), 0 0 16px rgba(255, 255, 255, 0.8);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .hp-hint .icon {
-    animation: hp-bounce 1.8s ease-in-out infinite;
-  }
+/* Con animación los paneles entran cuando les toca; sin animación ya están */
+.motion .hb-pnl {
+  opacity: var(--a, 0);
+  transform: translateY(calc((1 - var(--a)) * 10px)) scale(calc(0.97 + 0.03 * var(--a)));
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes hp-bounce {
-  50% { transform: translateY(5px); }
-}
-
-/* Pantallas medias (tablet y portátiles bajos): la pantalla del asistente, más compacta */
-@media (max-width: 1279.98px), (max-height: 839.98px) {
-  .hp-ai-body {
-    gap: 10px;
-    padding: 12px 16px 14px;
+@media (max-width: 900px) {
+  /* En celulares la foto se acerca al televisor y a la persona; los paneles quedarían
+     fuera del recorte, así que solo se deja la barra de voz */
+  .hb-crop {
+    aspect-ratio: 520 / 470;
   }
 
-  .hp-ai-body .hp-bubble {
-    padding: 7px 14px 7px 9px;
-    font-size: 0.9rem;
+  .hb-scene {
+    transform: scale(1.969) translate(-11.72%, -3.58%);
   }
 
-  .hp-ai-answer {
-    padding: 12px 16px;
+  .hb-pnl {
+    display: none;
   }
 
-  .hp-ai-answer .hp-big {
-    font-size: 2.2rem;
+  .hb-voice {
+    left: 37%;
+    top: 57%;
+    width: 48%;
+    gap: 1.6cqw;
+    padding: 1.6cqw 2cqw;
   }
 
-  .hp-ai-answer .hp-up {
-    margin: 6px 0 8px;
-    font-size: 0.78rem;
+  .hb-q {
+    font-size: 2cqw;
   }
 
-  .hp-ai-answer p {
-    font-size: 0.9rem;
+  .hb-mic {
+    width: 4.6cqw;
+    height: 4.6cqw;
   }
 
-  .hp-ai-answer .hp-bars {
-    gap: 7px;
+  .hb-mic .icon {
+    font-size: 2.4cqw;
   }
 
-  .hp-ai-answer .hp-bars li {
-    grid-template-columns: 80px 1fr 50px;
-    font-size: 0.8rem;
-  }
-
-  .hp-ai-answer .hp-sources {
-    margin-top: 10px;
-    font-size: 0.74rem;
-  }
-
-  .hp-ai-chips,
-  .hp-ai-input {
+  /* La onda y el estado no entran: la pregunta ya se lee en la barra */
+  .hb-wave,
+  .hb-status {
     display: none;
   }
 }
 
-@media (max-width: 1023.98px) {
-  .motion .hp-track {
-    height: 260vh;
-  }
-
-  .motion .hp-copy {
-    align-items: flex-start;
-    padding-top: calc(var(--header-h) + 18px);
-  }
-
-  .motion .hp-copy h1 {
-    max-width: none;
-  }
-
-  .motion .hp-copy .hp-lead {
-    display: none;
-  }
-
-  /* En pantallas chicas las ventanas se escalonan para que se vean las tres etiquetas */
-  .hp-desk .hp-w1 {
-    width: 66%;
-  }
-
-  .hp-desk .hp-w2 {
-    top: 30%;
-    width: 58%;
-  }
-
-  .hp-desk .hp-w3 {
-    top: 56%;
-    bottom: auto;
-    left: 3%;
-    width: 52%;
-  }
-
-  .motion .hp-shade {
-    background:
-      linear-gradient(180deg, color-mix(in srgb, var(--bg) 96%, transparent) 0%, color-mix(in srgb, var(--bg) 78%, transparent) 46%, transparent 68%),
-      linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent) 0%, transparent 24%);
-  }
-
-  .motion .hp-secondary {
-    display: none;
-  }
-
-  .hp-mon {
-    --rim: 8px;
-    --chin: 18px;
-    border-radius: 10px;
-  }
-
-  .hp-desk .hp-win {
-    font-size: 10px;
-  }
-
-  .hp-note {
-    width: 54px;
-    padding: 6px 6px 7px;
-    font-size: 9.5px;
-  }
-
-  .hp-note::before {
-    width: 18px;
-    height: 6px;
-  }
-
-  .hp-desk .hp-label {
-    top: -12px;
-    padding: 4px 9px 4px 7px;
-    font-size: 11px;
-  }
-
-  .hp-desk .hp-label .icon {
-    width: 12px;
-    height: 12px;
-  }
-
-  .hp-ai-body {
-    gap: 10px;
-    padding: 12px 14px 14px;
-  }
-
-  .hp-ai-body .hp-bubble {
-    align-self: stretch;
-    align-items: flex-start;
-    padding: 8px 12px 8px 8px;
-    border-radius: 18px;
-    font-size: 0.9rem;
-  }
-
-  .hp-ai-answer {
-    padding: 12px 14px;
-  }
-}
-
-@media (max-width: 639.98px) {
-  .hp-copy h1 {
-    font-size: 2.05rem;
-  }
-
-  .hp-bubble {
-    align-items: flex-start;
-    max-width: 100%;
-    padding: 10px 16px 10px 12px;
-    border-radius: 22px;
-    font-size: 0.98rem;
-    text-align: left;
-  }
-
-  .hp-bubble .hp-avatar {
-    width: 26px;
-    height: 26px;
-    margin-top: 1px;
-    font-size: 0.66rem;
-  }
-
-  /* Con animación, los pasos que no están activos muestran solo el número */
-  .motion .hp-step:not(.is-on) {
-    padding: 4px;
-  }
-
-  .motion .hp-step:not(.is-on) > span:last-child {
-    display: none;
-  }
-
-  .hp-answer {
-    padding: 18px 20px;
-  }
-
-  .hp-answer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hp-big {
-    font-size: 2.3rem;
-  }
-
-  .hp-up {
-    margin: 8px 0 10px;
-    font-size: 0.78rem;
-  }
-
-  .hp-answer p,
-  .hp-ai-answer p {
-    font-size: 0.92rem;
-  }
-
-  .motion .hp-bars {
-    display: none;
-  }
-
-  .hp-sources {
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 12px;
-    font-size: 0.74rem;
-  }
-
-  .hp-ai-answer .hp-big {
-    font-size: 2rem;
-  }
-
-  .hp-ai-top span,
-  .motion .hp-ai-chips,
-  .motion .hp-ai-input {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .hb-pnl,
+  .hb-mic {
+    transition: none;
   }
 }
 
@@ -3019,29 +2422,7 @@ html:not(.motion) .phone-view:first-child {
   }
 }
 
-/* ---------- Video del asistente (inicio y página de IA) ---------- */
-.hp-video {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #faf9f5;
-  opacity: 0;
-  transition: opacity 0.6s;
-}
-
-.hp-video.is-playing {
-  opacity: 1;
-}
-
-@media (max-width: 1023.98px) {
-  .hp-video {
-    display: none;
-  }
-}
-
+/* ---------- Video del asistente (página de IA) ---------- */
 .demo-video {
   position: relative;
   z-index: 1;

@@ -64,6 +64,162 @@
     update();
   });
 
+  /* ---------- Portada del inicio: el tablero encajado en el televisor ([data-hb]) ----------
+     La foto es fija. El tablero se escribe en un rectángulo de 1280 × 720 y acá se calcula la
+     matriz de perspectiva que lo lleva a las cuatro esquinas de la pantalla (data-quad, en
+     píxeles de la foto). Con animación se reproduce el recorrido al entrar en pantalla; sin
+     animación solo se encaja el tablero y la escena queda en su estado final. */
+  document.querySelectorAll('[data-hb]').forEach(function (scene) {
+    var quad, statuses;
+    try {
+      quad = JSON.parse(scene.getAttribute('data-quad'));
+      statuses = JSON.parse(scene.getAttribute('data-statuses'));
+    } catch (e) { return; }
+    var PHOTO_W = 1024, PHOTO_H = 559, DESIGN_W = 1280, DESIGN_H = 720;
+    var screen = scene.querySelector('.hb-screen');
+    if (!screen || !quad || quad.length !== 4) return;
+
+    // Gauss con pivoteo parcial: resuelve los 8 coeficientes de la homografía
+    function solve(A, b) {
+      var n = b.length, M = A.map(function (row, i) { return row.concat([b[i]]); });
+      for (var c = 0; c < n; c++) {
+        var piv = c;
+        for (var r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
+        var t = M[c]; M[c] = M[piv]; M[piv] = t;
+        var d = M[c][c];
+        for (var j = c; j <= n; j++) M[c][j] /= d;
+        for (var k = 0; k < n; k++) {
+          if (k === c || !M[k][c]) continue;
+          var f = M[k][c];
+          for (var j2 = c; j2 <= n; j2++) M[k][j2] -= f * M[c][j2];
+        }
+      }
+      return M.map(function (row) { return row[n]; });
+    }
+
+    function fit() {
+      var w = scene.clientWidth;
+      if (!w) return;
+      var k = w / PHOTO_W;                       // la foto se dibuja a este tamaño
+      var src = [[0, 0], [DESIGN_W, 0], [DESIGN_W, DESIGN_H], [0, DESIGN_H]];
+      var A = [], b = [];
+      for (var i = 0; i < 4; i++) {
+        var x = src[i][0], y = src[i][1], u = quad[i][0] * k, v = quad[i][1] * k;
+        A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
+        A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
+      }
+      var h = solve(A, b);
+      screen.style.transform = 'matrix3d(' + [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1].join(',') + ')';
+    }
+
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(scene);
+    else window.addEventListener('resize', fit);
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    if (!motion) return;
+
+    var question = scene.getAttribute('data-question') || '';
+    var qEl = scene.querySelector('[data-hb-q]');
+    var caret = scene.querySelector('.hb-caret');
+    var statusEl = scene.querySelector('.hb-status');
+    var micEl = scene.querySelector('.hb-mic');
+    var scan = scene.querySelector('.hb-scan');
+    var wave = scene.querySelector('.hb-wave path');
+    var bars = slice(scene.querySelectorAll('.hb-tr i'));
+    var goal = scene.querySelector('.hb-goal');
+    var goalK = scene.querySelector('.hb-goal-k');
+    var panels = [
+      { el: scene.querySelector('.hb-pnl-src'), from: 0.30, to: 0.42 },
+      { el: scene.querySelector('.hb-pnl-alert'), from: 0.72, to: 0.84 }
+    ];
+    var kpis = slice(scene.querySelectorAll('[data-kpi]')).map(function (n) {
+      return { n: n, to: n.getAttribute('data-kpi'), pre: n.getAttribute('data-pre') || '', post: n.getAttribute('data-post') || '' };
+    });
+    var counts = slice(scene.querySelectorAll('[data-count]')).map(function (n) {
+      return { n: n, to: parseFloat(n.getAttribute('data-count')) };
+    });
+    var widths = bars.map(function (i) { return parseFloat(getComputedStyle(i).width) / Math.max(1, i.parentElement.clientWidth) * 100; });
+
+    function scramble(text, s) {
+      return text.replace(/\d/g, function () { return String((Math.floor(s * 977) + Math.floor(Math.random() * 10)) % 10); });
+    }
+    var NB = 22;
+    function seedAmp(i) { return 0.35 + 0.65 * Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1); }
+    function drawWave(amp, t) {
+      var d = '';
+      for (var i = 0; i < NB; i++) {
+        var x = 2.5 + i * (115 / (NB - 1));
+        var hh = 1.6 + amp * (0.55 + 0.45 * Math.sin(t * 7 + i * 0.9)) * seedAmp(i) * 12;
+        d += 'M' + x.toFixed(1) + ' ' + (15 - hh).toFixed(1) + ' V' + (15 + hh).toFixed(1) + ' ';
+      }
+      if (wave) wave.setAttribute('d', d);
+    }
+
+    function render(p, t) {
+      var amp = smooth(0.04, 0.09, p) * (1 - smooth(0.24, 0.3, p));
+      if (micEl) micEl.style.setProperty('--amp', amp.toFixed(3));
+      drawWave(amp, t);
+      var qn = Math.round(smooth(0.06, 0.26, p) * question.length);
+      if (qEl) qEl.textContent = question.slice(0, qn);
+      if (caret) caret.hidden = !(qn > 0 && qn < question.length);
+      if (statusEl) {
+        var st = statuses[0][1];
+        statuses.forEach(function (s) { if (p >= s[0]) st = s[1]; });
+        if (statusEl.getAttribute('data-v') !== st) { statusEl.setAttribute('data-v', st); statusEl.textContent = st; }
+      }
+      if (scan) {
+        var sc = smooth(0.26, 0.5, p);
+        scan.style.setProperty('--scan', sc.toFixed(3));
+        scan.style.setProperty('--scan-a', sc > 0.01 && sc < 0.99 ? '1' : '0');
+      }
+      kpis.forEach(function (c) {
+        var f = smooth(0.46, 0.66, p);
+        if (f <= 0) { c.n.textContent = c.pre + c.to.replace(/\d/g, '0') + c.post; return; }
+        if (f < 0.45) { c.n.textContent = c.pre + scramble(c.to, f) + c.post; return; }
+        var g = clamp((f - 0.45) / 0.55, 0, 1);
+        var sep = c.to.indexOf(',') >= 0 ? ',' : '.';
+        var dec = (c.to.split(sep)[1] || '').length;
+        c.n.textContent = c.pre + (parseFloat(c.to.replace(',', '.')) * g).toFixed(dec).replace('.', sep) + c.post;
+      });
+      counts.forEach(function (c) {
+        c.n.textContent = Math.round(c.to * smooth(0.5, 0.86, p)).toLocaleString('es-AR');
+      });
+      bars.forEach(function (bar, i) {
+        var f = smooth(0.5 + i * 0.035, 0.72 + i * 0.035, p);
+        bar.style.setProperty('--w', (widths[i] * f).toFixed(2) + '%');
+      });
+      var gA = smooth(0.6, 0.72, p).toFixed(2);
+      if (goal) goal.style.opacity = gA;
+      if (goalK) goalK.style.opacity = gA;
+      panels.forEach(function (o) { if (o.el) o.el.style.setProperty('--a', smooth(o.from, o.to, p).toFixed(3)); });
+    }
+
+    var p = 0, time = 0, last = 0, running = false;
+    function frame(ts) {
+      var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0;
+      last = ts;
+      time += dt;
+      p = Math.min(1, p + dt / 9);
+      render(p, time);
+      if (p < 1) window.requestAnimationFrame(frame);
+    }
+    render(0, 0);
+    var start = function () {
+      if (running) return;
+      running = true;
+      last = 0;
+      window.requestAnimationFrame(frame);
+    };
+    if ('IntersectionObserver' in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) { seen.disconnect(); start(); }
+      }, { threshold: 0.25 });
+      seen.observe(scene);
+    } else {
+      start();
+    }
+  });
+
   /* ---------- Núcleo de datos: constelación de registros ----------
      Cada punto es un registro, con el color del sistema donde vive hoy. Flotan en cinco nubes
      y, a medida que se avanza, viajan hasta una esfera ordenada que se enciende desde el centro.
