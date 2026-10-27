@@ -189,6 +189,11 @@
 
     var camA = hacerCamara(scene, F);
     var camB = sceneB ? hacerCamara(sceneB, K) : null;
+    // El giro a la segunda foto solo entra donde su televisor cabe entero: es ancho y
+    // casi de frente, y en un recorte de celular no hay forma. El umbral sale de la
+    // propia medición: el ancho del televisor, con un margen, tiene que entrar en el
+    // alto de la foto. Si se cambia la foto, el umbral se acomoda solo.
+    var AR_GIRO = camB ? (K.tv[1][0] - K.tv[0][0]) * 1.1 / K.h : 0;
     var turnA = track.querySelector('.hb-turn-a');
     var turnB = track.querySelector('.hb-turn-b');
     function quieta() { return camA.llego() && (!camB || camB.llego()); }
@@ -252,14 +257,19 @@
     function render(p, t, dt) {
       camA.mover(p, dt);
       // La segunda foto entra girando sobre la pantalla: las dos capas giran a la vez,
-      // una saliendo y otra entrando, y el televisor queda donde estaba.
-      if (camB) {
+      // una saliendo y otra entrando, y el televisor queda donde estaba. En recortes
+      // altos no hay giro: ese televisor es ancho y no entra entero, así que la cámara
+      // se queda en la primera foto y termina encima de su televisor, que es alto.
+      var cruce = 0;
+      if (camB && ar >= AR_GIRO) {
         camB.mover(p, dt);
-        var cruce = smooth(K.desde, K.hasta, p);
-        set(sceneB, '--b', cruce.toFixed(3));
+        cruce = smooth(K.desde, K.hasta, p);
         set(turnA, '--giro', (cruce * -5).toFixed(2) + 'deg');
         set(turnB, '--giro', ((1 - cruce) * 6).toFixed(2) + 'deg');
+      } else if (camB) {
+        set(turnA, '--giro', '0deg');
       }
+      set(sceneB, '--b', cruce.toFixed(3));
 
       // Donde el texto va encima de la escena (celulares) se desvanece con el scroll y
       // el pie entra atrás; donde va al lado (escritorio, media pantalla) se queda.
@@ -275,12 +285,19 @@
       // Acto 1: el pedido que acaba de entrar, una vez que el título se fue
       set(ask, '--a', (smooth(0.12, 0.19, p) * (1 - smooth(0.21, 0.27, p))).toFixed(3));
 
-      // El tablero se enciende cuando la cámara ya encara el televisor (antes se ve el
-      // que trae la foto, así no quedan números en cero a la vista) y se apaga mientras
-      // dura el giro: los dos televisores se ven de ángulos distintos y superpuestos
-      // quedarían como una doble imagen. Vuelve del otro lado, ya de frente.
-      set(tvs[0], '--a', (smooth(0.68, 0.76, p) * (1 - smooth(0.82, 0.87, p))).toFixed(3));
-      if (tvs[1]) set(tvs[1], '--a', smooth(0.90, 0.96, p).toFixed(3));
+      // El tablero se enciende cuando la cámara ya encara el televisor: antes se ve el
+      // que trae la foto, así no quedan números en cero a la vista. La pantalla (--a, la
+      // luz blanca) y el contenido (--c) van por separado, y durante el giro los dos
+      // televisores quedan en blanco: la pantalla prendida tapa el tablero azul oscuro
+      // de la foto, y sin contenido los dos no se superponen como una doble imagen.
+      var hayGiro = !!camB && ar >= AR_GIRO;
+      var prende = smooth(0.68, 0.76, p);
+      set(tvs[0], '--a', prende.toFixed(3));
+      set(tvs[0], '--c', (prende * (hayGiro ? 1 - smooth(0.815, 0.85, p) : 1)).toFixed(3));
+      if (tvs[1]) {
+        set(tvs[1], '--a', (hayGiro ? smooth(0.78, 0.84, p) : 0).toFixed(3));
+        set(tvs[1], '--c', (hayGiro ? smooth(0.915, 0.96, p) : 0).toFixed(3));
+      }
 
       // Acto 2: los dos sistemas abiertos mientras se arma la respuesta
       var sale = 1 - smooth(0.50, 0.56, p);
@@ -316,11 +333,14 @@
         text(statusEl, st);
       }
       // El marco del televisor señala y se apaga; la luz de la pantalla se queda
-      set(ringTv[0], '--a', (smooth(0.70, 0.76, p) * (1 - smooth(0.80, 0.85, p))).toFixed(3));
-      set(ringTv[0], '--g', (smooth(0.70, 0.78, p) * (1 - smooth(0.82, 0.87, p))).toFixed(3));
+      // Un solo marco a la vez: el de la primera foto se va con el giro y el de la
+      // segunda entra cuando la pantalla ya volvió a encenderse, del otro lado.
+      var saleMarco = 1 - smooth(hayGiro ? 0.84 : 0.93, hayGiro ? 0.875 : 1, p);
+      set(ringTv[0], '--a', (smooth(0.70, 0.76, p) * saleMarco).toFixed(3));
+      set(ringTv[0], '--g', (smooth(0.70, 0.78, p) * saleMarco).toFixed(3));
       if (ringTv[1]) {
-        set(ringTv[1], '--a', (smooth(0.91, 0.96, p) * (1 - smooth(0.985, 1, p))).toFixed(3));
-        set(ringTv[1], '--g', smooth(0.91, 0.97, p).toFixed(3));
+        set(ringTv[1], '--a', (hayGiro ? smooth(0.90, 0.95, p) * (1 - smooth(0.985, 1, p)) : 0).toFixed(3));
+        set(ringTv[1], '--g', (hayGiro ? smooth(0.90, 0.96, p) : 0).toFixed(3));
       }
       if (scan) {
         var sc = smooth(0.80, 0.90, p);

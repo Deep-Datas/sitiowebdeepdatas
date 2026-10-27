@@ -1,30 +1,36 @@
 {#
-  Portada del inicio: una sola foto de la oficina y una cámara que la recorre con el
-  scroll, de derecha a izquierda, en cuatro actos. Acto 1: el equipo de datos trabajando.
-  Acto 2: sus dos monitores, con la consulta y la planilla que se arma a mano. Acto 3:
-  todo se unifica mientras la cámara cruza la mampara. Acto 4: los mismos números, ya
-  ordenados y en vivo, en el televisor de quien decide, que pregunta en voz alta.
+  Portada del inicio: la oficina de quien decide y una cámara que se le va acercando con
+  el scroll, de derecha a izquierda, en cuatro actos. Acto 1: el pedido que acaba de
+  entrar. Acto 2: WhatsApp y el CRM, los sistemas donde hoy vive esa información.
+  Acto 3: todo se une en un solo modelo. Acto 4: la cámara gira hacia el televisor y se
+  le queda encima, con los números ya ordenados, mientras se pregunta en voz alta.
 
-  La foto (oficina-2048.webp, medida sobre 1024 × 683) no se mueve: se mueve el recorte.
-  design.js calcula la cámara (centro y ancho visible, en píxeles de la foto) y encaja
-  cada pantalla con una matriz de perspectiva sobre las esquinas medidas acá abajo.
+  Las fotos no se mueven: se mueve el recorte. design.js calcula la cámara (centro y
+  ancho visible, en píxeles de la foto) y encaja cada pantalla con una matriz de
+  perspectiva sobre las esquinas medidas acá abajo.
   Sin JavaScript se ve el último acto, quieto, y el tablero no se encaja: la foto queda
   en su encuadre final y la barra de voz y los paneles muestran la respuesta.
   Datos ficticios.
 
-  Esquinas y encuadres medidos sobre la foto; si se cambia la foto hay que volver a
-  medirlos. Los textos de los dos idiomas están en «copy». Se importa con contexto:
+  Esquinas y encuadres medidos sobre cada foto; si se cambian hay que volver a medirlos.
+  Los textos de los dos idiomas están en «copy». Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Dos fotos encadenadas. FOTO es la oficina entera; CERCA, el primer plano del
-   televisor, adonde la cámara llega al final girando sobre la pantalla.
+{# Dos fotos encadenadas. FOTO es la oficina (se usa solo la mitad del televisor, de la
+   mampara para allá); CERCA, el primer plano del mismo televisor visto de espaldas,
+   adonde la cámara llega al final girando sobre la pantalla.
 
    De cada una: el tamaño, las esquinas de cada pantalla (arriba izq., arriba der.,
    abajo der., abajo izq.) y los encuadres de la cámara [p, izq., arriba, der., abajo],
    que dicen qué tiene que entrar sí o sí en el cuadro. Todo en píxeles de esa foto;
    design.js lo adapta a la forma del recorte y usa «cam_alto» cuando el recorte es más
-   alto que ancho (celulares y la media pantalla de escritorio). #}
+   alto que ancho (celulares).
+
+   El giro a la segunda foto solo pasa en recortes apaisados: el televisor de cerca es
+   ancho y casi de frente, y en un recorte de celular no hay forma de que entre entero.
+   Ahí la cámara se queda en la primera foto, cuyo televisor es alto, y termina encima de
+   él; por eso «cam_alto» llega hasta el final y «cam» se detiene antes del giro. #}
 {% set FOTO = {
   'w': 1264, 'h': 843,
   'tv': [[28, 203], [184, 252], [183, 423], [29, 447]],
@@ -36,13 +42,21 @@
           [0.70, 0, 180, 470, 640],
           [0.86, 0, 170, 330, 540],
           [1.00, 0, 180, 250, 480]],
+  'cam_alto': [[0.00, 230, 250, 560, 790],
+               [0.16, 230, 250, 560, 790],
+               [0.32, 250, 300, 560, 760],
+               [0.46, 250, 300, 560, 760],
+               [0.60, 30, 200, 400, 740],
+               [0.70, 30, 200, 400, 740],
+               [0.86, 10, 195, 230, 490],
+               [1.00, 10, 190, 210, 470]],
 } %}
 {% set CERCA = {
   'w': 1024, 'h': 559,
   'tv': [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]],
   'cam': [[0.86, 110, 10, 600, 350],
           [1.00, 140, 22, 545, 325]],
-  'desde': 0.83, 'hasta': 0.91,
+  'desde': 0.85, 'hasta': 0.91,
 } %}
 
 {% set copy = {
