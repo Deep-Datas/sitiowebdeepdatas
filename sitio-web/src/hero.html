@@ -36,8 +36,8 @@
           [1.00, 0, 158, 440, 392]],
   'cam_alto': [[0.00, 655, 325, 915, 495],
                [0.16, 655, 325, 915, 495],
-               [0.32, 660, 320, 995, 400],
-               [0.46, 660, 320, 995, 400],
+               [0.32, 650, 315, 1015, 405],
+               [0.46, 650, 315, 1015, 405],
                [0.60, 380, 235, 720, 470],
                [0.70, 380, 235, 720, 470],
                [0.88, 0, 160, 340, 392],
@@ -209,6 +209,12 @@
                 <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
               </div>
             </div>
+
+            {# Los marcos que señalan la pantalla de la que habla cada acto. Van sobre el
+               mismo cuadrilátero que la pantalla, así que entran en su perspectiva. #}
+            <span class="hb-ring hb-r-mon1" aria-hidden="true"></span>
+            <span class="hb-ring hb-r-mon2" aria-hidden="true"></span>
+            <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
           </div>
 
           {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}

@@ -83,10 +83,14 @@
     var pin = track.querySelector('.hb-pin');
     if (!crop || !scene || !pin) return;
 
+    // Las pantallas y, sobre el mismo cuadrilátero, el marco que las señala
     var screens = [
       { el: track.querySelector('.hb-s-mon1'), w: 640, h: 420, quad: F.mon1 },
       { el: track.querySelector('.hb-s-mon2'), w: 640, h: 440, quad: F.mon2 },
-      { el: track.querySelector('.hb-s-tv'), w: 1280, h: 1650, quad: F.tv }
+      { el: track.querySelector('.hb-s-tv'), w: 1280, h: 1650, quad: F.tv },
+      { el: track.querySelector('.hb-r-mon1'), w: 640, h: 420, quad: F.mon1 },
+      { el: track.querySelector('.hb-r-mon2'), w: 640, h: 440, quad: F.mon2 },
+      { el: track.querySelector('.hb-r-tv'), w: 1280, h: 1650, quad: F.tv }
     ];
 
     // Gauss con pivoteo parcial: resuelve los 8 coeficientes de la homografía
@@ -187,6 +191,8 @@
     var joinBar = track.querySelector('.hb-join-bar i');
     var alertEl = track.querySelector('.hb-alert');
     var tags = slice(track.querySelectorAll('.hb-tag'));
+    var ringMon = slice(track.querySelectorAll('.hb-r-mon1, .hb-r-mon2'));
+    var ringTv = track.querySelector('.hb-r-tv');
     var oks = slice(track.querySelectorAll('.hb-join-rows .hb-ok'));
     var flies = slice(track.querySelectorAll('.hb-fly'));
     var steps = slice(track.querySelectorAll('.hb-step'));
@@ -229,9 +235,12 @@
       // Acto 1: el pedido que entra al equipo de datos, desde el primer cuadro
       set(ask, '--a', (1 - smooth(0.19, 0.25, p)).toFixed(3));
 
-      // Acto 2: una etiqueta por monitor
+      // Acto 2: una etiqueta y un marco por monitor
       tags.forEach(function (tag, i) {
         set(tag, '--a', (smooth(0.27 + i * 0.04, 0.34 + i * 0.04, p) * (1 - smooth(0.49, 0.55, p))).toFixed(3));
+      });
+      ringMon.forEach(function (ring, i) {
+        set(ring, '--a', (smooth(0.25 + i * 0.04, 0.31 + i * 0.04, p) * (1 - smooth(0.50, 0.56, p))).toFixed(3));
       });
 
       // Acto 3: los sistemas cruzan la mampara y se unen en un solo modelo
@@ -262,6 +271,9 @@
         statuses.forEach(function (s) { if (p >= s[0]) st = s[1]; });
         text(statusEl, st);
       }
+      // El marco del televisor señala y se apaga; la luz de la pantalla se queda
+      set(ringTv, '--a', (smooth(0.79, 0.86, p) * (1 - smooth(0.93, 0.99, p))).toFixed(3));
+      set(ringTv, '--g', smooth(0.80, 0.90, p).toFixed(3));
       if (scan) {
         var sc = smooth(0.80, 0.90, p);
         set(scan, '--scan', sc.toFixed(3));

@@ -1661,14 +1661,14 @@ html.motion .hb-scene {
   inset: 0;
   z-index: 4;
   pointer-events: none;
-  background: radial-gradient(118% 88% at 50% 44%, rgba(255, 255, 255, 0.04), rgba(8, 14, 28, 0.08) 58%, rgba(8, 14, 28, 0.26) 100%);
+  background: radial-gradient(118% 88% at 50% 44%, rgba(255, 255, 255, 0.06), rgba(8, 14, 28, 0.05) 60%, rgba(8, 14, 28, 0.2) 100%);
 }
 
 .hb-grain {
   position: absolute;
   inset: 0;
   z-index: 5;
-  opacity: 0.42;
+  opacity: 0.3;
   pointer-events: none;
   background: url("../img/hero/grano.png") repeat;
   background-size: 128px 128px;
@@ -1815,7 +1815,7 @@ html.motion .hb-scene {
   z-index: 5;
   opacity: var(--scan-a, 0);
   pointer-events: none;
-  background: linear-gradient(170deg, transparent 42%, rgba(35, 83, 214, 0.12) 48%, rgba(255, 255, 255, 0.85) 50%, rgba(35, 83, 214, 0.12) 52%, transparent 58%);
+  background: linear-gradient(170deg, transparent 38%, rgba(35, 83, 214, 0.18) 46%, rgba(255, 255, 255, 0.95) 50%, rgba(35, 83, 214, 0.18) 54%, transparent 62%);
   transform: translateY(calc(-100% + var(--scan, 0) * 200%));
 }
 
@@ -1992,6 +1992,54 @@ html.motion .hb-scene {
   margin-left: auto;
 }
 
+/* Marcos que señalan la pantalla de la que habla cada acto. Comparten el rectángulo de
+   diseño de su pantalla, así que design.js los encaja con la misma matriz; el borde y el
+   resplandor van en píxeles de ese rectángulo, que la perspectiva achica un montón. */
+.hb-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  display: none;
+  box-sizing: border-box;
+  border: 14px solid var(--accent-600);
+  border-radius: 18px;
+  opacity: var(--a, 0);
+  pointer-events: none;
+  transform-origin: 0 0;
+  box-shadow: 0 0 90px 10px rgba(228, 88, 28, 0.45), inset 0 0 70px rgba(228, 88, 28, 0.2);
+}
+
+.hb-ready .hb-ring {
+  display: block;
+}
+
+.hb-r-mon1 {
+  width: 640px;
+  height: 420px;
+}
+
+.hb-r-mon2 {
+  width: 640px;
+  height: 440px;
+  border-width: 10px;
+}
+
+/* El televisor va aparte: el marco naranja señala y se apaga, pero la luz que tira la
+   pantalla sobre la pared se queda, porque el televisor sigue encendido. */
+.hb-r-tv {
+  width: 1280px;
+  height: 1650px;
+  border-width: 12px;
+  border-radius: 14px;
+  opacity: 1;
+  border-color: rgba(228, 88, 28, calc(var(--a, 0) * 0.9));
+  box-shadow:
+    0 0 240px 50px rgba(255, 255, 255, calc(var(--g, 0) * 0.5)),
+    0 0 140px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.3)),
+    inset 0 0 90px rgba(255, 255, 255, calc(var(--a, 0) * 0.25));
+}
+
 /* ----- Lo que no vive dentro de la foto: carteles, chips y la barra de voz.
    Cada uno aparece en su acto; las posiciones están atadas a ese encuadre. ----- */
 .hb-hud {
@@ -2006,12 +2054,12 @@ html.motion .hb-scene {
   display: grid;
   gap: 0.5cqw;
   padding: 1.1cqw 1.3cqw;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 1.2cqw;
-  background: rgba(252, 253, 255, 0.86);
-  backdrop-filter: blur(10px) saturate(130%);
-  -webkit-backdrop-filter: blur(10px) saturate(130%);
-  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.55);
+  background: rgba(253, 253, 255, 0.94);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 2cqw 4cqw -1.8cqw rgba(8, 14, 28, 0.7), 0 0 0 1px rgba(8, 14, 28, 0.05);
   color: var(--text);
   font-size: 1.15cqw;
 }
@@ -2186,15 +2234,17 @@ html.motion .hb-scene {
   position: absolute;
   left: 0;
   top: 0;
-  padding: 0.5cqw 0.9cqw;
+  padding: 0.6cqw 1.1cqw;
   border-radius: 999px;
   background: var(--text);
   color: var(--bg);
   font-family: var(--font-mono);
-  font-size: 0.9cqw;
+  font-size: 1.05cqw;
+  font-weight: 500;
   letter-spacing: 0.04em;
   white-space: nowrap;
   opacity: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 1cqw 2.4cqw -1cqw rgba(8, 14, 28, 0.8), 0 0 2.4cqw rgba(228, 88, 28, 0.45);
 }
 
 /* Acto 4: la alerta que llega sola y la barra de voz, junto al micrófono */
@@ -2234,8 +2284,8 @@ html.motion .hb-scene {
   padding: 0.95cqw 1.2cqw;
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 999px;
-  background: rgba(252, 253, 255, 0.86);
-  backdrop-filter: blur(12px) saturate(130%);
+  background: rgba(253, 253, 255, 0.93);
+  backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(130%);
   box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
   opacity: var(--voice, 1);
@@ -2327,8 +2377,8 @@ html.motion .hb-scene {
   padding: 1.1cqw 1.6cqw;
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 1.3cqw;
-  background: rgba(252, 253, 255, 0.86);
-  backdrop-filter: blur(12px) saturate(130%);
+  background: rgba(253, 253, 255, 0.93);
+  backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(130%);
   box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
   transform: translateX(-50%);
@@ -2350,12 +2400,13 @@ html.motion .hb-scene {
   background-image: linear-gradient(var(--accent-600), var(--accent-600)), linear-gradient(var(--hairline), var(--hairline));
   background-position: 0 0;
   background-repeat: no-repeat;
-  background-size: var(--f, 100%) 2px, 100% 2px;
+  background-size: var(--f, 100%) 3px, 100% 3px;
 }
 
 .hb-step[data-on] {
   color: var(--text);
   font-weight: 600;
+  text-shadow: 0 0 1.4cqw rgba(228, 88, 28, 0.35);
 }
 
 .hb-caption {
@@ -2368,14 +2419,19 @@ html.motion .hb-scene {
   opacity: var(--cap, 1);
 }
 
-/* Con animación cada cartel entra cuando le toca */
+/* Con animación cada cartel entra cuando le toca, desde más abajo y más chico */
 .motion .hb-card {
-  transform: translateY(calc((1 - var(--a)) * 10px)) scale(calc(0.97 + 0.03 * var(--a)));
-  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(calc((1 - var(--a)) * 22px)) scale(calc(0.94 + 0.06 * var(--a)));
+  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .motion .hb-join {
-  transform: translateX(-50%) translateY(calc((1 - var(--a)) * 10px));
+  transform: translateX(-50%) translateY(calc((1 - var(--a)) * 22px));
+}
+
+.motion .hb-tag {
+  transform: translateY(calc((1 - var(--a)) * 12px));
+  transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Sin animación no hay riel que recorrer: queda el último acto, quieto. El alto de la
