@@ -26,22 +26,22 @@
   'tv': [[20, 166], [150, 203], [151, 344], [20, 361]],
   'mon1': [[669, 357.5], [721, 354], [721, 389], [669, 392.5]],
   'mon2': [[911, 329.5], [985.5, 328.5], [985.5, 380.5], [911, 381]],
-  'cam': [[0.00, 600, 288, 1024, 500],
-          [0.16, 600, 288, 1024, 500],
-          [0.32, 655, 318, 995, 400],
-          [0.46, 655, 318, 995, 400],
-          [0.60, 330, 230, 780, 482],
-          [0.70, 330, 230, 780, 482],
-          [0.88, 0, 160, 400, 392],
-          [1.00, 0, 165, 360, 380]],
+  'cam': [[0.00, 520, 270, 1024, 540],
+          [0.16, 520, 270, 1024, 540],
+          [0.32, 620, 300, 1024, 430],
+          [0.46, 620, 300, 1024, 430],
+          [0.60, 300, 200, 820, 500],
+          [0.70, 300, 200, 820, 500],
+          [0.88, 0, 150, 500, 400],
+          [1.00, 0, 158, 440, 392]],
   'cam_alto': [[0.00, 655, 325, 915, 495],
                [0.16, 655, 325, 915, 495],
                [0.32, 660, 320, 995, 400],
                [0.46, 660, 320, 995, 400],
                [0.60, 380, 235, 720, 470],
                [0.70, 380, 235, 720, 470],
-               [0.88, 0, 160, 390, 392],
-               [1.00, 0, 168, 268, 382]],
+               [0.88, 0, 160, 340, 392],
+               [1.00, 0, 185, 235, 365]],
 } %}
 
 {% set copy = {
@@ -148,8 +148,8 @@
           {# La foto y lo que va encajado sobre ella: se mueven juntos con la cámara #}
           <div class="hb-scene">
             <img class="hb-photo" src="/assets/img/hero/portada-oficina-2048.webp"
-                 srcset="/assets/img/hero/portada-oficina-1024.webp 1024w, /assets/img/hero/portada-oficina-2048.webp 2048w"
-                 sizes="(min-width: 901px) 200vw, 360vw"
+                 srcset="/assets/img/hero/portada-oficina-1024.webp 1024w, /assets/img/hero/portada-oficina-2048.webp 2048w, /assets/img/hero/portada-oficina-3072.webp 3072w"
+                 sizes="(min-width: 901px) 250vw, 300vw"
                  width="2048" height="1366" alt="" fetchpriority="high">
 
             {# El monitor del equipo: la consulta que exporta los datos a mano #}
@@ -212,6 +212,10 @@
           </div>
 
           {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}
+          {# Viñeta y grano: le dan cuerpo a la foto, que viene de un original chico #}
+          <span class="hb-grade" aria-hidden="true"></span>
+          <span class="hb-grain" aria-hidden="true"></span>
+
           <div class="hb-hud" aria-hidden="true">
             <div class="hb-card hb-ask">
               <span class="hb-ask-hd">{{ C.ask_title }}</span>
@@ -249,14 +253,15 @@
               <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
               <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
             </div>
-          </div>
-        </div>
 
-        <div class="hb-rail" aria-hidden="true">
-          <span class="hb-steps">
-            {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
-          </span>
-          <p class="hb-caption">{{ C.captions[-1][1] }}</p>
+            {# En qué acto va el scroll y qué está contando, apoyado sobre la foto #}
+            <div class="hb-rail">
+              <span class="hb-steps">
+                {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
+              </span>
+              <p class="hb-caption">{{ C.captions[-1][1] }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

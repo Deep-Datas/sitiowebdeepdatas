@@ -145,15 +145,32 @@
       return [cx - w / 2, cy - h / 2, w];
     }
 
-    function camera(p) {
+    // La cámara no salta al valor del scroll: lo persigue con un retardo chico. Ese
+    // retardo es lo que hace que el movimiento se sienta de cámara y no de barra de
+    // scroll, y de paso se come los saltos de la rueda del mouse. quieta avisa cuándo
+    // ya llegó, para no seguir dibujando de gusto.
+    var cam = null, quieta = true;
+    function camera(p, dt) {
       // En recortes altos (celulares) hay que acercarse más: lleva sus propios encuadres
       var k = ar < 1.1 && F.cam_alto ? F.cam_alto : F.cam, i = 0;
       while (i < k.length - 2 && p > k[i + 1][0]) i++;
       var a = k[i], b = k[i + 1], t = smooth(a[0], b[0], p);
-      var f = frame([lerp(a[1], b[1], t), lerp(a[2], b[2], t), lerp(a[3], b[3], t), lerp(a[4], b[4], t)]);
-      var s = F.w / f[2];
-      scene.style.transform = 'translate(' + (-s * f[0] / F.w * 100).toFixed(3) + '%,' +
-        (-s * f[1] / F.h * 100).toFixed(3) + '%) scale(' + s.toFixed(4) + ')';
+      var meta = frame([lerp(a[1], b[1], t), lerp(a[2], b[2], t), lerp(a[3], b[3], t), lerp(a[4], b[4], t)]);
+      if (!cam || !dt) {
+        cam = meta;
+        quieta = true;
+      } else {
+        var f = 1 - Math.exp(-dt * 7);
+        quieta = true;
+        for (var j = 0; j < 3; j++) {
+          var d = meta[j] - cam[j];
+          if (Math.abs(d) > 0.05) quieta = false;
+          cam[j] += d * f;
+        }
+      }
+      var s = F.w / cam[2];
+      scene.style.transform = 'translate(' + (-s * cam[0] / F.w * 100).toFixed(3) + '%,' +
+        (-s * cam[1] / F.h * 100).toFixed(3) + '%) scale(' + s.toFixed(4) + ')';
     }
 
     var question = track.getAttribute('data-question') || '';
@@ -206,8 +223,8 @@
       if (wave) wave.setAttribute('d', d);
     }
 
-    function render(p, t) {
-      camera(p);
+    function render(p, t, dt) {
+      camera(p, dt);
 
       // Acto 1: el pedido que entra al equipo de datos, desde el primer cuadro
       set(ask, '--a', (1 - smooth(0.19, 0.25, p)).toFixed(3));
@@ -281,15 +298,15 @@
     }
 
     var p0 = motion ? 0 : 1;
-    function draw(ts) {
+    function draw(ts, dt) {
       if (!cropW) return;
-      render(p0, ts / 1000);
+      render(p0, ts / 1000, dt);
     }
 
     measure();
-    draw(0);
+    draw(0, 0);
 
-    var resized = function () { if (measure()) draw(0); };
+    var resized = function () { if (measure()) { cam = null; draw(0, 0); } };
     if ('ResizeObserver' in window) new ResizeObserver(resized).observe(crop);
     else window.addEventListener('resize', resized);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(resized);
@@ -303,18 +320,21 @@
       return clamp((header - track.getBoundingClientRect().top) / travel, 0, 1);
     }
 
-    var running = false, lastP = -1;
+    var running = false, lastP = -1, lastTs = 0;
     function frameLoop(ts) {
       if (!running) return;
+      var dt = lastTs ? Math.min(0.05, (ts - lastTs) / 1000) : 0;
+      lastTs = ts;
       p0 = progress();
-      // Mientras el scroll no se mueve solo hace falta redibujar la onda de la voz
-      if (p0 !== lastP || (p0 > 0.76 && p0 < 0.95)) { lastP = p0; draw(ts); }
+      // Quieto el scroll y llegada la cámara, solo hace falta la onda de la voz
+      if (p0 !== lastP || !quieta || (p0 > 0.76 && p0 < 0.95)) { lastP = p0; draw(ts, dt); }
       window.requestAnimationFrame(frameLoop);
     }
     var play = function (on) {
       if (on === running) return;
       running = on;
-      if (on) window.requestAnimationFrame(frameLoop);
+      // Al volver a entrar en pantalla la cámara arranca donde está el scroll, sin viaje
+      if (on) { lastTs = 0; cam = null; window.requestAnimationFrame(frameLoop); }
     };
     if ('IntersectionObserver' in window) {
       var seen = new IntersectionObserver(function (entries) {

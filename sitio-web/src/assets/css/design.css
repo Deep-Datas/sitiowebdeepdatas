@@ -1608,33 +1608,27 @@ html:not(.motion) .phone-view:first-child {
 /* ----- El riel del scroll: mientras dura, la escena queda fija y la cámara avanza ----- */
 .hb-track {
   position: relative;
-  height: 300vh;
+  height: 320vh;
 }
 
+/* La escena ocupa toda la pantalla, de borde a borde, debajo del encabezado */
 .hb-pin {
   position: sticky;
   top: var(--header-h);
-  display: grid;
-  align-content: center;
-  gap: clamp(12px, 1.4vw, 20px);
   height: calc(100vh - var(--header-h));
   height: calc(100svh - var(--header-h));
-  padding-bottom: clamp(10px, 1.5vw, 20px);
 }
 
-/* El ancho sale del alto disponible: la escena entera tiene que entrar en la pantalla */
-.hb-stage {
-  width: min(100% - 2 * var(--gutter), 1060px, (100svh - 190px) * 16 / 9);
-  margin-inline: auto;
+.hb-stage,
+.hb-crop {
+  width: 100%;
+  height: 100%;
 }
 
 .hb-crop {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--r-lg);
   background: #e9edf1;
-  box-shadow: 0 30px 70px -40px rgba(8, 14, 28, 0.55);
   container-type: inline-size;
 }
 
@@ -1646,18 +1640,39 @@ html:not(.motion) .phone-view:first-child {
   top: 0;
   width: 100%;
   transform-origin: 0 0;
-  transform: translate(0, -64.76%) scale(2.681);
+  transform: translate(0, -50.08%) scale(2.327);
 }
 
 /* Con animación arranca en el primer acto: el equipo, del otro lado de la oficina */
 html.motion .hb-scene {
-  transform: translate(-141.5%, -97.14%) scale(2.415);
+  transform: translate(-103.2%, -76.92%) scale(2.032);
 }
 
 .hb-photo {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* La foto original es chica y la cámara se acerca: una viñeta le da profundidad y un
+   grano finito le devuelve el detalle que el agrandado no tiene. */
+.hb-grade {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(118% 88% at 50% 44%, rgba(255, 255, 255, 0.04), rgba(8, 14, 28, 0.08) 58%, rgba(8, 14, 28, 0.26) 100%);
+}
+
+.hb-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0.42;
+  pointer-events: none;
+  background: url("../img/hero/grano.png") repeat;
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
 }
 
 /* ----- Las pantallas de la foto, encajadas en perspectiva por design.js ----- */
@@ -2085,13 +2100,13 @@ html.motion .hb-scene {
 }
 
 .hb-tag-mon1 {
-  left: 2%;
-  top: 76%;
+  left: 11%;
+  top: 66%;
 }
 
 .hb-tag-mon2 {
-  right: 2%;
-  top: 70%;
+  right: 8%;
+  top: 62%;
 }
 
 /* Acto 3: todo se unifica mientras la cámara cruza la mampara */
@@ -2207,11 +2222,11 @@ html.motion .hb-scene {
   font-size: 1.05cqw;
 }
 
-/* Corrida a la derecha del televisor: tapaba el pie del tablero */
+/* Corrida a la derecha del televisor (tapaba el tablero) y arriba del riel */
 .hb-voice {
   position: absolute;
   left: 63%;
-  top: 86%;
+  top: 73%;
   display: flex;
   align-items: center;
   gap: 1.1cqw;
@@ -2301,25 +2316,35 @@ html.motion .hb-scene {
   transform: translateX(-50%);
 }
 
-/* ----- Debajo de la foto: en qué acto va el scroll y qué está contando ----- */
+/* ----- Apoyado sobre la foto: en qué acto va el scroll y qué está contando ----- */
 .hb-rail {
+  position: absolute;
+  left: 50%;
+  bottom: 3.5%;
   display: grid;
-  gap: clamp(8px, 1vw, 14px);
-  width: min(100%, 72ch);
-  margin-inline: auto;
+  gap: 0.8cqw;
+  width: min(84%, 62ch);
+  padding: 1.1cqw 1.6cqw;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 1.3cqw;
+  background: rgba(252, 253, 255, 0.86);
+  backdrop-filter: blur(12px) saturate(130%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
+  transform: translateX(-50%);
 }
 
 .hb-steps {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(6px, 1vw, 16px);
+  gap: 1cqw;
 }
 
 /* La línea de arriba es el avance: se pinta encima del carril, de cero a var(--f) */
 .hb-step {
-  padding-top: 7px;
+  padding-top: 0.55cqw;
   color: var(--fg-3);
-  font-size: 0.78rem;
+  font-size: 0.86cqw;
   letter-spacing: 0.02em;
   text-align: center;
   background-image: linear-gradient(var(--accent-600), var(--accent-600)), linear-gradient(var(--hairline), var(--hairline));
@@ -2335,8 +2360,8 @@ html.motion .hb-scene {
 
 .hb-caption {
   margin: 0;
-  color: var(--fg-2);
-  font-size: clamp(0.9rem, 0.8rem + 0.42vw, 1.05rem);
+  color: var(--text);
+  font-size: 1.15cqw;
   font-weight: 500;
   text-align: center;
   text-wrap: balance;
@@ -2353,14 +2378,14 @@ html.motion .hb-scene {
   transform: translateX(-50%) translateY(calc((1 - var(--a)) * 10px));
 }
 
-/* Sin animación no hay riel que recorrer: queda el último acto, quieto */
+/* Sin animación no hay riel que recorrer: queda el último acto, quieto. El alto de la
+   escena se mantiene (el recorte vive de él), pero deja de estar fija. */
 html:not(.motion) .hb-track {
   height: auto;
 }
 
 html:not(.motion) .hb-pin {
   position: static;
-  height: auto;
 }
 
 html:not(.motion) .hb-steps {
@@ -2372,21 +2397,14 @@ html:not(.motion) .hb-steps {
     height: 260vh;
   }
 
-  .hb-stage {
-    width: min(100% - 2 * var(--gutter), 100svh - 210px);
-  }
-
-  .hb-crop {
-    aspect-ratio: 1 / 1;
-  }
-
-  /* El recorte es cuadrado: hay que acercarse más (los encuadres de «cam_alto») */
+  /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
+     se mueve en una franja vertical (los encuadres de «cam_alto») */
   .hb-scene {
-    transform: translate(0, -78.88%) scale(3.821);
+    transform: translate(0, -23.92%) scale(4.357);
   }
 
   html.motion .hb-scene {
-    transform: translate(-251.9%, -161.5%) scale(3.938);
+    transform: translate(-251.9%, -86.49%) scale(3.938);
   }
 
   /* Los carteles grandes no entran en un recorte angosto: queda lo imprescindible */
@@ -2444,7 +2462,7 @@ html:not(.motion) .hb-steps {
 
   .hb-voice {
     left: 50%;
-    top: 86%;
+    top: 72%;
     width: 86%;
     gap: 1.6cqw;
     padding: 1.6cqw 2cqw;
@@ -2463,8 +2481,24 @@ html:not(.motion) .hb-steps {
     font-size: 2.8cqw;
   }
 
+  .hb-rail {
+    width: 92%;
+    gap: 1.6cqw;
+    padding: 2.2cqw 2.6cqw;
+    border-radius: 3cqw;
+  }
+
+  .hb-steps {
+    gap: 1.6cqw;
+  }
+
   .hb-step {
-    font-size: 0.68rem;
+    padding-top: 1.1cqw;
+    font-size: 1.9cqw;
+  }
+
+  .hb-caption {
+    font-size: 2.7cqw;
   }
 }
 
