@@ -2705,6 +2705,12 @@ html:not(.motion) .hb-steps {
   .hb-alert {
     display: none;
   }
+
+  /* Acá el riel es más bajo y la barra de voz vuelve a su lugar, sin taparle filas
+     al tablero. En la media pantalla de escritorio tiene que ir más arriba. */
+  .hb-voice {
+    top: 76%;
+  }
 }
 
 @media (max-width: 900px) {
