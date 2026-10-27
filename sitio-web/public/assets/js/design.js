@@ -127,12 +127,13 @@
       s.el.style.transform = 'matrix3d(' + [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1].join(',') + ')';
     }
 
-    var cropW = 0, cropH = 0, ar = F.w / F.h;
+    var cropW = 0, cropH = 0, ar = F.w / F.h, fade = 0;
     function measure() {
       cropW = crop.clientWidth;
       cropH = crop.clientHeight;
       if (!cropW || !cropH) return false;
       ar = cropW / cropH;
+      fade = copy ? parseFloat(getComputedStyle(copy).getPropertyValue('--fade')) || 0 : 0;
       var sceneH = cropW * F.h / F.w;
       screens.forEach(function (s) { if (s.el) matrixFor(s, cropW, sceneH); });
       crop.classList.add('hb-ready');
@@ -237,14 +238,15 @@
     function render(p, t, dt) {
       camera(p, dt);
 
-      // El título se va primero y le deja la pantalla a la escena; el riel entra atrás.
-      // Sin animación no se va nada: el texto y el pie quedan como están en el CSS.
+      // Donde el texto va encima de la escena (celulares) se desvanece con el scroll y
+      // el pie entra atrás; donde va al lado (escritorio, media pantalla) se queda.
+      // Quién manda es el CSS, con --fade; acá solo se le pasa cuánto se fue.
       if (motion) {
-        var titulo = 1 - smooth(0.02, 0.11, p);
-        set(copy, '--copy', titulo.toFixed(3));
-        set(veil, '--copy', titulo.toFixed(3));
-        if (copy) copy.hidden = titulo < 0.01;
-        set(rail, '--cap', smooth(0.06, 0.14, p).toFixed(3));
+        var fuera = fade ? smooth(0.02, 0.11, p) : 0;
+        set(copy, '--out', fuera.toFixed(3));
+        set(veil, '--out', fuera.toFixed(3));
+        if (copy) copy.hidden = fuera > 0.99;
+        set(rail, '--cap', fade ? smooth(0.06, 0.14, p).toFixed(3) : '1');
       }
 
       // Acto 1: el pedido que entra al equipo de datos, una vez que el título se fue
@@ -341,10 +343,16 @@
 
     // El avance es la parte del riel ya recorrida: la escena queda fija y la cámara viaja
     var header = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
+    // Cuánto avanzó la escena dentro del riel, de 0 a 1. Ojo: el riel empieza pegado al
+    // borde de la página, así que con la página arriba de todo la escena pegajosa ya
+    // está corrida la altura del encabezado. Eso es el cero, no el borde del riel.
     function progress() {
-      var travel = track.offsetHeight - pin.offsetHeight;
-      if (travel <= 0) return 1;
-      return clamp((header - track.getBoundingClientRect().top) / travel, 0, 1);
+      var max = track.offsetHeight - pin.offsetHeight;
+      if (max <= 0) return 1;
+      var top = track.getBoundingClientRect().top;
+      var cero = clamp(header - (top + window.pageYOffset), 0, max);
+      var ahora = clamp(header - top, 0, max);
+      return max - cero <= 0 ? 1 : clamp((ahora - cero) / (max - cero), 0, 1);
     }
 
     var running = false, lastP = -1, lastTs = 0;

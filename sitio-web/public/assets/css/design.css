@@ -1568,8 +1568,8 @@ html:not(.motion) .phone-view:first-child {
   padding-top: clamp(10px, 2vh, 28px);
   padding-bottom: clamp(28px, 6vh, 96px);
   pointer-events: none;
-  opacity: var(--copy, 1);
-  transform: translateY(calc((1 - var(--copy, 1)) * -34px));
+  opacity: calc(1 - var(--fade, 0) * var(--out, 0));
+  transform: translateY(calc(var(--fade, 0) * var(--out, 0) * -34px));
 }
 
 .hb-copy[hidden] {
@@ -1578,7 +1578,7 @@ html:not(.motion) .phone-view:first-child {
 
 .hb-head,
 .hb-side {
-  max-width: min(100%, 36rem);
+  max-width: min(100%, 40rem);
 }
 
 /* Solo los botones reciben clics: el resto deja pasar el cursor a la escena */
@@ -1592,7 +1592,7 @@ html:not(.motion) .phone-view:first-child {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  opacity: var(--copy, 1);
+  opacity: calc(var(--fade, 0) * (1 - var(--out, 0)));
   background: linear-gradient(100deg,
     color-mix(in srgb, var(--bg) 97%, transparent) 0%,
     color-mix(in srgb, var(--bg) 93%, transparent) 32%,
@@ -1647,8 +1647,33 @@ html:not(.motion) .phone-view:first-child {
   height: 100%;
 }
 
+/* De 901 px para arriba la portada se parte al medio: el texto a la izquierda, sobre el
+   fondo de la página, y la escena a la derecha, del alto de la pantalla. */
+@media (min-width: 901px) {
+  .hb-stage {
+    display: grid;
+    /* Un pelo más de la mitad para el texto: «Una pregunta.» tiene que entrar entero */
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  .hb-copy {
+    order: -1;
+    position: static;
+    /* Alineado con el logo del encabezado, no con el borde de la media pantalla */
+    padding-left: max(var(--gutter), (100vw - 1180px) / 2);
+    padding-right: clamp(16px, 2vw, 40px);
+  }
+
+  .hb-veil {
+    display: none;
+  }
+}
+
 .hb-crop {
   position: relative;
+  /* Encierra el apilado de adentro: si no, el z-index del HUD se escapa y se dibuja
+     por encima del velo que hace legible el texto en celulares. */
+  isolation: isolate;
   overflow: hidden;
   background: #e9edf1;
   container-type: inline-size;
@@ -2583,37 +2608,10 @@ html:not(.motion) .hb-steps {
   display: none;
 }
 
-@media (max-width: 900px) {
-  .hb-track {
-    height: 260vh;
-  }
-
-  .hb-copy {
-    align-content: start;
-    padding-top: clamp(22px, 5vh, 48px);
-    padding-bottom: 0;
-  }
-
-  .hb-veil {
-    background: linear-gradient(to bottom,
-      color-mix(in srgb, var(--bg) 97%, transparent) 0%,
-      color-mix(in srgb, var(--bg) 94%, transparent) 52%,
-      color-mix(in srgb, var(--bg) 55%, transparent) 76%,
-      transparent 100%);
-  }
-
-
-  /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
-     se mueve en una franja vertical (los encuadres de «cam_alto») */
-  .hb-scene {
-    transform: translate(0, -23.92%) scale(4.357);
-  }
-
-  html.motion .hb-scene {
-    transform: translate(-251.9%, -86.49%) scale(3.938);
-  }
-
-  /* Los carteles grandes no entran en un recorte angosto: queda lo imprescindible */
+/* Lo que sigue depende del ancho del recorte, no del de la ventana: en escritorio la
+   escena ocupa media pantalla y en celulares toda, pero en los dos casos el recorte es
+   angosto y lo de encima tiene que crecer en proporción. */
+@container (max-width: 900px) {
   .hb-ask,
   .hb-join {
     width: 62%;
@@ -2628,11 +2626,10 @@ html:not(.motion) .hb-steps {
     top: 6%;
   }
 
-  .hb-tag,
-  .hb-alert,
-  .hb-wave,
-  .hb-status {
-    display: none;
+  .hb-alert {
+    right: 4%;
+    top: 5%;
+    width: 48%;
   }
 
   .hb-card {
@@ -2645,12 +2642,18 @@ html:not(.motion) .hb-steps {
   }
 
   .hb-ask-tx,
-  .hb-join-hd {
+  .hb-join-hd,
+  .hb-alert-hd {
     font-size: 2.7cqw;
   }
 
-  .hb-ask-eta {
+  .hb-ask-eta,
+  .hb-alert-tx {
     font-size: 2.2cqw;
+  }
+
+  .hb-alert-hd .icon {
+    font-size: 2.9cqw;
   }
 
   .hb-sw {
@@ -2668,7 +2671,7 @@ html:not(.motion) .hb-steps {
 
   .hb-voice {
     left: 50%;
-    top: 72%;
+    top: 76%;
     width: 86%;
     gap: 1.6cqw;
     padding: 1.6cqw 2cqw;
@@ -2690,7 +2693,7 @@ html:not(.motion) .hb-steps {
   .hb-rail {
     width: 92%;
     gap: 1.6cqw;
-    padding: 2.2cqw 2.6cqw;
+    padding: 2.2cqw 3.2cqw;
     border-radius: 3cqw;
   }
 
@@ -2704,7 +2707,57 @@ html:not(.motion) .hb-steps {
   }
 
   .hb-caption {
-    font-size: 2.7cqw;
+    font-size: 2.4cqw;
+  }
+
+  .hb-tag,
+  .hb-wave,
+  .hb-status {
+    display: none;
+  }
+}
+
+/* En un recorte de celular ya no entra nada más que lo imprescindible */
+@container (max-width: 520px) {
+  .hb-alert {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .hb-track {
+    height: 260vh;
+  }
+
+  /* El texto vuelve a ir encima de la escena y se desvanece con el scroll. --fade va en
+     la etapa, no en el texto: el velo es su hermano y tiene que heredarlo igual. */
+  .hb-stage {
+    --fade: 1;
+  }
+
+  .hb-copy {
+    align-content: start;
+    padding-top: clamp(22px, 5vh, 48px);
+    padding-bottom: 0;
+  }
+
+  /* Acá el texto va arriba, no a la izquierda: el velo baja y llega hasta los botones */
+  .hb-veil {
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--bg) 97%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 96%, transparent) 58%,
+      color-mix(in srgb, var(--bg) 72%, transparent) 74%,
+      transparent 100%);
+  }
+
+  /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
+     se mueve en una franja vertical (los encuadres de «cam_alto») */
+  .hb-scene {
+    transform: translate(0, -41.9%) scale(4.357);
+  }
+
+  html.motion .hb-scene {
+    transform: translate(-251.9%, -86.49%) scale(3.938);
   }
 }
 
