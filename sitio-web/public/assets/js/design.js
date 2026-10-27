@@ -1,17 +1,22 @@
 /* Rediseño 2026: interacciones nuevas (se carga después de site.js).
    - El encabezado pasa a claro sobre los paneles profundos ([data-deep]).
-   - Núcleo de datos: secuencia de cuadros que se recorre con el scroll ([data-core]).
+   - Núcleo de datos: constelación de registros que se ordena con el scroll ([data-core]).
+   - Pregunta y respuesta: el recorrido de una pregunta por los sistemas ([data-flow]).
    - Etapa fija que cambia con cada paso ([data-pin], [data-pin-step], [data-pin-view]).
    - Carrusel horizontal ([data-rail]) y brillo que sigue al cursor (.glow-card).
-   Sin animaciones (html sin .motion) solo quedan el encabezado y el carrusel. */
+   Sin animaciones (html sin .motion) quedan el encabezado, el carrusel y el estado final
+   del núcleo y del recorrido, dibujados una sola vez. */
 (function () {
   var root = document.documentElement;
   var motion = root.classList.contains('motion');
+  var slice = function (list) { return Array.prototype.slice.call(list); };
 
   function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function smooth(a, b, t) { t = clamp((t - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); }
 
   /* ---------- Encabezado sobre paneles profundos ---------- */
-  var deepZones = Array.prototype.slice.call(document.querySelectorAll('[data-deep]'));
+  var deepZones = slice(document.querySelectorAll('[data-deep]'));
   if (deepZones.length && 'IntersectionObserver' in window) {
     var header = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
     var over = [];
@@ -59,6 +64,396 @@
     update();
   });
 
+  /* ---------- Núcleo de datos: constelación de registros ----------
+     Cada punto es un registro, con el color del sistema donde vive hoy. Flotan en cinco nubes
+     y, a medida que se avanza, viajan hasta una esfera ordenada que se enciende desde el centro.
+     Mientras están dispersos, el cursor los aparta; una vez ordenados, la esfera lo sigue.
+     Sin animación se dibuja una sola vez el estado final. */
+  var TAU = Math.PI * 2;
+
+  function hexA(hex, a) {
+    var n = parseInt(hex.slice(1), 16);
+    return 'rgba(' + ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) + ', ' + a + ')';
+  }
+
+  function sprite(hex) {
+    // Un punto suave pre-dibujado: dibujar imágenes es más rápido que dibujar círculos
+    var c = document.createElement('canvas');
+    c.width = c.height = 32;
+    var g = c.getContext('2d');
+    var grd = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+    grd.addColorStop(0, hexA(hex, 1));
+    grd.addColorStop(0.45, hexA(hex, 1));
+    grd.addColorStop(0.75, hexA(hex, 0.35));
+    grd.addColorStop(1, hexA(hex, 0));
+    g.fillStyle = grd;
+    g.fillRect(0, 0, 32, 32);
+    return c;
+  }
+
+  function fibonacciSphere(n) {
+    var pts = [], ga = Math.PI * (3 - Math.sqrt(5));
+    for (var i = 0; i < n; i++) {
+      var y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), th = ga * i;
+      pts.push([Math.cos(th) * r, y, Math.sin(th) * r]);
+    }
+    return pts;
+  }
+
+  function rotate(v, a, b) {
+    var ca = Math.cos(a), sa = Math.sin(a), cb = Math.cos(b), sb = Math.sin(b);
+    var x1 = v[0] * ca + v[2] * sa, z1 = -v[0] * sa + v[2] * ca;
+    return [x1, v[1] * cb - z1 * sb, v[1] * sb + z1 * cb];
+  }
+
+  document.querySelectorAll('[data-core]').forEach(function (canvas) {
+    var stage = canvas.closest('.core-stage');
+    var sticky = canvas.parentElement;
+    var captions = slice(stage.querySelectorAll('[data-at]'));
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    var labels = (canvas.getAttribute('data-labels') || 'ERP|CRM|Planillas|WhatsApp|Correo').split('|');
+    var colors = ['#0b1220', '#2353d6', '#0f8f7a', '#128c7e', '#e4581c'];
+    var sprites = colors.map(sprite);
+    var small = window.innerWidth < 720;
+    var centers = small
+      ? [[0.22, 0.17], [0.78, 0.15], [0.5, 0.34], [0.2, 0.56], [0.8, 0.54]]
+      : [[0.17, 0.26], [0.82, 0.22], [0.5, 0.17], [0.2, 0.66], [0.82, 0.64]];
+    var count = small ? 380 : 760;
+    var sphere = fibonacciSphere(count);
+    var pts = [];
+    for (var i = 0; i < count; i++) {
+      var ang = Math.random() * TAU, rad = Math.sqrt(Math.random()) * 0.15 * (0.5 + Math.random());
+      // Desplazamientos en fracciones del lado menor: la escena se adapta al tamaño sin regenerarse
+      pts.push({ c: i % 5, ox: Math.cos(ang) * rad, oy: Math.sin(ang) * rad * 0.8, v: sphere[i], ph: Math.random() * TAU, sp: 0.5 + Math.random() * 0.9, size: 1.3 + Math.random() * 1.5, d: Math.random() });
+    }
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    var W = 0, H = 0, M = 0, R = 0, cx = 0, cy = 0;
+    var ptr = { x: 0, y: 0, active: false };
+    var ry = 0, rx = -0.25, time = 0, progress = 0;
+
+    function size() {
+      W = sticky.clientWidth;
+      H = sticky.clientHeight;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      M = Math.min(W, H);
+      R = M * 0.3;
+      cx = W / 2;
+      cy = H * (small ? 0.34 : 0.37);
+      if (!motion) {
+        // Sin animación todo el texto queda debajo: la esfera ocupa el espacio libre de arriba
+        var copy = sticky.querySelector('.core-copy');
+        var top = copy ? copy.offsetTop + (parseFloat(getComputedStyle(copy).paddingTop) || 0) : H * 0.6;
+        cy = Math.max(top * 0.5, M * 0.2);
+        R = Math.min(Math.max(top * 0.4, M * 0.14), M * 0.3);
+      }
+    }
+
+    function draw(p, t) {
+      ctx.clearRect(0, 0, W, H);
+      var glow = smooth(0.6, 1, p);
+      if (glow > 0) {
+        var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2);
+        g.addColorStop(0, 'rgba(255, 122, 69, ' + 0.22 * glow + ')');
+        g.addColorStop(0.45, 'rgba(91, 140, 255, ' + 0.1 * glow + ')');
+        g.addColorStop(1, 'rgba(91, 140, 255, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, W, H);
+      }
+      var travel = smooth(0.3, 0.78, p);
+      var jit = (1 - smooth(0.15, 0.7, p)) * 9 + 1.2;
+      var px = ptr.active ? ptr.x / W - 0.5 : 0, py = ptr.active ? ptr.y / H - 0.5 : 0;
+      ry = lerp(ry, t * 0.14 + px * 0.9, 0.08);
+      rx = lerp(rx, -0.25 + py * 0.5, 0.08);
+      var la = 1 - smooth(0.22, 0.48, p);
+      if (la > 0) {
+        ctx.font = '600 12px Geist, Inter, sans-serif';
+        ctx.textAlign = 'center';
+        for (var k = 0; k < 5; k++) {
+          ctx.fillStyle = hexA(colors[k], la);
+          ctx.fillText(labels[k].toUpperCase(), centers[k][0] * W, centers[k][1] * H - M * 0.15 - 4);
+        }
+      }
+      var items = [], rr = M * 0.14;
+      for (var i = 0; i < pts.length; i++) {
+        var q = pts[i];
+        var v = rotate(q.v, ry, rx);
+        var pr = 1 / (1 - v[2] * 0.32);
+        var tx = cx + v[0] * R * pr, ty = cy + v[1] * R * pr;
+        var sx = centers[q.c][0] * W + q.ox * M + Math.sin(t * q.sp + q.ph) * jit;
+        var sy = centers[q.c][1] * H + q.oy * M + Math.cos(t * q.sp * 0.8 + q.ph) * jit;
+        if (ptr.active && travel < 1) {
+          var dx = sx - ptr.x, dy = sy - ptr.y, dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < rr && dist > 0.01) {
+            var f = (1 - dist / rr) * (1 - travel) * 38;
+            sx += dx / dist * f;
+            sy += dy / dist * f;
+          }
+        }
+        var e = clamp((travel - q.d * 0.3) / 0.7, 0, 1), es = e * e * (3 - 2 * e);
+        var depth = (v[2] + 1) / 2;
+        items.push({ x: lerp(sx, tx, es), y: lerp(sy, ty, es), s: q.size * lerp(1, 0.55 + 0.95 * depth, es), a: lerp(0.85, 0.28 + 0.72 * depth, es), c: q.c, z: v[2] * es });
+      }
+      items.sort(function (a, b) { return a.z - b.z; });
+      for (var j = 0; j < items.length; j++) {
+        var it = items[j], s = it.s * 2.2;
+        ctx.globalAlpha = it.a;
+        ctx.drawImage(sprites[it.c], it.x - s, it.y - s, s * 2, s * 2);
+      }
+      ctx.globalAlpha = 1;
+      var fin = smooth(0.78, 1, p);
+      if (fin > 0) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(35, 83, 214, ' + 0.35 * fin + ')';
+        ctx.beginPath(); ctx.ellipse(0, 0, R * 1.6, R * 0.52, -0.5 + t * 0.05, 0, TAU); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(0, 0, R * 1.38, R * 0.44, 0.9 - t * 0.04, 0, TAU); ctx.stroke();
+        ctx.restore();
+        var core = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.5);
+        core.addColorStop(0, 'rgba(255, 255, 255, ' + 0.95 * fin + ')');
+        core.addColorStop(0.5, 'rgba(255, 184, 148, ' + 0.4 * fin + ')');
+        core.addColorStop(1, 'rgba(255, 184, 148, 0)');
+        ctx.fillStyle = core;
+        ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
+      }
+    }
+
+    if (!motion) {
+      // Estado final, quieto: la esfera ordenada bajo el texto
+      size();
+      draw(1, 2);
+      window.addEventListener('resize', function () { size(); draw(1, 2); });
+      return;
+    }
+
+    function paint() {
+      var rect = stage.getBoundingClientRect();
+      var total = stage.offsetHeight - sticky.offsetHeight;
+      progress = total > 0 ? clamp(-rect.top / total, 0, 1) : 1;
+      var best = null, bestDist = 1;
+      captions.forEach(function (el) {
+        var dist = Math.abs(progress - parseFloat(el.getAttribute('data-at')));
+        if (dist < bestDist) { bestDist = dist; best = el; }
+      });
+      captions.forEach(function (el) { el.classList.toggle('is-on', el === best && bestDist < 0.2 && progress < 0.8); });
+      stage.classList.toggle('is-final', progress >= 0.8);
+    }
+
+    var visible = false, running = false, last = 0;
+    function frame(ts) {
+      if (!visible) { running = false; return; }
+      var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0;
+      last = ts;
+      time += dt;
+      paint();
+      draw(clamp(progress / 0.85, 0, 1), time);
+      window.requestAnimationFrame(frame);
+    }
+    function start() {
+      if (running) return;
+      running = true;
+      last = 0;
+      window.requestAnimationFrame(frame);
+    }
+
+    sticky.addEventListener('pointermove', function (e) {
+      var r = sticky.getBoundingClientRect();
+      ptr.x = e.clientX - r.left;
+      ptr.y = e.clientY - r.top;
+      ptr.active = true;
+    }, { passive: true });
+    sticky.addEventListener('pointerleave', function () { ptr.active = false; });
+    sticky.addEventListener('pointercancel', function () { ptr.active = false; });
+    window.addEventListener('resize', function () { size(); paint(); draw(clamp(progress / 0.85, 0, 1), time); });
+
+    size();
+    paint();
+    draw(clamp(progress / 0.85, 0, 1), time);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries.some(function (e) { return e.isIntersecting; });
+        if (visible) start();
+      }, { rootMargin: '20% 0px 20% 0px' }).observe(stage);
+    } else {
+      visible = true;
+      start();
+    }
+  });
+
+  /* ---------- Pregunta y respuesta: el recorrido por los sistemas ----------
+     Las líneas se dibujan en un SVG sobre la grilla; la posición de cada nodo se mide del DOM.
+     Con animación, el recorrido se reproduce al entrar en pantalla y con cada pregunta elegida.
+     Sin animación se muestra el estado final. */
+  document.querySelectorAll('[data-flow]').forEach(function (flow) {
+    var qa;
+    try { qa = JSON.parse(flow.getAttribute('data-qa')); } catch (e) { return; }
+    if (!qa || !qa.length) return;
+    var SVG = 'http://www.w3.org/2000/svg';
+    var grid = flow.querySelector('.fl-grid');
+    var svg = flow.querySelector('.fl-edges');
+    var sources = slice(flow.querySelectorAll('[data-flow-src]'));
+    var curate = flow.querySelector('[data-flow-curate]');
+    var checks = slice(curate.querySelectorAll('li'));
+    var agent = flow.querySelector('[data-flow-agent]');
+    var qEl = flow.querySelector('[data-flow-q]');
+    var aEl = flow.querySelector('[data-flow-a]');
+    var caret = flow.querySelector('[data-flow-caret]');
+    var srcLine = flow.querySelector('[data-flow-srcline]');
+    var chips = slice(flow.querySelectorAll('[data-flow-chip]'));
+    var colors = { erp: '#0b1220', crm: '#2353d6', xls: '#0f8f7a', wa: '#128c7e', mail: '#e4581c' };
+
+    function el(name, cls) {
+      var n = document.createElementNS(SVG, name);
+      n.setAttribute('class', cls);
+      return n;
+    }
+    var edges = sources.map(function (li) {
+      var id = li.getAttribute('data-flow-src'), color = colors[id] || '#0b1220';
+      var raw = el('path', 'fl-raw'), lit = el('path', 'fl-lit'), pulse = el('circle', 'fl-pulse');
+      lit.setAttribute('stroke', color);
+      pulse.setAttribute('r', '4');
+      pulse.setAttribute('fill', color);
+      svg.appendChild(raw); svg.appendChild(lit); svg.appendChild(pulse);
+      return { id: id, li: li, raw: raw, lit: lit, pulse: pulse, len: 0 };
+    });
+    var out = { lit: el('path', 'fl-lit'), pulse: el('circle', 'fl-pulse'), len: 0 };
+    out.lit.setAttribute('stroke', '#e4581c');
+    out.pulse.setAttribute('r', '5');
+    out.pulse.setAttribute('fill', '#e4581c');
+    svg.appendChild(out.lit); svg.appendChild(out.pulse);
+
+    var current = 0, p = motion ? 0 : 1, playing = false, last = 0, played = false;
+
+    function layout() {
+      var vertical = grid.clientWidth < 640;
+      var box = grid.getBoundingClientRect();
+      var rel = function (node) { var r = node.getBoundingClientRect(); return { x: r.left - box.left, y: r.top - box.top, w: r.width, h: r.height }; };
+      var path = function (a, b) {
+        return vertical
+          ? 'M ' + a.x + ' ' + a.y + ' C ' + a.x + ' ' + (a.y + (b.y - a.y) * 0.5) + ', ' + b.x + ' ' + (a.y + (b.y - a.y) * 0.5) + ', ' + b.x + ' ' + b.y
+          : 'M ' + a.x + ' ' + a.y + ' C ' + (a.x + (b.x - a.x) * 0.5) + ' ' + a.y + ', ' + (b.x - (b.x - a.x) * 0.5) + ' ' + b.y + ', ' + b.x + ' ' + b.y;
+      };
+      var cu = rel(curate), ag = rel(agent);
+      edges.forEach(function (e) {
+        var s = rel(e.li);
+        var a = vertical ? { x: s.x + s.w / 2, y: s.y + s.h } : { x: s.x + s.w, y: s.y + s.h / 2 };
+        var b = vertical ? { x: cu.x + cu.w / 2, y: cu.y } : { x: cu.x, y: cu.y + cu.h / 2 };
+        var d = path(a, b);
+        e.raw.setAttribute('d', d);
+        e.lit.setAttribute('d', d);
+        e.len = e.lit.getTotalLength();
+        e.lit.setAttribute('stroke-dasharray', String(e.len));
+      });
+      var a = vertical ? { x: cu.x + cu.w / 2, y: cu.y + cu.h } : { x: cu.x + cu.w, y: cu.y + cu.h / 2 };
+      var b = vertical ? { x: ag.x + 24, y: ag.y } : { x: ag.x, y: ag.y + ag.h / 2 };
+      out.lit.setAttribute('d', path(a, b));
+      out.len = out.lit.getTotalLength();
+      out.lit.setAttribute('stroke-dasharray', String(out.len));
+    }
+
+    function render() {
+      var item = qa[current];
+      var qn = Math.round(smooth(0.02, 0.16, p) * item.q.length);
+      qEl.textContent = item.q.slice(0, qn);
+      edges.forEach(function (e, i) {
+        var on = p > 0.08 + i * 0.045;
+        e.li.classList.toggle('is-on', on);
+        e.raw.classList.toggle('is-on', on);
+        var hot = item.hot.indexOf(e.id) >= 0;
+        e.li.classList.toggle('is-hot', hot && p > 0.3);
+        var tt = smooth(0.3 + i * 0.03, 0.6 + i * 0.03, p);
+        var drawn = hot ? tt : tt * 0.6;
+        e.lit.setAttribute('stroke-dashoffset', String(e.len * (1 - drawn)));
+        e.lit.setAttribute('opacity', hot ? '1' : '0.35');
+        var show = tt > 0 && tt < 1;
+        e.pulse.classList.toggle('is-on', show);
+        if (show && e.len) {
+          var pt = e.lit.getPointAtLength(e.len * drawn);
+          e.pulse.setAttribute('cx', pt.x);
+          e.pulse.setAttribute('cy', pt.y);
+        }
+      });
+      var cur = smooth(0.42, 0.7, p);
+      curate.classList.toggle('is-on', cur > 0.15);
+      checks.forEach(function (li, i) { li.classList.toggle('is-done', cur > 0.3 + i * 0.18); });
+      var to = smooth(0.68, 0.8, p);
+      out.lit.setAttribute('stroke-dashoffset', String(out.len * (1 - to)));
+      var showOut = to > 0 && to < 1;
+      out.pulse.classList.toggle('is-on', showOut);
+      if (showOut && out.len) {
+        var pt2 = out.lit.getPointAtLength(out.len * to);
+        out.pulse.setAttribute('cx', pt2.x);
+        out.pulse.setAttribute('cy', pt2.y);
+      }
+      agent.style.setProperty('--glow', smooth(0.76, 0.9, p).toFixed(3));
+      var an = Math.round(smooth(0.82, 0.985, p) * item.a.length);
+      aEl.textContent = item.a.slice(0, an);
+      caret.hidden = !(an > 0 && an < item.a.length);
+      srcLine.textContent = item.src;
+      srcLine.classList.toggle('is-on', p > 0.985);
+    }
+
+    function step(ts) {
+      if (!playing) return;
+      var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0;
+      last = ts;
+      p = Math.min(1, p + dt / 6.5);
+      render();
+      if (p < 1) window.requestAnimationFrame(step); else playing = false;
+    }
+    function play() {
+      if (!motion) { p = 1; render(); return; }
+      p = 0; last = 0; playing = true;
+      window.requestAnimationFrame(step);
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        current = parseInt(chip.getAttribute('data-flow-chip'), 10) || 0;
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+        played = true;
+        play();
+      });
+    });
+    sources.forEach(function (li) {
+      var id = li.getAttribute('data-flow-src');
+      var mark = function (on) {
+        if (on) flow.setAttribute('data-hover', id); else flow.removeAttribute('data-hover');
+        edges.forEach(function (e) { e.raw.classList.toggle('is-hot', on && e.id === id); e.lit.classList.toggle('is-hot', on && e.id === id); });
+      };
+      li.addEventListener('pointerenter', function () { mark(true); });
+      li.addEventListener('pointerleave', function () { mark(false); });
+    });
+
+    var relayout = function () { layout(); render(); };
+    layout();
+    render();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+    if ('ResizeObserver' in window) {
+      // La respuesta crece mientras se escribe y mueve al agente: se vuelven a medir las líneas
+      var ro = new ResizeObserver(relayout);
+      ro.observe(grid);
+      ro.observe(flow.querySelector('.fl-answer'));
+    } else {
+      window.addEventListener('resize', relayout);
+    }
+
+    if (motion && 'IntersectionObserver' in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (played || !entries.some(function (e) { return e.isIntersecting; })) return;
+        played = true;
+        seen.disconnect();
+        play();
+      }, { threshold: 0.45 });
+      seen.observe(flow);
+    } else if (motion) {
+      play();
+    }
+  });
+
   if (!motion) return;
 
   /* ---------- Brillo que sigue al cursor ---------- */
@@ -74,8 +469,8 @@
 
   /* ---------- Etapa fija que cambia con cada paso ---------- */
   document.querySelectorAll('[data-pin]').forEach(function (block) {
-    var steps = Array.prototype.slice.call(block.querySelectorAll('[data-pin-step]'));
-    var views = Array.prototype.slice.call(block.querySelectorAll('[data-pin-view]'));
+    var steps = slice(block.querySelectorAll('[data-pin-step]'));
+    var views = slice(block.querySelectorAll('[data-pin-view]'));
     if (!steps.length) return;
     var setCurrent = function (index) {
       steps.forEach(function (el, i) { el.classList.toggle('is-current', i === index); });
@@ -91,141 +486,21 @@
   });
 
   /* ---------- Videos que se reproducen solos mientras se ven ---------- */
-  if (motion && 'IntersectionObserver' in window) {
-    var videos = Array.prototype.slice.call(document.querySelectorAll('video[data-autoplay]'));
+  if ('IntersectionObserver' in window) {
+    var videos = slice(document.querySelectorAll('video[data-autoplay]'));
     if (videos.length) {
-      var seen = new IntersectionObserver(function (entries) {
+      var seenVideos = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           var v = entry.target;
           if (entry.isIntersecting) {
-            var p = v.play();
-            if (p && p.catch) p.catch(function () {});
+            var pr = v.play();
+            if (pr && pr.catch) pr.catch(function () {});
           } else if (!v.paused) {
             v.pause();
           }
         });
       }, { threshold: 0.35 });
-      videos.forEach(function (v) { seen.observe(v); });
+      videos.forEach(function (v) { seenVideos.observe(v); });
     }
   }
-
-  /* ---------- Núcleo de datos ---------- */
-  document.querySelectorAll('[data-core]').forEach(function (canvas) {
-    var stage = canvas.closest('.core-stage');
-    var sticky = canvas.parentElement;
-    var poster = stage.querySelector('.core-poster');
-    var captions = Array.prototype.slice.call(stage.querySelectorAll('[data-at]'));
-    var base = canvas.getAttribute('data-src');
-    var desktop = window.innerWidth >= 1024;
-    var count = parseInt(canvas.getAttribute(desktop ? 'data-frames-d' : 'data-frames-m'), 10) || 1;
-    var prefix = desktop ? 'd-' : 'm-';
-    var ctx = canvas.getContext('2d');
-    var frames = [];
-    var loaded = 0;
-    var started = false;
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    var W = 0, H = 0;
-    var lastDrawn = -1;
-
-    function size() {
-      W = sticky.clientWidth;
-      H = sticky.clientHeight;
-      canvas.width = Math.round(W * dpr);
-      canvas.height = Math.round(H * dpr);
-      lastDrawn = -1;
-    }
-
-    function cover(img, alpha) {
-      // Dibuja la imagen cubriendo el lienzo (como object-fit: cover)
-      var iw = img.naturalWidth, ih = img.naturalHeight;
-      if (!iw || !ih) return;
-      var s = Math.max(W / iw, H / ih);
-      var dw = iw * s, dh = ih * s;
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(img, (W - dw) / 2 * dpr, (H - dh) / 2 * dpr, dw * dpr, dh * dpr);
-      ctx.globalAlpha = 1;
-    }
-
-    function ready(i) {
-      return frames[i] && frames[i].complete && frames[i].naturalWidth > 0;
-    }
-
-    function nearest(i) {
-      // El cuadro cargado más cercano, para no esperar a que estén todos
-      for (var d = 0; d < count; d++) {
-        if (ready(i - d)) return i - d;
-        if (ready(i + d)) return i + d;
-      }
-      return -1;
-    }
-
-    var progress = 0;
-
-    function draw() {
-      if (!W) size();
-      var pos = clamp(progress / 0.78, 0, 1) * (count - 1);
-      var a = Math.floor(pos), b = Math.min(count - 1, a + 1), mix = pos - a;
-      var fa = nearest(a), fb = nearest(b);
-      if (fa < 0) {
-        if (poster && poster.complete) { ctx.clearRect(0, 0, canvas.width, canvas.height); cover(poster, 1); }
-        return;
-      }
-      var key = fa * 1000 + fb + mix;
-      if (key === lastDrawn) return;
-      lastDrawn = key;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      cover(frames[fa], 1);
-      if (fb !== fa && mix > 0.02) cover(frames[fb], mix);
-    }
-
-    function paint() {
-      var rect = stage.getBoundingClientRect();
-      var total = stage.offsetHeight - sticky.offsetHeight;
-      progress = total > 0 ? clamp(-rect.top / total, 0, 1) : 1;
-      var best = null, bestDist = 1;
-      captions.forEach(function (el) {
-        var dist = Math.abs(progress - parseFloat(el.getAttribute('data-at')));
-        if (dist < bestDist) { bestDist = dist; best = el; }
-      });
-      captions.forEach(function (el) { el.classList.toggle('is-on', el === best && bestDist < 0.2 && progress < 0.8); });
-      stage.classList.toggle('is-final', progress >= 0.8);
-      draw();
-    }
-
-    function load() {
-      if (started) return;
-      started = true;
-      size();
-      for (var i = 0; i < count; i++) {
-        var img = new Image();
-        img.decoding = 'async';
-        img.onload = function () {
-          loaded++;
-          if (loaded === 1) stage.classList.add('is-live');
-          lastDrawn = -1;
-          draw();
-        };
-        img.src = base + prefix + (i < 10 ? '0' + i : i) + '.webp';
-        frames.push(img);
-      }
-    }
-
-    var ticking = false;
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(function () { ticking = false; paint(); });
-    }, { passive: true });
-    window.addEventListener('resize', function () { size(); paint(); });
-
-    if ('IntersectionObserver' in window) {
-      var near = new IntersectionObserver(function (entries) {
-        if (entries.some(function (e) { return e.isIntersecting; })) { load(); near.disconnect(); }
-      }, { rootMargin: '160% 0px 160% 0px' });
-      near.observe(stage);
-    } else {
-      load();
-    }
-    paint();
-  });
 })();

@@ -1,0 +1,79 @@
+{#
+  Pregunta y respuesta (inicio, debajo del núcleo de datos): una pregunta recorre los cinco
+  sistemas, el curado los convierte en un solo modelo y el agente de IA escribe la respuesta
+  con sus fuentes. Con animación (html.motion), design.js reproduce el recorrido al entrar en
+  pantalla ([data-flow]) y cada pregunta de ejemplo lo vuelve a reproducir con su respuesta;
+  al pasar el cursor por un sistema se ilumina su camino. Sin animación o sin JavaScript se ve
+  el estado final, con la primera respuesta. Datos ficticios.
+
+  Los textos de cada idioma están en «copy». Se importa con contexto:
+  {% import 'flow.html' as flow with context %}
+#}
+{% set copy = {
+  'es': {
+    'try': 'Probá una pregunta',
+    'sources': [('erp', 'ERP', 'Tango · SAP · Odoo', 'building-gear'), ('crm', 'CRM', 'Clientes y visitas', 'people'), ('xls', 'Planillas', 'Objetivos · precios · stock', 'file-earmark-spreadsheet'), ('wa', 'WhatsApp', 'Pedidos · consultas', 'whatsapp'), ('mail', 'Correo', 'Órdenes · adjuntos', 'envelope')],
+    'curate_label': 'Datos curados', 'curate_title': 'Un solo modelo confiable',
+    'curate_steps': ['Limpieza y faltantes', 'Un registro por cliente', 'Validación con reglas', 'Modelo documentado'],
+    'agent': 'Agente de IA', 'agent_sub': 'Responde con fuentes, sin inventar números',
+    'user': 'MG',
+    'qa': [
+      {'q': '¿Cuánto vendimos ayer en la zona norte?', 'a': '$ 1,28 M ayer en la zona norte, +9 % contra el mismo día de la semana pasada. Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.', 'src': 'Fuentes: ERP · Planillas · CRM · actualizado hoy a las 7:00', 'hot': ['erp', 'xls', 'crm']},
+      {'q': '¿Qué clientes dejaron de comprar?', 'a': '38 clientes que compraban todos los meses no compraron en septiembre. Te mando la lista por vendedor, ordenada por facturación, con la última visita registrada.', 'src': 'Fuentes: ERP · CRM · actualizado hoy a las 7:00', 'hot': ['erp', 'crm']},
+      {'q': '¿Qué productos se quedan sin stock?', 'a': 'Tres productos se quedan sin stock antes del 15: papas clásicas 400 g (3 días), bastones 1 kg (4 días) y puré 125 g (4 días). ¿Preparo la orden de reposición sugerida?', 'src': 'Fuentes: ERP · Pronóstico · WhatsApp · actualizado hoy a las 7:00', 'hot': ['erp', 'xls', 'wa']},
+    ],
+    'region': 'Ejemplo: una pregunta recorre tus sistemas hasta la respuesta del agente de IA (datos ficticios)',
+    'fictional': 'Ejemplo con datos ficticios',
+  },
+  'en': {
+    'try': 'Try a question',
+    'sources': [('erp', 'ERP', 'Tango · SAP · Odoo', 'building-gear'), ('crm', 'CRM', 'Customers and visits', 'people'), ('xls', 'Spreadsheets', 'Targets · prices · stock', 'file-earmark-spreadsheet'), ('wa', 'WhatsApp', 'Orders · inquiries', 'whatsapp'), ('mail', 'Email', 'Orders · attachments', 'envelope')],
+    'curate_label': 'Curated data', 'curate_title': 'One reliable model',
+    'curate_steps': ['Cleaning and gaps', 'One record per customer', 'Validation with rules', 'Documented model'],
+    'agent': 'AI agent', 'agent_sub': 'Answers with sources, never invents numbers',
+    'user': 'MG',
+    'qa': [
+      {'q': 'How much did we sell yesterday in the north region?', 'a': '$1.28M yesterday in the north region, +9% vs. the same day last week. Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.', 'src': 'Sources: ERP · Spreadsheets · CRM · updated today at 7:00 AM', 'hot': ['erp', 'xls', 'crm']},
+      {'q': 'Which customers stopped buying?', 'a': '38 customers who bought every month did not buy in September. I am sending you the list by sales rep, sorted by revenue, with the last recorded visit.', 'src': 'Sources: ERP · CRM · updated today at 7:00 AM', 'hot': ['erp', 'crm']},
+      {'q': 'Which products are about to run out of stock?', 'a': 'Three products run out before the 15th: classic chips 400 g (3 days), fries 1 kg (4 days) and mash 125 g (4 days). Should I prepare the suggested replenishment order?', 'src': 'Sources: ERP · Forecast · WhatsApp · updated today at 7:00 AM', 'hot': ['erp', 'xls', 'wa']},
+    ],
+    'region': 'Example: a question travels through your systems to the AI agent’s answer (sample data)',
+    'fictional': 'Example with sample data',
+  },
+} %}
+{% set C = copy[lang] %}
+
+{% macro scene() %}
+<div class="fl reveal" data-flow data-qa='{{ C.qa | tojson }}' role="region" aria-label="{{ C.region }}">
+  <div class="fl-top">
+    <span class="label">{{ C.try }}</span>
+    <div class="fl-chips" role="group" aria-label="{{ C.try }}">
+      {% for item in C.qa %}
+      <button class="fl-chip" type="button" data-flow-chip="{{ loop.index0 }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ item.q }}</button>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="fl-grid">
+    <svg class="fl-edges" aria-hidden="true"></svg>
+    <ul class="fl-sources">
+      {% for id, name, sub, ico in C.sources %}
+      <li class="fl-src fl-src-{{ id }}" data-flow-src="{{ id }}">{{ icon(ico) }}<span>{{ name }}<small>{{ sub }}</small></span></li>
+      {% endfor %}
+    </ul>
+    <div class="fl-curate" data-flow-curate>
+      <span class="label">{{ C.curate_label }}</span>
+      <strong>{{ C.curate_title }}</strong>
+      <ul>{% for step in C.curate_steps %}<li>{{ step }}</li>{% endfor %}</ul>
+    </div>
+    <div class="fl-right">
+      <div class="fl-agent" data-flow-agent><span class="fl-orb" aria-hidden="true"></span><span class="fl-agent-name">{{ C.agent }}<small>{{ C.agent_sub }}</small></span></div>
+      <div class="fl-answer">
+        <p class="fl-q"><span class="fl-avatar" aria-hidden="true">{{ C.user }}</span><span data-flow-q>{{ C.qa[0].q }}</span></p>
+        <p class="fl-a"><span data-flow-a>{{ C.qa[0].a }}</span><span class="fl-caret" data-flow-caret hidden></span></p>
+        <p class="fl-src-line" data-flow-srcline>{{ C.qa[0].src }}</p>
+      </div>
+      <p class="fl-note">{{ C.fictional }}</p>
+    </div>
+  </div>
+</div>
+{% endmacro %}

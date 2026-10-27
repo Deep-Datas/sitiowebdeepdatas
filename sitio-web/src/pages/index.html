@@ -3,7 +3,7 @@
 {% import 'hero.html' as hero with context %}
 {% import 'plans.html' as plans with context %}
 {% import 'logos.html' as logos with context %}
-{% import 'pipeline.html' as pipeline_chart with context %}
+{% import 'flow.html' as flow with context %}
 {% import 'testimonials.html' as testimonials_ui with context %}
 
 {% block head %}
@@ -96,11 +96,10 @@
 </section>
 
 <!-- ======= NÚCLEO DE DATOS: del dato disperso a la IA ======= -->
-<section class="section section-deep core" data-deep aria-labelledby="core-title">
+<section class="section core" aria-labelledby="core-title">
   <div class="core-stage">
     <div class="core-sticky">
-      <canvas class="core-canvas" data-core data-src="/assets/img/core/" data-frames-d="24" data-frames-m="12" aria-hidden="true"></canvas>
-      <img class="core-poster" src="/assets/img/core/poster.webp" alt="" width="1600" height="1000" loading="lazy">
+      <canvas class="core-canvas" data-core data-labels="ERP|CRM|Planillas|WhatsApp|Correo" aria-hidden="true"></canvas>
       <div class="core-copy">
         <p class="eyebrow">Datos listos para la IA</p>
         <div class="core-text">
@@ -118,13 +117,13 @@
     <div class="section-head reveal">
       <p class="eyebrow">El recorrido de tus datos</p>
       <h2>Una IA es tan buena como los datos que consume</h2>
-      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Explorá cada etapa.</p>
+      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Elegí una pregunta y mirá el recorrido.</p>
     </div>
-    {{ pipeline_chart.diagram() }}
+    {{ flow.scene() }}
     <div class="pl-cta">
       <p>¿Querés saber qué tan listos están tus datos?</p>
       <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>
-      <a class="btn btn-ghost-light btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+      <a class="btn btn-secondary btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
     </div>
   </div>
 </section>
