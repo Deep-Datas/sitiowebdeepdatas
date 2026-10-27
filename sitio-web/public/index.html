@@ -31,9 +31,9 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
   <link rel="stylesheet" href="/assets/css/charts.css?v=7ff7a63882">
-  <link rel="stylesheet" href="/assets/css/design.css?v=5a0a741efe">
+  <link rel="stylesheet" href="/assets/css/design.css?v=9b47baeab1">
   <script src="/assets/js/site.js?v=0419275043" defer></script>
-  <script src="/assets/js/design.js?v=88e79aef46" defer></script>
+  <script src="/assets/js/design.js?v=c5bf2b60ec" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -369,11 +369,10 @@
 </section>
 
 <!-- ======= NÚCLEO DE DATOS: del dato disperso a la IA ======= -->
-<section class="section section-deep core" data-deep aria-labelledby="core-title">
+<section class="section core" aria-labelledby="core-title">
   <div class="core-stage">
     <div class="core-sticky">
-      <canvas class="core-canvas" data-core data-src="/assets/img/core/" data-frames-d="24" data-frames-m="12" aria-hidden="true"></canvas>
-      <img class="core-poster" src="/assets/img/core/poster.webp" alt="" width="1600" height="1000" loading="lazy">
+      <canvas class="core-canvas" data-core data-labels="ERP|CRM|Planillas|WhatsApp|Correo" aria-hidden="true"></canvas>
       <div class="core-copy">
         <p class="eyebrow">Datos listos para la IA</p>
         <div class="core-text">
@@ -391,312 +390,47 @@
     <div class="section-head reveal">
       <p class="eyebrow">El recorrido de tus datos</p>
       <h2>Una IA es tan buena como los datos que consume</h2>
-      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Explorá cada etapa.</p>
+      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Elegí una pregunta y mirá el recorrido.</p>
     </div>
-    <figure class="pl" data-pipeline>
-  <div class="pl-canvas">
-    <svg class="pl-svg" viewBox="0 0 1120 640" role="group"
-         aria-label="Recorrido de los datos: ocho orígenes de datos pasan por una etapa de curado, limpieza y ordenamiento y son consumidos por un agente de IA que genera respuestas, pronósticos, alertas y automatizaciones">
-      <defs>
-        <radialGradient id="pl-agent-fill" cx="50%" cy="38%" r="70%">
-          <stop class="pl-stop-start" offset="0"></stop>
-          <stop class="pl-stop-end" offset="1"></stop>
-        </radialGradient>
-      </defs>
-
-      <g class="pl-columns" aria-hidden="true">
-        <text x="110.0" y="22" text-anchor="middle"><tspan class="pl-col-num">1</tspan>  Orígenes de datos</text>
-        <text x="460.0" y="22" text-anchor="middle"><tspan class="pl-col-num">2</tspan>  Curado y ordenamiento</text>
-        <text x="770.0" y="22" text-anchor="middle"><tspan class="pl-col-num">3</tspan>  Inteligencia artificial</text>
-        <text x="1010.0" y="22" text-anchor="middle"><tspan class="pl-col-num">4</tspan>  Resultados</text>
-      </g>
-
-      <g class="pl-links" aria-hidden="true">
-        <g class="pl-link pl-link-raw" data-pl="src-crm-link">
-          <path class="pl-track" d="M220.0 103.0 C265.0 103.0 265.0 205.2 310.0 205.2"></path>
-          <path class="pl-flow" d="M220.0 103.0 C265.0 103.0 265.0 205.2 310.0 205.2"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-erp-link">
-          <path class="pl-track" d="M220.0 173.0 C265.0 173.0 265.0 246.0 310.0 246.0"></path>
-          <path class="pl-flow" d="M220.0 173.0 C265.0 173.0 265.0 246.0 310.0 246.0"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-excel-link">
-          <path class="pl-track" d="M220.0 243.0 C265.0 243.0 265.0 286.8 310.0 286.8"></path>
-          <path class="pl-flow" d="M220.0 243.0 C265.0 243.0 265.0 286.8 310.0 286.8"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-txt-link">
-          <path class="pl-track" d="M220.0 313.0 C265.0 313.0 265.0 327.6 310.0 327.6"></path>
-          <path class="pl-flow" d="M220.0 313.0 C265.0 313.0 265.0 327.6 310.0 327.6"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-whatsapp-link">
-          <path class="pl-track" d="M220.0 383.0 C265.0 383.0 265.0 368.4 310.0 368.4"></path>
-          <path class="pl-flow" d="M220.0 383.0 C265.0 383.0 265.0 368.4 310.0 368.4"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-email-link">
-          <path class="pl-track" d="M220.0 453.0 C265.0 453.0 265.0 409.2 310.0 409.2"></path>
-          <path class="pl-flow" d="M220.0 453.0 C265.0 453.0 265.0 409.2 310.0 409.2"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-db-link">
-          <path class="pl-track" d="M220.0 523.0 C265.0 523.0 265.0 450.0 310.0 450.0"></path>
-          <path class="pl-flow" d="M220.0 523.0 C265.0 523.0 265.0 450.0 310.0 450.0"></path>
-        </g>
-        <g class="pl-link pl-link-raw" data-pl="src-api-link">
-          <path class="pl-track" d="M220.0 593.0 C265.0 593.0 265.0 490.8 310.0 490.8"></path>
-          <path class="pl-flow" d="M220.0 593.0 C265.0 593.0 265.0 490.8 310.0 490.8"></path>
-        </g>
-        <g class="pl-link pl-link-curated" data-pl="curated">
-          <path class="pl-track" d="M610 348.0 H698"></path>
-          <path class="pl-flow" d="M610 348.0 H698"></path>
-          <text class="pl-link-label" x="654.0" y="336.0" text-anchor="middle">Datos curados</text>
-        </g>
-        <g class="pl-link pl-link-curated" data-pl="out-respuestas-link">
-          <path class="pl-track" d="M842.0 348.0 C871.0 348.0 871.0 228.0 900.0 228.0"></path>
-          <path class="pl-flow" d="M842.0 348.0 C871.0 348.0 871.0 228.0 900.0 228.0"></path>
-        </g>
-        <g class="pl-link pl-link-curated" data-pl="out-pronosticos-link">
-          <path class="pl-track" d="M842.0 348.0 C871.0 348.0 871.0 308.0 900.0 308.0"></path>
-          <path class="pl-flow" d="M842.0 348.0 C871.0 348.0 871.0 308.0 900.0 308.0"></path>
-        </g>
-        <g class="pl-link pl-link-curated" data-pl="out-alertas-link">
-          <path class="pl-track" d="M842.0 348.0 C871.0 348.0 871.0 388.0 900.0 388.0"></path>
-          <path class="pl-flow" d="M842.0 348.0 C871.0 348.0 871.0 388.0 900.0 388.0"></path>
-        </g>
-        <g class="pl-link pl-link-curated" data-pl="out-automatizacion-link">
-          <path class="pl-track" d="M842.0 348.0 C871.0 348.0 871.0 468.0 900.0 468.0"></path>
-          <path class="pl-flow" d="M842.0 348.0 C871.0 348.0 871.0 468.0 900.0 468.0"></path>
-        </g>
-      </g>
-
-      <g class="pl-node pl-src" data-pl="src-crm" data-chain="src-crm src-crm-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="CRM" data-text="Clientes, oportunidades y contactos. Suelen tener registros duplicados, campos incompletos y vendedores que cargan distinto."
-tabindex="0" role="button" aria-label="CRM: Salesforce · HubSpot">
-        <rect class="pl-box" x="0" y="75.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 92.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 2v2" /> <path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" /> <path d="M8 2v2" /> <circle cx="12" cy="11" r="3" /> <rect x="3" y="4" width="18" height="18" rx="2" /></g>
-        <text class="pl-title" x="52" y="100.0" aria-hidden="true">CRM</text>
-        <text class="pl-sub" x="52" y="118.0" aria-hidden="true">Salesforce · HubSpot</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-erp" data-chain="src-erp src-erp-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="ERP" data-text="Ventas, compras, stock y finanzas. La fuente más confiable, pero con códigos y estructuras pensadas para operar, no para analizar."
-tabindex="0" role="button" aria-label="ERP: SAP · Tango · Odoo">
-        <rect class="pl-box" x="0" y="145.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 162.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></g>
-        <text class="pl-title" x="52" y="170.0" aria-hidden="true">ERP</text>
-        <text class="pl-sub" x="52" y="188.0" aria-hidden="true">SAP · Tango · Odoo</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-excel" data-chain="src-excel src-excel-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="Excel y planillas" data-text="Objetivos comerciales, listas de precios y controles manuales. Cada área tiene su versión y los formatos cambian mes a mes."
-tabindex="0" role="button" aria-label="Excel y planillas: Objetivos · precios · stock">
-        <rect class="pl-box" x="0" y="215.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 232.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></g>
-        <text class="pl-title" x="52" y="240.0" aria-hidden="true">Excel y planillas</text>
-        <text class="pl-sub" x="52" y="258.0" aria-hidden="true">Objetivos · precios · stock</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-txt" data-chain="src-txt src-txt-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="Archivos .txt y .csv" data-text="Exportaciones de sistemas, reportes de distribuidores y registros. Separadores, codificaciones y fechas distintas en cada archivo."
-tabindex="0" role="button" aria-label="Archivos .txt y .csv: Exportaciones · logs">
-        <rect class="pl-box" x="0" y="285.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 302.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></g>
-        <text class="pl-title" x="52" y="310.0" aria-hidden="true">Archivos .txt y .csv</text>
-        <text class="pl-sub" x="52" y="328.0" aria-hidden="true">Exportaciones · logs</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-whatsapp" data-chain="src-whatsapp src-whatsapp-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="WhatsApp" data-text="Pedidos, reclamos y consultas de clientes en texto libre. Información valiosa que casi nunca llega a los sistemas."
-tabindex="0" role="button" aria-label="WhatsApp: Pedidos · consultas">
-        <rect class="pl-box" x="0" y="355.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 372.0) scale(1.3750)" fill="currentColor" aria-hidden="true"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></g>
-        <text class="pl-title" x="52" y="380.0" aria-hidden="true">WhatsApp</text>
-        <text class="pl-sub" x="52" y="398.0" aria-hidden="true">Pedidos · consultas</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-email" data-chain="src-email src-email-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="Email" data-text="Órdenes de compra, confirmaciones y adjuntos que se procesan a mano y quedan en la bandeja de entrada de cada persona."
-tabindex="0" role="button" aria-label="Email: Pedidos · adjuntos">
-        <rect class="pl-box" x="0" y="425.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 442.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></g>
-        <text class="pl-title" x="52" y="450.0" aria-hidden="true">Email</text>
-        <text class="pl-sub" x="52" y="468.0" aria-hidden="true">Pedidos · adjuntos</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-db" data-chain="src-db src-db-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="Bases de datos" data-text="Sistemas propios y heredados con años de historia, tablas sin documentar y reglas de negocio escondidas."
-tabindex="0" role="button" aria-label="Bases de datos: SQL Server · Oracle">
-        <rect class="pl-box" x="0" y="495.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 512.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></g>
-        <text class="pl-title" x="52" y="520.0" aria-hidden="true">Bases de datos</text>
-        <text class="pl-sub" x="52" y="538.0" aria-hidden="true">SQL Server · Oracle</text>
-      </g>
-      <g class="pl-node pl-src" data-pl="src-api" data-chain="src-api src-api-link cur step-ingesta step-limpieza step-dedup step-normalizacion step-validacion step-orden curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Origen de datos" data-title="APIs y e-commerce" data-text="Ventas online, logística y servicios externos. Datos en tiempo real que hay que integrar con el resto."
-tabindex="0" role="button" aria-label="APIs y e-commerce: Mercado Libre · Shopify">
-        <rect class="pl-box" x="0" y="565.0" width="220" height="56" rx="12"></rect>
-        <g class="pl-icon" transform="translate(16.0 582.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 13v8l-4-4" /> <path d="m12 21 4-4" /> <path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284" /></g>
-        <text class="pl-title" x="52" y="590.0" aria-hidden="true">APIs y e-commerce</text>
-        <text class="pl-sub" x="52" y="608.0" aria-hidden="true">Mercado Libre · Shopify</text>
-      </g>
-
-      <g class="pl-cur" data-pl="cur">
-        <rect class="pl-cur-box" x="310" y="102.0" width="300" height="492.0" rx="20"></rect>
-        <text class="pl-cur-kicker" x="330" y="130.0" aria-hidden="true">Etapa de curado</text>
-        <text class="pl-cur-title" x="330" y="152.0" aria-hidden="true">Limpieza y ordenamiento</text>
-        <line class="pl-step-link" x1="357" x2="357" y1="224.0" y2="236.0" aria-hidden="true"></line>
-        <line class="pl-step-link" x1="357" x2="357" y1="294.0" y2="306.0" aria-hidden="true"></line>
-        <line class="pl-step-link" x1="357" x2="357" y1="364.0" y2="376.0" aria-hidden="true"></line>
-        <line class="pl-step-link" x1="357" x2="357" y1="434.0" y2="446.0" aria-hidden="true"></line>
-        <line class="pl-step-link" x1="357" x2="357" y1="504.0" y2="516.0" aria-hidden="true"></line>
-        <g class="pl-node pl-step" data-pl="step-ingesta" data-chain="step-ingesta cur"
-data-stage="Paso 1 de 6 · Curado" data-title="Ingesta" data-text="Conectamos cada fuente de forma automática y segura, y centralizamos los datos en un único repositorio, con actualizaciones programadas."
-tabindex="0" role="button" aria-label="Ingesta: Conectamos y centralizamos">
-          <rect class="pl-box" x="326" y="166.0" width="268" height="58" rx="10"></rect>
-          <g class="pl-icon" transform="translate(331.0 185.0) scale(0.8333)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></g>
-          <text class="pl-title" x="366" y="192.0" aria-hidden="true">Ingesta</text>
-          <text class="pl-sub" x="366" y="209.0" aria-hidden="true">Conectamos y centralizamos</text>
-        </g>
-        <g class="pl-node pl-step" data-pl="step-limpieza" data-chain="step-limpieza cur"
-data-stage="Paso 2 de 6 · Curado" data-title="Limpieza" data-text="Corregimos errores de carga, formatos inválidos y valores faltantes, y extraemos datos útiles de textos libres como mensajes y correos."
-tabindex="0" role="button" aria-label="Limpieza: Errores y faltantes">
-          <rect class="pl-box" x="326" y="236.0" width="268" height="58" rx="10"></rect>
-          <g class="pl-icon" transform="translate(331.0 255.0) scale(0.8333)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" /> <path d="M22 21H7" /> <path d="m5 11 9 9" /></g>
-          <text class="pl-title" x="366" y="262.0" aria-hidden="true">Limpieza</text>
-          <text class="pl-sub" x="366" y="279.0" aria-hidden="true">Errores y faltantes</text>
-        </g>
-        <g class="pl-node pl-step" data-pl="step-dedup" data-chain="step-dedup cur"
-data-stage="Paso 3 de 6 · Curado" data-title="Deduplicación" data-text="Unificamos clientes, productos y proveedores repetidos entre sistemas para que cada uno tenga un único registro."
-tabindex="0" role="button" aria-label="Deduplicación: Un registro por entidad">
-          <rect class="pl-box" x="326" y="306.0" width="268" height="58" rx="10"></rect>
-          <g class="pl-icon" transform="translate(331.0 325.0) scale(0.8333)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 18H5a3 3 0 0 1-3-3v-1" /> <path d="M14 2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2" /> <path d="M20 2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2" /> <path d="m7 21 3-3-3-3" /> <rect x="14" y="14" width="8" height="8" rx="2" /> <rect x="2" y="2" width="8" height="8" rx="2" /></g>
-          <text class="pl-title" x="366" y="332.0" aria-hidden="true">Deduplicación</text>
-          <text class="pl-sub" x="366" y="349.0" aria-hidden="true">Un registro por entidad</text>
-        </g>
-        <g class="pl-node pl-step" data-pl="step-normalizacion" data-chain="step-normalizacion cur"
-data-stage="Paso 4 de 6 · Curado" data-title="Normalización" data-text="Llevamos todo a las mismas unidades, monedas, fechas y códigos, para que los datos de distintas fuentes se puedan comparar."
-tabindex="0" role="button" aria-label="Normalización: Unidades, monedas, fechas">
-          <rect class="pl-box" x="326" y="376.0" width="268" height="58" rx="10"></rect>
-          <g class="pl-icon" transform="translate(331.0 395.0) scale(0.8333)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z" /> <path d="m14.5 12.5 2-2" /> <path d="m11.5 9.5 2-2" /> <path d="m8.5 6.5 2-2" /> <path d="m17.5 15.5 2-2" /></g>
-          <text class="pl-title" x="366" y="402.0" aria-hidden="true">Normalización</text>
-          <text class="pl-sub" x="366" y="419.0" aria-hidden="true">Unidades, monedas, fechas</text>
-        </g>
-        <g class="pl-node pl-step" data-pl="step-validacion" data-chain="step-validacion cur"
-data-stage="Paso 5 de 6 · Curado" data-title="Validación" data-text="Aplicamos reglas de calidad en cada actualización y generamos alertas cuando algo no cierra, antes de que llegue a una decisión."
-tabindex="0" role="button" aria-label="Validación: Reglas de calidad">
-          <rect class="pl-box" x="326" y="446.0" width="268" height="58" rx="10"></rect>
-          <g class="pl-icon" transform="translate(331.0 465.0) scale(0.8333)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /></g>
-          <text class="pl-title" x="366" y="472.0" aria-hidden="true">Validación</text>
-          <text class="pl-sub" x="366" y="489.0" aria-hidden="true">Reglas de calidad</text>
-        </g>
-        <g class="pl-node pl-step" data-pl="step-orden" data-chain="step-orden cur"
-data-stage="Paso 6 de 6 · Curado" data-title="Ordenamiento" data-text="Organizamos la información en un modelo de datos documentado, con permisos y trazabilidad: listo para tableros y para la IA."
-tabindex="0" role="button" aria-label="Ordenamiento: Modelo y catálogo">
-          <rect class="pl-box" x="326" y="516.0" width="268" height="58" rx="10"></rect>
-          <g class="pl-icon" transform="translate(331.0 535.0) scale(0.8333)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 16 4 4 4-4" /> <path d="M7 20V4" /> <path d="M11 4h10" /> <path d="M11 8h7" /> <path d="M11 12h4" /></g>
-          <text class="pl-title" x="366" y="542.0" aria-hidden="true">Ordenamiento</text>
-          <text class="pl-sub" x="366" y="559.0" aria-hidden="true">Modelo y catálogo</text>
-        </g>
-      </g>
-
-      <g class="pl-node pl-agent" data-pl="agent-agente" data-chain="curated agent-agente out-respuestas out-pronosticos out-alertas out-automatizacion out-respuestas-link out-pronosticos-link out-alertas-link out-automatizacion-link"
-data-stage="Inteligencia artificial" data-title="Agente de IA" data-text="Un agente de inteligencia artificial conectado a datos curados responde con precisión, sin inventar números: consulta, cruza y analiza la información de toda la empresa en segundos."
-tabindex="0" role="button" aria-label="Agente de IA: Consume datos confiables">
-        <circle class="pl-ring" cx="770" cy="348.0" r="72"></circle>
-        <circle class="pl-ring pl-ring-2" cx="770" cy="348.0" r="72"></circle>
-        <circle class="pl-agent-core" cx="770" cy="348.0" r="72"></circle>
-        <g class="pl-agent-icon" transform="translate(744.0 320.0) scale(2.1667)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></g>
-        <text class="pl-agent-title" x="770" y="454.0" text-anchor="middle" aria-hidden="true">Agente de IA</text>
-        <text class="pl-sub" x="770" y="474.0" text-anchor="middle" aria-hidden="true">Consume datos confiables</text>
-      </g>
-
-      <g class="pl-node pl-out" data-pl="out-respuestas" data-chain="out-respuestas out-respuestas-link agent-agente curated"
-data-stage="Resultado" data-title="Respuestas" data-text="«¿Cuánto vendimos en el norte este mes?» El agente responde al instante, con datos verificables."
-tabindex="0" role="button" aria-label="Respuestas: En lenguaje natural">
-        <rect class="pl-box" x="900" y="198.0" width="220" height="60" rx="12"></rect>
-        <g class="pl-icon" transform="translate(916.0 217.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /> <path d="M8 12h.01" /> <path d="M12 12h.01" /> <path d="M16 12h.01" /></g>
-        <text class="pl-title" x="952" y="225.0" aria-hidden="true">Respuestas</text>
-        <text class="pl-sub" x="952" y="243.0" aria-hidden="true">En lenguaje natural</text>
-      </g>
-      <g class="pl-node pl-out" data-pl="out-pronosticos" data-chain="out-pronosticos out-pronosticos-link agent-agente curated"
-data-stage="Resultado" data-title="Pronósticos" data-text="Proyecciones de ventas, demanda y stock para planificar compras y producción con anticipación."
-tabindex="0" role="button" aria-label="Pronósticos: Ventas y demanda">
-        <rect class="pl-box" x="900" y="278.0" width="220" height="60" rx="12"></rect>
-        <g class="pl-icon" transform="translate(916.0 297.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /> <polyline points="16 7 22 7 22 13" /></g>
-        <text class="pl-title" x="952" y="305.0" aria-hidden="true">Pronósticos</text>
-        <text class="pl-sub" x="952" y="323.0" aria-hidden="true">Ventas y demanda</text>
-      </g>
-      <g class="pl-node pl-out" data-pl="out-alertas" data-chain="out-alertas out-alertas-link agent-agente curated"
-data-stage="Resultado" data-title="Alertas" data-text="Avisos automáticos cuando un cliente deja de comprar, un producto se queda sin stock o un indicador se desvía."
-tabindex="0" role="button" aria-label="Alertas: Proactivas y a tiempo">
-        <rect class="pl-box" x="900" y="358.0" width="220" height="60" rx="12"></rect>
-        <g class="pl-icon" transform="translate(916.0 377.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /> <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></g>
-        <text class="pl-title" x="952" y="385.0" aria-hidden="true">Alertas</text>
-        <text class="pl-sub" x="952" y="403.0" aria-hidden="true">Proactivas y a tiempo</text>
-      </g>
-      <g class="pl-node pl-out" data-pl="out-automatizacion" data-chain="out-automatizacion out-automatizacion-link agent-agente curated"
-data-stage="Resultado" data-title="Automatización" data-text="Carga de pedidos recibidos por WhatsApp o email, informes periódicos y respuestas a consultas frecuentes."
-tabindex="0" role="button" aria-label="Automatización: Tareas repetitivas">
-        <rect class="pl-box" x="900" y="438.0" width="220" height="60" rx="12"></rect>
-        <g class="pl-icon" transform="translate(916.0 457.0) scale(0.9167)" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></g>
-        <text class="pl-title" x="952" y="465.0" aria-hidden="true">Automatización</text>
-        <text class="pl-sub" x="952" y="483.0" aria-hidden="true">Tareas repetitivas</text>
-      </g>
-    </svg>
-
-    <div class="pl-detail" aria-live="polite">
-      <p class="pl-detail-stage">Recorrido de los datos</p>
-      <p class="pl-detail-title">Explorá el gráfico</p>
-      <p class="pl-detail-text">Pasá el mouse o navegá con el teclado por cada elemento para ver qué aporta y cómo lo tratamos.</p>
+    <div class="fl reveal" data-flow data-qa='[{"a": "$ 1,28 M ayer en la zona norte, +9 % contra el mismo d\u00eda de la semana pasada. Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya arm\u00e9 la lista de pedidos pendientes por vendedor.", "hot": ["erp", "xls", "crm"], "q": "\u00bfCu\u00e1nto vendimos ayer en la zona norte?", "src": "Fuentes: ERP \u00b7 Planillas \u00b7 CRM \u00b7 actualizado hoy a las 7:00"}, {"a": "38 clientes que compraban todos los meses no compraron en septiembre. Te mando la lista por vendedor, ordenada por facturaci\u00f3n, con la \u00faltima visita registrada.", "hot": ["erp", "crm"], "q": "\u00bfQu\u00e9 clientes dejaron de comprar?", "src": "Fuentes: ERP \u00b7 CRM \u00b7 actualizado hoy a las 7:00"}, {"a": "Tres productos se quedan sin stock antes del 15: papas cl\u00e1sicas 400 g (3 d\u00edas), bastones 1 kg (4 d\u00edas) y pur\u00e9 125 g (4 d\u00edas). \u00bfPreparo la orden de reposici\u00f3n sugerida?", "hot": ["erp", "xls", "wa"], "q": "\u00bfQu\u00e9 productos se quedan sin stock?", "src": "Fuentes: ERP \u00b7 Pron\u00f3stico \u00b7 WhatsApp \u00b7 actualizado hoy a las 7:00"}]' role="region" aria-label="Ejemplo: una pregunta recorre tus sistemas hasta la respuesta del agente de IA (datos ficticios)">
+  <div class="fl-top">
+    <span class="label">Probá una pregunta</span>
+    <div class="fl-chips" role="group" aria-label="Probá una pregunta">
+      <button class="fl-chip" type="button" data-flow-chip="0" aria-pressed="true">¿Cuánto vendimos ayer en la zona norte?</button>
+      <button class="fl-chip" type="button" data-flow-chip="1" aria-pressed="false">¿Qué clientes dejaron de comprar?</button>
+      <button class="fl-chip" type="button" data-flow-chip="2" aria-pressed="false">¿Qué productos se quedan sin stock?</button>
     </div>
   </div>
-
-  <div class="pl-stack">
-    <div class="pl-stage">
-      <h3 class="pl-stage-title"><span class="pl-num">1</span> Orígenes de datos</h3>
-      <ul class="pl-chips">
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 2v2" /> <path d="M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" /> <path d="M8 2v2" /> <circle cx="12" cy="11" r="3" /> <rect x="3" y="4" width="18" height="18" rx="2" /></svg><span><strong>CRM</strong><small>Salesforce · HubSpot</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg><span><strong>ERP</strong><small>SAP · Tango · Odoo</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></svg><span><strong>Excel y planillas</strong><small>Objetivos · precios · stock</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span><strong>Archivos .txt y .csv</strong><small>Exportaciones · logs</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg><span><strong>WhatsApp</strong><small>Pedidos · consultas</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg><span><strong>Email</strong><small>Pedidos · adjuntos</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg><span><strong>Bases de datos</strong><small>SQL Server · Oracle</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 13v8l-4-4" /> <path d="m12 21 4-4" /> <path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284" /></svg><span><strong>APIs y e-commerce</strong><small>Mercado Libre · Shopify</small></span></li>
-      </ul>
+  <div class="fl-grid">
+    <svg class="fl-edges" aria-hidden="true"></svg>
+    <ul class="fl-sources">
+      <li class="fl-src fl-src-erp" data-flow-src="erp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg><span>ERP<small>Tango · SAP · Odoo</small></span></li>
+      <li class="fl-src fl-src-crm" data-flow-src="crm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg><span>CRM<small>Clientes y visitas</small></span></li>
+      <li class="fl-src fl-src-xls" data-flow-src="xls"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></svg><span>Planillas<small>Objetivos · precios · stock</small></span></li>
+      <li class="fl-src fl-src-wa" data-flow-src="wa"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg><span>WhatsApp<small>Pedidos · consultas</small></span></li>
+      <li class="fl-src fl-src-mail" data-flow-src="mail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg><span>Correo<small>Órdenes · adjuntos</small></span></li>
+    </ul>
+    <div class="fl-curate" data-flow-curate>
+      <span class="label">Datos curados</span>
+      <strong>Un solo modelo confiable</strong>
+      <ul><li>Limpieza y faltantes</li><li>Un registro por cliente</li><li>Validación con reglas</li><li>Modelo documentado</li></ul>
     </div>
-    <div class="pl-arrow pl-arrow-raw" aria-hidden="true"><span>Datos crudos</span></div>
-    <div class="pl-stage pl-stage-cur">
-      <h3 class="pl-stage-title"><span class="pl-num">2</span> Curado, limpieza y ordenamiento</h3>
-      <ol class="pl-steps">
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /> <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg><span><strong>Ingesta</strong>Conectamos cada fuente de forma automática y segura, y centralizamos los datos en un único repositorio, con actualizaciones programadas.</span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" /> <path d="M22 21H7" /> <path d="m5 11 9 9" /></svg><span><strong>Limpieza</strong>Corregimos errores de carga, formatos inválidos y valores faltantes, y extraemos datos útiles de textos libres como mensajes y correos.</span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 18H5a3 3 0 0 1-3-3v-1" /> <path d="M14 2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2" /> <path d="M20 2a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2" /> <path d="m7 21 3-3-3-3" /> <rect x="14" y="14" width="8" height="8" rx="2" /> <rect x="2" y="2" width="8" height="8" rx="2" /></svg><span><strong>Deduplicación</strong>Unificamos clientes, productos y proveedores repetidos entre sistemas para que cada uno tenga un único registro.</span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z" /> <path d="m14.5 12.5 2-2" /> <path d="m11.5 9.5 2-2" /> <path d="m8.5 6.5 2-2" /> <path d="m17.5 15.5 2-2" /></svg><span><strong>Normalización</strong>Llevamos todo a las mismas unidades, monedas, fechas y códigos, para que los datos de distintas fuentes se puedan comparar.</span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /></svg><span><strong>Validación</strong>Aplicamos reglas de calidad en cada actualización y generamos alertas cuando algo no cierra, antes de que llegue a una decisión.</span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m3 16 4 4 4-4" /> <path d="M7 20V4" /> <path d="M11 4h10" /> <path d="M11 8h7" /> <path d="M11 12h4" /></svg><span><strong>Ordenamiento</strong>Organizamos la información en un modelo de datos documentado, con permisos y trazabilidad: listo para tableros y para la IA.</span></li>
-      </ol>
-    </div>
-    <div class="pl-arrow" aria-hidden="true"><span>Datos curados</span></div>
-    <div class="pl-stage pl-stage-agent">
-      <h3 class="pl-stage-title"><span class="pl-num">3</span> Agente de IA</h3>
-      <img class="pl-agent-glass" src="/assets/img/glass/esfera-claro-256.webp" alt="" width="120" height="120" loading="lazy">
-      <p>Un agente de inteligencia artificial conectado a datos curados responde con precisión, sin inventar números: consulta, cruza y analiza la información de toda la empresa en segundos.</p>
-    </div>
-    <div class="pl-arrow" aria-hidden="true"></div>
-    <div class="pl-stage">
-      <h3 class="pl-stage-title"><span class="pl-num">4</span> Resultados</h3>
-      <ul class="pl-chips pl-chips-out">
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /> <path d="M8 12h.01" /> <path d="M12 12h.01" /> <path d="M16 12h.01" /></svg><span><strong>Respuestas</strong><small>En lenguaje natural</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /> <polyline points="16 7 22 7 22 13" /></svg><span><strong>Pronósticos</strong><small>Ventas y demanda</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /> <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg><span><strong>Alertas</strong><small>Proactivas y a tiempo</small></span></li>
-        <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg><span><strong>Automatización</strong><small>Tareas repetitivas</small></span></li>
-      </ul>
+    <div class="fl-right">
+      <div class="fl-agent" data-flow-agent><span class="fl-orb" aria-hidden="true"></span><span class="fl-agent-name">Agente de IA<small>Responde con fuentes, sin inventar números</small></span></div>
+      <div class="fl-answer">
+        <p class="fl-q"><span class="fl-avatar" aria-hidden="true">MG</span><span data-flow-q>¿Cuánto vendimos ayer en la zona norte?</span></p>
+        <p class="fl-a"><span data-flow-a>$ 1,28 M ayer en la zona norte, +9 % contra el mismo día de la semana pasada. Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.</span><span class="fl-caret" data-flow-caret hidden></span></p>
+        <p class="fl-src-line" data-flow-srcline>Fuentes: ERP · Planillas · CRM · actualizado hoy a las 7:00</p>
+      </div>
+      <p class="fl-note">Ejemplo con datos ficticios</p>
     </div>
   </div>
-
-  <figcaption class="pl-legend">
-    <span class="pl-key pl-key-raw">Datos crudos: dispersos, duplicados e inconsistentes</span>
-    <span class="pl-key pl-key-curated">Datos curados: limpios, unificados y documentados</span>
-  </figcaption>
-</figure>
+</div>
 
     <div class="pl-cta">
       <p>¿Querés saber qué tan listos están tus datos?</p>
       <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-      <a class="btn btn-ghost-light btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+      <a class="btn btn-secondary btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
     </div>
   </div>
 </section>
