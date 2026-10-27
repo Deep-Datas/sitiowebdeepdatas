@@ -1,33 +1,50 @@
 {#
-  Portada del inicio: alguien de pie pregunta en voz alta frente a una pantalla grande
-  y el tablero se arma solo mientras responde.
+  Portada del inicio, en tres actos: el informe que hoy arma un analista, los dos
+  monitores que se vuelven uno, y ese monitor que se convierte en la pantalla de
+  quien decide, respondiendo en el momento.
 
-  La foto es fija (src/assets/img/hero/sala-*.webp). Encima va un tablero de verdad,
-  escrito en HTML y encajado en la pantalla del televisor con una matriz de perspectiva
-  que design.js calcula a partir de las cuatro esquinas de QUAD (medidas sobre la foto de
-  1024 × 559). Los dedos que cruzan por delante están recortados en sala-mano.png y
-  vuelven arriba del tablero. Con animación (html.motion) el recorrido se reproduce al
-  cargar; sin animación o sin JavaScript se ve la escena final, completa y quieta.
+  Las dos fotos conviven en el mismo recorte (relación 1024 / 559). La del equipo
+  (equipo-2048.webp) va con object-fit: cover; design.js convierte las coordenadas
+  de sus monitores a ese recorte. Encima de cada pantalla va contenido de verdad,
+  escrito en HTML y encajado con una matriz de perspectiva. En el acto 3 el
+  cuadrilátero de la pantalla principal se interpola hasta el del televisor de la
+  segunda foto (sala-2048.webp) mientras las fotos se cruzan: el monitor se
+  convierte en el televisor. Sin animación o sin JavaScript se ve el acto final.
   Datos ficticios.
 
-  Los textos de cada idioma están en «copy». Se importa con contexto:
+  Esquinas medidas sobre cada foto; si se cambia una foto hay que volver a medirlas.
+  Los textos de los dos idiomas están en «copy». Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Esquinas de la pantalla del televisor, en píxeles de la foto: arriba-izq., arriba-der.,
-   abajo-der., abajo-izq. Si se cambia la foto hay que volver a medirlas. #}
-{% set QUAD = [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]] %}
+{# Foto del equipo (4096 × 2731): monitor principal, segundo monitor y el recorte de
+   la persona que tapa el segundo monitor (x, y, ancho, alto). #}
+{% set EQUIPO = {
+  'w': 4096, 'h': 2731,
+  'mon': [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]],
+  'mon2': [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]],
+  'front': [1300, 1147, 1024, 1584],
+} %}
+{# Foto de la sala (1024 × 559): la pantalla del televisor. #}
+{% set SALA = {'w': 1024, 'h': 559, 'tv': [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]]} %}
 
 {% set copy = {
   'es': {
     'eyebrow': 'Consultora de datos e IA para distribuidoras, pymes y consumo masivo',
-    'title': 'Preguntá en voz alta.', 'title_em': 'Tus datos responden.',
-    'lead': 'Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo. Preguntás como le hablarías a tu equipo y el tablero se arma solo, con la fuente de cada número.',
+    'title': 'El informe que tardaba tres días,', 'title_em': 'ahora lo preguntás.',
+    'lead': 'Hoy un informe pasa por un analista y llega dos o tres días tarde. Unimos tu ERP, tu CRM, las planillas y WhatsApp en un solo modelo, y la respuesta aparece en el momento, directo para quien decide.',
     'cta': 'Coordinar una llamada', 'secondary': 'Conocé el diagnóstico',
-    'region': 'Ejemplo: una persona pregunta en voz alta y su tablero de ventas responde en la pantalla (datos ficticios).',
+    'region': 'Ejemplo: el informe que hoy arma un analista en dos o tres días pasa a responderse en el momento en la pantalla de quien decide (datos ficticios).',
+    'captions': [(0, 'Hoy el pedido va al analista: cruza el ERP, el CRM y las planillas a mano.'),
+                 (0.3, 'Dos o tres días después, llega el informe. Para entonces ya cambió.'),
+                 (0.46, 'Unimos todo en un solo modelo confiable.'),
+                 (0.68, 'Ahora preguntás vos, y la respuesta está en el momento.')],
+    'mon_app': 'Planilla de ventas', 'mon_status': 'Cruzando a mano…', 'mon_wait': 'Informe listo en 2 o 3 días',
+    'mon_rows': [('ERP · Facturación', 'Exportado'), ('Planillas · Objetivos', 'Pegado'), ('CRM · Visitas', 'Falta')],
+    'mon2_app': 'CRM y WhatsApp', 'mon2_rows': ['118 visitas', '46 pedidos', '2 sistemas sin cruzar'],
+    'flies': ['CRM', 'WhatsApp', 'Planillas'],
     'question': '¿Cuánto vendimos ayer en la zona norte?',
-    'statuses': [(0, 'Escuchando…'), (0.26, 'Leyendo el ERP y las planillas…'), (0.4, 'Cruzando CRM, WhatsApp y correo…'),
-                 (0.56, 'Armando el tablero…'), (0.86, 'Respuesta lista · con fuentes')],
+    'statuses': [(0.68, 'Escuchando…'), (0.78, 'Leyendo tus sistemas…'), (0.9, 'Respuesta lista · con fuentes')],
     'app': 'DeepDatas · Tablero ejecutivo', 'live': 'En vivo', 'when': '07:00',
     'board_title': 'Ventas de ayer', 'board_chip': 'Zona norte',
     'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. semana pasada'),
@@ -41,17 +58,24 @@
     'records': 'registros leídos · 1,4 s',
     'alert_title': 'Alerta de stock',
     'alert_text': 'Papas clásicas 400 g se queda sin stock en 3 días. ¿Preparo la reposición?',
-    'photo_alt': 'Una persona de pie en una oficina luminosa pregunta por micrófono frente a un televisor con su tablero de ventas.',
+    'alt': 'Un equipo cruza planillas en dos monitores y, al lado, alguien pregunta en voz alta frente a un televisor que ya muestra la respuesta.',
   },
   'en': {
     'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
-    'title': 'Just ask out loud.', 'title_em': 'Your data answers.',
-    'lead': 'We connect your ERP, your CRM, your spreadsheets, WhatsApp and email. You ask the way you would ask your team, and the dashboard builds itself, with the source behind every number.',
+    'title': 'The report that took three days,', 'title_em': 'now you just ask for it.',
+    'lead': 'Today a report goes through an analyst and lands two or three days late. We bring your ERP, your CRM, your spreadsheets and WhatsApp into one model, and the answer shows up right away, straight to whoever decides.',
     'cta': 'Book a call', 'secondary': 'Explore the data assessment',
-    'region': 'Example: someone asks out loud and their sales dashboard answers on the screen (sample data).',
+    'region': 'Example: the report an analyst takes two or three days to build is answered on the spot, on the screen of whoever decides (sample data).',
+    'captions': [(0, 'Today the request goes to the analyst, who cross-checks ERP, CRM and spreadsheets by hand.'),
+                 (0.3, 'Two or three days later the report arrives. By then it has already moved.'),
+                 (0.46, 'We bring it all into one reliable model.'),
+                 (0.68, 'Now you ask, and the answer is right there.')],
+    'mon_app': 'Sales spreadsheet', 'mon_status': 'Cross-checking by hand…', 'mon_wait': 'Report ready in 2 to 3 days',
+    'mon_rows': [('ERP · Revenue', 'Exported'), ('Spreadsheets · Targets', 'Pasted'), ('CRM · Visits', 'Missing')],
+    'mon2_app': 'CRM and WhatsApp', 'mon2_rows': ['118 visits', '46 orders', '2 systems not merged'],
+    'flies': ['CRM', 'WhatsApp', 'Spreadsheets'],
     'question': 'How much did we sell yesterday in the north region?',
-    'statuses': [(0, 'Listening…'), (0.26, 'Reading the ERP and spreadsheets…'), (0.4, 'Cross-checking CRM, WhatsApp and email…'),
-                 (0.56, 'Building the dashboard…'), (0.86, 'Answer ready · with sources')],
+    'statuses': [(0.68, 'Listening…'), (0.78, 'Reading your systems…'), (0.9, 'Answer ready · with sources')],
     'app': 'DeepDatas · Executive dashboard', 'live': 'Live', 'when': '07:00',
     'board_title': 'Yesterday’s sales', 'board_chip': 'North region',
     'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. last week'),
@@ -65,7 +89,7 @@
     'records': 'records read · 1.4 s',
     'alert_title': 'Stock alert',
     'alert_text': 'Classic chips 400 g runs out of stock in 3 days. Should I prepare the replenishment?',
-    'photo_alt': 'A person stands in a bright office asking a question into a microphone in front of a TV showing their sales dashboard.',
+    'alt': 'A team cross-checks spreadsheets on two monitors while, beside them, someone asks a question out loud in front of a TV already showing the answer.',
   },
 } %}
 {% set C = copy[lang] %}
@@ -86,15 +110,47 @@
     </div>
   </div>
 
+  <div class="hb-stage">
   <div class="hb-crop" role="img" aria-label="{{ C.region }}">
-    <div class="hb-scene" data-hb data-quad='{{ QUAD | tojson }}' data-question="{{ C.question }}"
-         data-statuses='{{ C.statuses | tojson }}'>
-      <img class="hb-photo" src="/assets/img/hero/sala-1024.webp"
-           srcset="/assets/img/hero/sala-1024.webp 1024w, /assets/img/hero/sala-2048.webp 2048w"
-           sizes="100vw" width="1024" height="559" alt="" fetchpriority="high">
+    <div class="hb-scene" data-hb
+         data-equipo='{{ EQUIPO | tojson }}' data-sala='{{ SALA | tojson }}'
+         data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
+         data-captions='{{ C.captions | tojson }}'>
 
-      {# El tablero: HTML normal, que design.js encaja en la pantalla del televisor #}
-      <div class="hb-screen" aria-hidden="true">
+      {# Acto 1 y 2: el escritorio del analista #}
+      <img class="hb-photo hb-photo-a" src="/assets/img/hero/equipo-2048.webp" width="2048" height="1366" alt="" fetchpriority="high">
+
+      <div class="hb-screen hb-screen2" aria-hidden="true">
+        <div class="hb-small hb-small-2">
+          <span class="hb-small-top">{{ C.mon2_app }}</span>
+          {% for label in C.mon2_rows %}
+          <span class="hb-small-row"><span>{{ label }}</span></span>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# El recorte de la persona que está delante del segundo monitor #}
+      <img class="hb-front" src="/assets/img/hero/equipo-frente.webp" width="1024" height="1584" alt="" aria-hidden="true">
+
+      {# Acto 3 y 4: la sala de quien decide. Entra por encima de todo lo anterior #}
+      <img class="hb-photo hb-photo-b" src="/assets/img/hero/sala-1024.webp"
+           srcset="/assets/img/hero/sala-1024.webp 1024w, /assets/img/hero/sala-2048.webp 2048w"
+           sizes="100vw" width="1024" height="559" alt="" loading="lazy">
+
+      {# La pantalla: empieza siendo el monitor del analista y termina siendo el televisor #}
+      <div class="hb-screen hb-screen1" aria-hidden="true">
+        {# Lo que se ve mientras el informe se arma a mano #}
+        <div class="hb-small hb-small-1">
+          <span class="hb-small-top">{{ C.mon_app }}</span>
+          {% for label, value in C.mon_rows %}
+          <span class="hb-small-row"><span>{{ label }}</span><b>{{ value }}</b></span>
+          {% endfor %}
+          <span class="hb-small-bar"><i></i></span>
+          <span class="hb-small-status">{{ C.mon_status }}</span>
+          <span class="hb-small-wait">{{ C.mon_wait }}</span>
+        </div>
+
+        {# Lo que se ve cuando ya es el televisor #}
         <div class="hb-scr">
           <span class="hb-scan"></span>
           <div class="hb-top">
@@ -136,7 +192,12 @@
         </div>
       </div>
 
-      {# Los dedos que pasan por delante de la pantalla, recortados de la misma foto #}
+      {# Los sistemas que viajan del segundo monitor al primero cuando se unen #}
+      <div class="hb-flies" aria-hidden="true">
+        {% for name in C.flies %}<span class="hb-fly">{{ name }}</span>{% endfor %}
+      </div>
+
+      {# Los dedos que cruzan por delante del televisor, recortados de la misma foto #}
       <img class="hb-finger" src="/assets/img/hero/sala-mano.png" width="132" height="160" alt="" aria-hidden="true">
       <span class="hb-grade" aria-hidden="true"></span>
 
@@ -159,7 +220,10 @@
         <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
         <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
       </div>
+
     </div>
+  </div>
+  <p class="hb-caption" aria-hidden="true">{{ C.captions[-1][1] }}</p>
   </div>
 </section>
 {% endmacro %}
