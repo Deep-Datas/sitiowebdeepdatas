@@ -26,6 +26,7 @@
   'tv': [[20, 166], [150, 203], [151, 344], [20, 361]],
   'mon1': [[669, 357.5], [721, 354], [721, 389], [669, 392.5]],
   'mon2': [[911, 329.5], [985.5, 328.5], [985.5, 380.5], [911, 381]],
+  'mon3': [[783, 352.5], [852, 351], [852, 376], [783, 378]],
   'cam': [[0.00, 520, 270, 1024, 540],
           [0.16, 520, 270, 1024, 540],
           [0.32, 620, 300, 1024, 430],
@@ -53,7 +54,7 @@
     'region': 'Ejemplo: en la misma oficina, la pregunta que hoy el equipo de datos responde a mano en dos o tres días pasa a responderse sola en la pantalla de quien decide (datos ficticios).',
     'scroll': 'Seguí bajando',
     'captions': [(0, 'Hoy la pregunta entra al equipo de datos: exportar, cruzar, revisar.'),
-                 (0.30, 'Dos monitores, cuatro sistemas y una planilla que envejece mientras se arma.'),
+                 (0.30, 'Cuatro sistemas abiertos a la vez y una planilla que se arma pegando filas.'),
                  (0.58, 'Unimos todo en un solo modelo confiable.'),
                  (0.76, 'Una sola respuesta, en el momento, en la pantalla de quien decide.')],
     'steps': ['La pregunta', 'Tus sistemas', 'Un modelo', 'La respuesta'],
@@ -63,6 +64,10 @@
     'mon_app': 'ventas_zona_norte_v7.xlsx',
     'mon_rows': [('Norte SA', '412.000'), ('Distrisur', '331.000'), ('La Rueda', '273.000'), ('Pampa Dist.', '170.000')],
     'mon_status': 'Pegado a mano · sin el CRM',
+    'wa_app': 'WhatsApp · Pedidos',
+    'wa_msgs': [('in', '40 cajas de papas, jueves'), ('out', 'Listo, pedido 7731')],
+    'crm_app': 'CRM · Visitas',
+    'crm_rows': [('Norte SA', 'Cerrado', True), ('Oeste SRL', 'Sin visita', False), ('Litoral', 'Propuesta', False)],
     'tags': [('mon1', 'ERP · export .csv'), ('mon2', 'Planilla v7, pegada a mano')],
     'join_title': 'Unificando tus sistemas',
     'flies': ['ERP', 'CRM', 'Planillas', 'WhatsApp'],
@@ -90,16 +95,20 @@
     'region': 'Example: in the same office, the question the data team answers by hand in two or three days is answered on the spot, on the screen of whoever decides (sample data).',
     'scroll': 'Keep scrolling',
     'captions': [(0, 'Today the question lands on the data team: export, cross-check, review.'),
-                 (0.30, 'Two monitors, four systems and a spreadsheet that ages while it is built.'),
+                 (0.30, 'Four systems open at once and a spreadsheet pasted together by hand.'),
                  (0.58, 'We bring it all into one reliable model.'),
                  (0.76, 'One single answer, right away, on the screen of whoever decides.')],
     'steps': ['The question', 'Your systems', 'One model', 'The answer'],
     'ask_title': 'Request #482', 'ask_text': '“How much did we sell yesterday in the north region?”',
     'ask_eta': 'Estimated delivery: 2 to 3 days',
     'q_app': 'query.sql', 'q_lines': ['SELECT sales', 'region=«north»', '12,482 rows'],
-    'mon_app': 'sales_north_region_v7.xlsx',
+    'mon_app': 'sales_north_v7.xlsx',
     'mon_rows': [('Norte SA', '412,000'), ('Distrisur', '331,000'), ('La Rueda', '273,000'), ('Pampa Dist.', '170,000')],
     'mon_status': 'Pasted by hand · CRM missing',
+    'wa_app': 'WhatsApp · Orders',
+    'wa_msgs': [('in', '40 boxes of chips, Thursday'), ('out', 'Done, order 7731')],
+    'crm_app': 'CRM · Visits',
+    'crm_rows': [('Norte SA', 'Closed', True), ('Oeste SRL', 'No visit', False), ('Litoral', 'Proposal', False)],
     'tags': [('mon1', 'ERP · .csv export'), ('mon2', 'Spreadsheet v7, pasted by hand')],
     'join_title': 'Bringing your systems together',
     'flies': ['ERP', 'CRM', 'Spreadsheets', 'WhatsApp'],
@@ -157,6 +166,22 @@
               <span class="hb-x-status">{{ C.mon_status }}</span>
             </div>
 
+            {# El tercer monitor: el CRM y WhatsApp, abiertos al lado de la planilla #}
+            <div class="hb-screen hb-s-mon3" aria-hidden="true">
+              <div class="hb-wa">
+                <span class="hb-wa-hd">{{ C.wa_app }}</span>
+                {% for dir, text in C.wa_msgs %}
+                <span class="hb-wa-msg hb-wa-{{ dir }}">{{ text }}</span>
+                {% endfor %}
+              </div>
+              <div class="hb-crm">
+                <span class="hb-crm-hd">{{ C.crm_app }}</span>
+                {% for name, state, cerrado in C.crm_rows %}
+                <span class="hb-crm-row"><span>{{ name }}</span><b{% if cerrado %} class="hb-crm-ok"{% endif %}>{{ state }}</b></span>
+                {% endfor %}
+              </div>
+            </div>
+
             {# El televisor de la sala: el tablero, encajado en su perspectiva #}
             <div class="hb-screen hb-s-tv" aria-hidden="true">
               <div class="hb-scr">
@@ -200,6 +225,7 @@
                mismo cuadrilátero que la pantalla, así que entran en su perspectiva. #}
             <span class="hb-ring hb-r-mon1" aria-hidden="true"></span>
             <span class="hb-ring hb-r-mon2" aria-hidden="true"></span>
+            <span class="hb-ring hb-r-mon3" aria-hidden="true"></span>
             <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
           </div>
 

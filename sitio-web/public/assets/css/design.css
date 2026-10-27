@@ -1702,15 +1702,16 @@ html.motion .hb-scene {
   position: absolute;
   left: 0;
   top: 0;
-  display: none;
   overflow: hidden;
   transform-origin: 0 0;
   background: #fff;
 }
 
-/* Recién cuando design.js midió el recorte: antes no tienen dónde encajarse */
-.hb-ready .hb-screen {
-  display: block;
+/* Recién cuando design.js midió el recorte: antes no tienen dónde encajarse. Va por la
+   negativa para no pisarle el display a cada pantalla, que arma lo suyo con grid. */
+.hb-crop:not(.hb-ready) .hb-screen,
+.hb-crop:not(.hb-ready) .hb-ring {
+  display: none;
 }
 
 .hb-s-mon1 {
@@ -1724,6 +1725,13 @@ html.motion .hb-scene {
   z-index: 2;
   width: 640px;
   height: 440px;
+  opacity: var(--a, 1);
+}
+
+.hb-s-mon3 {
+  z-index: 2;
+  width: 720px;
+  height: 290px;
   opacity: var(--a, 1);
 }
 
@@ -1808,6 +1816,83 @@ html.motion .hb-scene {
   color: #b54708;
   font-size: 38px;
   font-weight: 600;
+}
+
+/* El tercer monitor: dos ventanas abiertas al lado de la planilla, el CRM y WhatsApp.
+   Es el más ancho de los tres en la foto, así que acá entra la tipografía más grande. */
+.hb-s-mon3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px;
+  background: #dfe5ec;
+  color: #0f172a;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.hb-wa,
+.hb-crm {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  overflow: hidden;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.hb-wa-hd,
+.hb-crm-hd {
+  overflow: hidden;
+  font-size: 29px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hb-wa-hd {
+  margin: -12px -14px 2px;
+  padding: 10px 14px;
+  border-radius: 14px 14px 0 0;
+  background: #128c7e;
+  color: #fff;
+}
+
+.hb-wa-msg {
+  max-width: 88%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: #eef1f5;
+}
+
+.hb-wa-out {
+  justify-self: end;
+  background: #d9fdd3;
+}
+
+.hb-crm-hd {
+  color: #2353d6;
+}
+
+.hb-crm-row {
+  display: flex;
+  gap: 12px;
+  font-size: 30px;
+  align-items: baseline;
+  padding-bottom: 7px;
+  border-bottom: 2px solid #e4e7ec;
+}
+
+.hb-crm-row b {
+  margin-left: auto;
+  color: #b54708;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hb-crm-ok {
+  color: #1e7a4c;
 }
 
 /* ----- El tablero del televisor. Se lo ve de costado, así que el rectángulo de diseño
@@ -2022,7 +2107,7 @@ html.motion .hb-scene {
   left: 0;
   top: 0;
   z-index: 4;
-  display: none;
+  display: block;
   box-sizing: border-box;
   border: 14px solid var(--accent-600);
   border-radius: 18px;
@@ -2030,10 +2115,6 @@ html.motion .hb-scene {
   pointer-events: none;
   transform-origin: 0 0;
   box-shadow: 0 0 90px 10px rgba(228, 88, 28, 0.45), inset 0 0 70px rgba(228, 88, 28, 0.2);
-}
-
-.hb-ready .hb-ring {
-  display: block;
 }
 
 .hb-r-mon1 {
@@ -2045,6 +2126,12 @@ html.motion .hb-scene {
   width: 640px;
   height: 440px;
   border-width: 10px;
+}
+
+.hb-r-mon3 {
+  width: 720px;
+  height: 290px;
+  border-width: 11px;
 }
 
 /* El televisor va aparte: el marco naranja señala y se apaga, pero la luz que tira la

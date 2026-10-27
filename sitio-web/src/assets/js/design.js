@@ -87,9 +87,11 @@
     var screens = [
       { el: track.querySelector('.hb-s-mon1'), w: 640, h: 420, quad: F.mon1 },
       { el: track.querySelector('.hb-s-mon2'), w: 640, h: 440, quad: F.mon2 },
+      { el: track.querySelector('.hb-s-mon3'), w: 720, h: 290, quad: F.mon3 },
       { el: track.querySelector('.hb-s-tv'), w: 1280, h: 1650, quad: F.tv },
       { el: track.querySelector('.hb-r-mon1'), w: 640, h: 420, quad: F.mon1 },
       { el: track.querySelector('.hb-r-mon2'), w: 640, h: 440, quad: F.mon2 },
+      { el: track.querySelector('.hb-r-mon3'), w: 720, h: 290, quad: F.mon3 },
       { el: track.querySelector('.hb-r-tv'), w: 1280, h: 1650, quad: F.tv }
     ];
 
@@ -194,7 +196,7 @@
     var veil = track.querySelector('.hb-veil');
     var rail = track.querySelector('.hb-rail');
     var tags = slice(track.querySelectorAll('.hb-tag'));
-    var ringMon = slice(track.querySelectorAll('.hb-r-mon1, .hb-r-mon2'));
+    var ringMon = slice(track.querySelectorAll('.hb-r-mon1, .hb-r-mon2, .hb-r-mon3'));
     var ringTv = track.querySelector('.hb-r-tv');
     var oks = slice(track.querySelectorAll('.hb-join-rows .hb-ok'));
     var flies = slice(track.querySelectorAll('.hb-fly'));
