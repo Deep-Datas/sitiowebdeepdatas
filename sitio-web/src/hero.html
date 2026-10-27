@@ -124,20 +124,6 @@
 
 {% macro scene() %}
 <section class="hb" aria-labelledby="hb-title">
-  <div class="container hb-copy">
-    <div class="hb-head">
-      <p class="eyebrow">{{ C.eyebrow }}</p>
-      <h1 id="hb-title">{{ C.title }} <em>{{ C.title_em }}</em></h1>
-    </div>
-    <div class="hb-side">
-      <p class="lead">{{ C.lead }}</p>
-      <div class="actions">
-        <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ C.cta }} {{ icon('arrow-right') }}</a>
-        <a class="btn btn-secondary btn-lg" href="{{ url('diagnostico') }}">{{ C.secondary }}</a>
-      </div>
-    </div>
-  </div>
-
   <div class="hb-track" data-hb data-foto='{{ FOTO | tojson }}'
        data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
        data-captions='{{ C.captions | tojson }}'>
@@ -266,6 +252,23 @@
                 {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
               </span>
               <p class="hb-caption">{{ C.captions[-1][1] }}</p>
+            </div>
+          </div>
+        </div>
+
+        {# El texto va encima de la foto; el velo lo hace legible y los dos se van
+           juntos apenas empieza el recorrido, para dejarle la pantalla a la escena. #}
+        <span class="hb-veil" aria-hidden="true"></span>
+        <div class="container hb-copy">
+          <div class="hb-head">
+            <p class="eyebrow">{{ C.eyebrow }}</p>
+            <h1 id="hb-title">{{ C.title }} <em>{{ C.title_em }}</em></h1>
+          </div>
+          <div class="hb-side">
+            <p class="lead">{{ C.lead }}</p>
+            <div class="actions">
+              <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ C.cta }} {{ icon('arrow-right') }}</a>
+              <a class="btn btn-secondary btn-lg" href="{{ url('diagnostico') }}">{{ C.secondary }}</a>
             </div>
           </div>
         </div>

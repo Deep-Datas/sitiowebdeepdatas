@@ -1555,13 +1555,49 @@ html:not(.motion) .phone-view:first-child {
   position: relative;
 }
 
+/* El texto va encima de la foto, a la izquierda, y se va apenas arranca el recorrido */
 .hb-copy {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   display: grid;
+  /* safe: en pantallas bajas el texto se apoya arriba en vez de salirse por los dos lados */
+  align-content: safe center;
+  justify-items: start;
   gap: clamp(18px, 2vw, 26px);
-  padding-top: clamp(26px, 4vw, 54px);
-  padding-bottom: clamp(22px, 3vw, 38px);
+  padding-top: clamp(10px, 2vh, 28px);
+  padding-bottom: clamp(28px, 6vh, 96px);
+  pointer-events: none;
+  opacity: var(--copy, 1);
+  transform: translateY(calc((1 - var(--copy, 1)) * -34px));
+}
+
+.hb-copy[hidden] {
+  display: none;
+}
+
+.hb-head,
+.hb-side {
+  max-width: min(100%, 36rem);
+}
+
+/* Solo los botones reciben clics: el resto deja pasar el cursor a la escena */
+.hb-copy .actions {
+  pointer-events: auto;
+}
+
+/* El velo que hace legible el texto sobre la foto; se desvanece con él */
+.hb-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: var(--copy, 1);
+  background: linear-gradient(100deg,
+    color-mix(in srgb, var(--bg) 97%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 93%, transparent) 32%,
+    color-mix(in srgb, var(--bg) 60%, transparent) 50%,
+    transparent 72%);
 }
 
 .hb-copy h1 {
@@ -1570,7 +1606,9 @@ html:not(.motion) .phone-view:first-child {
   line-height: 1.02;
 }
 
+/* La frase en bastardilla arranca en su propio renglón: es la otra mitad de la idea */
 .hb-copy h1 em {
+  display: block;
   font-family: var(--font-accent);
   font-style: italic;
   font-weight: 400;
@@ -1579,30 +1617,14 @@ html:not(.motion) .phone-view:first-child {
 }
 
 .hb-copy .lead {
-  max-width: 52ch;
+  max-width: 46ch;
   margin: 0;
+  color: var(--fg-2);
 }
 
 .hb-side {
   display: grid;
   gap: 18px;
-}
-
-@media (min-width: 901px) {
-  .hb-copy {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    align-items: end;
-    column-gap: clamp(28px, 4vw, 72px);
-  }
-
-  .hb-head,
-  .hb-side {
-    grid-row: 1;
-  }
-
-  .hb-side {
-    padding-bottom: 6px;
-  }
 }
 
 /* ----- El riel del scroll: mientras dura, la escena queda fija y la cámara avanza ----- */
@@ -2371,6 +2393,7 @@ html.motion .hb-scene {
   position: absolute;
   left: 50%;
   bottom: 3.5%;
+  opacity: var(--cap, 1);
   display: grid;
   gap: 0.8cqw;
   width: min(84%, 62ch);
@@ -2413,6 +2436,7 @@ html.motion .hb-scene {
   margin: 0;
   color: var(--text);
   font-size: 1.15cqw;
+  transition: none;
   font-weight: 500;
   text-align: center;
   text-wrap: balance;
@@ -2434,14 +2458,38 @@ html.motion .hb-scene {
   transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Sin animación no hay riel que recorrer: queda el último acto, quieto. El alto de la
-   escena se mantiene (el recorte vive de él), pero deja de estar fija. */
+/* Sin animación no hay recorrido: el texto deja de ir encima de la foto y vuelve a ir
+   arriba, y debajo queda el último acto, quieto y completo. Es el orden del DOM al
+   revés, así que el texto se adelanta con order. */
 html:not(.motion) .hb-track {
   height: auto;
 }
 
 html:not(.motion) .hb-pin {
   position: static;
+  height: auto;
+}
+
+html:not(.motion) .hb-stage {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+html:not(.motion) .hb-copy {
+  order: -1;
+  position: static;
+  padding-top: clamp(26px, 4vw, 54px);
+  padding-bottom: clamp(22px, 3vw, 38px);
+  transform: none;
+}
+
+html:not(.motion) .hb-crop {
+  height: min(70svh, 560px);
+}
+
+html:not(.motion) .hb-veil {
+  display: none;
 }
 
 html:not(.motion) .hb-steps {
@@ -2452,6 +2500,21 @@ html:not(.motion) .hb-steps {
   .hb-track {
     height: 260vh;
   }
+
+  .hb-copy {
+    align-content: start;
+    padding-top: clamp(22px, 5vh, 48px);
+    padding-bottom: 0;
+  }
+
+  .hb-veil {
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--bg) 97%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 94%, transparent) 52%,
+      color-mix(in srgb, var(--bg) 55%, transparent) 76%,
+      transparent 100%);
+  }
+
 
   /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
      se mueve en una franja vertical (los encuadres de «cam_alto») */

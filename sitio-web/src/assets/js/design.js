@@ -190,6 +190,9 @@
     var join = track.querySelector('.hb-join');
     var joinBar = track.querySelector('.hb-join-bar i');
     var alertEl = track.querySelector('.hb-alert');
+    var copy = track.querySelector('.hb-copy');
+    var veil = track.querySelector('.hb-veil');
+    var rail = track.querySelector('.hb-rail');
     var tags = slice(track.querySelectorAll('.hb-tag'));
     var ringMon = slice(track.querySelectorAll('.hb-r-mon1, .hb-r-mon2'));
     var ringTv = track.querySelector('.hb-r-tv');
@@ -232,8 +235,18 @@
     function render(p, t, dt) {
       camera(p, dt);
 
-      // Acto 1: el pedido que entra al equipo de datos, desde el primer cuadro
-      set(ask, '--a', (1 - smooth(0.19, 0.25, p)).toFixed(3));
+      // El título se va primero y le deja la pantalla a la escena; el riel entra atrás.
+      // Sin animación no se va nada: el texto y el pie quedan como están en el CSS.
+      if (motion) {
+        var titulo = 1 - smooth(0.02, 0.11, p);
+        set(copy, '--copy', titulo.toFixed(3));
+        set(veil, '--copy', titulo.toFixed(3));
+        if (copy) copy.hidden = titulo < 0.01;
+        set(rail, '--cap', smooth(0.06, 0.14, p).toFixed(3));
+      }
+
+      // Acto 1: el pedido que entra al equipo de datos, una vez que el título se fue
+      set(ask, '--a', (smooth(0.12, 0.19, p) * (1 - smooth(0.28, 0.34, p))).toFixed(3));
 
       // Acto 2: una etiqueta y un marco por monitor
       tags.forEach(function (tag, i) {
