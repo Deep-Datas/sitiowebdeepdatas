@@ -1,8 +1,13 @@
 """Prepara la foto de la portada del inicio: la aclara y la agranda lo mejor que se puede.
 
-Parte de tools/hero/portada-original.webp (1024 x 683, la foto que mandó el cliente:
-una oficina con dos ambientes, el equipo de datos de un lado y quien decide del otro)
-y escribe src/assets/img/hero/portada-oficina-{1024,2048,3072}.webp.
+Parte de dos fotos del cliente, en tools/hero/:
+
+  portada-original.webp      la oficina entera (1264 x 843): el equipo de datos de un
+                             lado y, cruzando la mampara, quien decide del otro.
+  portada-tv-original.webp   el primer plano del televisor (1024 x 559), adonde llega
+                             la cámara al final del recorrido.
+
+y escribe src/assets/img/hero/portada-oficina-{1264,2528}.webp y portada-tv-{1024,2048}.webp.
 
 Dos cosas pasan acá:
 
@@ -30,9 +35,12 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 RAIZ = Path(__file__).resolve().parent.parent
-ORIGEN = RAIZ / 'tools' / 'hero' / 'portada-original.webp'
 DESTINO = RAIZ / 'src' / 'assets' / 'img' / 'hero'
-ANCHOS = ((1024, 86), (2048, 84), (3072, 82))   # (ancho, calidad webp)
+# (archivo de origen, nombre que se publica, (ancho, calidad webp) …)
+FOTOS = (
+    ('portada-original.webp', 'portada-oficina', ((1264, 86), (2528, 82))),
+    ('portada-tv-original.webp', 'portada-tv', ((1024, 86), (2048, 82))),
+)
 
 GAMMA_LUZ = 0.79        # <1 aclara los medios tonos y deja quietos negro y blanco
 SATURACION = 0.90       # un poco menos de color: la oficina se lee más blanca
@@ -76,34 +84,37 @@ def retroproyeccion(base: Image.Image, ancho: int) -> Image.Image:
 
 
 def main() -> int:
-    if not ORIGEN.exists():
-        print(f'falta la foto original en {ORIGEN}')
-        return 1
-    original = Image.open(ORIGEN).convert('RGB')
-    claro = revelado(np.asarray(original, dtype=np.float32) / 255)
-
-    if '--revelado' in sys.argv:
-        antes = np.asarray(original, dtype=float)
-        despues = claro * 255
-        for nombre, x in (('antes  ', antes), ('después', despues)):
-            luma = x @ [0.2126, 0.7152, 0.0722]
-            print(nombre, 'media', round(luma.mean(), 1),
-                  '· mediana RGB', np.median(x.reshape(-1, 3), 0).round(1),
-                  '· quemado', f'{(luma > 250).mean() * 100:.2f} %')
-        return 0
-
-    base = Image.fromarray((claro * 255).round().astype('uint8'))
     DESTINO.mkdir(parents=True, exist_ok=True)
-    for ancho, calidad in ANCHOS:
-        if ancho == base.width:
-            im = base
-        else:
-            im = retroproyeccion(base, ancho)
-            # Un último toque de nitidez, suave: la retroproyección ya hizo lo grueso
-            im = im.filter(ImageFilter.UnsharpMask(radius=1.4, percent=38, threshold=2))
-        salida = DESTINO / f'portada-oficina-{ancho}.webp'
-        im.save(salida, quality=calidad, method=6)
-        print(f'{salida.name}: {im.width} x {im.height}, {salida.stat().st_size // 1024} KB')
+    for archivo, nombre, anchos in FOTOS:
+        origen = RAIZ / 'tools' / 'hero' / archivo
+        if not origen.exists():
+            print(f'falta la foto original en {origen}')
+            return 1
+        original = Image.open(origen).convert('RGB')
+        claro = revelado(np.asarray(original, dtype=np.float32) / 255)
+
+        if '--revelado' in sys.argv:
+            antes = np.asarray(original, dtype=float)
+            despues = claro * 255
+            print(archivo)
+            for etiqueta, x in (('  antes  ', antes), ('  después', despues)):
+                luma = x @ [0.2126, 0.7152, 0.0722]
+                print(etiqueta, 'media', round(luma.mean(), 1),
+                      '· mediana RGB', np.median(x.reshape(-1, 3), 0).round(1),
+                      '· quemado', f'{(luma > 250).mean() * 100:.2f} %')
+            continue
+
+        base = Image.fromarray((claro * 255).round().astype('uint8'))
+        for ancho, calidad in anchos:
+            if ancho == base.width:
+                im = base
+            else:
+                im = retroproyeccion(base, ancho)
+                # Un último toque de nitidez, suave: la retroproyección ya hizo lo grueso
+                im = im.filter(ImageFilter.UnsharpMask(radius=1.4, percent=38, threshold=2))
+            salida = DESTINO / f'{nombre}-{ancho}.webp'
+            im.save(salida, quality=calidad, method=6)
+            print(f'{salida.name}: {im.width} x {im.height}, {salida.stat().st_size // 1024} KB')
     return 0
 
 

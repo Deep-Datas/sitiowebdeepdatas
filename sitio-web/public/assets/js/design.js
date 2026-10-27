@@ -71,28 +71,27 @@
      recorte. Las pantallas se encajan con una matriz de perspectiva y viven dentro de la
      escena, así que la cámara las arrastra sola. Sin animación queda el último acto. */
   document.querySelectorAll('[data-hb]').forEach(function (track) {
-    var F, statuses, captions;
+    var F, K, statuses, captions;
     try {
       F = JSON.parse(track.getAttribute('data-foto'));
+      K = JSON.parse(track.getAttribute('data-cerca'));
       statuses = JSON.parse(track.getAttribute('data-statuses'));
       captions = JSON.parse(track.getAttribute('data-captions'));
     } catch (e) { return; }
 
     var crop = track.querySelector('.hb-crop');
-    var scene = track.querySelector('.hb-scene');
+    var scene = track.querySelector('.hb-scene-a');
+    var sceneB = track.querySelector('.hb-scene-b');
     var pin = track.querySelector('.hb-pin');
     if (!crop || !scene || !pin) return;
 
-    // Las pantallas y, sobre el mismo cuadrilátero, el marco que las señala
+    // Las pantallas y, sobre el mismo cuadrilátero, el marco que las señala. Las dos
+    // últimas viven en la segunda foto, así que se miden contra su tamaño.
     var screens = [
-      { el: track.querySelector('.hb-s-mon1'), w: 640, h: 420, quad: F.mon1 },
-      { el: track.querySelector('.hb-s-mon2'), w: 640, h: 440, quad: F.mon2 },
-      { el: track.querySelector('.hb-s-mon3'), w: 720, h: 290, quad: F.mon3 },
-      { el: track.querySelector('.hb-s-tv'), w: 1280, h: 1650, quad: F.tv },
-      { el: track.querySelector('.hb-r-mon1'), w: 640, h: 420, quad: F.mon1 },
-      { el: track.querySelector('.hb-r-mon2'), w: 640, h: 440, quad: F.mon2 },
-      { el: track.querySelector('.hb-r-mon3'), w: 720, h: 290, quad: F.mon3 },
-      { el: track.querySelector('.hb-r-tv'), w: 1280, h: 1650, quad: F.tv }
+      { el: track.querySelector('.hb-s-tv'), w: 1280, h: 1650, quad: F.tv, foto: F },
+      { el: track.querySelector('.hb-r-tv'), w: 1280, h: 1650, quad: F.tv, foto: F },
+      { el: track.querySelector('.hb-s-tv2'), w: 1280, h: 720, quad: K.tv, foto: K },
+      { el: track.querySelector('.hb-r-tv2'), w: 1280, h: 720, quad: K.tv, foto: K }
     ];
 
     // Gauss con pivoteo parcial: resuelve los 8 coeficientes de la homografía
@@ -113,13 +112,15 @@
       return M.map(function (row) { return row[n]; });
     }
 
-    // Lleva el rectángulo de diseño al cuadrilátero de la pantalla, en píxeles de la escena
-    function matrixFor(s, sw, sh) {
+    // Lleva el rectángulo de diseño al cuadrilátero de la pantalla, en píxeles de la
+    // escena. sw es el ancho de la escena; el alto sale de la forma de su propia foto.
+    function matrixFor(s, sw) {
+      var sh = sw * s.foto.h / s.foto.w;
       var src = [[0, 0], [s.w, 0], [s.w, s.h], [0, s.h]];
       var A = [], b = [];
       for (var i = 0; i < 4; i++) {
         var x = src[i][0], y = src[i][1];
-        var u = s.quad[i][0] / F.w * sw, v = s.quad[i][1] / F.h * sh;
+        var u = s.quad[i][0] / s.foto.w * sw, v = s.quad[i][1] / s.foto.h * sh;
         A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
         A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
       }
@@ -134,51 +135,63 @@
       if (!cropW || !cropH) return false;
       ar = cropW / cropH;
       fade = copy ? parseFloat(getComputedStyle(copy).getPropertyValue('--fade')) || 0 : 0;
-      var sceneH = cropW * F.h / F.w;
-      screens.forEach(function (s) { if (s.el) matrixFor(s, cropW, sceneH); });
+      screens.forEach(function (s) { if (s.el) matrixFor(s, cropW); });
       crop.classList.add('hb-ready');
       return true;
     }
 
     // El encuadre de un acto: se agranda el rectángulo pedido hasta tener la forma del
     // recorte y se lo mete dentro de la foto. Devuelve [izquierda, arriba, ancho].
-    function frame(box) {
+    function frame(box, foto) {
       var w = box[2] - box[0], h = box[3] - box[1];
       if (w / h < ar) w = h * ar; else h = w / ar;
-      var k = Math.min(1, F.w / w, F.h / h);
+      var k = Math.min(1, foto.w / w, foto.h / h);
       w *= k; h *= k;
-      var cx = clamp((box[0] + box[2]) / 2, w / 2, F.w - w / 2);
-      var cy = clamp((box[1] + box[3]) / 2, h / 2, F.h - h / 2);
+      var cx = clamp((box[0] + box[2]) / 2, w / 2, foto.w - w / 2);
+      var cy = clamp((box[1] + box[3]) / 2, h / 2, foto.h - h / 2);
       return [cx - w / 2, cy - h / 2, w];
     }
 
-    // La cámara no salta al valor del scroll: lo persigue con un retardo chico. Ese
-    // retardo es lo que hace que el movimiento se sienta de cámara y no de barra de
-    // scroll, y de paso se come los saltos de la rueda del mouse. quieta avisa cuándo
+    // Una cámara por foto. No salta al valor del scroll: lo persigue con un retardo
+    // chico, que es lo que hace que el movimiento se sienta de cámara y no de barra de
+    // scroll, y de paso se come los saltos de la rueda del mouse. «quieta» avisa cuándo
     // ya llegó, para no seguir dibujando de gusto.
-    var cam = null, quieta = true;
-    function camera(p, dt) {
-      // En recortes altos (celulares) hay que acercarse más: lleva sus propios encuadres
-      var k = ar < 1.1 && F.cam_alto ? F.cam_alto : F.cam, i = 0;
-      while (i < k.length - 2 && p > k[i + 1][0]) i++;
-      var a = k[i], b = k[i + 1], t = smooth(a[0], b[0], p);
-      var meta = frame([lerp(a[1], b[1], t), lerp(a[2], b[2], t), lerp(a[3], b[3], t), lerp(a[4], b[4], t)]);
-      if (!cam || !dt) {
-        cam = meta;
-        quieta = true;
-      } else {
-        var f = 1 - Math.exp(-dt * 7);
-        quieta = true;
-        for (var j = 0; j < 3; j++) {
-          var d = meta[j] - cam[j];
-          if (Math.abs(d) > 0.05) quieta = false;
-          cam[j] += d * f;
+    function hacerCamara(el, foto) {
+      var cam = null, quieta = true;
+      return {
+        llego: function () { return quieta; },
+        arrancar: function () { cam = null; },
+        mover: function (p, dt) {
+          // En recortes altos (celulares, media pantalla) hay que acercarse más
+          var k = ar < 1.1 && foto.cam_alto ? foto.cam_alto : foto.cam, i = 0;
+          while (i < k.length - 2 && p > k[i + 1][0]) i++;
+          var a = k[i], b = k[i + 1], t = smooth(a[0], b[0], p);
+          var meta = frame([lerp(a[1], b[1], t), lerp(a[2], b[2], t),
+                            lerp(a[3], b[3], t), lerp(a[4], b[4], t)], foto);
+          if (!cam || !dt) {
+            cam = meta;
+            quieta = true;
+          } else {
+            var f = 1 - Math.exp(-dt * 7);
+            quieta = true;
+            for (var j = 0; j < 3; j++) {
+              var d = meta[j] - cam[j];
+              if (Math.abs(d) > 0.05) quieta = false;
+              cam[j] += d * f;
+            }
+          }
+          var s = foto.w / cam[2];
+          el.style.transform = 'translate(' + (-s * cam[0] / foto.w * 100).toFixed(3) + '%,' +
+            (-s * cam[1] / foto.h * 100).toFixed(3) + '%) scale(' + s.toFixed(4) + ')';
         }
-      }
-      var s = F.w / cam[2];
-      scene.style.transform = 'translate(' + (-s * cam[0] / F.w * 100).toFixed(3) + '%,' +
-        (-s * cam[1] / F.h * 100).toFixed(3) + '%) scale(' + s.toFixed(4) + ')';
+      };
     }
+
+    var camA = hacerCamara(scene, F);
+    var camB = sceneB ? hacerCamara(sceneB, K) : null;
+    var turnA = track.querySelector('.hb-turn-a');
+    var turnB = track.querySelector('.hb-turn-b');
+    function quieta() { return camA.llego() && (!camB || camB.llego()); }
 
     var question = track.getAttribute('data-question') || '';
     var qEl = track.querySelector('[data-hb-q]');
@@ -196,9 +209,10 @@
     var copy = track.querySelector('.hb-copy');
     var veil = track.querySelector('.hb-veil');
     var rail = track.querySelector('.hb-rail');
-    var tags = slice(track.querySelectorAll('.hb-tag'));
-    var ringMon = slice(track.querySelectorAll('.hb-r-mon1, .hb-r-mon2, .hb-r-mon3'));
-    var ringTv = track.querySelector('.hb-r-tv');
+    var tvs = slice(track.querySelectorAll('.hb-s-tv, .hb-s-tv2'));
+    var wa = track.querySelector('.hb-wa');
+    var crm = track.querySelector('.hb-crm');
+    var ringTv = slice(track.querySelectorAll('.hb-r-tv, .hb-r-tv2'));
     var oks = slice(track.querySelectorAll('.hb-join-rows .hb-ok'));
     var flies = slice(track.querySelectorAll('.hb-fly'));
     var steps = slice(track.querySelectorAll('.hb-step'));
@@ -236,7 +250,16 @@
     }
 
     function render(p, t, dt) {
-      camera(p, dt);
+      camA.mover(p, dt);
+      // La segunda foto entra girando sobre la pantalla: las dos capas giran a la vez,
+      // una saliendo y otra entrando, y el televisor queda donde estaba.
+      if (camB) {
+        camB.mover(p, dt);
+        var cruce = smooth(K.desde, K.hasta, p);
+        set(sceneB, '--b', cruce.toFixed(3));
+        set(turnA, '--giro', (cruce * -5).toFixed(2) + 'deg');
+        set(turnB, '--giro', ((1 - cruce) * 6).toFixed(2) + 'deg');
+      }
 
       // Donde el texto va encima de la escena (celulares) se desvanece con el scroll y
       // el pie entra atrás; donde va al lado (escritorio, media pantalla) se queda.
@@ -249,16 +272,20 @@
         set(rail, '--cap', fade ? smooth(0.06, 0.14, p).toFixed(3) : '1');
       }
 
-      // Acto 1: el pedido que entra al equipo de datos, una vez que el título se fue
-      set(ask, '--a', (smooth(0.12, 0.19, p) * (1 - smooth(0.28, 0.34, p))).toFixed(3));
+      // Acto 1: el pedido que acaba de entrar, una vez que el título se fue
+      set(ask, '--a', (smooth(0.12, 0.19, p) * (1 - smooth(0.21, 0.27, p))).toFixed(3));
 
-      // Acto 2: una etiqueta y un marco por monitor
-      tags.forEach(function (tag, i) {
-        set(tag, '--a', (smooth(0.27 + i * 0.04, 0.34 + i * 0.04, p) * (1 - smooth(0.49, 0.55, p))).toFixed(3));
-      });
-      ringMon.forEach(function (ring, i) {
-        set(ring, '--a', (smooth(0.25 + i * 0.04, 0.31 + i * 0.04, p) * (1 - smooth(0.50, 0.56, p))).toFixed(3));
-      });
+      // El tablero se enciende cuando la cámara ya encara el televisor (antes se ve el
+      // que trae la foto, así no quedan números en cero a la vista) y se apaga mientras
+      // dura el giro: los dos televisores se ven de ángulos distintos y superpuestos
+      // quedarían como una doble imagen. Vuelve del otro lado, ya de frente.
+      set(tvs[0], '--a', (smooth(0.68, 0.76, p) * (1 - smooth(0.82, 0.87, p))).toFixed(3));
+      if (tvs[1]) set(tvs[1], '--a', smooth(0.90, 0.96, p).toFixed(3));
+
+      // Acto 2: los dos sistemas abiertos mientras se arma la respuesta
+      var sale = 1 - smooth(0.50, 0.56, p);
+      set(wa, '--a', (smooth(0.26, 0.33, p) * sale).toFixed(3));
+      set(crm, '--a', (smooth(0.30, 0.37, p) * sale).toFixed(3));
 
       // Acto 3: los sistemas cruzan la mampara y se unen en un solo modelo
       set(join, '--a', (smooth(0.55, 0.62, p) * (1 - smooth(0.74, 0.80, p))).toFixed(3));
@@ -289,8 +316,12 @@
         text(statusEl, st);
       }
       // El marco del televisor señala y se apaga; la luz de la pantalla se queda
-      set(ringTv, '--a', (smooth(0.79, 0.86, p) * (1 - smooth(0.93, 0.99, p))).toFixed(3));
-      set(ringTv, '--g', smooth(0.80, 0.90, p).toFixed(3));
+      set(ringTv[0], '--a', (smooth(0.70, 0.76, p) * (1 - smooth(0.80, 0.85, p))).toFixed(3));
+      set(ringTv[0], '--g', (smooth(0.70, 0.78, p) * (1 - smooth(0.82, 0.87, p))).toFixed(3));
+      if (ringTv[1]) {
+        set(ringTv[1], '--a', (smooth(0.91, 0.96, p) * (1 - smooth(0.985, 1, p))).toFixed(3));
+        set(ringTv[1], '--g', smooth(0.91, 0.97, p).toFixed(3));
+      }
       if (scan) {
         var sc = smooth(0.80, 0.90, p);
         set(scan, '--scan', sc.toFixed(3));
@@ -335,7 +366,12 @@
     measure();
     draw(0, 0);
 
-    var resized = function () { if (measure()) { cam = null; draw(0, 0); } };
+    var resized = function () {
+      if (!measure()) return;
+      camA.arrancar();
+      if (camB) camB.arrancar();
+      draw(0, 0);
+    };
     if ('ResizeObserver' in window) new ResizeObserver(resized).observe(crop);
     else window.addEventListener('resize', resized);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(resized);
@@ -362,14 +398,19 @@
       lastTs = ts;
       p0 = progress();
       // Quieto el scroll y llegada la cámara, solo hace falta la onda de la voz
-      if (p0 !== lastP || !quieta || (p0 > 0.76 && p0 < 0.95)) { lastP = p0; draw(ts, dt); }
+      if (p0 !== lastP || !quieta() || (p0 > 0.76 && p0 < 0.95)) { lastP = p0; draw(ts, dt); }
       window.requestAnimationFrame(frameLoop);
     }
     var play = function (on) {
       if (on === running) return;
       running = on;
       // Al volver a entrar en pantalla la cámara arranca donde está el scroll, sin viaje
-      if (on) { lastTs = 0; cam = null; window.requestAnimationFrame(frameLoop); }
+      if (on) {
+        lastTs = 0;
+        camA.arrancar();
+        if (camB) camB.arrancar();
+        window.requestAnimationFrame(frameLoop);
+      }
     };
     if ('IntersectionObserver' in window) {
       var seen = new IntersectionObserver(function (entries) {

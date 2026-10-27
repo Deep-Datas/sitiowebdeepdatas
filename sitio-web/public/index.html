@@ -31,9 +31,9 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
   <link rel="stylesheet" href="/assets/css/charts.css?v=6dbf248c21">
-  <link rel="stylesheet" href="/assets/css/design.css?v=b7f1454835">
+  <link rel="stylesheet" href="/assets/css/design.css?v=32a1739acb">
   <script src="/assets/js/site.js?v=81f9af360c" defer></script>
-  <script src="/assets/js/design.js?v=b1d00f1b09" defer></script>
+  <script src="/assets/js/design.js?v=30f330ce92" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -98,113 +98,145 @@
 
 <!-- ======= PORTADA: la pregunta en voz alta y el tablero (src/hero.html) ======= -->
 <section class="hb" aria-labelledby="hb-title">
-  <div class="hb-track" data-hb data-foto='{"cam": [[0.0, 520, 270, 1024, 540], [0.16, 520, 270, 1024, 540], [0.32, 620, 300, 1024, 430], [0.46, 620, 300, 1024, 430], [0.6, 300, 200, 820, 500], [0.7, 300, 200, 820, 500], [0.88, 0, 150, 500, 400], [1.0, 0, 158, 440, 392]], "cam_alto": [[0.0, 655, 325, 915, 495], [0.16, 655, 325, 915, 495], [0.32, 650, 315, 1015, 405], [0.46, 650, 315, 1015, 405], [0.6, 380, 235, 720, 470], [0.7, 380, 235, 720, 470], [0.88, 0, 160, 340, 392], [1.0, 0, 200, 235, 400]], "h": 683, "mon1": [[669, 357.5], [721, 354], [721, 389], [669, 392.5]], "mon2": [[911, 329.5], [985.5, 328.5], [985.5, 380.5], [911, 381]], "mon3": [[783, 352.5], [852, 351], [852, 376], [783, 378]], "tv": [[20, 166], [150, 203], [151, 344], [20, 361]], "w": 1024}'
+  <div class="hb-track" data-hb data-foto='{"cam": [[0.0, 200, 250, 620, 790], [0.16, 200, 250, 620, 790], [0.32, 150, 260, 560, 700], [0.46, 150, 260, 560, 700], [0.6, 0, 180, 470, 640], [0.7, 0, 180, 470, 640], [0.86, 0, 170, 330, 540], [1.0, 0, 180, 250, 480]], "h": 843, "tv": [[28, 203], [184, 252], [183, 423], [29, 447]], "w": 1264}' data-cerca='{"cam": [[0.86, 110, 10, 600, 350], [1.0, 140, 22, 545, 325]], "desde": 0.83, "h": 559, "hasta": 0.91, "tv": [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]], "w": 1024}'
        data-question="¿Cuánto vendimos ayer en la zona norte?" data-statuses='[[0.78, "Escuchando\u2026"], [0.86, "Leyendo tus sistemas\u2026"], [0.94, "Respuesta lista \u00b7 con fuentes"]]'
        data-captions='[[0, "Hoy la pregunta entra al equipo de datos: exportar, cruzar, revisar."], [0.3, "Cuatro sistemas abiertos a la vez y una planilla que se arma pegando filas."], [0.58, "Unimos todo en un solo modelo confiable."], [0.76, "Una sola respuesta, en el momento, en la pantalla de quien decide."]]'>
     <div class="hb-pin">
       <div class="hb-stage">
         <div class="hb-crop" role="img" aria-label="Ejemplo: en la misma oficina, la pregunta que hoy el equipo de datos responde a mano en dos o tres días pasa a responderse sola en la pantalla de quien decide (datos ficticios).">
 
-          <div class="hb-scene">
-            <img class="hb-photo" src="/assets/img/hero/portada-oficina-2048.webp"
-                 srcset="/assets/img/hero/portada-oficina-1024.webp 1024w, /assets/img/hero/portada-oficina-2048.webp 2048w, /assets/img/hero/portada-oficina-3072.webp 3072w"
+          <div class="hb-turn hb-turn-a">
+          <div class="hb-scene hb-scene-a">
+            <img class="hb-photo" src="/assets/img/hero/portada-oficina-1264.webp"
+                 srcset="/assets/img/hero/portada-oficina-1264.webp 1264w, /assets/img/hero/portada-oficina-2528.webp 2528w"
                  sizes="(min-width: 901px) 250vw, 300vw"
-                 width="2048" height="1366" alt="" fetchpriority="high">
+                 width="1264" height="843" alt="" fetchpriority="high">
 
-            <div class="hb-screen hb-s-mon1" aria-hidden="true">
-              <span class="hb-q-app">consulta.sql</span>
-              <span class="hb-q-line">SELECT ventas</span>
-              <span class="hb-q-line">zona = «norte»</span>
-              <span class="hb-q-line">12.482 filas</span>
-            </div>
+            <div class="hb-screen hb-s-tv" aria-hidden="true"><div class="hb-scr">
+  <span class="hb-scan"></span>
+  <div class="hb-top">
+    <span class="hb-app">DeepDatas · Tablero ejecutivo</span>
+    <span class="hb-live"><i></i> En vivo</span>
+  </div>
+  <div class="hb-board-head">
+    <h2>Ventas de ayer</h2>
+    <span class="hb-chip">Zona norte</span>
+    <span class="hb-when">07:00</span>
+  </div>
+  <div class="hb-tiles">
+    <div class="hb-tile">
+      <span class="hb-k">Facturación</span>
+      <span class="hb-v" data-kpi="1,28" data-pre="$ " data-post=" M">$ 1,28 M</span>
+      <span class="hb-d">▲ 9,0 % vs. semana pasada</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Margen bruto</span>
+      <span class="hb-v" data-kpi="24,6" data-pre="" data-post=" %">24,6 %</span>
+      <span class="hb-d">▲ 1,2 pp</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Quiebres</span>
+      <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
+      <span class="hb-d">▼ 2 vs. ayer</span>
+    </div>
+  </div>
+  <div class="hb-chart">
+    <h3>Por distribuidor</h3>
+    <div class="hb-bars">
+      <div class="hb-bar">
+        <span class="hb-nm">Norte SA</span>
+        <span class="hb-tr"><i class="w-92"></i></span>
+        <b class="hb-vl">$ 412 k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Distrisur</span>
+        <span class="hb-tr"><i class="w-74"></i></span>
+        <b class="hb-vl">$ 331 k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">La Rueda</span>
+        <span class="hb-tr"><i class="w-61"></i></span>
+        <b class="hb-vl">$ 273 k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Pampa Dist.</span>
+        <span class="hb-tr"><i class="w-38"></i></span>
+        <b class="hb-vl">$ 170 k</b>
+      </div>
+    </div>
+  </div>
+  <div class="hb-foot"><span>Fuentes: ERP · CRM · Planillas · WhatsApp</span><span class="hb-right">Datos ficticios</span></div>
+</div>
+</div>
 
-            <div class="hb-screen hb-s-mon2" aria-hidden="true">
-              <span class="hb-x-app">ventas_zona_norte_v7.xlsx</span>
-              <span class="hb-x-grid">
-                <span class="hb-x-row"><span>Norte SA</span><b>412.000</b></span>
-                <span class="hb-x-row"><span>Distrisur</span><b>331.000</b></span>
-                <span class="hb-x-row"><span>La Rueda</span><b>273.000</b></span>
-                <span class="hb-x-row"><span>Pampa Dist.</span><b>170.000</b></span>
-              </span>
-              <span class="hb-x-status">Pegado a mano · sin el CRM</span>
-            </div>
-
-            <div class="hb-screen hb-s-mon3" aria-hidden="true">
-              <div class="hb-wa">
-                <span class="hb-wa-hd">WhatsApp · Pedidos</span>
-                <span class="hb-wa-msg hb-wa-in">40 cajas de papas, jueves</span>
-                <span class="hb-wa-msg hb-wa-out">Listo, pedido 7731</span>
-              </div>
-              <div class="hb-crm">
-                <span class="hb-crm-hd">CRM · Visitas</span>
-                <span class="hb-crm-row"><span>Norte SA</span><b class="hb-crm-ok">Cerrado</b></span>
-                <span class="hb-crm-row"><span>Oeste SRL</span><b>Sin visita</b></span>
-                <span class="hb-crm-row"><span>Litoral</span><b>Propuesta</b></span>
-              </div>
-            </div>
-
-            <div class="hb-screen hb-s-tv" aria-hidden="true">
-              <div class="hb-scr">
-                <span class="hb-scan"></span>
-                <div class="hb-top">
-                  <span class="hb-app">DeepDatas · Tablero ejecutivo</span>
-                  <span class="hb-live"><i></i> En vivo</span>
-                </div>
-                <div class="hb-board-head">
-                  <h2>Ventas de ayer</h2>
-                  <span class="hb-chip">Zona norte</span>
-                  <span class="hb-when">07:00</span>
-                </div>
-                <div class="hb-tiles">
-                  <div class="hb-tile">
-                    <span class="hb-k">Facturación</span>
-                    <span class="hb-v" data-kpi="1,28" data-pre="$ " data-post=" M">$ 1,28 M</span>
-                    <span class="hb-d">▲ 9,0 % vs. semana pasada</span>
-                  </div>
-                  <div class="hb-tile">
-                    <span class="hb-k">Margen bruto</span>
-                    <span class="hb-v" data-kpi="24,6" data-pre="" data-post=" %">24,6 %</span>
-                    <span class="hb-d">▲ 1,2 pp</span>
-                  </div>
-                  <div class="hb-tile">
-                    <span class="hb-k">Quiebres</span>
-                    <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
-                    <span class="hb-d">▼ 2 vs. ayer</span>
-                  </div>
-                </div>
-                <div class="hb-chart">
-                  <h3>Por distribuidor</h3>
-                  <div class="hb-bars">
-                    <div class="hb-bar">
-                      <span class="hb-nm">Norte SA</span>
-                      <span class="hb-tr"><i class="w-92"></i></span>
-                      <b class="hb-vl">$ 412 k</b>
-                    </div>
-                    <div class="hb-bar">
-                      <span class="hb-nm">Distrisur</span>
-                      <span class="hb-tr"><i class="w-74"></i></span>
-                      <b class="hb-vl">$ 331 k</b>
-                    </div>
-                    <div class="hb-bar">
-                      <span class="hb-nm">La Rueda</span>
-                      <span class="hb-tr"><i class="w-61"></i></span>
-                      <b class="hb-vl">$ 273 k</b>
-                    </div>
-                    <div class="hb-bar">
-                      <span class="hb-nm">Pampa Dist.</span>
-                      <span class="hb-tr"><i class="w-38"></i></span>
-                      <b class="hb-vl">$ 170 k</b>
-                    </div>
-                  </div>
-                </div>
-                <div class="hb-foot"><span>Fuentes: ERP · CRM · Planillas · WhatsApp</span><span class="hb-right">Datos ficticios</span></div>
-              </div>
-            </div>
-
-            <span class="hb-ring hb-r-mon1" aria-hidden="true"></span>
-            <span class="hb-ring hb-r-mon2" aria-hidden="true"></span>
-            <span class="hb-ring hb-r-mon3" aria-hidden="true"></span>
             <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
+          </div>
+          </div>
+
+          <div class="hb-turn hb-turn-b">
+          <div class="hb-scene hb-scene-b">
+            <img class="hb-photo" src="/assets/img/hero/portada-tv-1024.webp"
+                 srcset="/assets/img/hero/portada-tv-1024.webp 1024w, /assets/img/hero/portada-tv-2048.webp 2048w"
+                 sizes="(min-width: 901px) 130vw, 260vw"
+                 width="1024" height="559" alt="" loading="lazy">
+            <div class="hb-screen hb-s-tv2" aria-hidden="true"><div class="hb-scr">
+  <span class="hb-scan"></span>
+  <div class="hb-top">
+    <span class="hb-app">DeepDatas · Tablero ejecutivo</span>
+    <span class="hb-live"><i></i> En vivo</span>
+  </div>
+  <div class="hb-board-head">
+    <h2>Ventas de ayer</h2>
+    <span class="hb-chip">Zona norte</span>
+    <span class="hb-when">07:00</span>
+  </div>
+  <div class="hb-tiles">
+    <div class="hb-tile">
+      <span class="hb-k">Facturación</span>
+      <span class="hb-v" data-kpi="1,28" data-pre="$ " data-post=" M">$ 1,28 M</span>
+      <span class="hb-d">▲ 9,0 % vs. semana pasada</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Margen bruto</span>
+      <span class="hb-v" data-kpi="24,6" data-pre="" data-post=" %">24,6 %</span>
+      <span class="hb-d">▲ 1,2 pp</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Quiebres</span>
+      <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
+      <span class="hb-d">▼ 2 vs. ayer</span>
+    </div>
+  </div>
+  <div class="hb-chart">
+    <h3>Por distribuidor</h3>
+    <div class="hb-bars">
+      <div class="hb-bar">
+        <span class="hb-nm">Norte SA</span>
+        <span class="hb-tr"><i class="w-92"></i></span>
+        <b class="hb-vl">$ 412 k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Distrisur</span>
+        <span class="hb-tr"><i class="w-74"></i></span>
+        <b class="hb-vl">$ 331 k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">La Rueda</span>
+        <span class="hb-tr"><i class="w-61"></i></span>
+        <b class="hb-vl">$ 273 k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Pampa Dist.</span>
+        <span class="hb-tr"><i class="w-38"></i></span>
+        <b class="hb-vl">$ 170 k</b>
+      </div>
+    </div>
+  </div>
+  <div class="hb-foot"><span>Fuentes: ERP · CRM · Planillas · WhatsApp</span><span class="hb-right">Datos ficticios</span></div>
+</div>
+</div>
+            <span class="hb-ring hb-r-tv2" aria-hidden="true"></span>
+          </div>
           </div>
 
           <span class="hb-grade" aria-hidden="true"></span>
@@ -217,8 +249,19 @@
               <span class="hb-ask-eta"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /> <path d="M12 7v5l4 2" /></svg> Entrega estimada: 2 a 3 días</span>
             </div>
 
-            <span class="hb-tag hb-tag-mon1">ERP · export .csv</span>
-            <span class="hb-tag hb-tag-mon2">Planilla v7, pegada a mano</span>
+            <div class="hb-card hb-wa">
+              <span class="hb-wa-hd">WhatsApp · Pedidos</span>
+              <span class="hb-wa-msg hb-wa-in">40 cajas de papas, jueves</span>
+              <span class="hb-wa-msg hb-wa-out">Listo, pedido 7731</span>
+            </div>
+
+            <div class="hb-card hb-crm">
+              <span class="hb-crm-hd">CRM · Visitas</span>
+              <span class="hb-crm-row"><span>Norte SA</span><b class="hb-crm-ok">Cerrado</b></span>
+              <span class="hb-crm-row"><span>Oeste SRL</span><b>Sin visita</b></span>
+              <span class="hb-crm-row"><span>Litoral</span><b>Propuesta</b></span>
+              <span class="hb-crm-foot">ventas_zona_norte_v7.xlsx · Pegado a mano · sin el CRM</span>
+            </div>
 
             <div class="hb-card hb-join">
               <span class="hb-join-hd">Unificando tus sistemas</span>

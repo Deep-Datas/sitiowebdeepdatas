@@ -1679,6 +1679,20 @@ html:not(.motion) .phone-view:first-child {
   container-type: inline-size;
 }
 
+/* Cada foto va en su capa, y la capa gira: así el giro tiene como centro el recorte y
+   no la esquina de la foto, que es desde donde la cámara mide. */
+.hb-turn {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  transform: perspective(1500px) rotateY(var(--giro, 0deg));
+}
+
+/* La segunda foto, el primer plano del televisor, entra cuando la cámara ya llegó */
+.hb-scene-b {
+  opacity: var(--b, 1);
+}
+
 /* La foto, en tamaño natural; la cámara la mueve y la acerca. El encuadre que queda
    acá es el del último acto: sin JavaScript se ve la respuesta, quieta. */
 .hb-scene {
@@ -1687,12 +1701,12 @@ html:not(.motion) .phone-view:first-child {
   top: 0;
   width: 100%;
   transform-origin: 0 0;
-  transform: translate(0, -50.08%) scale(2.327);
+  transform: translate(0, -38.2%) scale(1.695);
 }
 
 /* Con animación arranca en el primer acto: el equipo, del otro lado de la oficina */
 html.motion .hb-scene {
-  transform: translate(-103.2%, -76.92%) scale(2.032);
+  transform: translate(-179.7%, -70.9%) scale(2.84);
 }
 
 .hb-photo {
@@ -1733,31 +1747,12 @@ html.motion .hb-scene {
 }
 
 /* Recién cuando design.js midió el recorte: antes no tienen dónde encajarse. Va por la
-   negativa para no pisarle el display a cada pantalla, que arma lo suyo con grid. */
+   negativa para no pisarle el display a cada pantalla, que arma lo suyo con grid. La
+   segunda foto tampoco: sin cámara que la ubique quedaría pegada en una esquina. */
 .hb-crop:not(.hb-ready) .hb-screen,
-.hb-crop:not(.hb-ready) .hb-ring {
+.hb-crop:not(.hb-ready) .hb-ring,
+.hb-crop:not(.hb-ready) .hb-turn-b {
   display: none;
-}
-
-.hb-s-mon1 {
-  z-index: 2;
-  width: 640px;
-  height: 420px;
-  opacity: var(--a, 1);
-}
-
-.hb-s-mon2 {
-  z-index: 2;
-  width: 640px;
-  height: 440px;
-  opacity: var(--a, 1);
-}
-
-.hb-s-mon3 {
-  z-index: 2;
-  width: 720px;
-  height: 290px;
-  opacity: var(--a, 1);
 }
 
 .hb-s-tv {
@@ -1767,157 +1762,12 @@ html.motion .hb-scene {
   opacity: var(--a, 1);
 }
 
-/* La consulta que el equipo corre a mano. La tipografía es enorme porque la pantalla
-   mide medio centímetro en la foto. */
-.hb-s-mon1 {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  padding: 26px 30px;
-  background: #0d1627;
-  color: #c7d2e4;
-  font-family: var(--font-mono);
-  font-size: 66px;
-  line-height: 1.2;
-}
-
-.hb-q-app {
-  color: #7f8da6;
-  font-size: 52px;
-  letter-spacing: 0.04em;
-}
-
-.hb-q-line {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.hb-q-line:last-child {
-  color: #f0a068;
-}
-
-/* La planilla del segundo monitor: los mismos números que después salen en el televisor */
-.hb-s-mon2 {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 10px;
-  padding: 22px 26px;
-  background: #f4f6f9;
-  color: #0f172a;
-  font-size: 46px;
-  line-height: 1.15;
-}
-
-.hb-x-app {
-  overflow: hidden;
-  color: #6b7589;
-  font-family: var(--font-mono);
-  font-size: 38px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hb-x-grid {
-  display: grid;
-  align-content: center;
-  gap: 6px;
-}
-
-.hb-x-row {
-  display: flex;
-  gap: 20px;
-  align-items: baseline;
-  padding-bottom: 6px;
-  border-bottom: 2px solid #dfe3ea;
-}
-
-.hb-x-row b {
-  margin-left: auto;
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-}
-
-.hb-x-status {
-  color: #b54708;
-  font-size: 38px;
-  font-weight: 600;
-}
-
-/* El tercer monitor: dos ventanas abiertas al lado de la planilla, el CRM y WhatsApp.
-   Es el más ancho de los tres en la foto, así que acá entra la tipografía más grande. */
-.hb-s-mon3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding: 16px;
-  background: #dfe5ec;
-  color: #0f172a;
-  font-size: 32px;
-  line-height: 1.2;
-}
-
-.hb-wa,
-.hb-crm {
-  display: grid;
-  align-content: start;
-  gap: 10px;
-  overflow: hidden;
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: #fff;
-}
-
-.hb-wa-hd,
-.hb-crm-hd {
-  overflow: hidden;
-  font-size: 29px;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hb-wa-hd {
-  margin: -12px -14px 2px;
-  padding: 10px 14px;
-  border-radius: 14px 14px 0 0;
-  background: #128c7e;
-  color: #fff;
-}
-
-.hb-wa-msg {
-  max-width: 88%;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: #eef1f5;
-}
-
-.hb-wa-out {
-  justify-self: end;
-  background: #d9fdd3;
-}
-
-.hb-crm-hd {
-  color: #2353d6;
-}
-
-.hb-crm-row {
-  display: flex;
-  gap: 12px;
-  font-size: 30px;
-  align-items: baseline;
-  padding-bottom: 7px;
-  border-bottom: 2px solid #e4e7ec;
-}
-
-.hb-crm-row b {
-  margin-left: auto;
-  color: #b54708;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.hb-crm-ok {
-  color: #1e7a4c;
+/* De cerca el televisor se ve casi de frente, así que su tablero vuelve a ser 16:9 */
+.hb-s-tv2 {
+  z-index: 3;
+  width: 1280px;
+  height: 720px;
+  opacity: var(--a, 1);
 }
 
 /* ----- El tablero del televisor. Se lo ve de costado, así que el rectángulo de diseño
@@ -2142,25 +1992,20 @@ html.motion .hb-scene {
   box-shadow: 0 0 90px 10px rgba(228, 88, 28, 0.45), inset 0 0 70px rgba(228, 88, 28, 0.2);
 }
 
-.hb-r-mon1 {
-  width: 640px;
-  height: 420px;
-}
-
-.hb-r-mon2 {
-  width: 640px;
-  height: 440px;
-  border-width: 10px;
-}
-
-.hb-r-mon3 {
-  width: 720px;
-  height: 290px;
-  border-width: 11px;
-}
-
 /* El televisor va aparte: el marco naranja señala y se apaga, pero la luz que tira la
    pantalla sobre la pared se queda, porque el televisor sigue encendido. */
+.hb-r-tv2 {
+  width: 1280px;
+  height: 720px;
+  border-width: 10px;
+  border-radius: 12px;
+  opacity: 1;
+  border-color: rgba(228, 88, 28, calc(var(--a, 0) * 0.9));
+  box-shadow:
+    0 0 200px 40px rgba(255, 255, 255, calc(var(--g, 0) * 0.45)),
+    0 0 120px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.28));
+}
+
 .hb-r-tv {
   width: 1280px;
   height: 1650px;
@@ -2173,6 +2018,54 @@ html.motion .hb-scene {
     0 0 140px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.3)),
     inset 0 0 90px rgba(255, 255, 255, calc(var(--a, 0) * 0.25));
 }
+
+/* En el primer plano el tablero es 16:9 de verdad: las fichas van en fila y la
+   tipografía puede ser más chica, porque la pantalla ocupa media escena. */
+.hb-s-tv2 .hb-scr {
+  grid-template-rows: auto auto auto 1fr auto;
+  font-size: 30px;
+}
+
+.hb-s-tv2 .hb-top { padding: 16px 28px; border-bottom-width: 2px; }
+.hb-s-tv2 .hb-app { font-size: 28px; }
+.hb-s-tv2 .hb-live { font-size: 22px; gap: 8px; }
+.hb-s-tv2 .hb-live i { width: 11px; height: 11px; box-shadow: 0 0 0 5px rgba(30, 122, 76, 0.18); }
+.hb-s-tv2 .hb-board-head { padding: 20px 28px 4px; gap: 16px; }
+.hb-s-tv2 .hb-board-head h2 { font-size: 52px; }
+.hb-s-tv2 .hb-chip { padding: 6px 16px; font-size: 24px; }
+.hb-s-tv2 .hb-when { font-size: 23px; }
+
+.hb-s-tv2 .hb-tiles {
+  grid-template-rows: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 28px 8px;
+}
+
+.hb-s-tv2 .hb-tile {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  padding: 14px 18px;
+  border-width: 2px;
+  border-radius: 14px;
+}
+
+.hb-s-tv2 .hb-k { font-size: 26px; }
+
+.hb-s-tv2 .hb-v {
+  grid-row: auto;
+  grid-column: auto;
+  font-size: 58px;
+}
+
+.hb-s-tv2 .hb-d { font-size: 22px; }
+.hb-s-tv2 .hb-chart { padding: 6px 28px 10px; }
+.hb-s-tv2 .hb-chart h3 { margin-bottom: 10px; font-size: 30px; }
+.hb-s-tv2 .hb-bar { grid-template-columns: 200px minmax(0, 1fr) 140px; gap: 16px; font-size: 26px; }
+.hb-s-tv2 .hb-bar + .hb-bar { margin-top: 10px; }
+.hb-s-tv2 .hb-tr { height: 22px; border-radius: 5px; }
+.hb-s-tv2 .hb-tr i { border-radius: 5px 9px 9px 5px; }
+.hb-s-tv2 .hb-foot { padding: 12px 28px; border-top-width: 2px; font-size: 21px; }
 
 /* ----- Lo que no vive dentro de la foto: carteles, chips y la barra de voz.
    Cada uno aparece en su acto; las posiciones están atadas a ese encuadre. ----- */
@@ -2258,37 +2151,79 @@ html.motion .hb-scene {
   font-weight: 600;
 }
 
-/* Acto 2: dos etiquetas, una por monitor, atadas al encuadre de los dos monitores */
-.hb-tag {
-  position: absolute;
-  padding: 0.5cqw 0.9cqw;
-  border-radius: 999px;
-  background: rgba(13, 22, 39, 0.88);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.95cqw;
-  white-space: nowrap;
+/* Acto 2: los dos sistemas abiertos, uno al lado del otro */
+.hb-wa {
+  left: 4%;
+  top: 8%;
+  width: 29%;
+  gap: 0.45cqw;
   opacity: var(--a, 0);
 }
 
-.hb-tag::before {
-  content: "";
-  position: absolute;
-  left: 2cqw;
-  bottom: 100%;
-  width: 1px;
-  height: 1.6cqw;
-  background: rgba(13, 22, 39, 0.6);
+.hb-crm {
+  right: 4%;
+  top: 8%;
+  width: 29%;
+  gap: 0.4cqw;
+  opacity: var(--a, 0);
 }
 
-.hb-tag-mon1 {
-  left: 11%;
-  top: 66%;
+.hb-wa-hd {
+  margin: -1.1cqw -1.3cqw 0.4cqw;
+  padding: 0.7cqw 1.3cqw;
+  border-radius: 1.2cqw 1.2cqw 0 0;
+  background: #128c7e;
+  color: #fff;
+  font-size: 1.05cqw;
+  font-weight: 600;
 }
 
-.hb-tag-mon2 {
-  right: 8%;
-  top: 62%;
+.hb-wa-msg {
+  max-width: 88%;
+  padding: 0.5cqw 0.8cqw;
+  border-radius: 0.9cqw;
+  background: var(--sand-2, #eef1f5);
+  color: var(--text);
+  font-size: 1.05cqw;
+}
+
+.hb-wa-out {
+  justify-self: end;
+  background: #d9fdd3;
+  color: #0f172a;
+}
+
+.hb-crm-hd {
+  color: #2353d6;
+  font-size: 1.05cqw;
+  font-weight: 600;
+}
+
+.hb-crm-row {
+  display: flex;
+  gap: 0.7cqw;
+  align-items: baseline;
+  padding-bottom: 0.35cqw;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 1.05cqw;
+}
+
+.hb-crm-row b {
+  margin-left: auto;
+  color: #b54708;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hb-crm-ok {
+  color: var(--good);
+}
+
+.hb-crm-foot {
+  margin-top: 0.3cqw;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.9cqw;
 }
 
 /* Acto 3: todo se unifica mientras la cámara cruza la mampara */
@@ -2565,11 +2500,7 @@ html.motion .hb-scene {
   transform: translateX(-50%) translateY(calc((1 - var(--a)) * 22px));
 }
 
-.motion .hb-tag {
-  transform: translateY(calc((1 - var(--a)) * 12px));
-  transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
+.motion 
 /* Sin animación no hay recorrido: el texto deja de ir encima de la foto y vuelve a ir
    arriba, y debajo queda el último acto, quieto y completo. Es el orden del DOM al
    revés, así que el texto se adelanta con order. */
@@ -2710,7 +2641,6 @@ html:not(.motion) .hb-steps {
     font-size: 2.4cqw;
   }
 
-  .hb-tag,
   .hb-wave,
   .hb-status {
     display: none;
@@ -2753,11 +2683,11 @@ html:not(.motion) .hb-steps {
   /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
      se mueve en una franja vertical (los encuadres de «cam_alto») */
   .hb-scene {
-    transform: translate(0, -41.9%) scale(4.357);
+    transform: translate(-4%, -83.7%) scale(5.056);
   }
 
   html.motion .hb-scene {
-    transform: translate(-251.9%, -86.49%) scale(3.938);
+    transform: translate(-192.7%, 0%) scale(3);
   }
 }
 

@@ -17,32 +17,32 @@
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Esquinas de cada pantalla (arriba izq., arriba der., abajo der., abajo izq.) y los
-   encuadres de la cámara [p, izq., arriba, der., abajo]: lo que tiene que entrar sí o sí
-   en cada acto. Todo en píxeles de la foto; design.js lo adapta a la forma del recorte y
-   usa «cam_alto» cuando el recorte es más alto que ancho (celulares). #}
+{# Dos fotos encadenadas. FOTO es la oficina entera; CERCA, el primer plano del
+   televisor, adonde la cámara llega al final girando sobre la pantalla.
+
+   De cada una: el tamaño, las esquinas de cada pantalla (arriba izq., arriba der.,
+   abajo der., abajo izq.) y los encuadres de la cámara [p, izq., arriba, der., abajo],
+   que dicen qué tiene que entrar sí o sí en el cuadro. Todo en píxeles de esa foto;
+   design.js lo adapta a la forma del recorte y usa «cam_alto» cuando el recorte es más
+   alto que ancho (celulares y la media pantalla de escritorio). #}
 {% set FOTO = {
-  'w': 1024, 'h': 683,
-  'tv': [[20, 166], [150, 203], [151, 344], [20, 361]],
-  'mon1': [[669, 357.5], [721, 354], [721, 389], [669, 392.5]],
-  'mon2': [[911, 329.5], [985.5, 328.5], [985.5, 380.5], [911, 381]],
-  'mon3': [[783, 352.5], [852, 351], [852, 376], [783, 378]],
-  'cam': [[0.00, 520, 270, 1024, 540],
-          [0.16, 520, 270, 1024, 540],
-          [0.32, 620, 300, 1024, 430],
-          [0.46, 620, 300, 1024, 430],
-          [0.60, 300, 200, 820, 500],
-          [0.70, 300, 200, 820, 500],
-          [0.88, 0, 150, 500, 400],
-          [1.00, 0, 158, 440, 392]],
-  'cam_alto': [[0.00, 655, 325, 915, 495],
-               [0.16, 655, 325, 915, 495],
-               [0.32, 650, 315, 1015, 405],
-               [0.46, 650, 315, 1015, 405],
-               [0.60, 380, 235, 720, 470],
-               [0.70, 380, 235, 720, 470],
-               [0.88, 0, 160, 340, 392],
-               [1.00, 0, 200, 235, 400]],
+  'w': 1264, 'h': 843,
+  'tv': [[28, 203], [184, 252], [183, 423], [29, 447]],
+  'cam': [[0.00, 200, 250, 620, 790],
+          [0.16, 200, 250, 620, 790],
+          [0.32, 150, 260, 560, 700],
+          [0.46, 150, 260, 560, 700],
+          [0.60, 0, 180, 470, 640],
+          [0.70, 0, 180, 470, 640],
+          [0.86, 0, 170, 330, 540],
+          [1.00, 0, 180, 250, 480]],
+} %}
+{% set CERCA = {
+  'w': 1024, 'h': 559,
+  'tv': [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]],
+  'cam': [[0.86, 110, 10, 600, 350],
+          [1.00, 140, 22, 545, 325]],
+  'desde': 0.83, 'hasta': 0.91,
 } %}
 
 {% set copy = {
@@ -131,102 +131,84 @@
 } %}
 {% set C = copy[lang] %}
 
+{# El tablero del televisor. Va dos veces: una en cada foto, encajado en su perspectiva,
+   y se cruzan cuando la cámara gira hacia el primer plano. Los valores finales están en
+   el HTML: sin JavaScript se leen los números de verdad. #}
+{% macro tablero() %}
+<div class="hb-scr">
+  <span class="hb-scan"></span>
+  <div class="hb-top">
+    <span class="hb-app">{{ C.app }}</span>
+    <span class="hb-live"><i></i> {{ C.live }}</span>
+  </div>
+  <div class="hb-board-head">
+    <h2>{{ C.board_title }}</h2>
+    <span class="hb-chip">{{ C.board_chip }}</span>
+    <span class="hb-when">{{ C.when }}</span>
+  </div>
+  <div class="hb-tiles">
+    {% for label, value, pre, post, delta in C.tiles %}
+    <div class="hb-tile">
+      <span class="hb-k">{{ label }}</span>
+      <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
+      <span class="hb-d">{{ delta }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="hb-chart">
+    <h3>{{ C.chart_title }}</h3>
+    <div class="hb-bars">
+      {% for name, width, value in C.bars %}
+      <div class="hb-bar">
+        <span class="hb-nm">{{ name }}</span>
+        <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
+        <b class="hb-vl">{{ value }}</b>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
+</div>
+{% endmacro %}
+
 {% macro scene() %}
 <section class="hb" aria-labelledby="hb-title">
-  <div class="hb-track" data-hb data-foto='{{ FOTO | tojson }}'
+  <div class="hb-track" data-hb data-foto='{{ FOTO | tojson }}' data-cerca='{{ CERCA | tojson }}'
        data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
        data-captions='{{ C.captions | tojson }}'>
     <div class="hb-pin">
       <div class="hb-stage">
         <div class="hb-crop" role="img" aria-label="{{ C.region }}">
 
-          {# La foto y lo que va encajado sobre ella: se mueven juntos con la cámara #}
-          <div class="hb-scene">
-            <img class="hb-photo" src="/assets/img/hero/portada-oficina-2048.webp"
-                 srcset="/assets/img/hero/portada-oficina-1024.webp 1024w, /assets/img/hero/portada-oficina-2048.webp 2048w, /assets/img/hero/portada-oficina-3072.webp 3072w"
+          {# Cada foto va dentro de un envoltorio que gira. La escena de adentro usa su
+             transform para la cámara, así que el giro necesita su propia capa. #}
+          <div class="hb-turn hb-turn-a">
+          <div class="hb-scene hb-scene-a">
+            <img class="hb-photo" src="/assets/img/hero/portada-oficina-1264.webp"
+                 srcset="/assets/img/hero/portada-oficina-1264.webp 1264w, /assets/img/hero/portada-oficina-2528.webp 2528w"
                  sizes="(min-width: 901px) 250vw, 300vw"
-                 width="2048" height="1366" alt="" fetchpriority="high">
+                 width="1264" height="843" alt="" fetchpriority="high">
 
-            {# El monitor del equipo: la consulta que exporta los datos a mano #}
-            <div class="hb-screen hb-s-mon1" aria-hidden="true">
-              <span class="hb-q-app">{{ C.q_app }}</span>
-              {% for line in C.q_lines %}
-              <span class="hb-q-line">{{ line }}</span>
-              {% endfor %}
-            </div>
+            {# El televisor de la oficina: el tablero, encajado en su perspectiva #}
+            <div class="hb-screen hb-s-tv" aria-hidden="true">{{ tablero() }}</div>
 
-            {# El segundo monitor: la planilla, con los mismos números que terminan en el televisor #}
-            <div class="hb-screen hb-s-mon2" aria-hidden="true">
-              <span class="hb-x-app">{{ C.mon_app }}</span>
-              <span class="hb-x-grid">
-                {% for name, value in C.mon_rows %}
-                <span class="hb-x-row"><span>{{ name }}</span><b>{{ value }}</b></span>
-                {% endfor %}
-              </span>
-              <span class="hb-x-status">{{ C.mon_status }}</span>
-            </div>
-
-            {# El tercer monitor: el CRM y WhatsApp, abiertos al lado de la planilla #}
-            <div class="hb-screen hb-s-mon3" aria-hidden="true">
-              <div class="hb-wa">
-                <span class="hb-wa-hd">{{ C.wa_app }}</span>
-                {% for dir, text in C.wa_msgs %}
-                <span class="hb-wa-msg hb-wa-{{ dir }}">{{ text }}</span>
-                {% endfor %}
-              </div>
-              <div class="hb-crm">
-                <span class="hb-crm-hd">{{ C.crm_app }}</span>
-                {% for name, state, cerrado in C.crm_rows %}
-                <span class="hb-crm-row"><span>{{ name }}</span><b{% if cerrado %} class="hb-crm-ok"{% endif %}>{{ state }}</b></span>
-                {% endfor %}
-              </div>
-            </div>
-
-            {# El televisor de la sala: el tablero, encajado en su perspectiva #}
-            <div class="hb-screen hb-s-tv" aria-hidden="true">
-              <div class="hb-scr">
-                <span class="hb-scan"></span>
-                <div class="hb-top">
-                  <span class="hb-app">{{ C.app }}</span>
-                  <span class="hb-live"><i></i> {{ C.live }}</span>
-                </div>
-                <div class="hb-board-head">
-                  <h2>{{ C.board_title }}</h2>
-                  <span class="hb-chip">{{ C.board_chip }}</span>
-                  <span class="hb-when">{{ C.when }}</span>
-                </div>
-                <div class="hb-tiles">
-                  {% for label, value, pre, post, delta in C.tiles %}
-                  <div class="hb-tile">
-                    <span class="hb-k">{{ label }}</span>
-                    {# El valor final va en el HTML: sin JavaScript se ve el número de verdad #}
-                    <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
-                    <span class="hb-d">{{ delta }}</span>
-                  </div>
-                  {% endfor %}
-                </div>
-                <div class="hb-chart">
-                  <h3>{{ C.chart_title }}</h3>
-                  <div class="hb-bars">
-                    {% for name, width, value in C.bars %}
-                    <div class="hb-bar">
-                      <span class="hb-nm">{{ name }}</span>
-                      <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
-                      <b class="hb-vl">{{ value }}</b>
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
-              </div>
-            </div>
-
-            {# Los marcos que señalan la pantalla de la que habla cada acto. Van sobre el
-               mismo cuadrilátero que la pantalla, así que entran en su perspectiva. #}
-            <span class="hb-ring hb-r-mon1" aria-hidden="true"></span>
-            <span class="hb-ring hb-r-mon2" aria-hidden="true"></span>
-            <span class="hb-ring hb-r-mon3" aria-hidden="true"></span>
+            {# El marco que señala el televisor cuando llega la respuesta. Va sobre el
+               mismo cuadrilátero que la pantalla, así que entra en su perspectiva. #}
             <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
+          </div>
+          </div>
+
+          {# La segunda foto: el mismo televisor de cerca. Entra girando sobre la pantalla
+             cuando la cámara ya llegó, con el mismo tablero encajado en su perspectiva. #}
+          <div class="hb-turn hb-turn-b">
+          <div class="hb-scene hb-scene-b">
+            <img class="hb-photo" src="/assets/img/hero/portada-tv-1024.webp"
+                 srcset="/assets/img/hero/portada-tv-1024.webp 1024w, /assets/img/hero/portada-tv-2048.webp 2048w"
+                 sizes="(min-width: 901px) 130vw, 260vw"
+                 width="1024" height="559" alt="" loading="lazy">
+            <div class="hb-screen hb-s-tv2" aria-hidden="true">{{ tablero() }}</div>
+            <span class="hb-ring hb-r-tv2" aria-hidden="true"></span>
+          </div>
           </div>
 
           {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}
@@ -241,9 +223,21 @@
               <span class="hb-ask-eta">{{ icon('clock-history') }} {{ C.ask_eta }}</span>
             </div>
 
-            {% for id, text in C.tags %}
-            <span class="hb-tag hb-tag-{{ id }}">{{ text }}</span>
-            {% endfor %}
+            {# Los dos sistemas que más se usan, abiertos mientras se arma la respuesta #}
+            <div class="hb-card hb-wa">
+              <span class="hb-wa-hd">{{ C.wa_app }}</span>
+              {% for dir, text in C.wa_msgs %}
+              <span class="hb-wa-msg hb-wa-{{ dir }}">{{ text }}</span>
+              {% endfor %}
+            </div>
+
+            <div class="hb-card hb-crm">
+              <span class="hb-crm-hd">{{ C.crm_app }}</span>
+              {% for name, state, cerrado in C.crm_rows %}
+              <span class="hb-crm-row"><span>{{ name }}</span><b{% if cerrado %} class="hb-crm-ok"{% endif %}>{{ state }}</b></span>
+              {% endfor %}
+              <span class="hb-crm-foot">{{ C.mon_app }} · {{ C.mon_status }}</span>
+            </div>
 
             <div class="hb-card hb-join">
               <span class="hb-join-hd">{{ C.join_title }}</span>
