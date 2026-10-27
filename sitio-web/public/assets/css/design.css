@@ -440,15 +440,14 @@ html:not(.motion) .core-captions {
   text-align: center;
 }
 
+/* Cifras en un solo color: el degradado azul noche → naranja pasaba por un marrón
+   sucio en la mitad del número («+10») y parecía un error de render */
 .stats dd {
-  background: linear-gradient(135deg, var(--text) 0%, var(--text) 35%, var(--ember) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--text);
 }
 
 .stats dd span {
-  -webkit-text-fill-color: var(--fg-3);
+  color: var(--fg-3);
 }
 
 /* ---------- Carrusel de industrias ---------- */
@@ -704,6 +703,19 @@ html:not(.motion) .core-captions {
   .pin-steps {
     display: grid;
     gap: 36px;
+  }
+}
+
+/* Sin animación (o con «reducir movimiento»), los tres pasos quedan uno debajo del otro
+   también en escritorio: necesitan aire entre sí y un teléfono que no flote suelto */
+html:not(.motion) .pin-steps {
+  display: grid;
+  gap: clamp(36px, 4vw, 56px);
+}
+
+@media (min-width: 1024px) {
+  html:not(.motion) .pin-grid {
+    align-items: center;
   }
 }
 
@@ -1063,6 +1075,8 @@ html:not(.motion) .phone-view:first-child {
   position: absolute;
   inset: 0;
   background:
+    /* Velo superior: el encabezado (transparente hasta que se hace scroll) tiene que leerse sobre la foto */
+    linear-gradient(to bottom, color-mix(in srgb, var(--bg) 82%, transparent) 0%, color-mix(in srgb, var(--bg) 46%, transparent) var(--header-h), transparent calc(var(--header-h) + 160px)),
     linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 36%, color-mix(in srgb, var(--bg) 40%, transparent) 60%, transparent 85%),
     linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 50%, transparent) 30%, transparent 60%);
 }
@@ -1082,7 +1096,7 @@ html:not(.motion) .phone-view:first-child {
 @media (max-width: 767.98px) {
   .page-hero-cover {
     min-height: 0;
-    padding-top: calc(var(--header-h) + 52vw);
+    padding-top: calc(var(--header-h) + 54vw);
   }
 
   .page-hero-media img {
@@ -1090,8 +1104,12 @@ html:not(.motion) .phone-view:first-child {
     object-position: 60% 50%;
   }
 
+  /* El velo se vuelve sólido justo donde empieza el texto (header + 54vw), sea cual sea el alto
+     del encabezado: la etiqueta y el título nunca quedan sobre la foto */
   .page-hero-media::after {
-    background: linear-gradient(to top, var(--bg) 0%, var(--bg) 40%, color-mix(in srgb, var(--bg) 40%, transparent) 60%, transparent 90%);
+    background:
+      linear-gradient(to bottom, color-mix(in srgb, var(--bg) 78%, transparent) 0%, color-mix(in srgb, var(--bg) 40%, transparent) var(--header-h), transparent calc(var(--header-h) + 96px)),
+      linear-gradient(to bottom, transparent calc(var(--header-h) + 54vw - 160px), color-mix(in srgb, var(--bg) 60%, transparent) calc(var(--header-h) + 54vw - 72px), var(--bg) calc(var(--header-h) + 54vw - 14px));
   }
 }
 
@@ -1147,13 +1165,19 @@ html:not(.motion) .phone-view:first-child {
 
 @media (max-width: 767.98px) {
   .page-hero-deep .page-hero-media::after {
-    background: linear-gradient(to top, var(--deep) 0%, var(--deep) 40%, color-mix(in srgb, var(--deep) 40%, transparent) 60%, transparent 90%);
+    background: linear-gradient(to bottom, transparent calc(var(--header-h) + 54vw - 160px), color-mix(in srgb, var(--deep) 60%, transparent) calc(var(--header-h) + 54vw - 72px), var(--deep) calc(var(--header-h) + 54vw - 14px));
   }
 }
 
 /* ---------- Detalles ---------- */
 .section-head h2 {
   max-width: 20ch;
+}
+
+/* Encabezados de página: aire fijo entre el párrafo de apertura y los botones
+   (antes cada página lo definía por su cuenta y Tablero de ventas no lo tenía) */
+.page-hero .actions {
+  margin-top: 28px;
 }
 
 .plan-card-featured,
@@ -1186,6 +1210,8 @@ html:not(.motion) .phone-view:first-child {
 .reasons-list dt {
   font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem);
   letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-wrap: balance;
 }
 
 
@@ -1865,6 +1891,8 @@ html:not(.motion) .phone-view:first-child {
   z-index: 3;
   display: block;
   background:
+    /* Velo superior: el menú se lee sobre el ventanal antes de hacer scroll */
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 78%, transparent) 0%, color-mix(in srgb, var(--bg) 40%, transparent) var(--header-h), transparent calc(var(--header-h) + 120px)),
     linear-gradient(90deg, color-mix(in srgb, var(--bg) 94%, transparent) 0%, color-mix(in srgb, var(--bg) 74%, transparent) 38%, transparent 66%),
     linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent) 0%, transparent 30%);
   opacity: var(--shade, 1);
@@ -2294,6 +2322,8 @@ html:not(.motion) .phone-view:first-child {
   bottom: clamp(28px, 6vh, 56px);
   left: 0;
   z-index: 6;
+  /* En celulares el botón ocupa todo el ancho: respeta el margen lateral en vez de cortarse en los bordes */
+  padding-inline: var(--gutter);
 }
 
 .motion .hp-hint {
