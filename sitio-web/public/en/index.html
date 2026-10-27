@@ -30,10 +30,10 @@
   <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
-  <link rel="stylesheet" href="/assets/css/charts.css?v=7ff7a63882">
-  <link rel="stylesheet" href="/assets/css/design.css?v=9b47baeab1">
-  <script src="/assets/js/site.js?v=0419275043" defer></script>
-  <script src="/assets/js/design.js?v=c5bf2b60ec" defer></script>
+  <link rel="stylesheet" href="/assets/css/charts.css?v=6dbf248c21">
+  <link rel="stylesheet" href="/assets/css/design.css?v=80cb4e4e1e">
+  <script src="/assets/js/site.js?v=81f9af360c" defer></script>
+  <script src="/assets/js/design.js?v=b09afa53f1" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -95,191 +95,227 @@
 
   <main id="contenido">
 
-<!-- ======= HERO: scroll-driven scene (src/hero.html) ======= -->
-<section class="hp" id="inicio" aria-labelledby="hp-title" data-hero-scene data-scene='{"desk": {"aim": [0.56, 0.5], "fill": 0.62, "x": 0.7, "y": 0.55, "zoom": 1.08}, "front": [1300, 1147, 1024, 1584], "h": 2731, "mob": {"aim": [0.5, 0.5], "fill": 0.85, "width": 2.2, "x": 0.62, "y": 0.8}, "monitor": [[3012, 1118], [3896, 1118], [3892, 1792], [3008, 1796]], "screen": [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]], "screen2": [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]], "w": 4096}'>
-  <a class="hp-skip" href="#despues-del-inicio">Skip the animation <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-  <div class="hp-track">
-    <div class="hp-stage">
-      <div class="hp-copy">
-        <div class="container">
-          <p class="eyebrow">Data and AI consultancy for distributors, SMEs and consumer goods</p>
-          <h1 id="hp-title">One question. All your systems.<br><em>One single answer.</em></h1>
-          <p class="hp-lead lead">We connect your ERP, your CRM, your spreadsheets, WhatsApp and email, and an AI assistant answers with your company’s real data.</p>
-          <div class="hp-ask">
-  <p class="hp-bubble"><span class="hp-avatar" aria-hidden="true">MG</span> How much did we sell yesterday in the north region?</p>
-  <ol class="hp-steps" aria-label="How it works"><li class="hp-step is-done" data-from="0"><span class="hp-step-n" aria-hidden="true">1</span><span>You ask</span></li><li class="hp-step is-done" data-from="0.06"><span class="hp-step-n" aria-hidden="true">2</span><span>We search your systems</span></li><li class="hp-step is-on" data-from="0.48"><span class="hp-step-n" aria-hidden="true">3</span><span>You get the answer</span></li></ol>
-  <p class="hp-status"><span data-from="0">Reading the question…</span><span data-from="0.06">Querying the ERP and spreadsheets…</span><span data-from="0.3">Checking the CRM, WhatsApp and email…</span><span data-from="0.48">Bringing it all into one answer…</span><span data-from="0.68" class="is-on">Answer ready, with sources</span></p>
-</div>
+<!-- ======= HERO: the spoken question and the dashboard (src/hero.html) ======= -->
+<section class="hb" aria-labelledby="hb-title">
+  <div class="hb-track" data-hb data-foto='{"cam": [[0.0, 200, 250, 620, 790], [0.16, 200, 250, 620, 790], [0.32, 150, 260, 560, 700], [0.46, 150, 260, 560, 700], [0.6, 0, 180, 470, 640], [0.7, 0, 180, 470, 640], [0.86, 0, 170, 330, 540], [1.0, 0, 180, 250, 480]], "cam_alto": [[0.0, 230, 250, 560, 790], [0.16, 230, 250, 560, 790], [0.32, 250, 300, 560, 760], [0.46, 250, 300, 560, 760], [0.6, 30, 200, 400, 740], [0.7, 30, 200, 400, 740], [0.86, 10, 195, 230, 490], [1.0, 10, 190, 210, 470]], "h": 843, "tv": [[28, 203], [184, 252], [183, 423], [29, 447]], "w": 1264}' data-cerca='{"cam": [[0.86, 110, 10, 600, 350], [1.0, 140, 22, 545, 325]], "desde": 0.85, "h": 559, "hasta": 0.91, "tv": [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]], "w": 1024}'
+       data-question="How much did we sell yesterday in the north region?" data-statuses='[[0.78, "Listening\u2026"], [0.86, "Reading your systems\u2026"], [0.94, "Answer ready \u00b7 with sources"]]'
+       data-captions='[[0, "Today the question lands on the data team: export, cross-check, review."], [0.3, "Four systems open at once and a spreadsheet pasted together by hand."], [0.58, "We bring it all into one reliable model."], [0.76, "One single answer, right away, on the screen of whoever decides."]]'>
+    <div class="hb-pin">
+      <div class="hb-stage">
+        <div class="hb-crop" role="img" aria-label="Example: in the same office, the question the data team answers by hand in two or three days is answered on the spot, on the screen of whoever decides (sample data).">
 
-        </div>
+          <div class="hb-turn hb-turn-a">
+          <div class="hb-scene hb-scene-a">
+            <img class="hb-photo" src="/assets/img/hero/portada-oficina-1264.webp"
+                 srcset="/assets/img/hero/portada-oficina-1264.webp 1264w, /assets/img/hero/portada-oficina-2528.webp 2528w"
+                 sizes="(min-width: 901px) 250vw, 300vw"
+                 width="1264" height="843" alt="" fetchpriority="high">
+
+            <div class="hb-screen hb-s-tv" aria-hidden="true"><div class="hb-scr">
+  <span class="hb-scan"></span>
+  <div class="hb-top">
+    <span class="hb-app">DeepDatas · Executive dashboard</span>
+    <span class="hb-live"><i></i> Live</span>
+  </div>
+  <div class="hb-board-head">
+    <h2>Yesterday’s sales</h2>
+    <span class="hb-chip">North region</span>
+    <span class="hb-when">07:00</span>
+  </div>
+  <div class="hb-tiles">
+    <div class="hb-tile">
+      <span class="hb-k">Revenue</span>
+      <span class="hb-v" data-kpi="1.28" data-pre="$" data-post="M">$1.28M</span>
+      <span class="hb-d">▲ 9.0% vs. last week</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Gross margin</span>
+      <span class="hb-v" data-kpi="24.6" data-pre="" data-post="%">24.6%</span>
+      <span class="hb-d">▲ 1.2 pp</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Stockouts</span>
+      <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
+      <span class="hb-d">▼ 2 vs. yesterday</span>
+    </div>
+  </div>
+  <div class="hb-chart">
+    <h3>By distributor</h3>
+    <div class="hb-bars">
+      <div class="hb-bar">
+        <span class="hb-nm">Norte SA</span>
+        <span class="hb-tr"><i class="w-92"></i></span>
+        <b class="hb-vl">$412k</b>
       </div>
-
-      <div class="hp-photo">
-        <img class="hp-img" src="/assets/img/hero/equipo-2048.webp"
-             srcset="/assets/img/hero/equipo-2048.webp 2048w, /assets/img/hero/equipo-4096.webp 4096w"
-             sizes="300vw" width="4096" height="2731" alt="A team works at their monitors in a bright office, next to a large window." fetchpriority="high">
+      <div class="hb-bar">
+        <span class="hb-nm">Distrisur</span>
+        <span class="hb-tr"><i class="w-74"></i></span>
+        <b class="hb-vl">$331k</b>
       </div>
-      <div class="hp-veil" aria-hidden="true"></div>
-      <div class="hp-shade" aria-hidden="true"></div>
+      <div class="hb-bar">
+        <span class="hb-nm">La Rueda</span>
+        <span class="hb-tr"><i class="w-61"></i></span>
+        <b class="hb-vl">$273k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Pampa Dist.</span>
+        <span class="hb-tr"><i class="w-38"></i></span>
+        <b class="hb-vl">$170k</b>
+      </div>
+    </div>
+  </div>
+  <div class="hb-foot"><span>Sources: ERP · CRM · Spreadsheets · WhatsApp</span><span class="hb-right">Sample data</span></div>
+</div>
+</div>
 
-      <div class="hp-bar" aria-hidden="true"><div class="hp-ask">
-  <p class="hp-bubble"><span class="hp-avatar" aria-hidden="true">MG</span> How much did we sell yesterday in the north region?</p>
-  <ol class="hp-steps" aria-label="How it works"><li class="hp-step is-done" data-from="0"><span class="hp-step-n" aria-hidden="true">1</span><span>You ask</span></li><li class="hp-step is-done" data-from="0.06"><span class="hp-step-n" aria-hidden="true">2</span><span>We search your systems</span></li><li class="hp-step is-on" data-from="0.48"><span class="hp-step-n" aria-hidden="true">3</span><span>You get the answer</span></li></ol>
-  <p class="hp-status"><span data-from="0">Reading the question…</span><span data-from="0.06">Querying the ERP and spreadsheets…</span><span data-from="0.3">Checking the CRM, WhatsApp and email…</span><span data-from="0.48">Bringing it all into one answer…</span><span data-from="0.68" class="is-on">Answer ready, with sources</span></p>
-</div>
-</div>
+            <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
+          </div>
+          </div>
 
-      <div class="hp-mons" aria-hidden="true">
-        <img class="hp-front" src="/assets/img/hero/equipo-frente.webp" alt="" width="1024" height="1584" loading="lazy">
-        <div class="hp-mon hp-mon-b"><div class="hp-screen hp-desk"><div class="hp-win hp-w1">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> CRM</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> This week’s visits</div>
-    <div class="hp-body">
-        <table>
-  <tr><td class="h">Customer</td><td class="h">Sales rep</td><td class="h">Status</td></tr>
-  <tr class="hl"><td>Norte SA</td><td>L. Pérez</td><td>Order closed</td></tr>
-  <tr><td>Oeste SRL</td><td>M. Díaz</td><td>No visit</td></tr>
-  <tr><td>Litoral</td><td>J. Sosa</td><td>Proposal sent</td></tr>
-  <tr class="hl"><td>Distrisur</td><td>L. Pérez</td><td>Order closed</td></tr>
-</table>
+          <div class="hb-turn hb-turn-b">
+          <div class="hb-scene hb-scene-b">
+            <img class="hb-photo" src="/assets/img/hero/portada-tv-1024.webp"
+                 srcset="/assets/img/hero/portada-tv-1024.webp 1024w, /assets/img/hero/portada-tv-2048.webp 2048w"
+                 sizes="(min-width: 901px) 130vw, 260vw"
+                 width="1024" height="559" alt="" loading="lazy">
+            <div class="hb-screen hb-s-tv2" aria-hidden="true"><div class="hb-scr">
+  <span class="hb-scan"></span>
+  <div class="hb-top">
+    <span class="hb-app">DeepDatas · Executive dashboard</span>
+    <span class="hb-live"><i></i> Live</span>
+  </div>
+  <div class="hb-board-head">
+    <h2>Yesterday’s sales</h2>
+    <span class="hb-chip">North region</span>
+    <span class="hb-when">07:00</span>
+  </div>
+  <div class="hb-tiles">
+    <div class="hb-tile">
+      <span class="hb-k">Revenue</span>
+      <span class="hb-v" data-kpi="1.28" data-pre="$" data-post="M">$1.28M</span>
+      <span class="hb-d">▲ 9.0% vs. last week</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Gross margin</span>
+      <span class="hb-v" data-kpi="24.6" data-pre="" data-post="%">24.6%</span>
+      <span class="hb-d">▲ 1.2 pp</span>
+    </div>
+    <div class="hb-tile">
+      <span class="hb-k">Stockouts</span>
+      <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
+      <span class="hb-d">▼ 2 vs. yesterday</span>
+    </div>
+  </div>
+  <div class="hb-chart">
+    <h3>By distributor</h3>
+    <div class="hb-bars">
+      <div class="hb-bar">
+        <span class="hb-nm">Norte SA</span>
+        <span class="hb-tr"><i class="w-92"></i></span>
+        <b class="hb-vl">$412k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Distrisur</span>
+        <span class="hb-tr"><i class="w-74"></i></span>
+        <b class="hb-vl">$331k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">La Rueda</span>
+        <span class="hb-tr"><i class="w-61"></i></span>
+        <b class="hb-vl">$273k</b>
+      </div>
+      <div class="hb-bar">
+        <span class="hb-nm">Pampa Dist.</span>
+        <span class="hb-tr"><i class="w-38"></i></span>
+        <b class="hb-vl">$170k</b>
+      </div>
+    </div>
+  </div>
+  <div class="hb-foot"><span>Sources: ERP · CRM · Spreadsheets · WhatsApp</span><span class="hb-right">Sample data</span></div>
+</div>
+</div>
+            <span class="hb-ring hb-r-tv2" aria-hidden="true"></span>
+          </div>
+          </div>
 
-      <span class="hp-tag">Customers and opportunities</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w3">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Email</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Inbox</div>
-    <div class="hp-body">
-        <p class="hp-line"><b>Litoral</b> · <span>Re: Sales proposal</span></p>
-        <p class="hp-line"><b>M. Díaz</b> · <span>This week’s visits</span></p>
-        <p class="hp-line"><b>Oeste SRL</b> · <span>Pricing inquiry</span></p>
-      <span class="hp-tag">Orders and inquiries by email</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w2 hp-win-wa">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> WhatsApp</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Orders</div>
-    <div class="hp-body">
-        <p class="hp-msg">Hi, send me 40 boxes of classic chips for Thursday.</p>
-        <p class="hp-msg hp-msg-out">Done, order 7731 confirmed for Thursday.</p>
-        <p class="hp-msg">Add 10 of fries.</p>
-      <span class="hp-tag">WhatsApp orders</span>
-    </div>
-  </div>
-</div>
-</div><span class="hp-note hp-note-1">Order 7731 → Thursday</span><span class="hp-note hp-note-2">Oeste SRL: no visit yet</span></div>
-        <div class="hp-mon hp-mon-a"><div class="hp-screen hp-desk"><div class="hp-win hp-w1">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg> ERP</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Daily sales</div>
-    <div class="hp-body">
-        <table>
-  <tr><td class="h">Invoice</td><td class="h">Customer</td><td class="h">Amount</td></tr>
-  <tr class="hl"><td>INV 0012-4471</td><td>Norte SA</td><td>$312,400</td></tr>
-  <tr class="hl"><td>INV 0012-4472</td><td>Distrisur</td><td>$184,900</td></tr>
-  <tr><td>INV 0012-4473</td><td>Pampa Dist.</td><td>$97,300</td></tr>
-  <tr class="hl"><td>INV 0012-4474</td><td>La Rueda</td><td>$141,200</td></tr>
-</table>
+          <span class="hb-grade" aria-hidden="true"></span>
+          <span class="hb-grain" aria-hidden="true"></span>
 
-      <span class="hp-tag">Tango · SAP · Odoo</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w3">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Email</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> Inbox</div>
-    <div class="hp-body">
-        <p class="hp-line"><b>Norte SA</b> · <span>Re: Credit note 2214</span></p>
-        <p class="hp-line"><b>Logística Sur</b> · <span>Thursday delivery confirmed</span></p>
-        <p class="hp-line"><b>Distrisur</b> · <span>Purchase order 9931</span></p>
-      <span class="hp-tag">Orders and notes by email</span>
-    </div>
-  </div>
-</div>
-<div class="hp-win hp-w2">
-  <span class="hp-label"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></svg> Spreadsheets</span>
-  <div class="hp-card">
-    <div class="hp-tb"><i></i><i></i><i></i> distributor_sales.xlsx</div>
-    <div class="hp-body">
-        <table>
-  <tr><td class="h">Distributor</td><td class="h">Region</td><td class="h">Yesterday</td></tr>
-  <tr class="hl"><td>Norte SA</td><td>North</td><td>312,400</td></tr>
-  <tr class="hl"><td>Distrisur</td><td>North</td><td>184,900</td></tr>
-  <tr><td>Pampa Dist.</td><td>Central</td><td>97,300</td></tr>
-  <tr><td>Oeste SRL</td><td>West</td><td>58,100</td></tr>
-</table>
-
-      <span class="hp-tag">Distributor spreadsheets</span>
-    </div>
-  </div>
-</div>
-</div><span class="hp-note hp-note-1">Call Norte SA about the credit note</span><span class="hp-note hp-note-2">Restock chips 400 g!</span></div>
-        <div class="hp-mon hp-mon-c">
-          <div class="hp-screen hp-ai">
-            <div class="hp-ai-top"><img src="/assets/img/brand/logo-mark.png" alt="" width="16" height="18"> <b>AI assistant</b> <span>with your data curated by DeepDatas</span></div>
-            <div class="hp-ai-body">
-              <p class="hp-bubble"><span class="hp-avatar">MG</span> How much did we sell yesterday in the north region?</p>
-              <div class="hp-ai-answer"><span class="label">Yesterday’s sales · North region</span>
-<div class="hp-answer-grid">
-  <div>
-    <strong class="hp-big">$1.28M</strong>
-    <span class="hp-up">▲ 9% vs. the same day last week</span>
-    <p>Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.</p>
-  </div>
-  <ul class="hp-bars" aria-label="By distributor · vs. target">
-    <li><span>Norte SA</span><i class="w-92" aria-hidden="true"></i><b>+14%</b></li>
-    <li><span>Distrisur</span><i class="w-74" aria-hidden="true"></i><b>+9%</b></li>
-    <li><span>La Rueda</span><i class="w-61" aria-hidden="true"></i><b>+6%</b></li>
-    <li><span>Pampa Dist.</span><i class="w-38" aria-hidden="true"></i><b>+2%</b></li>
-    <li class="is-neg"><span>Oeste SRL</span><i class="w-22" aria-hidden="true"></i><b>−5%</b></li>
-  </ul>
-</div>
-<p class="hp-sources"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg> Sources: ERP, CRM, spreadsheets and WhatsApp · updated today at 7:00 AM</span><span>Example with sample data</span></p>
-</div>
-              <div class="hp-ai-chips"><span>Which customers stopped buying?</span><span>Which products are about to run out of stock?</span><span>How is margin by channel doing?</span></div>
-              <div class="hp-ai-input"><span>Ask anything…</span><i><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></i></div>
+          <div class="hb-hud" aria-hidden="true">
+            <div class="hb-card hb-ask">
+              <span class="hb-ask-hd">Request #482</span>
+              <span class="hb-ask-tx">“How much did we sell yesterday in the north region?”</span>
+              <span class="hb-ask-eta"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /> <path d="M12 7v5l4 2" /></svg> Estimated delivery: 2 to 3 days</span>
             </div>
-            <video class="hp-video" muted loop playsinline preload="none" poster="/assets/video/asistente-en.webp" data-video="/assets/video/asistente-en"></video>
+
+            <div class="hb-card hb-wa">
+              <span class="hb-wa-hd">WhatsApp · Orders</span>
+              <span class="hb-wa-msg hb-wa-in">40 boxes of chips, Thursday</span>
+              <span class="hb-wa-msg hb-wa-out">Done, order 7731</span>
+            </div>
+
+            <div class="hb-card hb-crm">
+              <span class="hb-crm-hd">CRM · Visits</span>
+              <span class="hb-crm-row"><span>Norte SA</span><b class="hb-crm-ok">Closed</b></span>
+              <span class="hb-crm-row"><span>Oeste SRL</span><b>No visit</b></span>
+              <span class="hb-crm-row"><span>Litoral</span><b>Proposal</b></span>
+              <span class="hb-crm-foot">sales_north_v7.xlsx · Pasted by hand · CRM missing</span>
+            </div>
+
+            <div class="hb-card hb-join">
+              <span class="hb-join-hd">Bringing your systems together</span>
+              <span class="hb-join-rows">
+                <span class="hb-row"><i class="hb-sw hb-sw-erp"></i><span class="hb-nm">ERP</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-crm"></i><span class="hb-nm">CRM</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-xls"></i><span class="hb-nm">Spreadsheets</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-wa"></i><span class="hb-nm">WhatsApp</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-mail"></i><span class="hb-nm">Email</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+              </span>
+              <span class="hb-join-bar"><i></i></span>
+              <span class="hb-join-foot"><span data-count="12482">12.482</span> records read · 1.4 s</span>
+            </div>
+
+            <div class="hb-flies">
+<span class="hb-fly">ERP</span><span class="hb-fly">CRM</span><span class="hb-fly">Spreadsheets</span><span class="hb-fly">WhatsApp</span>            </div>
+
+            <div class="hb-card hb-alert">
+              <span class="hb-alert-hd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Stock alert</span>
+              <span class="hb-alert-tx">Classic chips 400 g runs out of stock in 3 days. Should I prepare the replenishment?</span>
+            </div>
+
+            <div class="hb-voice">
+              <p class="hb-status">Answer ready · with sources</p>
+              <span class="hb-mic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg></span>
+              <p class="hb-q"><span data-hb-q>How much did we sell yesterday in the north region?</span><i class="hb-caret" hidden></i></p>
+              <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
+            </div>
+
+            <div class="hb-rail">
+              <span class="hb-steps">
+<span class="hb-step">The question</span><span class="hb-step">Your systems</span><span class="hb-step">One model</span><span class="hb-step">The answer</span>              </span>
+              <p class="hb-caption">One single answer, right away, on the screen of whoever decides.</p>
+            </div>
           </div>
         </div>
-        <div class="hp-flies">          <span class="hp-fly" data-mon="a" data-slot="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" /> <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" /> <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" /> <path d="M10 6h4" /> <path d="M10 10h4" /> <path d="M10 14h4" /> <path d="M10 18h4" /></svg> ERP</span>          <span class="hp-fly" data-mon="a" data-slot="1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Email</span>          <span class="hp-fly" data-mon="a" data-slot="2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /> <path d="M14 2v4a2 2 0 0 0 2 2h4" /> <path d="M8 13h2" /> <path d="M14 13h2" /> <path d="M8 17h2" /> <path d="M14 17h2" /></svg> Spreadsheets</span>          <span class="hp-fly" data-mon="b" data-slot="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <circle cx="9" cy="7" r="4" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> CRM</span>          <span class="hp-fly" data-mon="b" data-slot="1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="16" x="2" y="4" rx="2" /> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg> Email</span>          <span class="hp-fly hp-fly-wa" data-mon="b" data-slot="2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg> WhatsApp</span>        </div>
-        <div class="hp-flash"></div>
+
+        <span class="hb-veil" aria-hidden="true"></span>
+        <div class="container hb-copy">
+          <div class="hb-head">
+            <p class="eyebrow">Data and AI consultancy for distributors, SMEs and consumer goods</p>
+            <h1 id="hb-title">One question. All your systems. <em>One single answer.</em></h1>
+          </div>
+          <div class="hb-side">
+            <p class="lead">We connect your ERP, your CRM, your spreadsheets, WhatsApp and email, and an AI assistant answers with your company’s real data.</p>
+            <div class="actions">
+              <a class="btn btn-primary btn-lg" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Book a call <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+              <a class="btn btn-secondary btn-lg" href="/en/data-assessment/">Explore the data assessment</a>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="hp-answer hp-static" role="region" aria-label="Example: an AI assistant’s answer to a business question (sample data)"><span class="label">Yesterday’s sales · North region</span>
-<div class="hp-answer-grid">
-  <div>
-    <strong class="hp-big">$1.28M</strong>
-    <span class="hp-up">▲ 9% vs. the same day last week</span>
-    <p>Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.</p>
-  </div>
-  <ul class="hp-bars" aria-label="By distributor · vs. target">
-    <li><span>Norte SA</span><i class="w-92" aria-hidden="true"></i><b>+14%</b></li>
-    <li><span>Distrisur</span><i class="w-74" aria-hidden="true"></i><b>+9%</b></li>
-    <li><span>La Rueda</span><i class="w-61" aria-hidden="true"></i><b>+6%</b></li>
-    <li><span>Pampa Dist.</span><i class="w-38" aria-hidden="true"></i><b>+2%</b></li>
-    <li class="is-neg"><span>Oeste SRL</span><i class="w-22" aria-hidden="true"></i><b>−5%</b></li>
-  </ul>
-</div>
-<p class="hp-sources"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg> Sources: ERP, CRM, spreadsheets and WhatsApp · updated today at 7:00 AM</span><span>Example with sample data</span></p>
-</div>
-
-      <div class="hp-actions actions">
-        <a class="btn btn-primary btn-lg" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Book a call <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
-        <a class="btn btn-secondary btn-lg hp-secondary" href="/en/data-assessment/">Explore the data assessment</a>
-      </div>
-
-      <p class="hp-hint" aria-hidden="true"><span>Scroll to see how the answer arrives</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></p>
     </div>
   </div>
 </section>
-<span id="despues-del-inicio"></span>
 
 
 <!-- ======= BRIDGE: what you just saw ======= -->

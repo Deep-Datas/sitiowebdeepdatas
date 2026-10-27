@@ -1545,1233 +1545,1216 @@ html:not(.motion) .phone-view:first-child {
   border-color: rgba(255, 255, 255, 0.25);
   color: var(--ember-2);
 }
-
-/* ---------- Inicio: la oficina, los sistemas y una sola respuesta (src/hero.html) ----------
-   Sin animación: texto, foto y respuesta en flujo normal. Con animación (html.motion) la escena
-   queda fija: el scroll acerca la cámara al monitor de la foto, los dos monitores (ERP y planillas;
-   CRM y WhatsApp) quedan de frente y se funden en uno solo con el asistente. site.js mueve las
-   capas y escribe las variables --veil, --shade, --cop, --cty, --bar, --flash y --hop. */
-.hp {
+/* ---------- Portada del inicio: una cámara que cruza la oficina (src/hero.html) ----------
+   Una sola foto y cuatro actos, encadenados al scroll: el equipo de datos trabajando,
+   sus dos monitores, el momento en que todo se unifica y, cruzando la mampara, los
+   mismos números en el televisor de quien decide. La foto no se mueve: se mueve el
+   recorte. design.js calcula la cámara y encaja cada pantalla con una matriz de
+   perspectiva; acá solo queda el encuadre final, para cuando no hay JavaScript. */
+.hb {
   position: relative;
-  background: var(--bg);
 }
 
-.hp-stage {
-  position: relative;
-  display: grid;
-  gap: clamp(24px, 4vh, 40px);
-  padding-top: calc(var(--header-h) + clamp(24px, 4vh, 48px));
-  padding-bottom: clamp(28px, 6vh, 64px);
-  overflow: hidden;
-}
-
-/* Texto del inicio */
-.hp-copy {
-  position: relative;
+/* El texto va encima de la foto, a la izquierda, y se va apenas arranca el recorrido */
+.hb-copy {
+  position: absolute;
+  inset: 0;
   z-index: 3;
-  text-align: center;
+  display: grid;
+  /* safe: en pantallas bajas el texto se apoya arriba en vez de salirse por los dos lados */
+  align-content: safe center;
+  justify-items: start;
+  gap: clamp(18px, 2vw, 26px);
+  padding-top: clamp(10px, 2vh, 28px);
+  padding-bottom: clamp(28px, 6vh, 96px);
+  pointer-events: none;
+  opacity: calc(1 - var(--fade, 0) * var(--out, 0));
+  transform: translateY(calc(var(--fade, 0) * var(--out, 0) * -34px));
 }
 
-.hp-copy .eyebrow {
-  margin-bottom: 16px;
+.hb-copy[hidden] {
+  display: none;
 }
 
-.hp-copy h1 {
-  max-width: 20ch;
-  margin: 0 auto 18px;
-  font-size: clamp(2.2rem, 1rem + 2.6vw, 3.3rem);
-  line-height: 1.06;
-  letter-spacing: -0.04em;
+.hb-head,
+.hb-side {
+  max-width: min(100%, 40rem);
 }
 
-@media (min-width: 768px) {
-  .hp-copy h1 {
-    max-width: none;
-  }
+/* Solo los botones reciben clics: el resto deja pasar el cursor a la escena */
+.hb-copy .actions {
+  pointer-events: auto;
 }
 
-.hp-copy h1 em {
+/* El velo que hace legible el texto sobre la foto; se desvanece con él */
+.hb-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: calc(var(--fade, 0) * (1 - var(--out, 0)));
+  background: linear-gradient(100deg,
+    color-mix(in srgb, var(--bg) 97%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 93%, transparent) 32%,
+    color-mix(in srgb, var(--bg) 60%, transparent) 50%,
+    transparent 72%);
+}
+
+.hb-copy h1 {
+  margin: 0;
+  font-size: var(--fs-display);
+  line-height: 1.02;
+}
+
+/* La frase en bastardilla arranca en su propio renglón: es la otra mitad de la idea */
+.hb-copy h1 em {
+  display: block;
   font-family: var(--font-accent);
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
-  color: var(--accent-300);
+  color: var(--accent-600);
 }
 
-.hp-lead {
-  max-width: 56ch;
-  margin: 0 auto 22px;
-}
-
-/* La pregunta, los tres pasos y el estado (en el texto y en la barra compacta) */
-.hp-ask {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.hp-bubble {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+.hb-copy .lead {
+  max-width: 46ch;
   margin: 0;
-  padding: 12px 18px 12px 14px;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--text);
-  font-size: 1.08rem;
-  font-weight: 500;
-  box-shadow: 0 20px 50px -24px rgba(11, 18, 32, 0.4), 0 0 0 1px var(--hairline);
-}
-
-.hp-avatar {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--ember);
-  color: #1a0e08;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.hp-steps {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin: 18px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hp-step {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 13px 5px 5px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--fg-3);
-  font-size: 0.88rem;
-  font-weight: 500;
-  transition: color 0.3s, border-color 0.3s, background 0.3s;
-}
-
-.hp-step-n {
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--surface-2);
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 700;
-  transition: background 0.3s, color 0.3s;
-}
-
-.hp-step.is-done {
   color: var(--fg-2);
 }
 
-.hp-step.is-done .hp-step-n {
-  background: var(--text);
-  color: var(--bg);
-}
-
-.hp-step.is-on {
-  border-color: var(--ember);
-  background: #fff;
-  color: var(--text);
-  box-shadow: 0 10px 30px -18px rgba(255, 106, 58, 0.8);
-}
-
-.hp-step.is-on .hp-step-n {
-  background: var(--ember);
-  color: #1a0e08;
-}
-
-.hp-status {
-  position: relative;
-  width: 100%;
-  height: 1.6em;
-  margin: 12px 0 0;
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.hp-status span {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-.hp-status span.is-on {
-  opacity: 1;
-}
-
-.hp-status span::before {
-  content: "● ";
-  color: var(--ember);
-}
-
-/* La foto: en flujo normal es una imagen; con animación, la capa que site.js mueve */
-.hp-photo {
-  position: relative;
-  z-index: 1;
-  width: min(100% - 2 * var(--gutter), 1200px);
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 20px;
-  aspect-ratio: 16 / 9;
-}
-
-.hp-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hp-veil,
-.hp-shade,
-.hp-bar,
-.hp-mons,
-.hp-hint {
-  display: none;
-}
-
-/* La respuesta del asistente (tarjeta estática y pantalla del monitor final) */
-.hp-answer {
-  position: relative;
-  z-index: 2;
-  width: min(100% - 2 * var(--gutter), 860px);
-  margin: 0 auto;
-  padding: 26px 30px;
-  border-radius: 26px;
-  background: #fff;
-  color: var(--text);
-  box-shadow: 0 40px 90px -40px rgba(11, 18, 32, 0.45), 0 0 0 1px var(--hairline);
-}
-
-.hp-answer .label,
-.hp-ai-answer .label {
-  margin-bottom: 10px;
-  color: var(--accent-700);
-}
-
-.hp-answer-grid {
+.hb-side {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
   gap: 18px;
 }
 
-.hp-big {
-  display: block;
-  font-family: var(--font-display);
-  font-size: clamp(2.6rem, 2rem + 2vw, 3.4rem);
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1;
-}
-
-.hp-up {
-  display: inline-block;
-  margin: 10px 0 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #dcf5e4;
-  color: #1e7a4c;
-  font-size: 0.85rem;
-  font-weight: 650;
-}
-
-.hp-answer p,
-.hp-ai-answer p {
-  margin: 0;
-  color: var(--fg-2);
-  font-size: 0.98rem;
-}
-
-.hp-bars {
-  display: grid;
-  align-content: center;
-  gap: 9px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hp-bars li {
-  display: grid;
-  grid-template-columns: 90px 1fr 56px;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.86rem;
-}
-
-.hp-bars i {
-  display: block;
-  width: var(--w);
-  height: 10px;
-  border-radius: 4px;
-  background: var(--text);
-}
-
-.hp-bars .is-neg i {
-  background: #b4472c;
-}
-
-.hp-bars b {
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-.hp-sources {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 16px 0 0;
-  color: var(--fg-3);
-  font-size: 0.8rem;
-}
-
-.hp-actions {
+/* ----- El riel del scroll: mientras dura, la escena queda fija y la cámara avanza ----- */
+.hb-track {
   position: relative;
-  z-index: 3;
-  align-items: center;
-  justify-content: center;
+  height: 320vh;
 }
 
-/* Ventanas de los sistemas dentro de los monitores */
-.hp-win {
-  position: absolute;
-  color: #1f2937;
-  font-size: 12px;
+/* La escena ocupa toda la pantalla, de borde a borde, debajo del encabezado */
+.hb-pin {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
 }
 
-.hp-card {
+.hb-stage,
+.hb-crop {
+  width: 100%;
+  height: 100%;
+}
+
+/* De 901 px para arriba la portada se parte al medio: el texto a la izquierda, sobre el
+   fondo de la página, y la escena a la derecha, del alto de la pantalla. */
+@media (min-width: 901px) {
+  .hb-stage {
+    display: grid;
+    /* Un pelo más de la mitad para el texto: «Una pregunta.» tiene que entrar entero */
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  .hb-copy {
+    order: -1;
+    position: static;
+    /* Alineado con el logo del encabezado, no con el borde de la media pantalla */
+    padding-left: max(var(--gutter), (100vw - 1180px) / 2);
+    padding-right: clamp(16px, 2vw, 40px);
+  }
+
+  .hb-veil {
+    display: none;
+  }
+}
+
+.hb-crop {
+  position: relative;
+  /* Encierra el apilado de adentro: si no, el z-index del HUD se escapa y se dibuja
+     por encima del velo que hace legible el texto en celulares. */
+  isolation: isolate;
   overflow: hidden;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 24px 50px -24px rgba(11, 18, 32, 0.5), 0 0 0 1px rgba(11, 18, 32, 0.08);
+  background: #e9edf1;
+  container-type: inline-size;
 }
 
-.hp-label {
+/* Cada foto va en su capa, y la capa gira: así el giro tiene como centro el recorte y
+   no la esquina de la foto, que es desde donde la cámara mide. */
+.hb-turn {
   position: absolute;
-  top: -15px;
-  left: 12px;
-  z-index: 1;
+  inset: 0;
+  transform-origin: 50% 50%;
+  transform: perspective(1500px) rotateY(var(--giro, 0deg));
+}
+
+/* La segunda foto, el primer plano del televisor, entra cuando la cámara ya llegó */
+.hb-scene-b {
+  opacity: var(--b, 1);
+}
+
+/* La foto, en tamaño natural; la cámara la mueve y la acerca. El encuadre que queda
+   acá es el del último acto: sin JavaScript se ve la respuesta, quieta. */
+.hb-scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  transform-origin: 0 0;
+  transform: translate(0, -38.2%) scale(1.695);
+}
+
+/* Con animación arranca en el primer acto: el equipo, del otro lado de la oficina */
+html.motion .hb-scene {
+  transform: translate(-179.7%, -70.9%) scale(2.84);
+}
+
+.hb-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* La foto original es chica y la cámara se acerca: una viñeta le da profundidad y un
+   grano finito le devuelve el detalle que el agrandado no tiene. */
+.hb-grade {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(118% 88% at 50% 44%, rgba(255, 255, 255, 0.06), rgba(8, 14, 28, 0.05) 60%, rgba(8, 14, 28, 0.2) 100%);
+}
+
+.hb-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: 0.3;
+  pointer-events: none;
+  background: url("../img/hero/grano.png") repeat;
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
+}
+
+/* ----- Las pantallas de la foto, encajadas en perspectiva por design.js ----- */
+.hb-screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+  background: #fff;
+}
+
+/* Recién cuando design.js midió el recorte: antes no tienen dónde encajarse. Va por la
+   negativa para no pisarle el display a cada pantalla, que arma lo suyo con grid. La
+   segunda foto tampoco: sin cámara que la ubique quedaría pegada en una esquina. */
+.hb-crop:not(.hb-ready) .hb-screen,
+.hb-crop:not(.hb-ready) .hb-ring,
+.hb-crop:not(.hb-ready) .hb-turn-b {
+  display: none;
+}
+
+.hb-s-tv {
+  z-index: 3;
+  width: 1280px;
+  height: 1650px;
+  opacity: var(--a, 1);
+}
+
+/* De cerca el televisor se ve casi de frente, así que su tablero vuelve a ser 16:9 */
+.hb-s-tv2 {
+  z-index: 3;
+  width: 1280px;
+  height: 720px;
+  opacity: var(--a, 1);
+}
+
+/* ----- El tablero del televisor. Se lo ve de costado, así que el rectángulo de diseño
+   es alto y angosto: así la perspectiva no aplasta la tipografía ----- */
+.hb-scr {
+  --sbg: #fff;
+  --stx: #0f172a;
+  --stx2: #566074;
+  --stx3: #7a8396;
+  --sln: #e4e7ec;
+  --sgr: #eef0f3;
+  --s-blue: #2353d6;
+
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto auto;
+  background: var(--sbg);
+  color: var(--stx);
+  font-size: 46px;
+  line-height: 1.3;
+  /* El contenido se apaga aparte de la pantalla (--a, que es la luz blanca). Durante el
+     giro los dos televisores quedan en blanco: si se apagara la pantalla entera se vería
+     el tablero azul oscuro que traen las fotos, y si no se apagara el contenido, los dos
+     tableros superpuestos quedarían como una doble imagen. */
+  opacity: var(--c, 1);
+}
+
+.hb-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  opacity: var(--scan-a, 0);
+  pointer-events: none;
+  background: linear-gradient(170deg, transparent 38%, rgba(35, 83, 214, 0.18) 46%, rgba(255, 255, 255, 0.95) 50%, rgba(35, 83, 214, 0.18) 54%, transparent 62%);
+  transform: translateY(calc(-100% + var(--scan, 0) * 200%));
+}
+
+.hb-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 26px 44px;
+  border-bottom: 3px solid var(--sln);
+  background: #fbfcfd;
+}
+
+.hb-app {
+  font-size: 44px;
+  font-weight: 600;
+}
+
+.hb-live {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 13px 6px 10px;
-  border-radius: 999px;
-  background: var(--text);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  box-shadow: 0 12px 24px -12px rgba(11, 18, 32, 0.6);
-}
-
-.hp-label .icon {
-  width: 16px;
-  height: 16px;
-  color: var(--ember);
-}
-
-.hp-tb {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 12px;
-  background: #f3f4f6;
-  color: #374151;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.hp-tb i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #d1d5db;
-}
-
-.hp-tb i:first-child {
-  background: var(--ember);
-}
-
-.hp-body {
-  padding: 10px;
-}
-
-.hp-win table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.hp-win td {
-  padding: 4px 6px;
-  border-bottom: 1px solid #eef0f3;
-  font-variant-numeric: tabular-nums;
-}
-
-.hp-win td.h {
-  color: #6b7280;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.hp-win .hl {
-  background: #fff3ea;
-}
-
-.hp-win-wa .hp-card {
-  background: #ece5dd;
-}
-
-.hp-win-wa .hp-tb {
-  background: #075e54;
-  color: #fff;
-}
-
-.hp-win-wa .hp-tb i {
-  background: #fff;
-}
-
-.hp-win-wa .hp-label {
-  background: #075e54;
-}
-
-.hp-win-wa .hp-label .icon {
-  color: #fff;
-}
-
-.hp-msg {
-  max-width: 88%;
-  margin: 0 0 6px;
-  padding: 6px 9px;
-  border-radius: 9px;
-  background: #fff;
-}
-
-.hp-msg-out {
+  gap: 12px;
   margin-left: auto;
-  background: #d9fdd3;
-}
-
-.hp-tag {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #0b1220;
-  color: #67d8ff;
+  color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.06em;
+  font-size: 34px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* Enlace para saltar la animación: fijo abajo a la derecha mientras dura; sin animación, solo con el teclado */
-.hp-skip {
-  position: absolute;
-  top: calc(var(--header-h) + 12px);
-  left: 16px;
-  z-index: 30;
-  padding: 10px 16px;
+.hb-live i {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 0 8px rgba(30, 122, 76, 0.18);
+}
+
+.hb-board-head {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 34px 44px 6px;
+}
+
+.hb-board-head h2 {
+  margin: 0;
+  font-size: 84px;
+  letter-spacing: -0.02em;
+  color: var(--stx);
+}
+
+.hb-chip {
+  padding: 10px 26px;
   border-radius: 999px;
-  background: var(--text);
-  color: var(--bg);
+  background: #edf1fd;
+  color: var(--s-blue);
+  font-size: 38px;
   font-weight: 600;
 }
 
-.hp:not(.is-animated) .hp-skip:not(:focus) {
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+.hb-when {
+  margin-left: auto;
+  color: var(--stx3);
+  font-family: var(--font-mono);
+  font-size: 36px;
 }
 
-.hp.is-animated .hp-skip {
-  position: fixed;
-  top: auto;
-  right: 20px;
-  bottom: 20px;
-  left: auto;
-  display: inline-flex;
+.hb-tiles {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 24px;
+  padding: 28px 44px 16px;
+}
+
+.hb-tile {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  gap: 4px 24px;
+  padding: 22px 30px;
+  border: 3px solid var(--sln);
+  border-radius: 24px;
+}
+
+.hb-k {
+  color: var(--stx2);
+  font-size: 44px;
+}
+
+.hb-v {
+  grid-row: 1 / 3;
+  grid-column: 2;
+  align-self: center;
+  font-family: var(--font-display);
+  font-size: 92px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.hb-d {
+  color: var(--good);
+  font-size: 36px;
+  font-weight: 600;
+}
+
+/* El alto del tablero es fijo: el gráfico no puede empujar al pie */
+.hb-chart {
+  min-height: 0;
+  overflow: hidden;
+  padding: 10px 44px 16px;
+}
+
+.hb-chart h3 {
+  margin: 0 0 18px;
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--stx);
+}
+
+.hb-bar {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr) 230px;
+  gap: 26px;
   align-items: center;
-  gap: 6px;
-  min-height: 34px;
-  padding: 0 14px;
-  border: 1px solid var(--hairline-strong);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  color: var(--text);
-  font-size: 0.8rem;
-  font-weight: 500;
-  box-shadow: var(--lift);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: opacity 0.3s;
+  font-size: 44px;
 }
 
-.hp.is-animated .hp-skip .icon {
-  transform: rotate(90deg);
+.hb-bar + .hb-bar {
+  margin-top: 16px;
 }
 
-.hp.is-animated.is-done .hp-skip,
-.hero-copy-visible .hp.is-animated .hp-skip:not(:focus-visible) {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* El botón del encabezado espera a que se vaya el texto del inicio */
-.nav-cta,
-.nav-cta-mobile {
-  transition: opacity 0.3s;
-}
-
-.hero-copy-visible .nav-cta,
-.hero-copy-visible .nav-cta-mobile {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ===== Modo animado ===== */
-.motion .hp-track {
-  height: 300vh;
-}
-
-.motion .hp-stage {
-  position: sticky;
-  top: 0;
-  display: block;
-  height: 100vh;
-  height: 100svh;
-  padding: 0;
-}
-
-.motion .hp-photo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: auto;
-  margin: 0;
-  overflow: visible;
-  border-radius: 0;
-  aspect-ratio: auto;
-  transform-origin: 0 0;
-}
-
-.motion .hp-veil {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: block;
-  background: var(--bg);
-  opacity: var(--veil, 0);
-  pointer-events: none;
-}
-
-.motion .hp-shade {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: block;
-  background:
-    /* Velo superior: el menú se lee sobre el ventanal antes de hacer scroll */
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 78%, transparent) 0%, color-mix(in srgb, var(--bg) 40%, transparent) var(--header-h), transparent calc(var(--header-h) + 120px)),
-    linear-gradient(90deg, color-mix(in srgb, var(--bg) 94%, transparent) 0%, color-mix(in srgb, var(--bg) 74%, transparent) 38%, transparent 66%),
-    linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent) 0%, transparent 30%);
-  opacity: var(--shade, 1);
-  pointer-events: none;
-}
-
-.motion .hp-copy {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  padding-top: var(--header-h);
-  text-align: left;
-  opacity: var(--cop, 1);
-  transform: translateY(var(--cty, 0px));
-  pointer-events: none;
-}
-
-.motion .hp-copy.is-out {
-  visibility: hidden;
-}
-
-.motion .hp-copy .container {
-  pointer-events: auto;
-}
-
-.motion .hp-copy h1 {
-  max-width: 13ch;
-  margin-inline: 0;
-  font-size: clamp(2.2rem, 1rem + 2.8vw, 3.7rem);
-}
-
-.motion .hp-copy .hp-lead {
-  max-width: 42ch;
-  margin-inline: 0;
-}
-
-.motion .hp-copy .hp-ask {
-  align-items: flex-start;
-}
-
-.motion .hp-copy .hp-steps {
-  justify-content: flex-start;
-}
-
-.motion .hp-copy .hp-status {
-  text-align: left;
-}
-
-/* Barra compacta con la pregunta y los pasos, arriba, mientras dura el recorrido */
-.motion .hp-bar {
-  position: absolute;
-  top: calc(var(--header-h) + 10px);
-  right: var(--gutter);
-  left: var(--gutter);
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  opacity: var(--bar, 0);
-  pointer-events: none;
-}
-
-.hp-bar .hp-bubble {
-  padding: 8px 14px 8px 10px;
-  font-size: 0.96rem;
-}
-
-.hp-bar .hp-avatar {
-  width: 26px;
-  height: 26px;
-  font-size: 0.66rem;
-}
-
-.hp-bar .hp-steps {
-  margin-top: 8px;
-}
-
-.hp-bar .hp-step {
-  padding: 4px 11px 4px 4px;
-  font-size: 0.82rem;
-}
-
-.hp-bar .hp-step-n {
-  width: 22px;
-  height: 22px;
-  font-size: 0.68rem;
-}
-
-.hp-bar .hp-status {
-  margin-top: 6px;
-  font-size: 0.72rem;
-}
-
-/* Los monitores: site.js les da tamaño en píxeles y los lleva en perspectiva a su lugar */
-.motion .hp-mons {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: block;
-  pointer-events: none;
-}
-
-/* La persona que está delante del segundo monitor, recortada de la foto */
-.hp-front {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  max-width: none;
-  transform-origin: 0 0;
-  pointer-events: none;
-}
-
-.hp-mon {
-  --rim: 12px;
-  --chin: 26px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #303033 0%, #232325 60%, #1c1c1e 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07), 0 50px 90px -40px rgba(11, 18, 32, 0.55);
-  transform-origin: 0 0;
-}
-
-.hp-screen {
-  position: absolute;
-  inset: var(--rim) var(--rim) var(--chin);
+.hb-bar .hb-nm {
   overflow: hidden;
-  border-radius: 3px;
-  background: #f3f2ee;
-}
-
-.hp-desk {
-  background: linear-gradient(135deg, #e9e4dc, #d8dce6);
-}
-
-/* Reflejo suave sobre la pantalla */
-.hp-desk::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 38%, transparent 60%);
-  pointer-events: none;
-}
-
-.hp-desk .hp-w1 {
-  top: 10%;
-  left: 3%;
-  z-index: 1;
-  width: 58%;
-}
-
-.hp-desk .hp-w3 {
-  bottom: 5%;
-  left: 5%;
-  z-index: 2;
-  width: 46%;
-}
-
-.hp-desk .hp-w2 {
-  top: 34%;
-  right: 3%;
-  z-index: 3;
-  width: 54%;
-}
-
-.hp-line {
-  margin: 0 0 5px;
-  overflow: hidden;
+  color: var(--stx2);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.hp-line b {
-  color: #111827;
+.hb-tr {
+  position: relative;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--sgr);
 }
 
-.hp-line span {
-  color: #6b7280;
-}
-
-/* Post-its pegados en el marco del monitor */
-.hp-note {
+/* El ancho sale de la clase que genera build.py (pos('w', …)); con animación lo pisa design.js */
+.hb-tr i {
   position: absolute;
-  z-index: 5;
-  width: 74px;
-  padding: 8px 8px 10px;
-  background: linear-gradient(180deg, #fff6a8, #ffe86b);
-  color: #4a3f10;
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 12px;
-  line-height: 1.15;
-  box-shadow: 0 8px 16px -8px rgba(11, 18, 32, 0.55);
+  inset: 0 auto 0 0;
+  width: var(--w, 0%);
+  border-radius: 8px 14px 14px 8px;
+  background: var(--s-blue);
 }
 
-.hp-note::before {
-  content: "";
+.hb-vl {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.hb-foot {
+  display: flex;
+  gap: 24px;
+  padding: 22px 44px;
+  border-top: 3px solid var(--sln);
+  color: var(--stx3);
+  font-family: var(--font-mono);
+  font-size: 34px;
+}
+
+.hb-right {
+  margin-left: auto;
+}
+
+/* Marcos que señalan la pantalla de la que habla cada acto. Comparten el rectángulo de
+   diseño de su pantalla, así que design.js los encaja con la misma matriz; el borde y el
+   resplandor van en píxeles de ese rectángulo, que la perspectiva achica un montón. */
+.hb-ring {
   position: absolute;
-  top: -5px;
-  left: 50%;
-  width: 26px;
-  height: 9px;
-  background: rgba(255, 255, 255, 0.55);
-  transform: translateX(-50%) rotate(-3deg);
+  left: 0;
+  top: 0;
+  z-index: 4;
+  display: block;
+  box-sizing: border-box;
+  border: 14px solid var(--accent-600);
+  border-radius: 18px;
+  opacity: var(--a, 0);
+  pointer-events: none;
+  transform-origin: 0 0;
+  box-shadow: 0 0 90px 10px rgba(228, 88, 28, 0.45), inset 0 0 70px rgba(228, 88, 28, 0.2);
 }
 
-.hp-note-1 {
-  top: -8px;
-  right: 18px;
-  transform: rotate(4deg);
+/* El televisor va aparte: el marco naranja señala y se apaga, pero la luz que tira la
+   pantalla sobre la pared se queda, porque el televisor sigue encendido. */
+.hb-r-tv2 {
+  width: 1280px;
+  height: 720px;
+  border-width: 10px;
+  border-radius: 12px;
+  opacity: 1;
+  border-color: rgba(228, 88, 28, calc(var(--a, 0) * 0.9));
+  box-shadow:
+    0 0 200px 40px rgba(255, 255, 255, calc(var(--g, 0) * 0.45)),
+    0 0 120px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.28));
 }
 
-.hp-note-2 {
-  right: -14px;
-  bottom: 22%;
-  background: linear-gradient(180deg, #ffd3e0, #ffb3c9);
-  color: #5a1f33;
-  transform: rotate(-5deg);
+.hb-r-tv {
+  width: 1280px;
+  height: 1650px;
+  border-width: 12px;
+  border-radius: 14px;
+  opacity: 1;
+  border-color: rgba(228, 88, 28, calc(var(--a, 0) * 0.9));
+  box-shadow:
+    0 0 240px 50px rgba(255, 255, 255, calc(var(--g, 0) * 0.5)),
+    0 0 140px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.3)),
+    inset 0 0 90px rgba(255, 255, 255, calc(var(--a, 0) * 0.25));
 }
 
-.hp-mon-b .hp-note-1 {
-  top: 14%;
-  right: auto;
-  left: -12px;
-  transform: rotate(-4deg);
+/* En el primer plano el tablero es 16:9 de verdad: las fichas van en fila y la
+   tipografía puede ser más chica, porque la pantalla ocupa media escena. */
+.hb-s-tv2 .hb-scr {
+  grid-template-rows: auto auto auto 1fr auto;
+  font-size: 30px;
 }
 
-.hp-mon-b .hp-note-2 {
-  right: 26px;
-  bottom: -6px;
-  background: linear-gradient(180deg, #d6ecff, #b3d9ff);
-  color: #173a5e;
-  transform: rotate(3deg);
+.hb-s-tv2 .hb-top { padding: 16px 28px; border-bottom-width: 2px; }
+.hb-s-tv2 .hb-app { font-size: 28px; }
+.hb-s-tv2 .hb-live { font-size: 22px; gap: 8px; }
+.hb-s-tv2 .hb-live i { width: 11px; height: 11px; box-shadow: 0 0 0 5px rgba(30, 122, 76, 0.18); }
+.hb-s-tv2 .hb-board-head { padding: 20px 28px 4px; gap: 16px; }
+.hb-s-tv2 .hb-board-head h2 { font-size: 52px; }
+.hb-s-tv2 .hb-chip { padding: 6px 16px; font-size: 24px; }
+.hb-s-tv2 .hb-when { font-size: 23px; }
+
+.hb-s-tv2 .hb-tiles {
+  grid-template-rows: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 28px 8px;
 }
 
-/* Las etiquetas de los sistemas que vuelan hasta la respuesta */
-.hp-mon .hp-label {
-  opacity: var(--lab, 1);
+.hb-s-tv2 .hb-tile {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  padding: 14px 18px;
+  border-width: 2px;
+  border-radius: 14px;
 }
 
-.hp-flies {
+.hb-s-tv2 .hb-k { font-size: 26px; }
+
+.hb-s-tv2 .hb-v {
+  grid-row: auto;
+  grid-column: auto;
+  font-size: 58px;
+}
+
+.hb-s-tv2 .hb-d { font-size: 22px; }
+.hb-s-tv2 .hb-chart { padding: 6px 28px 10px; }
+.hb-s-tv2 .hb-chart h3 { margin-bottom: 10px; font-size: 30px; }
+.hb-s-tv2 .hb-bar { grid-template-columns: 200px minmax(0, 1fr) 140px; gap: 16px; font-size: 26px; }
+.hb-s-tv2 .hb-bar + .hb-bar { margin-top: 10px; }
+.hb-s-tv2 .hb-tr { height: 22px; border-radius: 5px; }
+.hb-s-tv2 .hb-tr i { border-radius: 5px 9px 9px 5px; }
+.hb-s-tv2 .hb-foot { padding: 12px 28px; border-top-width: 2px; font-size: 21px; }
+
+/* ----- Lo que no vive dentro de la foto: carteles, chips y la barra de voz.
+   Cada uno aparece en su acto; las posiciones están atadas a ese encuadre. ----- */
+.hb-hud {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 6;
   pointer-events: none;
 }
 
-.hp-fly {
+.hb-card {
   position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px 6px 10px;
-  border-radius: 999px;
-  background: var(--text);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  box-shadow: 0 14px 28px -12px rgba(11, 18, 32, 0.6), 0 0 0 3px rgba(255, 106, 58, 0.18);
-  opacity: 0;
-  visibility: hidden;
-  will-change: transform, opacity;
+  display: grid;
+  gap: 0.5cqw;
+  padding: 1.1cqw 1.3cqw;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.2cqw;
+  background: rgba(253, 253, 255, 0.94);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 2cqw 4cqw -1.8cqw rgba(8, 14, 28, 0.7), 0 0 0 1px rgba(8, 14, 28, 0.05);
+  color: var(--text);
+  font-size: 1.15cqw;
 }
 
-.hp-fly .icon {
-  width: 16px;
-  height: 16px;
-  color: var(--ember);
-}
-
-.hp-fly-wa {
-  background: #075e54;
-}
-
-.hp-fly-wa .icon {
-  color: #fff;
-}
-
-/* La respuesta se arma cuando llegan los datos */
-.hp-mon-c .hp-ai-answer {
-  opacity: var(--card, 1);
-  transform: translateY(calc((1 - var(--card, 1)) * 18px)) scale(calc(0.97 + 0.03 * var(--card, 1)));
-  box-shadow: 0 0 0 1px var(--hairline), 0 0 0 calc(var(--glow, 0) * 8px) rgba(255, 106, 58, calc(var(--glow, 0) * 0.25));
-}
-
-/* Destello suave donde llegan los datos */
-.hp-flash {
+.hb-card::before,
+.hb-card::after {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 56vmin;
-  height: 56vmin;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #ffe3d2 22%, rgba(255, 138, 92, 0.7) 45%, transparent 70%);
-  opacity: var(--flash, 0);
-  transform: translate(-50%, -50%);
-  filter: blur(10px);
-  mix-blend-mode: screen;
+  width: 1cqw;
+  height: 1cqw;
+  border: 1.5px solid var(--accent-500);
+  opacity: 0.75;
 }
 
-/* Pantalla del monitor final: el asistente */
-.hp-ai {
-  display: flex;
-  flex-direction: column;
-  background: #faf9f5;
+.hb-card::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 1.2cqw 0 0 0;
 }
 
-.hp-ai-top {
+.hb-card::after {
+  right: -1px;
+  bottom: -1px;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0 0 1.2cqw 0;
+}
+
+/* Acto 1: el pedido que entra al equipo */
+.hb-ask {
+  left: 3.5%;
+  top: 8%;
+  width: 27%;
+  opacity: var(--a, 0);
+}
+
+.hb-ask-hd {
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hb-ask-tx {
+  font-size: 1.3cqw;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+.hb-ask-eta {
   display: flex;
-  flex: none;
   align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
+  gap: 0.5cqw;
+  margin-top: 0.2cqw;
+  padding-top: 0.6cqw;
+  border-top: 1px solid var(--hairline);
+  color: #b54708;
+  font-size: 1.05cqw;
+  font-weight: 600;
+}
+
+/* Acto 2: los dos sistemas abiertos, uno al lado del otro */
+.hb-wa {
+  left: 4%;
+  top: 8%;
+  width: 29%;
+  gap: 0.45cqw;
+  opacity: var(--a, 0);
+}
+
+.hb-crm {
+  right: 4%;
+  top: 8%;
+  width: 29%;
+  gap: 0.4cqw;
+  opacity: var(--a, 0);
+}
+
+.hb-wa-hd {
+  margin: -1.1cqw -1.3cqw 0.4cqw;
+  padding: 0.7cqw 1.3cqw;
+  border-radius: 1.2cqw 1.2cqw 0 0;
+  background: #128c7e;
+  color: #fff;
+  font-size: 1.05cqw;
+  font-weight: 600;
+}
+
+.hb-wa-msg {
+  justify-self: start;
+  max-width: 88%;
+  padding: 0.5cqw 0.8cqw;
+  border-radius: 0.9cqw;
+  background: var(--sand-2, #eef1f5);
+  color: var(--text);
+  font-size: 1.05cqw;
+}
+
+.hb-wa-out {
+  justify-self: end;
+  background: #d9fdd3;
+  color: #0f172a;
+}
+
+.hb-crm-hd {
+  color: #2353d6;
+  font-size: 1.05cqw;
+  font-weight: 600;
+}
+
+.hb-crm-row {
+  display: flex;
+  gap: 0.7cqw;
+  align-items: baseline;
+  padding-bottom: 0.35cqw;
   border-bottom: 1px solid var(--hairline);
-  background: #fff;
-  font-size: 0.82rem;
+  font-size: 1.05cqw;
+}
+
+.hb-crm-row b {
+  margin-left: auto;
+  color: #b54708;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hb-crm-ok {
+  color: var(--good);
+}
+
+.hb-crm-foot {
+  margin-top: 0.3cqw;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.9cqw;
+}
+
+/* Acto 3: todo se unifica mientras la cámara cruza la mampara */
+.hb-join {
+  left: 50%;
+  top: 12%;
+  width: 26%;
+  opacity: var(--a, 0);
+  transform: translateX(-50%);
+}
+
+.hb-join-hd {
+  font-size: 1.2cqw;
+  font-weight: 600;
+}
+
+.hb-join-rows {
+  display: grid;
+  gap: 0.4cqw;
+  margin-top: 0.3cqw;
+}
+
+.hb-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+}
+
+.hb-row .hb-nm {
   color: var(--fg-2);
 }
 
-.hp-ai-top img {
-  width: 16px;
+.hb-sw {
+  flex: none;
+  width: 0.75cqw;
+  height: 0.75cqw;
+  border-radius: 0.2cqw;
+  background: var(--c);
+}
+
+.hb-sw-erp { --c: #0b1220; }
+.hb-sw-crm { --c: #2353d6; }
+.hb-sw-xls { --c: #12a594; }
+.hb-sw-wa { --c: #128c7e; }
+.hb-sw-mail { --c: #e4581c; }
+
+.hb-ok {
+  margin-left: auto;
+  color: var(--good);
+  opacity: var(--ok, 1);
+}
+
+.hb-join-bar {
+  display: block;
+  height: 0.5cqw;
+  margin-top: 0.3cqw;
+  border-radius: 999px;
+  background: var(--hairline);
+}
+
+.hb-join-bar i {
+  display: block;
+  width: var(--p, 100%);
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent-600);
+}
+
+.hb-join-foot {
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+}
+
+/* Los sistemas que cruzan de un ambiente al otro */
+.hb-fly {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.6cqw 1.1cqw;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 1.05cqw;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 1cqw 2.4cqw -1cqw rgba(8, 14, 28, 0.8), 0 0 2.4cqw rgba(228, 88, 28, 0.45);
+}
+
+/* Acto 4: la alerta que llega sola y la barra de voz, junto al micrófono */
+.hb-alert {
+  right: 3%;
+  top: 7%;
+  width: 26%;
+  opacity: var(--a, 1);
+}
+
+.hb-alert-hd {
+  display: flex;
+  align-items: center;
+  gap: 0.55cqw;
+  color: #b54708;
+  font-weight: 600;
+}
+
+.hb-alert-hd .icon {
+  font-size: 1.3cqw;
+}
+
+.hb-alert-tx {
+  color: var(--fg-2);
+  font-size: 1.05cqw;
+}
+
+/* Corrida a la derecha del televisor (tapaba el tablero) y arriba del riel */
+.hb-voice {
+  position: absolute;
+  left: 63%;
+  top: 73%;
+  display: flex;
+  align-items: center;
+  gap: 1.1cqw;
+  width: 40%;
+  padding: 0.95cqw 1.2cqw;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(253, 253, 255, 0.93);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
+  opacity: var(--voice, 1);
+  transform: translateX(-50%);
+}
+
+.hb-mic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.8cqw;
+  height: 2.8cqw;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 50%;
+  background: var(--accent-600);
+  color: #fff;
+  box-shadow: 0 0 0 calc(var(--amp, 0) * 0.9cqw) rgba(228, 88, 28, 0.22);
+  transition: box-shadow 0.1s linear;
+}
+
+.hb-mic .icon {
+  font-size: 1.5cqw;
+}
+
+.hb-q {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--text);
+  font-size: 1.3cqw;
+  font-weight: 500;
+}
+
+.hb-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: -0.14em;
+  background: var(--accent-600);
+}
+
+.hb-caret[hidden] {
+  display: none;
+}
+
+.hb-wave {
+  flex: none;
+  width: 16%;
+  height: 2.3cqw;
+}
+
+.hb-wave path {
+  fill: none;
+  stroke: var(--accent-600);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+
+/* Una pastilla detrás: el estado cae sobre la ventana y ahí no se leía */
+.hb-status {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.7cqw);
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.3cqw 0.8cqw;
+  border-radius: 999px;
+  background: rgba(252, 253, 255, 0.8);
+  color: #4d5667;
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+/* ----- Apoyado sobre la foto: en qué acto va el scroll y qué está contando ----- */
+.hb-rail {
+  position: absolute;
+  left: 50%;
+  bottom: 3.5%;
+  opacity: var(--cap, 1);
+  display: grid;
+  gap: 0.8cqw;
+  width: min(84%, 62ch);
+  padding: 1.1cqw 1.6cqw;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 1.3cqw;
+  background: rgba(253, 253, 255, 0.93);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
+  transform: translateX(-50%);
+}
+
+.hb-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1cqw;
+}
+
+/* La línea de arriba es el avance: se pinta encima del carril, de cero a var(--f) */
+.hb-step {
+  padding-top: 0.55cqw;
+  color: var(--fg-3);
+  font-size: 0.86cqw;
+  letter-spacing: 0.02em;
+  text-align: center;
+  background-image: linear-gradient(var(--accent-600), var(--accent-600)), linear-gradient(var(--hairline), var(--hairline));
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: var(--f, 100%) 3px, 100% 3px;
+}
+
+.hb-step[data-on] {
+  color: var(--text);
+  font-weight: 600;
+  text-shadow: 0 0 1.4cqw rgba(228, 88, 28, 0.35);
+}
+
+.hb-caption {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.15cqw;
+  transition: none;
+  font-weight: 500;
+  text-align: center;
+  text-wrap: balance;
+  opacity: var(--cap, 1);
+}
+
+/* Con animación cada cartel entra cuando le toca, desde más abajo y más chico */
+.motion .hb-card {
+  transform: translateY(calc((1 - var(--a)) * 22px)) scale(calc(0.94 + 0.06 * var(--a)));
+  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.motion .hb-join {
+  transform: translateX(-50%) translateY(calc((1 - var(--a)) * 22px));
+}
+
+.motion 
+/* Sin animación no hay recorrido: el texto deja de ir encima de la foto y vuelve a ir
+   arriba, y debajo queda el último acto, quieto y completo. Es el orden del DOM al
+   revés, así que el texto se adelanta con order. */
+html:not(.motion) .hb-track {
   height: auto;
 }
 
-.hp-ai-top b {
-  color: var(--text);
+html:not(.motion) .hb-pin {
+  position: static;
+  height: auto;
 }
 
-.hp-ai-body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 12px;
-  min-height: 0;
-  padding: 14px 20px 16px;
-}
-
-.hp-ai-body .hp-bubble {
-  align-self: flex-end;
-  padding: 9px 16px 9px 11px;
-  font-size: 0.96rem;
-}
-
-.hp-ai-answer {
-  padding: 14px 18px;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 0 0 1px var(--hairline);
-}
-
-.hp-ai-chips {
-  display: flex;
-  flex: none;
-  gap: 8px;
-  margin-top: auto;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.hp-ai-chips span {
-  flex: none;
-  padding: 6px 12px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--fg-2);
-  font-size: 0.82rem;
-}
-
-.hp-ai-chips span::before {
-  content: "↗ ";
-  color: var(--ember);
-}
-
-.hp-ai-input {
-  display: flex;
-  flex: none;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 6px 6px 6px 16px;
-  border-radius: 16px;
-  background: #fff;
-  color: var(--fg-3);
-  font-size: 0.92rem;
-  box-shadow: 0 0 0 1px var(--hairline-strong);
-}
-
-.hp-ai-input i {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: var(--ember);
-  color: #1a0e08;
-}
-
-.hp-ai-input .icon {
-  width: 16px;
-  height: 16px;
-}
-
-/* La tarjeta estática queda solo para los lectores de pantalla */
-.motion .hp-static {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  box-shadow: none;
-}
-
-.motion .hp-actions {
-  position: absolute;
-  right: 0;
-  bottom: clamp(28px, 6vh, 56px);
-  left: 0;
-  z-index: 6;
-  /* En celulares el botón ocupa todo el ancho: respeta el margen lateral en vez de cortarse en los bordes */
-  padding-inline: var(--gutter);
-}
-
-.motion .hp-hint {
-  position: absolute;
-  right: 0;
-  bottom: 8px;
-  left: 0;
-  z-index: 6;
+html:not(.motion) .hb-stage {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  margin: 0;
-  color: var(--fg-3);
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  opacity: var(--hop, 1);
+  height: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .hp-hint .icon {
-    animation: hp-bounce 1.8s ease-in-out infinite;
-  }
+html:not(.motion) .hb-copy {
+  order: -1;
+  position: static;
+  padding-top: clamp(26px, 4vw, 54px);
+  padding-bottom: clamp(22px, 3vw, 38px);
+  transform: none;
 }
 
-@keyframes hp-bounce {
-  50% { transform: translateY(5px); }
+html:not(.motion) .hb-crop {
+  height: min(70svh, 560px);
 }
 
-/* Pantallas medias (tablet y portátiles bajos): la pantalla del asistente, más compacta */
-@media (max-width: 1279.98px), (max-height: 839.98px) {
-  .hp-ai-body {
-    gap: 10px;
-    padding: 12px 16px 14px;
+html:not(.motion) .hb-veil {
+  display: none;
+}
+
+html:not(.motion) .hb-steps {
+  display: none;
+}
+
+/* Lo que sigue depende del ancho del recorte, no del de la ventana: en escritorio la
+   escena ocupa media pantalla y en celulares toda, pero en los dos casos el recorte es
+   angosto y lo de encima tiene que crecer en proporción. */
+@container (max-width: 900px) {
+  .hb-ask,
+  .hb-join {
+    width: 62%;
   }
 
-  .hp-ai-body .hp-bubble {
-    padding: 7px 14px 7px 9px;
-    font-size: 0.9rem;
+  .hb-ask {
+    left: 4%;
+    top: 5%;
   }
 
-  .hp-ai-answer {
-    padding: 12px 16px;
+  .hb-join {
+    top: 6%;
   }
 
-  .hp-ai-answer .hp-big {
-    font-size: 2.2rem;
+  .hb-alert {
+    right: 4%;
+    top: 5%;
+    width: 48%;
   }
 
-  .hp-ai-answer .hp-up {
-    margin: 6px 0 8px;
-    font-size: 0.78rem;
+  /* El recorte es angosto en las dos formas (celular y media pantalla), así que lo que
+     va sobre la foto se mide en cqw. El piso en px es para el celular, donde el mismo
+     porcentaje daría un cuerpo ilegible. */
+  .hb-card {
+    gap: 0.9cqw;
+    padding: 1.9cqw 2.2cqw;
+    border-radius: 2cqw;
+    font-size: max(12px, 2.9cqw);
   }
 
-  .hp-ai-answer p {
-    font-size: 0.9rem;
+  .hb-ask-hd,
+  .hb-join-foot {
+    font-size: max(10px, 2.4cqw);
   }
 
-  .hp-ai-answer .hp-bars {
-    gap: 7px;
+  .hb-ask-tx,
+  .hb-join-hd,
+  .hb-alert-hd {
+    font-size: max(14px, 3.3cqw);
   }
 
-  .hp-ai-answer .hp-bars li {
-    grid-template-columns: 80px 1fr 50px;
-    font-size: 0.8rem;
+  .hb-ask-eta,
+  .hb-alert-tx {
+    font-size: max(11px, 2.7cqw);
   }
 
-  .hp-ai-answer .hp-sources {
-    margin-top: 10px;
-    font-size: 0.74rem;
+  .hb-alert-hd .icon {
+    font-size: max(14px, 3.4cqw);
   }
 
-  .hp-ai-chips,
-  .hp-ai-input {
+  .hb-wa,
+  .hb-crm {
+    width: 52%;
+    gap: 0.9cqw;
+  }
+
+  .hb-wa {
+    top: 6%;
+  }
+
+  .hb-crm {
+    top: 36%;
+  }
+
+  .hb-wa-hd {
+    margin: -1.9cqw -2.2cqw 0.7cqw;
+    padding: 1.2cqw 2.2cqw;
+    border-radius: 2cqw 2cqw 0 0;
+    font-size: max(12px, 2.6cqw);
+  }
+
+  .hb-wa-msg {
+    padding: 0.9cqw 1.4cqw;
+    border-radius: 1.6cqw;
+    font-size: max(12px, 2.6cqw);
+  }
+
+  .hb-crm-hd,
+  .hb-crm-row {
+    font-size: max(12px, 2.6cqw);
+  }
+
+  .hb-crm-row {
+    gap: 1.2cqw;
+    padding-bottom: 0.6cqw;
+  }
+
+  .hb-crm-foot {
+    font-size: max(10px, 2.2cqw);
+  }
+
+  .hb-sw {
+    width: 2cqw;
+    height: 2cqw;
+  }
+
+  .hb-join-bar {
+    height: 1cqw;
+  }
+
+  .hb-fly {
+    font-size: max(10px, 2.5cqw);
+  }
+
+  .hb-voice {
+    left: 50%;
+    top: 66%;
+    width: 86%;
+    gap: 2cqw;
+    padding: 2cqw 2.4cqw;
+  }
+
+  .hb-q {
+    font-size: max(14px, 3.2cqw);
+  }
+
+  .hb-mic {
+    width: max(28px, 6cqw);
+    height: max(28px, 6cqw);
+  }
+
+  .hb-mic .icon {
+    font-size: max(15px, 3.2cqw);
+  }
+
+  .hb-rail {
+    width: 92%;
+    gap: 1.6cqw;
+    padding: 2.2cqw 3.2cqw;
+    border-radius: 3cqw;
+  }
+
+  .hb-steps {
+    gap: 1.6cqw;
+  }
+
+  .hb-step {
+    padding-top: 1.1cqw;
+    font-size: max(10px, 2.3cqw);
+  }
+
+  .hb-caption {
+    font-size: max(12px, 2.8cqw);
+  }
+
+  .hb-wave,
+  .hb-status {
     display: none;
   }
 }
 
-@media (max-width: 1023.98px) {
-  .motion .hp-track {
+/* En un recorte de celular ya no entra nada más que lo imprescindible */
+@container (max-width: 520px) {
+  .hb-alert {
+    display: none;
+  }
+
+  /* Acá el riel es más bajo y la barra de voz vuelve a su lugar, sin taparle filas
+     al tablero. En la media pantalla de escritorio tiene que ir más arriba. */
+  .hb-voice {
+    top: 76%;
+  }
+}
+
+@media (max-width: 900px) {
+  .hb-track {
     height: 260vh;
   }
 
-  .motion .hp-copy {
-    align-items: flex-start;
-    padding-top: calc(var(--header-h) + 18px);
+  /* El texto vuelve a ir encima de la escena y se desvanece con el scroll. --fade va en
+     la etapa, no en el texto: el velo es su hermano y tiene que heredarlo igual. */
+  .hb-stage {
+    --fade: 1;
   }
 
-  .motion .hp-copy h1 {
-    max-width: none;
+  .hb-copy {
+    align-content: start;
+    padding-top: clamp(22px, 5vh, 48px);
+    padding-bottom: 0;
   }
 
-  .motion .hp-copy .hp-lead {
-    display: none;
+  /* Acá el texto va arriba, no a la izquierda: el velo baja y llega hasta los botones */
+  .hb-veil {
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--bg) 97%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 96%, transparent) 58%,
+      color-mix(in srgb, var(--bg) 72%, transparent) 74%,
+      transparent 100%);
   }
 
-  /* En pantallas chicas las ventanas se escalonan para que se vean las tres etiquetas */
-  .hp-desk .hp-w1 {
-    width: 66%;
+  /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
+     se mueve en una franja vertical (los encuadres de «cam_alto») */
+  .hb-scene {
+    transform: translate(-4%, -83.7%) scale(5.056);
   }
 
-  .hp-desk .hp-w2 {
-    top: 30%;
-    width: 58%;
-  }
-
-  .hp-desk .hp-w3 {
-    top: 56%;
-    bottom: auto;
-    left: 3%;
-    width: 52%;
-  }
-
-  .motion .hp-shade {
-    background:
-      linear-gradient(180deg, color-mix(in srgb, var(--bg) 96%, transparent) 0%, color-mix(in srgb, var(--bg) 78%, transparent) 46%, transparent 68%),
-      linear-gradient(0deg, color-mix(in srgb, var(--bg) 70%, transparent) 0%, transparent 24%);
-  }
-
-  .motion .hp-secondary {
-    display: none;
-  }
-
-  .hp-mon {
-    --rim: 8px;
-    --chin: 18px;
-    border-radius: 10px;
-  }
-
-  .hp-desk .hp-win {
-    font-size: 10px;
-  }
-
-  .hp-note {
-    width: 54px;
-    padding: 6px 6px 7px;
-    font-size: 9.5px;
-  }
-
-  .hp-note::before {
-    width: 18px;
-    height: 6px;
-  }
-
-  .hp-desk .hp-label {
-    top: -12px;
-    padding: 4px 9px 4px 7px;
-    font-size: 11px;
-  }
-
-  .hp-desk .hp-label .icon {
-    width: 12px;
-    height: 12px;
-  }
-
-  .hp-ai-body {
-    gap: 10px;
-    padding: 12px 14px 14px;
-  }
-
-  .hp-ai-body .hp-bubble {
-    align-self: stretch;
-    align-items: flex-start;
-    padding: 8px 12px 8px 8px;
-    border-radius: 18px;
-    font-size: 0.9rem;
-  }
-
-  .hp-ai-answer {
-    padding: 12px 14px;
+  html.motion .hb-scene {
+    transform: translate(-192.7%, 0%) scale(3);
   }
 }
 
-@media (max-width: 639.98px) {
-  .hp-copy h1 {
-    font-size: 2.05rem;
-  }
-
-  .hp-bubble {
-    align-items: flex-start;
-    max-width: 100%;
-    padding: 10px 16px 10px 12px;
-    border-radius: 22px;
-    font-size: 0.98rem;
-    text-align: left;
-  }
-
-  .hp-bubble .hp-avatar {
-    width: 26px;
-    height: 26px;
-    margin-top: 1px;
-    font-size: 0.66rem;
-  }
-
-  /* Con animación, los pasos que no están activos muestran solo el número */
-  .motion .hp-step:not(.is-on) {
-    padding: 4px;
-  }
-
-  .motion .hp-step:not(.is-on) > span:last-child {
-    display: none;
-  }
-
-  .hp-answer {
-    padding: 18px 20px;
-  }
-
-  .hp-answer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hp-big {
-    font-size: 2.3rem;
-  }
-
-  .hp-up {
-    margin: 8px 0 10px;
-    font-size: 0.78rem;
-  }
-
-  .hp-answer p,
-  .hp-ai-answer p {
-    font-size: 0.92rem;
-  }
-
-  .motion .hp-bars {
-    display: none;
-  }
-
-  .hp-sources {
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 12px;
-    font-size: 0.74rem;
-  }
-
-  .hp-ai-answer .hp-big {
-    font-size: 2rem;
-  }
-
-  .hp-ai-top span,
-  .motion .hp-ai-chips,
-  .motion .hp-ai-input {
-    display: none;
+/* Con «menos movimiento» motion.js no pone .motion, así que ya no hay riel ni actos */
+@media (prefers-reduced-motion: reduce) {
+  .hb-card,
+  .hb-mic {
+    transition: none;
   }
 }
 
@@ -3019,29 +3002,7 @@ html:not(.motion) .phone-view:first-child {
   }
 }
 
-/* ---------- Video del asistente (inicio y página de IA) ---------- */
-.hp-video {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #faf9f5;
-  opacity: 0;
-  transition: opacity 0.6s;
-}
-
-.hp-video.is-playing {
-  opacity: 1;
-}
-
-@media (max-width: 1023.98px) {
-  .hp-video {
-    display: none;
-  }
-}
-
+/* ---------- Video del asistente (página de IA) ---------- */
 .demo-video {
   position: relative;
   z-index: 1;
