@@ -1,32 +1,48 @@
 {#
-  Portada del inicio, en tres actos: el informe que hoy arma un analista, los dos
-  monitores que se vuelven uno, y ese monitor que se convierte en la pantalla de
-  quien decide, respondiendo en el momento.
+  Portada del inicio: una sola foto de la oficina y una cámara que la recorre con el
+  scroll, de derecha a izquierda, en cuatro actos. Acto 1: el equipo de datos trabajando.
+  Acto 2: sus dos monitores, con la consulta y la planilla que se arma a mano. Acto 3:
+  todo se unifica mientras la cámara cruza la mampara. Acto 4: los mismos números, ya
+  ordenados, en el televisor de quien decide, que pregunta en voz alta.
 
-  Las dos fotos conviven en el mismo recorte (relación 1024 / 559). La del equipo
-  (equipo-2048.webp) va con object-fit: cover; design.js convierte las coordenadas
-  de sus monitores a ese recorte. Encima de cada pantalla va contenido de verdad,
-  escrito en HTML y encajado con una matriz de perspectiva. En el acto 3 el
-  cuadrilátero de la pantalla principal se interpola hasta el del televisor de la
-  segunda foto (sala-2048.webp) mientras las fotos se cruzan: el monitor se
-  convierte en el televisor. Sin animación o sin JavaScript se ve el acto final.
+  La foto (oficina-2048.webp, medida sobre 1024 × 683) no se mueve: se mueve el recorte.
+  design.js calcula la cámara (centro y ancho visible, en píxeles de la foto) y encaja
+  cada pantalla con una matriz de perspectiva sobre las esquinas medidas acá abajo.
+  Sin JavaScript se ve el último acto, quieto, y el tablero no se encaja: la foto queda
+  en su encuadre final y la barra de voz y los paneles muestran la respuesta.
   Datos ficticios.
 
-  Esquinas medidas sobre cada foto; si se cambia una foto hay que volver a medirlas.
-  Los textos de los dos idiomas están en «copy». Se importa con contexto:
+  Esquinas y encuadres medidos sobre la foto; si se cambia la foto hay que volver a
+  medirlos. Los textos de los dos idiomas están en «copy». Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Foto del equipo (4096 × 2731): monitor principal, segundo monitor y el recorte de
-   la persona que tapa el segundo monitor (x, y, ancho, alto). #}
-{% set EQUIPO = {
-  'w': 4096, 'h': 2731,
-  'mon': [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]],
-  'mon2': [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]],
-  'front': [1300, 1147, 1024, 1584],
+{# Esquinas de cada pantalla (arriba izq., arriba der., abajo der., abajo izq.) y los
+   encuadres de la cámara [p, izq., arriba, der., abajo]: lo que tiene que entrar sí o sí
+   en cada acto. Todo en píxeles de la foto; design.js lo adapta a la forma del recorte y
+   usa «cam_alto» cuando el recorte es más alto que ancho (celulares). #}
+{% set FOTO = {
+  'w': 1024, 'h': 683,
+  'tv': [[20, 166], [150, 203], [151, 344], [20, 361]],
+  'mon1': [[669, 357.5], [721, 354], [721, 389], [669, 392.5]],
+  'mon2': [[911, 329.5], [985.5, 328.5], [985.5, 380.5], [911, 381]],
+  'cam': [[0.00, 600, 288, 1024, 500],
+          [0.16, 600, 288, 1024, 500],
+          [0.32, 655, 318, 995, 400],
+          [0.46, 655, 318, 995, 400],
+          [0.60, 330, 230, 780, 482],
+          [0.70, 330, 230, 780, 482],
+          [0.88, 0, 160, 400, 392],
+          [1.00, 0, 165, 360, 380]],
+  'cam_alto': [[0.00, 655, 325, 915, 495],
+               [0.16, 655, 325, 915, 495],
+               [0.32, 660, 320, 995, 400],
+               [0.46, 660, 320, 995, 400],
+               [0.60, 380, 235, 720, 470],
+               [0.70, 380, 235, 720, 470],
+               [0.88, 0, 160, 390, 392],
+               [1.00, 0, 168, 268, 382]],
 } %}
-{# Foto de la sala (1024 × 559): la pantalla del televisor. #}
-{% set SALA = {'w': 1024, 'h': 559, 'tv': [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]]} %}
 
 {% set copy = {
   'es': {
@@ -34,23 +50,30 @@
     'title': 'El informe que tardaba tres días,', 'title_em': 'ahora lo preguntás.',
     'lead': 'Hoy un informe pasa por un analista y llega dos o tres días tarde. Unimos tu ERP, tu CRM, las planillas y WhatsApp en un solo modelo, y la respuesta aparece en el momento, directo para quien decide.',
     'cta': 'Coordinar una llamada', 'secondary': 'Conocé el diagnóstico',
-    'region': 'Ejemplo: el informe que hoy arma un analista en dos o tres días pasa a responderse en el momento en la pantalla de quien decide (datos ficticios).',
-    'captions': [(0, 'Hoy el pedido va al analista: cruza el ERP, el CRM y las planillas a mano.'),
-                 (0.3, 'Dos o tres días después, llega el informe. Para entonces ya cambió.'),
-                 (0.46, 'Unimos todo en un solo modelo confiable.'),
-                 (0.68, 'Ahora preguntás vos, y la respuesta está en el momento.')],
-    'mon_app': 'Planilla de ventas', 'mon_status': 'Cruzando a mano…', 'mon_wait': 'Informe listo en 2 o 3 días',
-    'mon_rows': [('ERP · Facturación', 'Exportado'), ('Planillas · Objetivos', 'Pegado'), ('CRM · Visitas', 'Falta')],
-    'mon2_app': 'CRM y WhatsApp', 'mon2_rows': ['118 visitas', '46 pedidos', '2 sistemas sin cruzar'],
-    'flies': ['CRM', 'WhatsApp', 'Planillas'],
+    'region': 'Ejemplo: en la misma oficina, el informe que hoy arma el equipo de datos en dos o tres días pasa a responderse en el momento en la pantalla de quien decide (datos ficticios).',
+    'scroll': 'Seguí bajando',
+    'captions': [(0, 'Hoy el pedido entra al equipo de datos: exportar, cruzar, revisar.'),
+                 (0.30, 'Dos monitores, cuatro sistemas y una planilla que envejece mientras se arma.'),
+                 (0.58, 'Unimos todo en un solo modelo confiable.'),
+                 (0.76, 'Los mismos números, en el momento, en la pantalla de quien decide.')],
+    'steps': ['El pedido', 'Dos monitores', 'Un modelo', 'La respuesta'],
+    'ask_title': 'Pedido #482', 'ask_text': '«¿Cuánto vendimos ayer en la zona norte?»',
+    'ask_eta': 'Entrega estimada: 2 a 3 días',
+    'q_app': 'consulta.sql', 'q_lines': ['SELECT ventas', 'zona = «norte»', '12.482 filas'],
+    'mon_app': 'ventas_zona_norte_v7.xlsx',
+    'mon_rows': [('Norte SA', '412.000'), ('Distrisur', '331.000'), ('La Rueda', '273.000'), ('Pampa Dist.', '170.000')],
+    'mon_status': 'Pegado a mano · sin el CRM',
+    'tags': [('mon1', 'ERP · export .csv'), ('mon2', 'Planilla v7, pegada a mano')],
+    'join_title': 'Unificando tus sistemas',
+    'flies': ['ERP', 'CRM', 'Planillas', 'WhatsApp'],
     'question': '¿Cuánto vendimos ayer en la zona norte?',
-    'statuses': [(0.68, 'Escuchando…'), (0.78, 'Leyendo tus sistemas…'), (0.9, 'Respuesta lista · con fuentes')],
+    'statuses': [(0.78, 'Escuchando…'), (0.86, 'Leyendo tus sistemas…'), (0.94, 'Respuesta lista · con fuentes')],
     'app': 'DeepDatas · Tablero ejecutivo', 'live': 'En vivo', 'when': '07:00',
     'board_title': 'Ventas de ayer', 'board_chip': 'Zona norte',
     'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. semana pasada'),
               ('Margen bruto', '24,6', '', ' %', '▲ 1,2 pp'),
               ('Quiebres', '3', '', '', '▼ 2 vs. ayer')],
-    'chart_title': 'Por distribuidor', 'chart_sub': 'Facturación de ayer · zona norte', 'goal': 'Objetivo',
+    'chart_title': 'Por distribuidor', 'goal': 'Objetivo',
     'bars': [('Norte SA', 92, '$ 412 k'), ('Distrisur', 74, '$ 331 k'), ('La Rueda', 61, '$ 273 k'), ('Pampa Dist.', 38, '$ 170 k')],
     'sources': 'Fuentes: ERP · CRM · Planillas · WhatsApp', 'fictional': 'Datos ficticios',
     'panel_src': 'Fuentes consultadas',
@@ -58,30 +81,36 @@
     'records': 'registros leídos · 1,4 s',
     'alert_title': 'Alerta de stock',
     'alert_text': 'Papas clásicas 400 g se queda sin stock en 3 días. ¿Preparo la reposición?',
-    'alt': 'Un equipo cruza planillas en dos monitores y, al lado, alguien pregunta en voz alta frente a un televisor que ya muestra la respuesta.',
   },
   'en': {
     'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
     'title': 'The report that took three days,', 'title_em': 'now you just ask for it.',
     'lead': 'Today a report goes through an analyst and lands two or three days late. We bring your ERP, your CRM, your spreadsheets and WhatsApp into one model, and the answer shows up right away, straight to whoever decides.',
     'cta': 'Book a call', 'secondary': 'Explore the data assessment',
-    'region': 'Example: the report an analyst takes two or three days to build is answered on the spot, on the screen of whoever decides (sample data).',
-    'captions': [(0, 'Today the request goes to the analyst, who cross-checks ERP, CRM and spreadsheets by hand.'),
-                 (0.3, 'Two or three days later the report arrives. By then it has already moved.'),
-                 (0.46, 'We bring it all into one reliable model.'),
-                 (0.68, 'Now you ask, and the answer is right there.')],
-    'mon_app': 'Sales spreadsheet', 'mon_status': 'Cross-checking by hand…', 'mon_wait': 'Report ready in 2 to 3 days',
-    'mon_rows': [('ERP · Revenue', 'Exported'), ('Spreadsheets · Targets', 'Pasted'), ('CRM · Visits', 'Missing')],
-    'mon2_app': 'CRM and WhatsApp', 'mon2_rows': ['118 visits', '46 orders', '2 systems not merged'],
-    'flies': ['CRM', 'WhatsApp', 'Spreadsheets'],
+    'region': 'Example: in the same office, the report the data team takes two or three days to build is answered on the spot, on the screen of whoever decides (sample data).',
+    'scroll': 'Keep scrolling',
+    'captions': [(0, 'Today the request lands on the data team: export, cross-check, review.'),
+                 (0.30, 'Two monitors, four systems and a spreadsheet that ages while it is built.'),
+                 (0.58, 'We bring it all into one reliable model.'),
+                 (0.76, 'The same numbers, right away, on the screen of whoever decides.')],
+    'steps': ['The request', 'Two monitors', 'One model', 'The answer'],
+    'ask_title': 'Request #482', 'ask_text': '“How much did we sell yesterday in the north region?”',
+    'ask_eta': 'Estimated delivery: 2 to 3 days',
+    'q_app': 'query.sql', 'q_lines': ['SELECT sales', 'region=«north»', '12,482 rows'],
+    'mon_app': 'sales_north_region_v7.xlsx',
+    'mon_rows': [('Norte SA', '412,000'), ('Distrisur', '331,000'), ('La Rueda', '273,000'), ('Pampa Dist.', '170,000')],
+    'mon_status': 'Pasted by hand · CRM missing',
+    'tags': [('mon1', 'ERP · .csv export'), ('mon2', 'Spreadsheet v7, pasted by hand')],
+    'join_title': 'Bringing your systems together',
+    'flies': ['ERP', 'CRM', 'Spreadsheets', 'WhatsApp'],
     'question': 'How much did we sell yesterday in the north region?',
-    'statuses': [(0.68, 'Listening…'), (0.78, 'Reading your systems…'), (0.9, 'Answer ready · with sources')],
+    'statuses': [(0.78, 'Listening…'), (0.86, 'Reading your systems…'), (0.94, 'Answer ready · with sources')],
     'app': 'DeepDatas · Executive dashboard', 'live': 'Live', 'when': '07:00',
     'board_title': 'Yesterday’s sales', 'board_chip': 'North region',
     'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. last week'),
               ('Gross margin', '24.6', '', '%', '▲ 1.2 pp'),
               ('Stockouts', '3', '', '', '▼ 2 vs. yesterday')],
-    'chart_title': 'By distributor', 'chart_sub': 'Yesterday’s revenue · north region', 'goal': 'Target',
+    'chart_title': 'By distributor', 'goal': 'Target',
     'bars': [('Norte SA', 92, '$412k'), ('Distrisur', 74, '$331k'), ('La Rueda', 61, '$273k'), ('Pampa Dist.', 38, '$170k')],
     'sources': 'Sources: ERP · CRM · Spreadsheets · WhatsApp', 'fictional': 'Sample data',
     'panel_src': 'Sources checked',
@@ -89,7 +118,6 @@
     'records': 'records read · 1.4 s',
     'alert_title': 'Stock alert',
     'alert_text': 'Classic chips 400 g runs out of stock in 3 days. Should I prepare the replenishment?',
-    'alt': 'A team cross-checks spreadsheets on two monitors while, beside them, someone asks a question out loud in front of a TV already showing the answer.',
   },
 } %}
 {% set C = copy[lang] %}
@@ -110,120 +138,128 @@
     </div>
   </div>
 
-  <div class="hb-stage">
-  <div class="hb-crop" role="img" aria-label="{{ C.region }}">
-    <div class="hb-scene" data-hb
-         data-equipo='{{ EQUIPO | tojson }}' data-sala='{{ SALA | tojson }}'
-         data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
-         data-captions='{{ C.captions | tojson }}'>
+  <div class="hb-track" data-hb data-foto='{{ FOTO | tojson }}'
+       data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
+       data-captions='{{ C.captions | tojson }}'>
+    <div class="hb-pin">
+      <div class="hb-stage">
+        <div class="hb-crop" role="img" aria-label="{{ C.region }}">
 
-      {# Acto 1 y 2: el escritorio del analista #}
-      <img class="hb-photo hb-photo-a" src="/assets/img/hero/equipo-2048.webp" width="2048" height="1366" alt="" fetchpriority="high">
+          {# La foto y lo que va encajado sobre ella: se mueven juntos con la cámara #}
+          <div class="hb-scene">
+            <img class="hb-photo" src="/assets/img/hero/portada-oficina-2048.webp"
+                 srcset="/assets/img/hero/portada-oficina-1024.webp 1024w, /assets/img/hero/portada-oficina-2048.webp 2048w"
+                 sizes="(min-width: 901px) 200vw, 360vw"
+                 width="2048" height="1366" alt="" fetchpriority="high">
 
-      <div class="hb-screen hb-screen2" aria-hidden="true">
-        <div class="hb-small hb-small-2">
-          <span class="hb-small-top">{{ C.mon2_app }}</span>
-          {% for label in C.mon2_rows %}
-          <span class="hb-small-row"><span>{{ label }}</span></span>
-          {% endfor %}
-        </div>
-      </div>
-
-      {# El recorte de la persona que está delante del segundo monitor #}
-      <img class="hb-front" src="/assets/img/hero/equipo-frente.webp" width="1024" height="1584" alt="" aria-hidden="true">
-
-      {# Acto 3 y 4: la sala de quien decide. Entra por encima de todo lo anterior #}
-      <img class="hb-photo hb-photo-b" src="/assets/img/hero/sala-1024.webp"
-           srcset="/assets/img/hero/sala-1024.webp 1024w, /assets/img/hero/sala-2048.webp 2048w"
-           sizes="100vw" width="1024" height="559" alt="" loading="lazy">
-
-      {# La pantalla: empieza siendo el monitor del analista y termina siendo el televisor #}
-      <div class="hb-screen hb-screen1" aria-hidden="true">
-        {# Lo que se ve mientras el informe se arma a mano #}
-        <div class="hb-small hb-small-1">
-          <span class="hb-small-top">{{ C.mon_app }}</span>
-          {% for label, value in C.mon_rows %}
-          <span class="hb-small-row"><span>{{ label }}</span><b>{{ value }}</b></span>
-          {% endfor %}
-          <span class="hb-small-bar"><i></i></span>
-          <span class="hb-small-status">{{ C.mon_status }}</span>
-          <span class="hb-small-wait">{{ C.mon_wait }}</span>
-        </div>
-
-        {# Lo que se ve cuando ya es el televisor #}
-        <div class="hb-scr">
-          <span class="hb-scan"></span>
-          <div class="hb-top">
-            <span class="hb-dots"><i></i><i></i><i></i></span>
-            <span class="hb-app">{{ C.app }}</span>
-            <span class="hb-live"><i></i> {{ C.live }}</span>
-          </div>
-          <div class="hb-board-head">
-            <h2>{{ C.board_title }}</h2>
-            <span class="hb-chip">{{ C.board_chip }}</span>
-            <span class="hb-when">{{ C.when }}</span>
-          </div>
-          <div class="hb-tiles">
-            {% for label, value, pre, post, delta in C.tiles %}
-            <div class="hb-tile">
-              <span class="hb-k">{{ label }}</span>
-              {# El valor final va en el HTML: sin JavaScript se ve el número de verdad #}
-              <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
-              <span class="hb-d">{{ delta }}</span>
-            </div>
-            {% endfor %}
-          </div>
-          <div class="hb-chart">
-            <h3>{{ C.chart_title }}</h3>
-            <p class="hb-sub">{{ C.chart_sub }}</p>
-            <div class="hb-bars">
-              <span class="hb-goal-k">{{ C.goal }}</span>
-              <span class="hb-goal"></span>
-              {% for name, width, value in C.bars %}
-              <div class="hb-bar">
-                <span class="hb-nm">{{ name }}</span>
-                <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
-                <b class="hb-vl">{{ value }}</b>
-              </div>
+            {# El monitor del equipo: la consulta que exporta los datos a mano #}
+            <div class="hb-screen hb-s-mon1" aria-hidden="true">
+              <span class="hb-q-app">{{ C.q_app }}</span>
+              {% for line in C.q_lines %}
+              <span class="hb-q-line">{{ line }}</span>
               {% endfor %}
             </div>
+
+            {# El segundo monitor: la planilla, con los mismos números que terminan en el televisor #}
+            <div class="hb-screen hb-s-mon2" aria-hidden="true">
+              <span class="hb-x-app">{{ C.mon_app }}</span>
+              <span class="hb-x-grid">
+                {% for name, value in C.mon_rows %}
+                <span class="hb-x-row"><span>{{ name }}</span><b>{{ value }}</b></span>
+                {% endfor %}
+              </span>
+              <span class="hb-x-status">{{ C.mon_status }}</span>
+            </div>
+
+            {# El televisor de la sala: el tablero, encajado en su perspectiva #}
+            <div class="hb-screen hb-s-tv" aria-hidden="true">
+              <div class="hb-scr">
+                <span class="hb-scan"></span>
+                <div class="hb-top">
+                  <span class="hb-app">{{ C.app }}</span>
+                  <span class="hb-live"><i></i> {{ C.live }}</span>
+                </div>
+                <div class="hb-board-head">
+                  <h2>{{ C.board_title }}</h2>
+                  <span class="hb-chip">{{ C.board_chip }}</span>
+                  <span class="hb-when">{{ C.when }}</span>
+                </div>
+                <div class="hb-tiles">
+                  {% for label, value, pre, post, delta in C.tiles %}
+                  <div class="hb-tile">
+                    <span class="hb-k">{{ label }}</span>
+                    {# El valor final va en el HTML: sin JavaScript se ve el número de verdad #}
+                    <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
+                    <span class="hb-d">{{ delta }}</span>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="hb-chart">
+                  <h3>{{ C.chart_title }}</h3>
+                  <div class="hb-bars">
+                    {% for name, width, value in C.bars %}
+                    <div class="hb-bar">
+                      <span class="hb-nm">{{ name }}</span>
+                      <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
+                      <b class="hb-vl">{{ value }}</b>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
+              </div>
+            </div>
           </div>
-          <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
+
+          {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}
+          <div class="hb-hud" aria-hidden="true">
+            <div class="hb-card hb-ask">
+              <span class="hb-ask-hd">{{ C.ask_title }}</span>
+              <span class="hb-ask-tx">{{ C.ask_text }}</span>
+              <span class="hb-ask-eta">{{ icon('clock-history') }} {{ C.ask_eta }}</span>
+            </div>
+
+            {% for id, text in C.tags %}
+            <span class="hb-tag hb-tag-{{ id }}">{{ text }}</span>
+            {% endfor %}
+
+            <div class="hb-card hb-join">
+              <span class="hb-join-hd">{{ C.join_title }}</span>
+              <span class="hb-join-rows">
+                {% for id, name in C.systems %}
+                <span class="hb-row"><i class="hb-sw hb-sw-{{ id }}"></i><span class="hb-nm">{{ name }}</span><span class="hb-ok">{{ icon('check2') }}</span></span>
+                {% endfor %}
+              </span>
+              <span class="hb-join-bar"><i></i></span>
+              <span class="hb-join-foot"><span data-count="12482">12.482</span> {{ C.records }}</span>
+            </div>
+
+            <div class="hb-flies">
+              {% for name in C.flies %}<span class="hb-fly">{{ name }}</span>{% endfor %}
+            </div>
+
+            <div class="hb-card hb-alert">
+              <span class="hb-alert-hd">{{ icon('exclamation-circle-fill') }} {{ C.alert_title }}</span>
+              <span class="hb-alert-tx">{{ C.alert_text }}</span>
+            </div>
+
+            <div class="hb-voice">
+              <p class="hb-status">{{ C.statuses[-1][1] }}</p>
+              <span class="hb-mic">{{ icon('mic') }}</span>
+              <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
+              <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="hb-rail" aria-hidden="true">
+          <span class="hb-steps">
+            {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
+          </span>
+          <p class="hb-caption">{{ C.captions[-1][1] }}</p>
         </div>
       </div>
-
-      {# Los sistemas que viajan del segundo monitor al primero cuando se unen #}
-      <div class="hb-flies" aria-hidden="true">
-        {% for name in C.flies %}<span class="hb-fly">{{ name }}</span>{% endfor %}
-      </div>
-
-      {# Los dedos que cruzan por delante del televisor, recortados de la misma foto #}
-      <img class="hb-finger" src="/assets/img/hero/sala-mano.png" width="132" height="160" alt="" aria-hidden="true">
-      <span class="hb-grade" aria-hidden="true"></span>
-
-      <div class="hb-pnl hb-pnl-src" aria-hidden="true">
-        <span class="label">{{ C.panel_src }}</span>
-        {% for id, name in C.systems %}
-        <span class="hb-row"><i class="hb-sw hb-sw-{{ id }}"></i><span class="hb-nm">{{ name }}</span><span class="hb-ok">{{ icon('check2') }}</span></span>
-        {% endfor %}
-        <span class="hb-pnl-foot"><span data-count="12482">12.482</span> {{ C.records }}</span>
-      </div>
-
-      <div class="hb-pnl hb-pnl-alert" aria-hidden="true">
-        <span class="hb-alert-hd">{{ icon('exclamation-circle-fill') }} {{ C.alert_title }}</span>
-        <span class="hb-alert-tx">{{ C.alert_text }}</span>
-      </div>
-
-      <div class="hb-voice" aria-hidden="true">
-        <p class="hb-status">{{ C.statuses[-1][1] }}</p>
-        <span class="hb-mic">{{ icon('mic') }}</span>
-        <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
-        <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
-      </div>
-
     </div>
-  </div>
-  <p class="hb-caption" aria-hidden="true">{{ C.captions[-1][1] }}</p>
   </div>
 </section>
 {% endmacro %}

@@ -1544,29 +1544,27 @@ html:not(.motion) .phone-view:first-child {
 .plan-card-featured .chip-recommended {
   border-color: rgba(255, 255, 255, 0.25);
   color: var(--ember-2);
-}/* ---------- Portada del inicio, en tres actos (src/hero.html) ----------
-   Acto 1: el escritorio del analista, con sus dos monitores encendidos. Acto 2: el
-   segundo monitor viaja al primero y queda una sola pantalla. Acto 3: esa pantalla se
-   convierte en el televisor de la sala mientras las fotos se cruzan. Acto 4: la
-   respuesta, en el momento. Las dos fotos comparten el recorte (1024 / 559); design.js
-   convierte las coordenadas de cada foto a ese recorte y encaja cada pantalla con una
-   matriz de perspectiva. Sin animación se ve el acto final, completo y quieto. */
+}
+/* ---------- Portada del inicio: una cámara que cruza la oficina (src/hero.html) ----------
+   Una sola foto y cuatro actos, encadenados al scroll: el equipo de datos trabajando,
+   sus dos monitores, el momento en que todo se unifica y, cruzando la mampara, los
+   mismos números en el televisor de quien decide. La foto no se mueve: se mueve el
+   recorte. design.js calcula la cámara y encaja cada pantalla con una matriz de
+   perspectiva; acá solo queda el encuadre final, para cuando no hay JavaScript. */
 .hb {
   position: relative;
-  overflow: hidden;
 }
 
 .hb-copy {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   display: grid;
-  gap: 18px;
-  padding-top: calc(var(--header-h) + clamp(28px, 4vw, 56px));
-  padding-bottom: clamp(20px, 2.5vw, 34px);
+  gap: clamp(18px, 2vw, 26px);
+  padding-top: clamp(26px, 4vw, 54px);
+  padding-bottom: clamp(22px, 3vw, 38px);
 }
 
 .hb-copy h1 {
-  max-width: 19ch;
   margin: 0;
   font-size: var(--fs-display);
   line-height: 1.02;
@@ -1607,158 +1605,176 @@ html:not(.motion) .phone-view:first-child {
   }
 }
 
-/* ----- El recorte que comparten las dos fotos ----- */
+/* ----- El riel del scroll: mientras dura, la escena queda fija y la cámara avanza ----- */
+.hb-track {
+  position: relative;
+  height: 300vh;
+}
+
+.hb-pin {
+  position: sticky;
+  top: var(--header-h);
+  display: grid;
+  align-content: center;
+  gap: clamp(12px, 1.4vw, 20px);
+  height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
+  padding-bottom: clamp(10px, 1.5vw, 20px);
+}
+
+/* El ancho sale del alto disponible: la escena entera tiene que entrar en la pantalla */
+.hb-stage {
+  width: min(100% - 2 * var(--gutter), 1060px, (100svh - 190px) * 16 / 9);
+  margin-inline: auto;
+}
+
 .hb-crop {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1024 / 559;
-  background: #eef0f2;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-lg);
+  background: #e9edf1;
+  box-shadow: 0 30px 70px -40px rgba(8, 14, 28, 0.55);
   container-type: inline-size;
 }
 
+/* La foto, en tamaño natural; la cámara la mueve y la acerca. El encuadre que queda
+   acá es el del último acto: sin JavaScript se ve la respuesta, quieta. */
 .hb-scene {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
-  aspect-ratio: 1024 / 559;
   transform-origin: 0 0;
+  transform: translate(0, -64.76%) scale(2.681);
+}
+
+/* Con animación arranca en el primer acto: el equipo, del otro lado de la oficina */
+html.motion .hb-scene {
+  transform: translate(-141.5%, -97.14%) scale(2.415);
 }
 
 .hb-photo {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
-  height: 100%;
-}
-
-/* La foto del equipo es más cuadrada que el recorte: se recorta arriba y abajo */
-.hb-photo-a {
-  z-index: 1;
-  object-fit: cover;
-  object-position: 50% 50%;
-}
-
-.hb-front {
-  position: absolute;
-  z-index: 3;
-  width: auto;
   height: auto;
 }
 
-/* La sala entra por encima de todo el escritorio */
-.hb-photo-b {
-  z-index: 4;
-  opacity: var(--b, 1);
-}
-
-.hb-grade {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-  opacity: var(--b, 1);
-  background: radial-gradient(120% 100% at 42% 36%, rgba(255, 255, 255, 0.05), rgba(6, 10, 20, 0.1) 62%, rgba(6, 10, 20, 0.3) 100%);
-}
-
-/* ----- Las pantallas, encajadas en perspectiva por design.js ----- */
+/* ----- Las pantallas de la foto, encajadas en perspectiva por design.js ----- */
 .hb-screen {
   position: absolute;
   left: 0;
   top: 0;
-  width: 1280px;
-  height: 720px;
+  display: none;
   overflow: hidden;
   transform-origin: 0 0;
   background: #fff;
 }
 
-.hb-screen1 {
-  z-index: 5;
+/* Recién cuando design.js midió el recorte: antes no tienen dónde encajarse */
+.hb-ready .hb-screen {
+  display: block;
 }
 
-/* El segundo monitor va por debajo del recorte de la persona que lo tapa */
-.hb-screen2 {
+.hb-s-mon1 {
   z-index: 2;
-  height: 800px;
-  opacity: var(--s2, 1);
+  width: 640px;
+  height: 420px;
+  opacity: var(--a, 1);
 }
 
-/* Lo que se ve en los monitores mientras el informe se arma a mano. La tipografía es
-   grande porque en la foto el monitor ocupa una quinta parte del ancho. */
-.hb-small {
+.hb-s-mon2 {
+  z-index: 2;
+  width: 640px;
+  height: 440px;
+  opacity: var(--a, 1);
+}
+
+.hb-s-tv {
+  z-index: 3;
+  width: 1280px;
+  height: 1650px;
+  opacity: var(--a, 1);
+}
+
+/* La consulta que el equipo corre a mano. La tipografía es enorme porque la pantalla
+   mide medio centímetro en la foto. */
+.hb-s-mon1 {
   display: grid;
   align-content: start;
-  gap: 26px;
-  height: 100%;
-  padding: 44px 48px;
-  background: #f7f8fa;
-  color: #0f172a;
-  font-size: 72px;
-  line-height: 1.25;
-  opacity: var(--a1, 1);
-}
-
-.hb-small-top {
-  color: #7a8396;
+  gap: 14px;
+  padding: 26px 30px;
+  background: #0d1627;
+  color: #c7d2e4;
   font-family: var(--font-mono);
-  font-size: 60px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 66px;
+  line-height: 1.2;
 }
 
-.hb-small-row {
-  display: flex;
-  gap: 24px;
-  align-items: baseline;
-  padding-bottom: 18px;
-  border-bottom: 3px solid #e4e7ec;
+.hb-q-app {
+  color: #7f8da6;
+  font-size: 52px;
+  letter-spacing: 0.04em;
 }
 
-.hb-small-row span {
+.hb-q-line {
   overflow: hidden;
-  color: #566074;
+  white-space: nowrap;
+}
+
+.hb-q-line:last-child {
+  color: #f0a068;
+}
+
+/* La planilla del segundo monitor: los mismos números que después salen en el televisor */
+.hb-s-mon2 {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  padding: 22px 26px;
+  background: #f4f6f9;
+  color: #0f172a;
+  font-size: 46px;
+  line-height: 1.15;
+}
+
+.hb-x-app {
+  overflow: hidden;
+  color: #6b7589;
+  font-family: var(--font-mono);
+  font-size: 38px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.hb-small-row b {
+.hb-x-grid {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+
+.hb-x-row {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #dfe3ea;
+}
+
+.hb-x-row b {
   margin-left: auto;
+  font-variant-numeric: tabular-nums;
   font-weight: 600;
-  white-space: nowrap;
 }
 
-.hb-small-bar {
-  display: block;
-  height: 26px;
-  border-radius: 999px;
-  background: #e4e7ec;
-}
-
-.hb-small-bar i {
-  display: block;
-  width: var(--p, 38%);
-  height: 100%;
-  border-radius: 999px;
-  background: #2353d6;
-}
-
-.hb-small-status {
-  color: #566074;
-  font-size: 62px;
-}
-
-.hb-small-wait {
+.hb-x-status {
   color: #b54708;
-  font-size: 62px;
+  font-size: 38px;
   font-weight: 600;
 }
 
-.hb-small-2 {
-  background: #f3f5f8;
-}
-
-/* ----- El tablero del televisor ----- */
+/* ----- El tablero del televisor. Se lo ve de costado, así que el rectángulo de diseño
+   es alto y angosto: así la perspectiva no aplasta la tipografía ----- */
 .hb-scr {
   --sbg: #fff;
   --stx: #0f172a;
@@ -1771,12 +1787,11 @@ html:not(.motion) .phone-view:first-child {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto auto;
   background: var(--sbg);
   color: var(--stx);
-  font-size: 34px;
+  font-size: 46px;
   line-height: 1.3;
-  opacity: var(--a2, 1);
 }
 
 .hb-scan {
@@ -1785,76 +1800,64 @@ html:not(.motion) .phone-view:first-child {
   z-index: 5;
   opacity: var(--scan-a, 0);
   pointer-events: none;
-  background: linear-gradient(100deg, transparent 42%, rgba(35, 83, 214, 0.12) 48%, rgba(255, 255, 255, 0.85) 50%, rgba(35, 83, 214, 0.12) 52%, transparent 58%);
-  transform: translateX(calc(-100% + var(--scan, 0) * 200%));
+  background: linear-gradient(170deg, transparent 42%, rgba(35, 83, 214, 0.12) 48%, rgba(255, 255, 255, 0.85) 50%, rgba(35, 83, 214, 0.12) 52%, transparent 58%);
+  transform: translateY(calc(-100% + var(--scan, 0) * 200%));
 }
 
 .hb-top {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 18px 34px;
-  border-bottom: 2px solid var(--sln);
+  padding: 26px 44px;
+  border-bottom: 3px solid var(--sln);
   background: #fbfcfd;
 }
 
-.hb-dots {
-  display: inline-flex;
-  gap: 10px;
-}
-
-.hb-dots i {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #d0d5dd;
-}
-
 .hb-app {
-  font-size: 32px;
+  font-size: 44px;
   font-weight: 600;
 }
 
 .hb-live {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-left: auto;
   color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 27px;
+  font-size: 34px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .hb-live i {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--good);
-  box-shadow: 0 0 0 6px rgba(30, 122, 76, 0.18);
+  box-shadow: 0 0 0 8px rgba(30, 122, 76, 0.18);
 }
 
 .hb-board-head {
   display: flex;
   align-items: baseline;
-  gap: 22px;
-  padding: 22px 34px 6px;
+  gap: 24px;
+  padding: 34px 44px 6px;
 }
 
 .hb-board-head h2 {
   margin: 0;
-  font-size: 54px;
+  font-size: 84px;
   letter-spacing: -0.02em;
   color: var(--stx);
 }
 
 .hb-chip {
-  padding: 7px 20px;
+  padding: 10px 26px;
   border-radius: 999px;
   background: #edf1fd;
   color: var(--s-blue);
-  font-size: 27px;
+  font-size: 38px;
   font-weight: 600;
 }
 
@@ -1862,33 +1865,37 @@ html:not(.motion) .phone-view:first-child {
   margin-left: auto;
   color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 26px;
+  font-size: 36px;
 }
 
 .hb-tiles {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  padding: 18px 34px 10px;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 24px;
+  padding: 28px 44px 16px;
 }
 
 .hb-tile {
-  padding: 14px 18px;
-  border: 2px solid var(--sln);
-  border-radius: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: center;
+  gap: 4px 24px;
+  padding: 22px 30px;
+  border: 3px solid var(--sln);
+  border-radius: 24px;
 }
 
 .hb-k {
-  display: block;
   color: var(--stx2);
-  font-size: 27px;
+  font-size: 44px;
 }
 
 .hb-v {
-  display: block;
-  margin-top: 6px;
+  grid-row: 1 / 3;
+  grid-column: 2;
+  align-self: center;
   font-family: var(--font-display);
-  font-size: 64px;
+  font-size: 92px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
@@ -1896,56 +1903,36 @@ html:not(.motion) .phone-view:first-child {
 }
 
 .hb-d {
-  display: block;
-  margin-top: 8px;
   color: var(--good);
-  font-size: 25px;
+  font-size: 36px;
   font-weight: 600;
 }
 
-/* El alto del tablero es fijo: la zona del gráfico no puede empujar al pie */
+/* El alto del tablero es fijo: el gráfico no puede empujar al pie */
 .hb-chart {
   min-height: 0;
   overflow: hidden;
-  padding: 6px 34px 0;
+  padding: 10px 44px 16px;
 }
 
 .hb-chart h3 {
-  margin: 0;
-  font-size: 32px;
+  margin: 0 0 18px;
+  font-size: 50px;
   font-weight: 600;
   line-height: 1.15;
   color: var(--stx);
 }
 
-.hb-sub {
-  margin: 0;
-  color: var(--stx3);
-  font-size: 24px;
-  line-height: 1.2;
-}
-
-.hb-bars {
-  --col-a: 230px;
-  --col-c: 150px;
-  --col-gap: 22px;
-  --goal: 70;
-
-  position: relative;
-  margin-top: 4px;
-  padding-top: 22px;
-}
-
 .hb-bar {
   display: grid;
-  grid-template-columns: var(--col-a) 1fr var(--col-c);
-  gap: var(--col-gap);
+  grid-template-columns: 330px minmax(0, 1fr) 230px;
+  gap: 26px;
   align-items: center;
-  font-size: 29px;
+  font-size: 44px;
 }
 
 .hb-bar + .hb-bar {
-  margin-top: 8px;
+  margin-top: 16px;
 }
 
 .hb-bar .hb-nm {
@@ -1957,8 +1944,8 @@ html:not(.motion) .phone-view:first-child {
 
 .hb-tr {
   position: relative;
-  height: 28px;
-  border-radius: 5px;
+  height: 38px;
+  border-radius: 8px;
   background: var(--sgr);
 }
 
@@ -1967,7 +1954,7 @@ html:not(.motion) .phone-view:first-child {
   position: absolute;
   inset: 0 auto 0 0;
   width: var(--w, 0%);
-  border-radius: 5px 10px 10px 5px;
+  border-radius: 8px 14px 14px 8px;
   background: var(--s-blue);
 }
 
@@ -1976,97 +1963,46 @@ html:not(.motion) .phone-view:first-child {
   text-align: right;
 }
 
-.hb-goal,
-.hb-goal-k {
-  position: absolute;
-  left: calc(var(--col-a) + var(--col-gap) + (100% - var(--col-a) - var(--col-c) - var(--col-gap) * 2) * var(--goal) / 100);
-}
-
-.hb-goal {
-  top: 20px;
-  bottom: -6px;
-  width: 0;
-  border-left: 3px dashed #98a2b3;
-}
-
-.hb-goal-k {
-  top: 0;
-  color: var(--stx3);
-  font-family: var(--font-mono);
-  font-size: 24px;
-  white-space: nowrap;
-  transform: translateX(-50%);
-}
-
 .hb-foot {
   display: flex;
-  gap: 20px;
-  padding: 14px 34px;
-  border-top: 2px solid var(--sln);
+  gap: 24px;
+  padding: 22px 44px;
+  border-top: 3px solid var(--sln);
   color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 25px;
+  font-size: 34px;
 }
 
 .hb-right {
   margin-left: auto;
 }
 
-/* ----- Los sistemas que viajan del segundo monitor al primero ----- */
-.hb-flies {
+/* ----- Lo que no vive dentro de la foto: carteles, chips y la barra de voz.
+   Cada uno aparece en su acto; las posiciones están atadas a ese encuadre. ----- */
+.hb-hud {
   position: absolute;
   inset: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.hb-fly {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 0.5cqw 0.9cqw;
-  border-radius: 999px;
-  background: var(--text);
-  color: var(--bg);
-  font-family: var(--font-mono);
-  font-size: 0.85cqw;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translate(-50%, -50%);
-}
-
-/* height:auto es obligatorio: el atributo height del img estiraría el recorte */
-.hb-finger {
-  position: absolute;
-  left: 45.9%;
-  top: 42.6%;
   z-index: 6;
-  width: 6.45%;
-  height: auto;
-  opacity: var(--b, 1);
   pointer-events: none;
 }
 
-/* ----- Paneles flotantes en la sala ----- */
-.hb-pnl {
+.hb-card {
   position: absolute;
-  z-index: 7;
   display: grid;
-  gap: 0.45cqw;
-  padding: 1.1cqw 1.2cqw;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  gap: 0.5cqw;
+  padding: 1.1cqw 1.3cqw;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 1.2cqw;
-  background: rgba(252, 253, 255, 0.82);
+  background: rgba(252, 253, 255, 0.86);
   backdrop-filter: blur(10px) saturate(130%);
   -webkit-backdrop-filter: blur(10px) saturate(130%);
   box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.55);
   color: var(--text);
-  font-size: 1.05cqw;
+  font-size: 1.15cqw;
 }
 
-.hb-pnl::before,
-.hb-pnl::after {
+.hb-card::before,
+.hb-card::after {
   content: "";
   position: absolute;
   width: 1cqw;
@@ -2075,7 +2011,7 @@ html:not(.motion) .phone-view:first-child {
   opacity: 0.75;
 }
 
-.hb-pnl::before {
+.hb-card::before {
   top: -1px;
   left: -1px;
   border-right: 0;
@@ -2083,7 +2019,7 @@ html:not(.motion) .phone-view:first-child {
   border-radius: 1.2cqw 0 0 0;
 }
 
-.hb-pnl::after {
+.hb-card::after {
   right: -1px;
   bottom: -1px;
   border-top: 0;
@@ -2091,9 +2027,91 @@ html:not(.motion) .phone-view:first-child {
   border-radius: 0 0 1.2cqw 0;
 }
 
-.hb-pnl .label {
-  margin: 0 0 0.3cqw;
-  font-size: 0.92cqw;
+/* Acto 1: el pedido que entra al equipo */
+.hb-ask {
+  left: 3.5%;
+  top: 8%;
+  width: 27%;
+  opacity: var(--a, 0);
+}
+
+.hb-ask-hd {
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hb-ask-tx {
+  font-size: 1.3cqw;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+.hb-ask-eta {
+  display: flex;
+  align-items: center;
+  gap: 0.5cqw;
+  margin-top: 0.2cqw;
+  padding-top: 0.6cqw;
+  border-top: 1px solid var(--hairline);
+  color: #b54708;
+  font-size: 1.05cqw;
+  font-weight: 600;
+}
+
+/* Acto 2: dos etiquetas, una por monitor, atadas al encuadre de los dos monitores */
+.hb-tag {
+  position: absolute;
+  padding: 0.5cqw 0.9cqw;
+  border-radius: 999px;
+  background: rgba(13, 22, 39, 0.88);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  white-space: nowrap;
+  opacity: var(--a, 0);
+}
+
+.hb-tag::before {
+  content: "";
+  position: absolute;
+  left: 2cqw;
+  bottom: 100%;
+  width: 1px;
+  height: 1.6cqw;
+  background: rgba(13, 22, 39, 0.6);
+}
+
+.hb-tag-mon1 {
+  left: 2%;
+  top: 76%;
+}
+
+.hb-tag-mon2 {
+  right: 2%;
+  top: 70%;
+}
+
+/* Acto 3: todo se unifica mientras la cámara cruza la mampara */
+.hb-join {
+  left: 50%;
+  top: 12%;
+  width: 26%;
+  opacity: var(--a, 0);
+  transform: translateX(-50%);
+}
+
+.hb-join-hd {
+  font-size: 1.2cqw;
+  font-weight: 600;
+}
+
+.hb-join-rows {
+  display: grid;
+  gap: 0.4cqw;
+  margin-top: 0.3cqw;
 }
 
 .hb-row {
@@ -2123,27 +2141,53 @@ html:not(.motion) .phone-view:first-child {
 .hb-ok {
   margin-left: auto;
   color: var(--good);
+  opacity: var(--ok, 1);
 }
 
-.hb-pnl-foot {
-  margin-top: 0.4cqw;
-  padding-top: 0.65cqw;
-  border-top: 1px solid var(--hairline);
+.hb-join-bar {
+  display: block;
+  height: 0.5cqw;
+  margin-top: 0.3cqw;
+  border-radius: 999px;
+  background: var(--hairline);
+}
+
+.hb-join-bar i {
+  display: block;
+  width: var(--p, 100%);
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent-600);
+}
+
+.hb-join-foot {
   color: var(--fg-3);
   font-family: var(--font-mono);
-  font-size: 0.92cqw;
+  font-size: 0.95cqw;
 }
 
-.hb-pnl-src {
-  left: 79.5%;
-  top: 9%;
-  width: 18.5%;
+/* Los sistemas que cruzan de un ambiente al otro */
+.hb-fly {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.5cqw 0.9cqw;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 0.9cqw;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: 0;
 }
 
-.hb-pnl-alert {
-  left: 3.5%;
-  top: 57%;
-  width: 21%;
+/* Acto 4: la alerta que llega sola y la barra de voz, junto al micrófono */
+.hb-alert {
+  right: 3%;
+  top: 7%;
+  width: 26%;
+  opacity: var(--a, 1);
 }
 
 .hb-alert-hd {
@@ -2160,23 +2204,22 @@ html:not(.motion) .phone-view:first-child {
 
 .hb-alert-tx {
   color: var(--fg-2);
-  font-size: 1cqw;
+  font-size: 1.05cqw;
 }
 
-/* ----- La barra de voz, apoyada en la mesa junto al micrófono ----- */
+/* Corrida a la derecha del televisor: tapaba el pie del tablero */
 .hb-voice {
   position: absolute;
-  left: 50%;
-  top: 86.5%;
-  z-index: 8;
+  left: 63%;
+  top: 86%;
   display: flex;
   align-items: center;
   gap: 1.1cqw;
-  width: 46%;
+  width: 40%;
   padding: 0.95cqw 1.2cqw;
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 999px;
-  background: rgba(252, 253, 255, 0.85);
+  background: rgba(252, 253, 255, 0.86);
   backdrop-filter: blur(12px) saturate(130%);
   -webkit-backdrop-filter: blur(12px) saturate(130%);
   box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
@@ -2227,7 +2270,7 @@ html:not(.motion) .phone-view:first-child {
 
 .hb-wave {
   flex: none;
-  width: 18%;
+  width: 16%;
   height: 2.3cqw;
 }
 
@@ -2238,118 +2281,196 @@ html:not(.motion) .phone-view:first-child {
   stroke-linecap: round;
 }
 
+/* Una pastilla detrás: el estado cae sobre la ventana y ahí no se leía */
 .hb-status {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(100% + 0.8cqw);
+  left: 50%;
+  bottom: calc(100% + 0.7cqw);
+  width: max-content;
+  max-width: 100%;
   margin: 0;
-  color: #5a6475;
+  padding: 0.3cqw 0.8cqw;
+  border-radius: 999px;
+  background: rgba(252, 253, 255, 0.8);
+  color: #4d5667;
   font-family: var(--font-mono);
   font-size: 0.95cqw;
   letter-spacing: 0.08em;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9), 0 0 16px rgba(255, 255, 255, 0.8);
+  transform: translateX(-50%);
 }
 
-/* El texto que va contando los tres actos. Vive fuera del recorte: en celulares
-   la escena está escalada y el texto quedaría enorme o cortado. */
-.hb-stage {
-  position: relative;
+/* ----- Debajo de la foto: en qué acto va el scroll y qué está contando ----- */
+.hb-rail {
+  display: grid;
+  gap: clamp(8px, 1vw, 14px);
+  width: min(100%, 72ch);
+  margin-inline: auto;
+}
+
+.hb-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(6px, 1vw, 16px);
+}
+
+/* La línea de arriba es el avance: se pinta encima del carril, de cero a var(--f) */
+.hb-step {
+  padding-top: 7px;
+  color: var(--fg-3);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  background-image: linear-gradient(var(--accent-600), var(--accent-600)), linear-gradient(var(--hairline), var(--hairline));
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: var(--f, 100%) 2px, 100% 2px;
+}
+
+.hb-step[data-on] {
+  color: var(--text);
+  font-weight: 600;
 }
 
 .hb-caption {
-  width: min(100% - 2 * var(--gutter), 68ch);
-  margin: clamp(14px, 1.6vw, 22px) auto 0;
-  padding: 12px 22px;
-  border-radius: 999px;
-  background: rgba(252, 253, 255, 0.86);
-  backdrop-filter: blur(12px) saturate(130%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
-  box-shadow: 0 18px 40px -26px rgba(8, 14, 28, 0.5);
-  color: var(--text);
-  font-size: clamp(0.9rem, 0.8rem + 0.42vw, 1.1rem);
+  margin: 0;
+  color: var(--fg-2);
+  font-size: clamp(0.9rem, 0.8rem + 0.42vw, 1.05rem);
   font-weight: 500;
   text-align: center;
   text-wrap: balance;
-  opacity: var(--cap, 0);
+  opacity: var(--cap, 1);
 }
 
-/* Con animación cada cosa entra cuando le toca; sin animación ya está todo */
-.motion .hb-pnl {
-  opacity: var(--a, 0);
+/* Con animación cada cartel entra cuando le toca */
+.motion .hb-card {
   transform: translateY(calc((1 - var(--a)) * 10px)) scale(calc(0.97 + 0.03 * var(--a)));
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Sin animación solo se ve el acto final: la sala y su televisor */
-html:not(.motion) .hb-photo-a,
-html:not(.motion) .hb-front,
-html:not(.motion) .hb-screen2,
-html:not(.motion) .hb-flies,
-html:not(.motion) .hb-caption {
-  display: none;
+.motion .hb-join {
+  transform: translateX(-50%) translateY(calc((1 - var(--a)) * 10px));
 }
 
-html:not(.motion) .hb-small {
+/* Sin animación no hay riel que recorrer: queda el último acto, quieto */
+html:not(.motion) .hb-track {
+  height: auto;
+}
+
+html:not(.motion) .hb-pin {
+  position: static;
+  height: auto;
+}
+
+html:not(.motion) .hb-steps {
   display: none;
 }
 
 @media (max-width: 900px) {
-  /* En celulares la foto se acerca al televisor y a la persona; los paneles quedarían
-     fuera del recorte, así que solo se deja la barra de voz */
+  .hb-track {
+    height: 260vh;
+  }
+
+  .hb-stage {
+    width: min(100% - 2 * var(--gutter), 100svh - 210px);
+  }
+
   .hb-crop {
-    aspect-ratio: 520 / 470;
+    aspect-ratio: 1 / 1;
   }
 
+  /* El recorte es cuadrado: hay que acercarse más (los encuadres de «cam_alto») */
   .hb-scene {
-    transform: scale(1.969) translate(-11.72%, -3.58%);
+    transform: translate(0, -78.88%) scale(3.821);
   }
 
-  .hb-pnl {
-    display: none;
+  html.motion .hb-scene {
+    transform: translate(-251.9%, -161.5%) scale(3.938);
   }
 
-  .hb-voice {
-    left: 37%;
-    top: 57%;
-    width: 48%;
-    gap: 1.6cqw;
-    padding: 1.6cqw 2cqw;
+  /* Los carteles grandes no entran en un recorte angosto: queda lo imprescindible */
+  .hb-ask,
+  .hb-join {
+    width: 62%;
   }
 
-  .hb-q {
-    font-size: 2cqw;
+  .hb-ask {
+    left: 4%;
+    top: 5%;
   }
 
-  .hb-mic {
-    width: 4.6cqw;
-    height: 4.6cqw;
+  .hb-join {
+    top: 6%;
   }
 
-  .hb-mic .icon {
-    font-size: 2.4cqw;
-  }
-
-  /* La onda y el estado no entran: la pregunta ya se lee en la barra */
+  .hb-tag,
+  .hb-alert,
   .hb-wave,
   .hb-status {
     display: none;
   }
 
-  /* El texto de los actos va debajo de la foto */
-  .hb-caption {
-    position: static;
-    width: auto;
-    margin: 14px var(--gutter) 0;
-    border-radius: var(--r-md);
-    transform: none;
+  .hb-card {
+    font-size: 2.4cqw;
+  }
+
+  .hb-ask-hd,
+  .hb-join-foot {
+    font-size: 2.1cqw;
+  }
+
+  .hb-ask-tx,
+  .hb-join-hd {
+    font-size: 2.7cqw;
+  }
+
+  .hb-ask-eta {
+    font-size: 2.2cqw;
+  }
+
+  .hb-sw {
+    width: 1.6cqw;
+    height: 1.6cqw;
+  }
+
+  .hb-join-bar {
+    height: 1cqw;
+  }
+
+  .hb-fly {
+    font-size: 2cqw;
+  }
+
+  .hb-voice {
+    left: 50%;
+    top: 86%;
+    width: 86%;
+    gap: 1.6cqw;
+    padding: 1.6cqw 2cqw;
+  }
+
+  .hb-q {
+    font-size: 2.6cqw;
+  }
+
+  .hb-mic {
+    width: 5.2cqw;
+    height: 5.2cqw;
+  }
+
+  .hb-mic .icon {
+    font-size: 2.8cqw;
+  }
+
+  .hb-step {
+    font-size: 0.68rem;
   }
 }
 
+/* Con «menos movimiento» motion.js no pone .motion, así que ya no hay riel ni actos */
 @media (prefers-reduced-motion: reduce) {
-  .hb-pnl,
+  .hb-card,
   .hb-mic {
     transition: none;
   }

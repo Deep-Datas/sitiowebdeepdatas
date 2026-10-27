@@ -63,35 +63,31 @@
     window.addEventListener('resize', update);
     update();
   });
-  /* ---------- Portada del inicio, en tres actos ([data-hb]) ----------
-     Las dos fotos comparten el recorte. La del equipo entra con object-fit: cover, así que
-     acá se convierten las coordenadas de sus monitores a ese recorte. Cada pantalla se
-     encaja con una matriz de perspectiva; en el acto 3 el cuadrilátero de la pantalla
-     principal se interpola del monitor al televisor mientras las fotos se cruzan.
-     Sin animación solo se encajan las pantallas y la escena queda en su acto final. */
-  document.querySelectorAll('[data-hb]').forEach(function (scene) {
-    var EQ, SA, statuses, captions;
+  /* ---------- Portada del inicio: una cámara que cruza la oficina ([data-hb]) ----------
+     Una sola foto y cuatro actos atados al scroll: el equipo de datos, sus dos monitores,
+     el momento en que todo se unifica y, del otro lado de la mampara, los mismos números
+     en el televisor de quien decide. La cámara es un rectángulo de la foto que se lleva
+     al recorte; cada acto dice qué tiene que entrar sí o sí y acá se le da la forma del
+     recorte. Las pantallas se encajan con una matriz de perspectiva y viven dentro de la
+     escena, así que la cámara las arrastra sola. Sin animación queda el último acto. */
+  document.querySelectorAll('[data-hb]').forEach(function (track) {
+    var F, statuses, captions;
     try {
-      EQ = JSON.parse(scene.getAttribute('data-equipo'));
-      SA = JSON.parse(scene.getAttribute('data-sala'));
-      statuses = JSON.parse(scene.getAttribute('data-statuses'));
-      captions = JSON.parse(scene.getAttribute('data-captions'));
+      F = JSON.parse(track.getAttribute('data-foto'));
+      statuses = JSON.parse(track.getAttribute('data-statuses'));
+      captions = JSON.parse(track.getAttribute('data-captions'));
     } catch (e) { return; }
 
-    var screen1 = scene.querySelector('.hb-screen1');
-    var screen2 = scene.querySelector('.hb-screen2');
-    var front = scene.querySelector('.hb-front');
-    if (!screen1) return;
-    var DESIGN = { w: 1280, h: 720 }, DESIGN2 = { w: 1280, h: 800 };
+    var crop = track.querySelector('.hb-crop');
+    var scene = track.querySelector('.hb-scene');
+    var pin = track.querySelector('.hb-pin');
+    if (!crop || !scene || !pin) return;
 
-    // La foto del equipo es más cuadrada que el recorte: object-fit: cover la recorta
-    // arriba y abajo. kY es su alto en alturas del recorte; offY, lo que se pierde de un lado.
-    var cropAR = SA.w / SA.h, eqAR = EQ.w / EQ.h;
-    var kY = cropAR / eqAR, offY = (kY - 1) / 2;
-    function fromEq(pt) { return [pt[0] / EQ.w, pt[1] / EQ.h * kY - offY]; }
-    function fromSala(pt) { return [pt[0] / SA.w, pt[1] / SA.h]; }
-
-    var MON = EQ.mon.map(fromEq), MON2 = EQ.mon2.map(fromEq), TV = SA.tv.map(fromSala);
+    var screens = [
+      { el: track.querySelector('.hb-s-mon1'), w: 640, h: 420, quad: F.mon1 },
+      { el: track.querySelector('.hb-s-mon2'), w: 640, h: 440, quad: F.mon2 },
+      { el: track.querySelector('.hb-s-tv'), w: 1280, h: 1650, quad: F.tv }
+    ];
 
     // Gauss con pivoteo parcial: resuelve los 8 coeficientes de la homografía
     function solve(A, b) {
@@ -111,91 +107,92 @@
       return M.map(function (row) { return row[n]; });
     }
 
-    // Lleva el rectángulo de diseño al cuadrilátero, en píxeles del recorte
-    function matrixFor(el, design, quad, W, H) {
-      var src = [[0, 0], [design.w, 0], [design.w, design.h], [0, design.h]];
+    // Lleva el rectángulo de diseño al cuadrilátero de la pantalla, en píxeles de la escena
+    function matrixFor(s, sw, sh) {
+      var src = [[0, 0], [s.w, 0], [s.w, s.h], [0, s.h]];
       var A = [], b = [];
       for (var i = 0; i < 4; i++) {
-        var x = src[i][0], y = src[i][1], u = quad[i][0] * W, v = quad[i][1] * H;
+        var x = src[i][0], y = src[i][1];
+        var u = s.quad[i][0] / F.w * sw, v = s.quad[i][1] / F.h * sh;
         A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
         A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
       }
       var h = solve(A, b);
-      el.style.transform = 'matrix3d(' + [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1].join(',') + ')';
+      s.el.style.transform = 'matrix3d(' + [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1].join(',') + ')';
     }
 
-    var W = 0, H = 0, last_p = motion ? 0 : 1;
+    var cropW = 0, cropH = 0, ar = F.w / F.h;
     function measure() {
-      W = scene.clientWidth;
-      H = W / cropAR;
-      if (!W) return false;
-      if (screen2) matrixFor(screen2, DESIGN2, MON2, W, H);
-      if (front) {
-        // El recorte de la persona que tapa el segundo monitor, en el mismo espacio
-        var tl = fromEq([EQ.front[0], EQ.front[1]]);
-        front.style.left = (tl[0] * 100).toFixed(3) + '%';
-        front.style.top = (tl[1] * 100).toFixed(3) + '%';
-        front.style.width = (EQ.front[2] / EQ.w * 100).toFixed(3) + '%';
-        front.style.height = (EQ.front[3] / EQ.h * kY * 100).toFixed(3) + '%';
-      }
+      cropW = crop.clientWidth;
+      cropH = crop.clientHeight;
+      if (!cropW || !cropH) return false;
+      ar = cropW / cropH;
+      var sceneH = cropW * F.h / F.w;
+      screens.forEach(function (s) { if (s.el) matrixFor(s, cropW, sceneH); });
+      crop.classList.add('hb-ready');
       return true;
     }
 
-    // Cuadrilátero de la pantalla principal según el acto: monitor → televisor
-    function quadAt(p) {
-      var t = smooth(0.52, 0.72, p);
-      return MON.map(function (m, i) {
-        return [lerp(m[0], TV[i][0], t), lerp(m[1], TV[i][1], t)];
-      });
+    // El encuadre de un acto: se agranda el rectángulo pedido hasta tener la forma del
+    // recorte y se lo mete dentro de la foto. Devuelve [izquierda, arriba, ancho].
+    function frame(box) {
+      var w = box[2] - box[0], h = box[3] - box[1];
+      if (w / h < ar) w = h * ar; else h = w / ar;
+      var k = Math.min(1, F.w / w, F.h / h);
+      w *= k; h *= k;
+      var cx = clamp((box[0] + box[2]) / 2, w / 2, F.w - w / 2);
+      var cy = clamp((box[1] + box[3]) / 2, h / 2, F.h - h / 2);
+      return [cx - w / 2, cy - h / 2, w];
     }
 
-    function place(p) {
-      if (!W) return;
-      matrixFor(screen1, DESIGN, quadAt(p), W, H);
+    function camera(p) {
+      // En recortes altos (celulares) hay que acercarse más: lleva sus propios encuadres
+      var k = ar < 1.1 && F.cam_alto ? F.cam_alto : F.cam, i = 0;
+      while (i < k.length - 2 && p > k[i + 1][0]) i++;
+      var a = k[i], b = k[i + 1], t = smooth(a[0], b[0], p);
+      var f = frame([lerp(a[1], b[1], t), lerp(a[2], b[2], t), lerp(a[3], b[3], t), lerp(a[4], b[4], t)]);
+      var s = F.w / f[2];
+      scene.style.transform = 'translate(' + (-s * f[0] / F.w * 100).toFixed(3) + '%,' +
+        (-s * f[1] / F.h * 100).toFixed(3) + '%) scale(' + s.toFixed(4) + ')';
     }
 
-    if ('ResizeObserver' in window) new ResizeObserver(function () { measure(); place(motion ? last_p : 1); }).observe(scene);
-    else window.addEventListener('resize', function () { measure(); place(motion ? last_p : 1); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); place(motion ? last_p : 1); });
-
-    measure();
-    place(last_p);
-    if (!motion) return;
-
-    var question = scene.getAttribute('data-question') || '';
-    var qEl = scene.querySelector('[data-hb-q]');
-    var caret = scene.querySelector('.hb-caret');
-    var statusEl = scene.querySelector('.hb-status');
-    var stage = scene.closest('.hb-stage');
-    var captionEl = stage && stage.querySelector('.hb-caption');
-    var micEl = scene.querySelector('.hb-mic');
-    var scan = scene.querySelector('.hb-scan');
-    var wave = scene.querySelector('.hb-wave path');
-    var small1 = scene.querySelector('.hb-small-1');
-    var smallBar = scene.querySelector('.hb-small-bar i');
-    var board = scene.querySelector('.hb-scr');
-    var photoB = scene.querySelector('.hb-photo-b');
-    var grade = scene.querySelector('.hb-grade');
-    var finger = scene.querySelector('.hb-finger');
-    var voice = scene.querySelector('.hb-voice');
-    var flies = slice(scene.querySelectorAll('.hb-fly'));
-    var bars = slice(scene.querySelectorAll('.hb-tr i'));
-    var goal = scene.querySelector('.hb-goal');
-    var goalK = scene.querySelector('.hb-goal-k');
-    var panels = [
-      { el: scene.querySelector('.hb-pnl-src'), from: 0.80, to: 0.88 },
-      { el: scene.querySelector('.hb-pnl-alert'), from: 0.90, to: 0.97 }
-    ];
-    var kpis = slice(scene.querySelectorAll('[data-kpi]')).map(function (n) {
+    var question = track.getAttribute('data-question') || '';
+    var qEl = track.querySelector('[data-hb-q]');
+    var caret = track.querySelector('.hb-caret');
+    var statusEl = track.querySelector('.hb-status');
+    var captionEl = track.querySelector('.hb-caption');
+    var micEl = track.querySelector('.hb-mic');
+    var scan = track.querySelector('.hb-scan');
+    var wave = track.querySelector('.hb-wave path');
+    var voice = track.querySelector('.hb-voice');
+    var ask = track.querySelector('.hb-ask');
+    var join = track.querySelector('.hb-join');
+    var joinBar = track.querySelector('.hb-join-bar i');
+    var alertEl = track.querySelector('.hb-alert');
+    var tags = slice(track.querySelectorAll('.hb-tag'));
+    var oks = slice(track.querySelectorAll('.hb-join-rows .hb-ok'));
+    var flies = slice(track.querySelectorAll('.hb-fly'));
+    var steps = slice(track.querySelectorAll('.hb-step'));
+    var bars = slice(track.querySelectorAll('.hb-tr i'));
+    var kpis = slice(track.querySelectorAll('[data-kpi]')).map(function (n) {
       return { n: n, to: n.getAttribute('data-kpi'), pre: n.getAttribute('data-pre') || '', post: n.getAttribute('data-post') || '' };
     });
-    var counts = slice(scene.querySelectorAll('[data-count]')).map(function (n) {
+    var counts = slice(track.querySelectorAll('[data-count]')).map(function (n) {
       return { n: n, to: parseFloat(n.getAttribute('data-count')) };
     });
-    var widths = bars.map(function (i) { return parseFloat(getComputedStyle(i).width) / Math.max(1, i.parentElement.clientWidth) * 100; });
+    // El ancho de cada barra sale de la variable que dejó build.py (pos('w', …)): las
+    // pantallas arrancan ocultas, así que el ancho ya calculado todavía no existe.
+    var widths = bars.map(function (i) { return parseFloat(getComputedStyle(i).getPropertyValue('--w')) || 0; });
+    // Cada paso del riel cubre su acto
+    var ACTS = [[0, 0.26], [0.26, 0.54], [0.54, 0.76], [0.76, 1]];
 
-    function scramble(text, s) {
-      return text.replace(/\d/g, function () { return String((Math.floor(s * 977) + Math.floor(Math.random() * 10)) % 10); });
+    var locale = root.lang === 'en' ? 'en-US' : 'es-AR';
+    function set(el, prop, v) { if (el) el.style.setProperty(prop, v); }
+    function text(el, v) {
+      if (el && el.getAttribute('data-v') !== v) { el.setAttribute('data-v', v); el.textContent = v; }
+    }
+    function scramble(value, s) {
+      return value.replace(/\d/g, function () { return String((Math.floor(s * 977) + Math.floor(Math.random() * 10)) % 10); });
     }
     var NB = 22;
     function seedAmp(i) { return 0.35 + 0.65 * Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1); }
@@ -208,70 +205,53 @@
       }
       if (wave) wave.setAttribute('d', d);
     }
-    function set(el, prop, v) { if (el) el.style.setProperty(prop, v); }
-
-    // Centro de un cuadrilátero, en píxeles del recorte
-    function centre(q) {
-      var x = 0, y = 0;
-      q.forEach(function (pt) { x += pt[0]; y += pt[1]; });
-      return [x / 4 * W, y / 4 * H];
-    }
 
     function render(p, t) {
-      last_p = p;
-      place(p);
+      camera(p);
 
-      /* Acto 1 y 2: el escritorio. La barra del informe avanza despacio y el segundo
-         monitor se apaga cuando sus sistemas ya viajaron al primero. */
-      set(smallBar, '--p', (12 + 46 * smooth(0, 0.44, p)).toFixed(1) + '%');
-      set(small1, '--a1', (1 - smooth(0.52, 0.64, p)).toFixed(3));
-      set(screen2, '--s2', (1 - smooth(0.36, 0.5, p)).toFixed(3));
+      // Acto 1: el pedido que entra al equipo de datos, desde el primer cuadro
+      set(ask, '--a', (1 - smooth(0.19, 0.25, p)).toFixed(3));
 
-      // Los sistemas viajan del segundo monitor al primero
-      var c2 = centre(MON2), c1 = centre(MON);
+      // Acto 2: una etiqueta por monitor
+      tags.forEach(function (tag, i) {
+        set(tag, '--a', (smooth(0.27 + i * 0.04, 0.34 + i * 0.04, p) * (1 - smooth(0.49, 0.55, p))).toFixed(3));
+      });
+
+      // Acto 3: los sistemas cruzan la mampara y se unen en un solo modelo
+      set(join, '--a', (smooth(0.55, 0.62, p) * (1 - smooth(0.74, 0.80, p))).toFixed(3));
+      set(joinBar, '--p', (smooth(0.57, 0.73, p) * 100).toFixed(1) + '%');
+      oks.forEach(function (ok, i) { set(ok, '--ok', smooth(0.58 + i * 0.022, 0.62 + i * 0.022, p).toFixed(3)); });
       flies.forEach(function (fly, i) {
-        var f = smooth(0.3 + i * 0.05, 0.48 + i * 0.05, p);
-        var vis = f > 0.01 && f < 0.99 ? 1 : 0;
-        fly.style.opacity = vis;
+        var f = smooth(0.52 + i * 0.035, 0.70 + i * 0.035, p);
+        var vis = f > 0.01 && f < 0.99;
+        fly.style.opacity = vis ? 1 : 0;
         if (!vis) return;
-        var e = f * f * (3 - 2 * f);
-        var x = lerp(c2[0], c1[0], e), y = lerp(c2[1], c1[1], e) - Math.sin(f * Math.PI) * H * 0.1;
+        // Van por debajo de los monitores, para no tapar lo que se lee en ellos
+        var x = lerp(0.92, 0.06, f) * cropW, y = (0.72 - Math.sin(f * Math.PI) * 0.08 + i * 0.025) * cropH;
         fly.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-50%)';
       });
 
-      // Acto 3: las fotos se cruzan y el tablero reemplaza a la planilla
-      var b = smooth(0.54, 0.7, p);
-      set(photoB, '--b', b.toFixed(3));
-      set(grade, '--b', b.toFixed(3));
-      set(finger, '--b', b.toFixed(3));
-      set(board, '--a2', smooth(0.56, 0.68, p).toFixed(3));
-      set(voice, '--voice', smooth(0.66, 0.74, p).toFixed(3));
-
-      // Acto 4: la pregunta y la respuesta
-      var amp = smooth(0.7, 0.75, p) * (1 - smooth(0.86, 0.9, p));
+      // Acto 4: la pregunta en voz alta y la respuesta que ya está en el televisor
+      set(voice, '--voice', smooth(0.74, 0.80, p).toFixed(3));
+      set(alertEl, '--a', smooth(0.93, 0.98, p).toFixed(3));
+      var amp = smooth(0.78, 0.83, p) * (1 - smooth(0.90, 0.94, p));
       set(micEl, '--amp', amp.toFixed(3));
       drawWave(amp, t);
-      var qn = Math.round(smooth(0.71, 0.86, p) * question.length);
+      var qn = Math.round(smooth(0.78, 0.90, p) * question.length);
       if (qEl) qEl.textContent = question.slice(0, qn);
       if (caret) caret.hidden = !(qn > 0 && qn < question.length);
       if (statusEl) {
         var st = statuses[0][1];
         statuses.forEach(function (s) { if (p >= s[0]) st = s[1]; });
-        if (statusEl.getAttribute('data-v') !== st) { statusEl.setAttribute('data-v', st); statusEl.textContent = st; }
-      }
-      if (captionEl) {
-        var cap = captions[0][1];
-        captions.forEach(function (c) { if (p >= c[0]) cap = c[1]; });
-        if (captionEl.getAttribute('data-v') !== cap) { captionEl.setAttribute('data-v', cap); captionEl.textContent = cap; }
-        set(captionEl, '--cap', smooth(0.01, 0.06, p).toFixed(3));
+        text(statusEl, st);
       }
       if (scan) {
-        var sc = smooth(0.74, 0.86, p);
+        var sc = smooth(0.80, 0.90, p);
         set(scan, '--scan', sc.toFixed(3));
         set(scan, '--scan-a', sc > 0.01 && sc < 0.99 ? '1' : '0');
       }
       kpis.forEach(function (c) {
-        var f = smooth(0.82, 0.92, p);
+        var f = smooth(0.82, 0.93, p);
         if (f <= 0) { c.n.textContent = c.pre + c.to.replace(/\d/g, '0') + c.post; return; }
         if (f < 0.45) { c.n.textContent = c.pre + scramble(c.to, f) + c.post; return; }
         var g = clamp((f - 0.45) / 0.55, 0, 1);
@@ -280,41 +260,69 @@
         c.n.textContent = c.pre + (parseFloat(c.to.replace(',', '.')) * g).toFixed(dec).replace('.', sep) + c.post;
       });
       counts.forEach(function (c) {
-        c.n.textContent = Math.round(c.to * smooth(0.84, 0.95, p)).toLocaleString('es-AR');
+        c.n.textContent = Math.round(c.to * smooth(0.57, 0.73, p)).toLocaleString(locale);
       });
       bars.forEach(function (bar, i) {
-        var f = smooth(0.84 + i * 0.02, 0.94 + i * 0.02, p);
-        bar.style.setProperty('--w', (widths[i] * f).toFixed(2) + '%');
+        bar.style.setProperty('--w', (widths[i] * smooth(0.85 + i * 0.02, 0.94 + i * 0.02, p)).toFixed(2) + '%');
       });
-      var gA = smooth(0.9, 0.95, p).toFixed(2);
-      if (goal) goal.style.opacity = gA;
-      if (goalK) goalK.style.opacity = gA;
-      panels.forEach(function (o) { if (o.el) set(o.el, '--a', smooth(o.from, o.to, p).toFixed(3)); });
+
+      // El riel: en qué acto va el scroll y qué está contando
+      steps.forEach(function (step, i) {
+        var a = ACTS[i] || ACTS[ACTS.length - 1];
+        set(step, '--f', (clamp((p - a[0]) / (a[1] - a[0]), 0, 1) * 100).toFixed(1) + '%');
+        if (p >= a[0] && (p < a[1] || i === steps.length - 1)) step.setAttribute('data-on', '');
+        else step.removeAttribute('data-on');
+      });
+      if (captionEl) {
+        var cap = captions[0][1];
+        captions.forEach(function (c) { if (p >= c[0]) cap = c[1]; });
+        text(captionEl, cap);
+      }
     }
 
-    var p0 = 0, time = 0, last = 0, running = false;
-    function frame(ts) {
-      var dt = last ? Math.min(0.05, (ts - last) / 1000) : 0;
-      last = ts;
-      time += dt;
-      p0 = Math.min(1, p0 + dt / 14);
-      render(p0, time);
-      if (p0 < 1) window.requestAnimationFrame(frame);
+    var p0 = motion ? 0 : 1;
+    function draw(ts) {
+      if (!cropW) return;
+      render(p0, ts / 1000);
     }
-    render(0, 0);
-    var start = function () {
-      if (running) return;
-      running = true;
-      last = 0;
-      window.requestAnimationFrame(frame);
+
+    measure();
+    draw(0);
+
+    var resized = function () { if (measure()) draw(0); };
+    if ('ResizeObserver' in window) new ResizeObserver(resized).observe(crop);
+    else window.addEventListener('resize', resized);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(resized);
+    if (!motion) return;
+
+    // El avance es la parte del riel ya recorrida: la escena queda fija y la cámara viaja
+    var header = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
+    function progress() {
+      var travel = track.offsetHeight - pin.offsetHeight;
+      if (travel <= 0) return 1;
+      return clamp((header - track.getBoundingClientRect().top) / travel, 0, 1);
+    }
+
+    var running = false, lastP = -1;
+    function frameLoop(ts) {
+      if (!running) return;
+      p0 = progress();
+      // Mientras el scroll no se mueve solo hace falta redibujar la onda de la voz
+      if (p0 !== lastP || (p0 > 0.76 && p0 < 0.95)) { lastP = p0; draw(ts); }
+      window.requestAnimationFrame(frameLoop);
+    }
+    var play = function (on) {
+      if (on === running) return;
+      running = on;
+      if (on) window.requestAnimationFrame(frameLoop);
     };
     if ('IntersectionObserver' in window) {
       var seen = new IntersectionObserver(function (entries) {
-        if (entries.some(function (e) { return e.isIntersecting; })) { seen.disconnect(); start(); }
-      }, { threshold: 0.25 });
-      seen.observe(scene);
+        play(entries.some(function (e) { return e.isIntersecting; }));
+      }, { threshold: 0 });
+      seen.observe(track);
     } else {
-      start();
+      play(true);
     }
   });
 

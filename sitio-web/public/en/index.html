@@ -31,9 +31,9 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=1debae3db7">
   <link rel="stylesheet" href="/assets/css/charts.css?v=6dbf248c21">
-  <link rel="stylesheet" href="/assets/css/design.css?v=c1c5938f68">
+  <link rel="stylesheet" href="/assets/css/design.css?v=62ce4f4105">
   <script src="/assets/js/site.js?v=81f9af360c" defer></script>
-  <script src="/assets/js/design.js?v=8d6a85c17d" defer></script>
+  <script src="/assets/js/design.js?v=5f582559b8" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -111,133 +111,143 @@
     </div>
   </div>
 
-  <div class="hb-stage">
-  <div class="hb-crop" role="img" aria-label="Example: the report an analyst takes two or three days to build is answered on the spot, on the screen of whoever decides (sample data).">
-    <div class="hb-scene" data-hb
-         data-equipo='{"front": [1300, 1147, 1024, 1584], "h": 2731, "mon": [[3050, 1155], [3865, 1155], [3855, 1740], [3050, 1750]], "mon2": [[712, 1493], [1600, 1480], [1642, 2090], [764, 2123]], "w": 4096}' data-sala='{"h": 559, "tv": [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]], "w": 1024}'
-         data-question="How much did we sell yesterday in the north region?" data-statuses='[[0.68, "Listening\u2026"], [0.78, "Reading your systems\u2026"], [0.9, "Answer ready \u00b7 with sources"]]'
-         data-captions='[[0, "Today the request goes to the analyst, who cross-checks ERP, CRM and spreadsheets by hand."], [0.3, "Two or three days later the report arrives. By then it has already moved."], [0.46, "We bring it all into one reliable model."], [0.68, "Now you ask, and the answer is right there."]]'>
+  <div class="hb-track" data-hb data-foto='{"cam": [[0.0, 600, 288, 1024, 500], [0.16, 600, 288, 1024, 500], [0.32, 655, 318, 995, 400], [0.46, 655, 318, 995, 400], [0.6, 330, 230, 780, 482], [0.7, 330, 230, 780, 482], [0.88, 0, 160, 400, 392], [1.0, 0, 165, 360, 380]], "cam_alto": [[0.0, 655, 325, 915, 495], [0.16, 655, 325, 915, 495], [0.32, 660, 320, 995, 400], [0.46, 660, 320, 995, 400], [0.6, 380, 235, 720, 470], [0.7, 380, 235, 720, 470], [0.88, 0, 160, 390, 392], [1.0, 0, 168, 268, 382]], "h": 683, "mon1": [[669, 357.5], [721, 354], [721, 389], [669, 392.5]], "mon2": [[911, 329.5], [985.5, 328.5], [985.5, 380.5], [911, 381]], "tv": [[20, 166], [150, 203], [151, 344], [20, 361]], "w": 1024}'
+       data-question="How much did we sell yesterday in the north region?" data-statuses='[[0.78, "Listening\u2026"], [0.86, "Reading your systems\u2026"], [0.94, "Answer ready \u00b7 with sources"]]'
+       data-captions='[[0, "Today the request lands on the data team: export, cross-check, review."], [0.3, "Two monitors, four systems and a spreadsheet that ages while it is built."], [0.58, "We bring it all into one reliable model."], [0.76, "The same numbers, right away, on the screen of whoever decides."]]'>
+    <div class="hb-pin">
+      <div class="hb-stage">
+        <div class="hb-crop" role="img" aria-label="Example: in the same office, the report the data team takes two or three days to build is answered on the spot, on the screen of whoever decides (sample data).">
 
-      <img class="hb-photo hb-photo-a" src="/assets/img/hero/equipo-2048.webp" width="2048" height="1366" alt="" fetchpriority="high">
+          <div class="hb-scene">
+            <img class="hb-photo" src="/assets/img/hero/portada-oficina-2048.webp"
+                 srcset="/assets/img/hero/portada-oficina-1024.webp 1024w, /assets/img/hero/portada-oficina-2048.webp 2048w"
+                 sizes="(min-width: 901px) 200vw, 360vw"
+                 width="2048" height="1366" alt="" fetchpriority="high">
 
-      <div class="hb-screen hb-screen2" aria-hidden="true">
-        <div class="hb-small hb-small-2">
-          <span class="hb-small-top">CRM and WhatsApp</span>
-          <span class="hb-small-row"><span>118 visits</span></span>
-          <span class="hb-small-row"><span>46 orders</span></span>
-          <span class="hb-small-row"><span>2 systems not merged</span></span>
+            <div class="hb-screen hb-s-mon1" aria-hidden="true">
+              <span class="hb-q-app">query.sql</span>
+              <span class="hb-q-line">SELECT sales</span>
+              <span class="hb-q-line">region=«north»</span>
+              <span class="hb-q-line">12,482 rows</span>
+            </div>
+
+            <div class="hb-screen hb-s-mon2" aria-hidden="true">
+              <span class="hb-x-app">sales_north_region_v7.xlsx</span>
+              <span class="hb-x-grid">
+                <span class="hb-x-row"><span>Norte SA</span><b>412,000</b></span>
+                <span class="hb-x-row"><span>Distrisur</span><b>331,000</b></span>
+                <span class="hb-x-row"><span>La Rueda</span><b>273,000</b></span>
+                <span class="hb-x-row"><span>Pampa Dist.</span><b>170,000</b></span>
+              </span>
+              <span class="hb-x-status">Pasted by hand · CRM missing</span>
+            </div>
+
+            <div class="hb-screen hb-s-tv" aria-hidden="true">
+              <div class="hb-scr">
+                <span class="hb-scan"></span>
+                <div class="hb-top">
+                  <span class="hb-app">DeepDatas · Executive dashboard</span>
+                  <span class="hb-live"><i></i> Live</span>
+                </div>
+                <div class="hb-board-head">
+                  <h2>Yesterday’s sales</h2>
+                  <span class="hb-chip">North region</span>
+                  <span class="hb-when">07:00</span>
+                </div>
+                <div class="hb-tiles">
+                  <div class="hb-tile">
+                    <span class="hb-k">Revenue</span>
+                    <span class="hb-v" data-kpi="1.28" data-pre="$" data-post="M">$1.28M</span>
+                    <span class="hb-d">▲ 9.0% vs. last week</span>
+                  </div>
+                  <div class="hb-tile">
+                    <span class="hb-k">Gross margin</span>
+                    <span class="hb-v" data-kpi="24.6" data-pre="" data-post="%">24.6%</span>
+                    <span class="hb-d">▲ 1.2 pp</span>
+                  </div>
+                  <div class="hb-tile">
+                    <span class="hb-k">Stockouts</span>
+                    <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
+                    <span class="hb-d">▼ 2 vs. yesterday</span>
+                  </div>
+                </div>
+                <div class="hb-chart">
+                  <h3>By distributor</h3>
+                  <div class="hb-bars">
+                    <div class="hb-bar">
+                      <span class="hb-nm">Norte SA</span>
+                      <span class="hb-tr"><i class="w-92"></i></span>
+                      <b class="hb-vl">$412k</b>
+                    </div>
+                    <div class="hb-bar">
+                      <span class="hb-nm">Distrisur</span>
+                      <span class="hb-tr"><i class="w-74"></i></span>
+                      <b class="hb-vl">$331k</b>
+                    </div>
+                    <div class="hb-bar">
+                      <span class="hb-nm">La Rueda</span>
+                      <span class="hb-tr"><i class="w-61"></i></span>
+                      <b class="hb-vl">$273k</b>
+                    </div>
+                    <div class="hb-bar">
+                      <span class="hb-nm">Pampa Dist.</span>
+                      <span class="hb-tr"><i class="w-38"></i></span>
+                      <b class="hb-vl">$170k</b>
+                    </div>
+                  </div>
+                </div>
+                <div class="hb-foot"><span>Sources: ERP · CRM · Spreadsheets · WhatsApp</span><span class="hb-right">Sample data</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hb-hud" aria-hidden="true">
+            <div class="hb-card hb-ask">
+              <span class="hb-ask-hd">Request #482</span>
+              <span class="hb-ask-tx">“How much did we sell yesterday in the north region?”</span>
+              <span class="hb-ask-eta"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /> <path d="M12 7v5l4 2" /></svg> Estimated delivery: 2 to 3 days</span>
+            </div>
+
+            <span class="hb-tag hb-tag-mon1">ERP · .csv export</span>
+            <span class="hb-tag hb-tag-mon2">Spreadsheet v7, pasted by hand</span>
+
+            <div class="hb-card hb-join">
+              <span class="hb-join-hd">Bringing your systems together</span>
+              <span class="hb-join-rows">
+                <span class="hb-row"><i class="hb-sw hb-sw-erp"></i><span class="hb-nm">ERP</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-crm"></i><span class="hb-nm">CRM</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-xls"></i><span class="hb-nm">Spreadsheets</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-wa"></i><span class="hb-nm">WhatsApp</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+                <span class="hb-row"><i class="hb-sw hb-sw-mail"></i><span class="hb-nm">Email</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
+              </span>
+              <span class="hb-join-bar"><i></i></span>
+              <span class="hb-join-foot"><span data-count="12482">12.482</span> records read · 1.4 s</span>
+            </div>
+
+            <div class="hb-flies">
+<span class="hb-fly">ERP</span><span class="hb-fly">CRM</span><span class="hb-fly">Spreadsheets</span><span class="hb-fly">WhatsApp</span>            </div>
+
+            <div class="hb-card hb-alert">
+              <span class="hb-alert-hd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Stock alert</span>
+              <span class="hb-alert-tx">Classic chips 400 g runs out of stock in 3 days. Should I prepare the replenishment?</span>
+            </div>
+
+            <div class="hb-voice">
+              <p class="hb-status">Answer ready · with sources</p>
+              <span class="hb-mic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg></span>
+              <p class="hb-q"><span data-hb-q>How much did we sell yesterday in the north region?</span><i class="hb-caret" hidden></i></p>
+              <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="hb-rail" aria-hidden="true">
+          <span class="hb-steps">
+<span class="hb-step">The request</span><span class="hb-step">Two monitors</span><span class="hb-step">One model</span><span class="hb-step">The answer</span>          </span>
+          <p class="hb-caption">The same numbers, right away, on the screen of whoever decides.</p>
         </div>
       </div>
-
-      <img class="hb-front" src="/assets/img/hero/equipo-frente.webp" width="1024" height="1584" alt="" aria-hidden="true">
-
-      <img class="hb-photo hb-photo-b" src="/assets/img/hero/sala-1024.webp"
-           srcset="/assets/img/hero/sala-1024.webp 1024w, /assets/img/hero/sala-2048.webp 2048w"
-           sizes="100vw" width="1024" height="559" alt="" loading="lazy">
-
-      <div class="hb-screen hb-screen1" aria-hidden="true">
-        <div class="hb-small hb-small-1">
-          <span class="hb-small-top">Sales spreadsheet</span>
-          <span class="hb-small-row"><span>ERP · Revenue</span><b>Exported</b></span>
-          <span class="hb-small-row"><span>Spreadsheets · Targets</span><b>Pasted</b></span>
-          <span class="hb-small-row"><span>CRM · Visits</span><b>Missing</b></span>
-          <span class="hb-small-bar"><i></i></span>
-          <span class="hb-small-status">Cross-checking by hand…</span>
-          <span class="hb-small-wait">Report ready in 2 to 3 days</span>
-        </div>
-
-        <div class="hb-scr">
-          <span class="hb-scan"></span>
-          <div class="hb-top">
-            <span class="hb-dots"><i></i><i></i><i></i></span>
-            <span class="hb-app">DeepDatas · Executive dashboard</span>
-            <span class="hb-live"><i></i> Live</span>
-          </div>
-          <div class="hb-board-head">
-            <h2>Yesterday’s sales</h2>
-            <span class="hb-chip">North region</span>
-            <span class="hb-when">07:00</span>
-          </div>
-          <div class="hb-tiles">
-            <div class="hb-tile">
-              <span class="hb-k">Revenue</span>
-              <span class="hb-v" data-kpi="1.28" data-pre="$" data-post="M">$1.28M</span>
-              <span class="hb-d">▲ 9.0% vs. last week</span>
-            </div>
-            <div class="hb-tile">
-              <span class="hb-k">Gross margin</span>
-              <span class="hb-v" data-kpi="24.6" data-pre="" data-post="%">24.6%</span>
-              <span class="hb-d">▲ 1.2 pp</span>
-            </div>
-            <div class="hb-tile">
-              <span class="hb-k">Stockouts</span>
-              <span class="hb-v" data-kpi="3" data-pre="" data-post="">3</span>
-              <span class="hb-d">▼ 2 vs. yesterday</span>
-            </div>
-          </div>
-          <div class="hb-chart">
-            <h3>By distributor</h3>
-            <p class="hb-sub">Yesterday’s revenue · north region</p>
-            <div class="hb-bars">
-              <span class="hb-goal-k">Target</span>
-              <span class="hb-goal"></span>
-              <div class="hb-bar">
-                <span class="hb-nm">Norte SA</span>
-                <span class="hb-tr"><i class="w-92"></i></span>
-                <b class="hb-vl">$412k</b>
-              </div>
-              <div class="hb-bar">
-                <span class="hb-nm">Distrisur</span>
-                <span class="hb-tr"><i class="w-74"></i></span>
-                <b class="hb-vl">$331k</b>
-              </div>
-              <div class="hb-bar">
-                <span class="hb-nm">La Rueda</span>
-                <span class="hb-tr"><i class="w-61"></i></span>
-                <b class="hb-vl">$273k</b>
-              </div>
-              <div class="hb-bar">
-                <span class="hb-nm">Pampa Dist.</span>
-                <span class="hb-tr"><i class="w-38"></i></span>
-                <b class="hb-vl">$170k</b>
-              </div>
-            </div>
-          </div>
-          <div class="hb-foot"><span>Sources: ERP · CRM · Spreadsheets · WhatsApp</span><span class="hb-right">Sample data</span></div>
-        </div>
-      </div>
-
-      <div class="hb-flies" aria-hidden="true">
-<span class="hb-fly">CRM</span><span class="hb-fly">WhatsApp</span><span class="hb-fly">Spreadsheets</span>      </div>
-
-      <img class="hb-finger" src="/assets/img/hero/sala-mano.png" width="132" height="160" alt="" aria-hidden="true">
-      <span class="hb-grade" aria-hidden="true"></span>
-
-      <div class="hb-pnl hb-pnl-src" aria-hidden="true">
-        <span class="label">Sources checked</span>
-        <span class="hb-row"><i class="hb-sw hb-sw-erp"></i><span class="hb-nm">ERP</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
-        <span class="hb-row"><i class="hb-sw hb-sw-crm"></i><span class="hb-nm">CRM</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
-        <span class="hb-row"><i class="hb-sw hb-sw-xls"></i><span class="hb-nm">Spreadsheets</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
-        <span class="hb-row"><i class="hb-sw hb-sw-wa"></i><span class="hb-nm">WhatsApp</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
-        <span class="hb-row"><i class="hb-sw hb-sw-mail"></i><span class="hb-nm">Email</span><span class="hb-ok"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg></span></span>
-        <span class="hb-pnl-foot"><span data-count="12482">12.482</span> records read · 1.4 s</span>
-      </div>
-
-      <div class="hb-pnl hb-pnl-alert" aria-hidden="true">
-        <span class="hb-alert-hd"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <line x1="12" x2="12" y1="8" y2="12" /> <line x1="12" x2="12.01" y1="16" y2="16" /></svg> Stock alert</span>
-        <span class="hb-alert-tx">Classic chips 400 g runs out of stock in 3 days. Should I prepare the replenishment?</span>
-      </div>
-
-      <div class="hb-voice" aria-hidden="true">
-        <p class="hb-status">Answer ready · with sources</p>
-        <span class="hb-mic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg></span>
-        <p class="hb-q"><span data-hb-q>How much did we sell yesterday in the north region?</span><i class="hb-caret" hidden></i></p>
-        <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
-      </div>
-
     </div>
-  </div>
-  <p class="hb-caption" aria-hidden="true">Now you ask, and the answer is right there.</p>
   </div>
 </section>
 
