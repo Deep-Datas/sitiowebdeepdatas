@@ -17,55 +17,65 @@
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Dos fotos encadenadas. FOTO es la oficina (se usa solo la mitad del televisor, de la
-   mampara para allá); CERCA, el primer plano del mismo televisor visto de espaldas,
-   adonde la cámara llega al final girando sobre la pantalla.
+{# Tres fotos encadenadas: el mismo escritorio, la cámara cada vez más cerca. La
+   portada las recorre en ese orden y cada una entra girando sobre la anterior.
 
-   De cada una: el tamaño, las esquinas de cada pantalla (arriba izq., arriba der.,
-   abajo der., abajo izq.) y los encuadres de la cámara [p, izq., arriba, der., abajo],
-   que dicen qué tiene que entrar sí o sí en el cuadro. Todo en píxeles de esa foto;
-   design.js lo adapta a la forma del recorte y usa «cam_alto» cuando el recorte es más
-   alto que ancho (celulares).
+   De cada una: el tamaño en píxeles, el ancho del archivo grande, y los encuadres de la
+   cámara [p, izq., arriba, der., abajo] — lo que tiene que entrar sí o sí en el cuadro
+   en ese punto del scroll. Todo en píxeles de esa foto; design.js lo adapta a la forma
+   del recorte y usa «cam_alto» donde el recorte es mucho más alto que ancho (celulares).
 
-   El giro a la segunda foto solo pasa en recortes apaisados: el televisor de cerca es
-   ancho y casi de frente, y en un recorte de celular no hay forma de que entre entero.
-   Ahí la cámara se queda en la primera foto, cuyo televisor es alto, y termina encima de
-   él; por eso «cam_alto» llega hasta el final y «cam» se detiene antes del giro. #}
-{% set FOTO = {
-  'w': 1264, 'h': 843,
-  'tv': [[28, 203], [184, 252], [183, 423], [29, 447]],
-  'cam': [[0.00, 200, 250, 620, 790],
-          [0.16, 200, 250, 620, 790],
-          [0.32, 150, 260, 560, 700],
-          [0.46, 150, 260, 560, 700],
-          [0.60, 0, 180, 470, 640],
-          [0.70, 0, 180, 470, 640],
-          [0.86, 0, 170, 330, 540],
-          [1.00, 0, 180, 250, 480]],
-  'cam_alto': [[0.00, 230, 250, 560, 790],
-               [0.16, 230, 250, 560, 790],
-               [0.32, 250, 300, 560, 760],
-               [0.46, 250, 300, 560, 760],
-               [0.60, 30, 200, 400, 740],
-               [0.70, 30, 200, 400, 740],
-               [0.86, 10, 195, 230, 490],
-               [1.00, 10, 190, 210, 470]],
-} %}
-{% set CERCA = {
-  'w': 1024, 'h': 559,
-  'tv': [[166.5, 41.2], [498.2, 83.8], [497.0, 278.2], [169.0, 299.8]],
-  'cam': [[0.86, 110, 10, 600, 350],
-          [1.00, 140, 22, 545, 325]],
-  'desde': 0.85, 'hasta': 0.91,
-} %}
+   «desde» y «hasta» dicen en qué tramo del scroll esa foto reemplaza a la anterior. La
+   primera no los lleva: está desde el principio.
 
-{# La tendencia de cada ficha: siete valores de 0 a 100, de hace una semana a ayer, en el
-   mismo orden que «tiles». Son los que dibuja la línea chiquita de cada ficha y cuentan
-   lo mismo que su variación: facturación y margen suben, los quiebres bajan. No dependen
-   del idioma, así que van una sola vez. #}
-{% set CHISPAS = [[30, 22, 45, 38, 62, 55, 88],
-                  [28, 40, 34, 52, 46, 64, 78],
-                  [82, 70, 88, 58, 64, 40, 18]] %}
+   «tv» son las cuatro esquinas de la pantalla (arriba izq., arriba der., abajo der.,
+   abajo izq.), y solo la tercera la tiene: es la única con la pantalla despejada. En las
+   otras dos la mano apoya encima, así que ahí se ve el tablero que trae la foto y no el
+   nuestro, que taparía los dedos.
+
+   El tablero es ancho y el recorte de celular es angosto, así que ahí no entra entero:
+   «cam_alto» de la tercera foto encuadra a propósito su mitad izquierda, donde están el
+   título y la facturación. La alternativa era no llegar a esa foto en celulares, y eso
+   dejaba al visitante mirando el tablero que trae la imagen, en español y con otro
+   nombre. #}
+{% set ESCENA = [
+  {
+    'w': 1536, 'h': 1024, 'ancho': 2048,
+    'cam': [[0.00, 380, 140, 1320, 760],
+            [0.16, 380, 140, 1320, 760],
+            [0.32, 620, 170, 1400, 720],
+            [0.58, 620, 170, 1400, 720]],
+    'cam_alto': [[0.00, 560, 150, 1300, 780],
+                 [0.16, 560, 150, 1300, 780],
+                 [0.32, 640, 170, 1340, 720],
+                 [0.58, 640, 170, 1340, 720]],
+  },
+  {
+    'w': 1536, 'h': 1024, 'ancho': 2048,
+    'desde': 0.50, 'hasta': 0.58,
+    'cam': [[0.50, 520, 90, 1420, 690],
+            [0.70, 520, 90, 1420, 690],
+            [0.88, 600, 110, 1400, 620],
+            [1.00, 620, 115, 1390, 610]],
+    'cam_alto': [[0.50, 600, 90, 1400, 700],
+                 [0.70, 600, 90, 1400, 700],
+                 [0.88, 640, 110, 1360, 640],
+                 [1.00, 650, 115, 1350, 630]],
+  },
+  {
+    'w': 1536, 'h': 1024, 'ancho': 2304,
+    'desde': 0.80, 'hasta': 0.88,
+    'tv': [[408, 196], [1253, 190], [1250, 700], [410, 707]],
+    'cam': [[0.80, 360, 150, 1300, 760],
+            [1.00, 380, 170, 1285, 735]],
+    'cam_alto': [[0.80, 390, 150, 900, 745],
+                 [1.00, 395, 170, 860, 730]],
+  },
+] %}
+
+{# La curva de «Evolución de ventas»: siete meses, de 0 a 100. Es la misma serie en
+   los dos idiomas, así que va una sola vez. #}
+{% set CURVA = [18, 30, 26, 44, 38, 62, 88] %}
 {# Dónde cae el objetivo sobre cada barra del gráfico, en porcentaje de la barra. #}
 {% set OBJETIVO = 80 %}
 
@@ -77,7 +87,7 @@
     'cta': 'Coordinar una llamada', 'secondary': 'Conocé el diagnóstico',
     'region': 'Ejemplo: en la misma oficina, la pregunta que hoy el equipo de datos responde a mano en dos o tres días pasa a responderse sola en la pantalla de quien decide (datos ficticios).',
     'scroll': 'Seguí bajando',
-    'captions': [(0, 'Hoy la pregunta entra al equipo de datos: exportar, cruzar, revisar.'),
+    'captions': [(0, 'Hoy esa pregunta tarda días: exportar, cruzar, revisar.'),
                  (0.30, 'Cuatro sistemas abiertos a la vez y una planilla que se arma pegando filas.'),
                  (0.58, 'Unimos todo en un solo modelo confiable.'),
                  (0.76, 'Una sola respuesta, en el momento, en la pantalla de quien decide.')],
@@ -99,9 +109,12 @@
     'statuses': [(0.78, 'Escuchando…'), (0.86, 'Leyendo tus sistemas…'), (0.94, 'Respuesta lista · con fuentes')],
     'app': 'DeepDatas · Tablero ejecutivo', 'live': 'En vivo', 'when': '07:00',
     'board_title': 'Ventas de ayer', 'board_chip': 'Zona norte',
-    'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. semana pasada'),
-              ('Margen bruto', '24,6', '', ' %', '▲ 1,2 pp'),
-              ('Quiebres', '3', '', '', '▼ 2 vs. ayer')],
+    'nav': ['Inicio', 'Ventas', 'Clientes', 'Inventario', 'Finanzas', 'Reportes', 'Configuración'],
+    'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. semana pasada', 'graph-up-arrow'),
+              ('Pedidos', '482', '', '', '▲ 8,2 % vs. ayer', 'cart3'),
+              ('Margen bruto', '24,6', '', ' %', '▲ 1,2 pp', 'bar-chart-line'),
+              ('Quiebres', '3', '', '', '▼ 2 vs. ayer', 'exclamation-circle-fill')],
+    'trend_title': 'Evolución de ventas', 'trend_axis': ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
     'chart_title': 'Por distribuidor', 'goal': 'Objetivo',
     'bars': [('Norte SA', 92, '$ 412 k'), ('Distrisur', 74, '$ 331 k'), ('La Rueda', 61, '$ 273 k'), ('Pampa Dist.', 38, '$ 170 k')],
     'sources': 'Fuentes: ERP · CRM · Planillas · WhatsApp', 'fictional': 'Datos ficticios',
@@ -118,7 +131,7 @@
     'cta': 'Book a call', 'secondary': 'Explore the data assessment',
     'region': 'Example: in the same office, the question the data team answers by hand in two or three days is answered on the spot, on the screen of whoever decides (sample data).',
     'scroll': 'Keep scrolling',
-    'captions': [(0, 'Today the question lands on the data team: export, cross-check, review.'),
+    'captions': [(0, 'Today that question takes days: export, cross-check, review.'),
                  (0.30, 'Four systems open at once and a spreadsheet pasted together by hand.'),
                  (0.58, 'We bring it all into one reliable model.'),
                  (0.76, 'One single answer, right away, on the screen of whoever decides.')],
@@ -140,9 +153,12 @@
     'statuses': [(0.78, 'Listening…'), (0.86, 'Reading your systems…'), (0.94, 'Answer ready · with sources')],
     'app': 'DeepDatas · Executive dashboard', 'live': 'Live', 'when': '07:00',
     'board_title': 'Yesterday’s sales', 'board_chip': 'North region',
-    'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. last week'),
-              ('Gross margin', '24.6', '', '%', '▲ 1.2 pp'),
-              ('Stockouts', '3', '', '', '▼ 2 vs. yesterday')],
+    'nav': ['Home', 'Sales', 'Customers', 'Inventory', 'Finance', 'Reports', 'Settings'],
+    'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. last week', 'graph-up-arrow'),
+              ('Orders', '482', '', '', '▲ 8.2% vs. yesterday', 'cart3'),
+              ('Gross margin', '24.6', '', '%', '▲ 1.2 pp', 'bar-chart-line'),
+              ('Stockouts', '3', '', '', '▼ 2 vs. yesterday', 'exclamation-circle-fill')],
+    'trend_title': 'Sales trend', 'trend_axis': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     'chart_title': 'By distributor', 'goal': 'Target',
     'bars': [('Norte SA', 92, '$412k'), ('Distrisur', 74, '$331k'), ('La Rueda', 61, '$273k'), ('Pampa Dist.', 38, '$170k')],
     'sources': 'Sources: ERP · CRM · Spreadsheets · WhatsApp', 'fictional': 'Sample data',
@@ -159,96 +175,112 @@
    y se cruzan cuando la cámara gira hacia el primer plano. Los valores finales están en
    el HTML: sin JavaScript se leen los números de verdad. #}
 {% macro tablero() %}
+{# El tablero sigue la estructura del que trae la foto —barra lateral, cuatro fichas,
+   dos paneles— para que el cruce entre uno y otro no se note. El contenido es nuestro:
+   marca DeepDatas, los dos idiomas y los números que anima el scroll. #}
 <div class="hb-scr">
-  <div class="hb-top">
-    <span class="hb-app">{{ C.app }}</span>
-    <span class="hb-live"><i></i> {{ C.live }}</span>
-  </div>
-  <div class="hb-board-head">
-    <h2>{{ C.board_title }}</h2>
-    <span class="hb-chip">{{ C.board_chip }}</span>
-    <span class="hb-when">{{ C.when }}</span>
-  </div>
-  <div class="hb-tiles">
-    {% for label, value, pre, post, delta in C.tiles %}
-    {% set chispa = CHISPAS[loop.index0] %}
-    <div class="hb-tile">
-      <span class="hb-k">{{ label }}</span>
-      <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
-      <span class="hb-d">{{ delta }}</span>
-      {# La semana en una línea. Cada una se normaliza contra su propio mínimo y máximo,
-         así usa todo el alto de la caja: lo que importa es la forma, no comparar una
-         ficha con otra, que miden cosas distintas. viewBox fijo y preserveAspectRatio
-         "none": se estira a lo que mida la ficha en cada tablero, que son dos formas
-         distintas. #}
-      {% set bajo = chispa | min %}
-      {% set alto = chispa | max %}
-      <svg class="hb-spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <polyline points="{% for v in chispa %}{{ (loop.index0 * 100 / (chispa | length - 1)) | round(1) }},{{ (31 - (v - bajo) * 28 / (alto - bajo)) | round(1) }} {% endfor %}"/>
-      </svg>
+  <nav class="hb-nav">
+    {# La marca va sola, como el «Mi PyME» de la foto: el resto lo dice el título del
+       tablero. No se traduce, así que no vive en «copy». #}
+    <span class="hb-nav-app">DeepDatas</span>
+    <ul>
+      {% for item in C.nav %}
+      <li{% if loop.first %} class="is-on"{% endif %}>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="hb-main">
+    <div class="hb-board-head">
+      <h2>{{ C.board_title }}</h2>
+      <span class="hb-chip">{{ C.board_chip }}</span>
+      <span class="hb-live"><i></i> {{ C.live }}</span>
+      <span class="hb-when">{{ C.when }}</span>
     </div>
-    {% endfor %}
-  </div>
-  <div class="hb-chart">
-    <div class="hb-chart-head">
-      <h3>{{ C.chart_title }}</h3>
-      {# La marca del objetivo cae siempre en el mismo punto de la barra, así que su
-         posición vive en el CSS (.hb-tr::after) y acá solo va la referencia. #}
-      <span class="hb-goal">{{ C.goal }}</span>
-    </div>
-    <div class="hb-bars">
-      {% for name, width, value in C.bars %}
-      <div class="hb-bar">
-        <span class="hb-nm">{{ name }}</span>
-        <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
-        <b class="hb-vl">{{ value }}</b>
+
+    <div class="hb-tiles">
+      {% for label, value, pre, post, delta, ico in C.tiles %}
+      <div class="hb-tile">
+        <span class="hb-ico">{{ icon(ico) }}</span>
+        <span class="hb-k">{{ label }}</span>
+        <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
+        <span class="hb-d">{{ delta }}</span>
       </div>
       {% endfor %}
     </div>
+
+    <div class="hb-panels">
+      <section class="hb-panel">
+        <h3>{{ C.trend_title }}</h3>
+        {# Siete meses en una curva, con el relleno por debajo. viewBox fijo y
+           preserveAspectRatio "none": se estira a lo que mida el panel. #}
+        <svg class="hb-line" viewBox="0 0 100 46" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          {% set pts = [] %}
+          {% for v in CURVA %}
+          {% set _ = pts.append('%.1f,%.1f' % (loop.index0 * 100 / (CURVA | length - 1), 42 - v * 0.38)) %}
+          {% endfor %}
+          <polygon class="hb-line-fill" points="0,46 {{ pts | join(' ') }} 100,46"/>
+          <polyline class="hb-line-dot" points="{{ pts | join(' ') }}"/>
+        </svg>
+        <div class="hb-axis">
+          {% for m in C.trend_axis %}<span>{{ m }}</span>{% endfor %}
+        </div>
+      </section>
+
+      <section class="hb-panel">
+        <div class="hb-chart-head">
+          <h3>{{ C.chart_title }}</h3>
+          {# La marca del objetivo cae siempre en el mismo punto de la barra, así que su
+             posición vive en el CSS (.hb-tr::after) y acá solo va la referencia. #}
+          <span class="hb-goal">{{ C.goal }}</span>
+        </div>
+        <div class="hb-bars">
+          {% for name, width, value in C.bars %}
+          <div class="hb-bar">
+            <span class="hb-nm">{{ name }}</span>
+            <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
+            <b class="hb-vl">{{ value }}</b>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+
+    <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
   </div>
-  <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
 </div>
 {% endmacro %}
 
 {% macro scene() %}
 <section class="hb" aria-labelledby="hb-title">
-  <div class="hb-track" data-hb data-foto='{{ FOTO | tojson }}' data-cerca='{{ CERCA | tojson }}'
+  <div class="hb-track" data-hb data-escena='{{ ESCENA | tojson }}'
        data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
        data-captions='{{ C.captions | tojson }}'>
     <div class="hb-pin">
       <div class="hb-stage">
         <div class="hb-crop" role="img" aria-label="{{ C.region }}">
 
-          {# Cada foto va dentro de un envoltorio que gira. La escena de adentro usa su
-             transform para la cámara, así que el giro necesita su propia capa. #}
-          <div class="hb-turn hb-turn-a">
-          <div class="hb-scene hb-scene-a">
-            <img class="hb-photo" src="/assets/img/hero/portada-oficina-1264.webp"
-                 srcset="/assets/img/hero/portada-oficina-1264.webp 1264w, /assets/img/hero/portada-oficina-2528.webp 2528w"
-                 sizes="(min-width: 901px) 250vw, 300vw"
-                 width="1264" height="843" alt="" fetchpriority="high">
+          {# Una capa por foto, en orden: cada una entra girando sobre la anterior. El
+             giro necesita su propio envoltorio porque la escena de adentro ya usa su
+             transform para la cámara. #}
+          {% for f in ESCENA %}
+          <div class="hb-turn" data-hb-turn>
+          <div class="hb-scene" data-hb-scene>
+            <img class="hb-photo" src="/assets/img/hero/portada-{{ loop.index }}-1536.webp"
+                 srcset="/assets/img/hero/portada-{{ loop.index }}-1536.webp 1536w, /assets/img/hero/portada-{{ loop.index }}-{{ f.ancho }}.webp {{ f.ancho }}w"
+                 sizes="(min-width: 901px) 170vw, 300vw"
+                 width="{{ f.w }}" height="{{ f.h }}" alt=""
+                 {% if loop.first %}fetchpriority="high"{% else %}fetchpriority="low"{% endif %}>
 
-            {# El televisor de la oficina: el tablero, encajado en su perspectiva #}
+            {% if f.get("tv") %}
+            {# La pantalla: el tablero, encajado en su perspectiva, y el marco que la
+               señala cuando llega la respuesta. #}
             <div class="hb-screen hb-s-tv" aria-hidden="true">{{ tablero() }}<span class="hb-scan"></span></div>
-
-            {# El marco que señala el televisor cuando llega la respuesta. Va sobre el
-               mismo cuadrilátero que la pantalla, así que entra en su perspectiva. #}
             <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
+            {% endif %}
           </div>
           </div>
-
-          {# La segunda foto: el mismo televisor de cerca. Entra girando sobre la pantalla
-             cuando la cámara ya llegó, con el mismo tablero encajado en su perspectiva. #}
-          <div class="hb-turn hb-turn-b">
-          <div class="hb-scene hb-scene-b">
-            <img class="hb-photo" src="/assets/img/hero/portada-tv-1024.webp"
-                 srcset="/assets/img/hero/portada-tv-1024.webp 1024w, /assets/img/hero/portada-tv-2048.webp 2048w"
-                 sizes="(min-width: 901px) 130vw, 260vw"
-                 width="1024" height="559" alt="" loading="lazy">
-            <div class="hb-screen hb-s-tv2" aria-hidden="true">{{ tablero() }}<span class="hb-scan"></span></div>
-            <span class="hb-ring hb-r-tv2" aria-hidden="true"></span>
-          </div>
-          </div>
+          {% endfor %}
 
           {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}
           {# Viñeta y grano: le dan cuerpo a la foto, que viene de un original chico #}
@@ -298,19 +330,24 @@
               <span class="hb-alert-tx">{{ C.alert_text }}</span>
             </div>
 
-            <div class="hb-voice">
-              <p class="hb-status">{{ C.statuses[-1][1] }}</p>
-              <span class="hb-mic">{{ icon('mic') }}</span>
-              <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
-              <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
-            </div>
+            {# La barra de voz y el riel se apilan desde abajo en vez de ir cada uno a
+               una altura fija: así no pueden pisarse, midan lo que midan sus textos,
+               que cambian con el idioma y con el ancho. #}
+            <div class="hb-bottom">
+              <div class="hb-voice">
+                <p class="hb-status">{{ C.statuses[-1][1] }}</p>
+                <span class="hb-mic">{{ icon('mic') }}</span>
+                <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
+                <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
+              </div>
 
-            {# En qué acto va el scroll y qué está contando, apoyado sobre la foto #}
-            <div class="hb-rail">
-              <span class="hb-steps">
-                {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
-              </span>
-              <p class="hb-caption">{{ C.captions[-1][1] }}</p>
+              {# En qué acto va el scroll y qué está contando, apoyado sobre la foto #}
+              <div class="hb-rail">
+                <span class="hb-steps">
+                  {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
+                </span>
+                <p class="hb-caption">{{ C.captions[-1][1] }}</p>
+              </div>
             </div>
           </div>
         </div>

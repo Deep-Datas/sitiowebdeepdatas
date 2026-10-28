@@ -1,13 +1,14 @@
 """Prepara las imágenes de la portada del inicio: las aclara y las agranda lo mejor que se puede.
 
-Parte de dos imágenes del cliente, en tools/hero/:
+Parte de tres imágenes del cliente, en tools/hero/, todas de 1536 x 1024 (3:2). Son
+tres momentos del mismo acercamiento, y el recorrido de la portada las encadena:
 
-  portada-original.webp      la oficina (1264 x 843). Se usa solo la mitad del
-                             televisor, de la mampara para allá.
-  portada-tv-original.webp   el primer plano del mismo televisor visto de espaldas
-                             (1024 x 559), adonde llega la cámara al final del recorrido.
+  portada-1-original.webp   plano general: la oficina entera y el monitor al fondo.
+  portada-2-original.webp   plano medio: la misma escena, la cámara más cerca.
+  portada-3-original.webp   el monitor casi de frente, que es adonde llega la cámara.
+                            La única de las tres sobre la que se encaja el tablero.
 
-y escribe src/assets/img/hero/portada-oficina-{1264,2528}.webp y portada-tv-{1024,2048}.webp.
+y escribe src/assets/img/hero/portada-{1,2,3}-{1536,2560}.webp.
 
 Están generadas con IA (Gemini / Nano Banana): no son fotos de una oficina real y la
 persona que aparece no existe. La licencia está anotada en el README, en «Portada del
@@ -16,11 +17,12 @@ cesión de imagen de quien aparezca.
 
 Dos cosas pasan acá:
 
-1. Revelado. Las dos vienen de una tarde: tienen un velo cálido en los medios tonos y
-   las sombras cerradas. Se neutraliza el color por canal con una gamma que no mueve ni
-   el negro ni el blanco, se levanta el medio tono, se baja un poco la saturación y se
-   recupera algo de contraste arriba. Queda una oficina más clara y más blanca, sin
-   quemar las ventanas (que ya estaban casi en blanco).
+1. Revelado. Las tres vienen con un velo cálido fuerte: la mediana de cada una se desvía
+   del gris entre 25 y 31 niveles. Se neutraliza por canal con una gamma que no mueve ni
+   el negro ni el blanco, y el resto queda apenas insinuado. Ojo acá: estas fotos ya
+   vienen claras (luz media 136 a 149) y con un 1 a 1,5 % quemado, así que el aclarado
+   fuerte que pedían las anteriores les lava los azules del tablero y las aplana. Si se
+   cambian las fotos, volver a mirar estos números antes de dar por buenos los valores.
 
 2. Agrandado. La portada ocupa toda la pantalla y la cámara se acerca, así que el
    navegador tiene que estirar la foto varias veces. Un Lanczos a secas queda blando:
@@ -28,7 +30,7 @@ Dos cosas pasan acá:
    original y devolver la diferencia». Eso no inventa detalle (no hay de dónde), pero
    recupera el que el agrandado se come y deja los bordes mucho más definidos.
 
-   python tools/portada_foto.py            (regenera los cuatro archivos)
+   python tools/portada_foto.py            (regenera los seis archivos)
    python tools/portada_foto.py --revelado (solo muestra los números del revelado)
 """
 from __future__ import annotations
@@ -42,14 +44,20 @@ from PIL import Image, ImageFilter
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / 'src' / 'assets' / 'img' / 'hero'
 # (archivo de origen, nombre que se publica, (ancho, calidad webp) …)
+# El tamaño grande de cada foto sale de cuánto se le acerca la cámara. La mitad de
+# pantalla mide unos 684 px, que a dpr 2 son ~1370 px de dispositivo; si en su encuadre
+# más cerrado una foto aporta menos que eso, hay que agrandarla. La tercera es la que
+# más se acerca (se ven unos 890 de sus 1536 px de ancho) y por eso lleva el tamaño
+# mayor. Si se cambian los encuadres, rehacer esta cuenta.
 FOTOS = (
-    ('portada-original.webp', 'portada-oficina', ((1264, 86), (2528, 82))),
-    ('portada-tv-original.webp', 'portada-tv', ((1024, 86), (2048, 82))),
+    ('portada-1-original.webp', 'portada-1', ((1536, 86), (2048, 82))),
+    ('portada-2-original.webp', 'portada-2', ((1536, 86), (2048, 82))),
+    ('portada-3-original.webp', 'portada-3', ((1536, 86), (2304, 82))),
 )
 
-GAMMA_LUZ = 0.79        # <1 aclara los medios tonos y deja quietos negro y blanco
-SATURACION = 0.90       # un poco menos de color: la oficina se lee más blanca
-CONTRASTE = 0.12        # cuánto se recupera arriba, después de aclarar
+GAMMA_LUZ = 0.95        # <1 aclara los medios tonos y deja quietos negro y blanco
+SATURACION = 0.96       # un poco menos de color, apenas
+CONTRASTE = 0.05        # cuánto se recupera arriba, después de aclarar
 PASOS = 12              # iteraciones de retroproyección
 EMPUJE = 0.9            # cuánto de la diferencia se devuelve en cada paso
 
