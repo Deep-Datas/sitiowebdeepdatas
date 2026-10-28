@@ -1,0 +1,29 @@
+{# El mapa de la oficina.
+
+   El de Google viene en un iframe que carga unos 400 KB de JavaScript de terceros en
+   cuanto entra en pantalla, aunque el visitante no lo mire. Acá se ve primero una imagen
+   del barrio, armada con tools/mapa.py a partir de OpenStreetMap, y el mapa de verdad se
+   carga recién al tocar «Ver el mapa» (lo hace design.js).
+
+   Sin JavaScript el enlace funciona igual: abre Google Maps en otra pestaña. Por eso es
+   un <a> con su dirección de verdad y no un botón.
+
+   Los datos del mapa son de OpenStreetMap (ODbL) y la atribución tiene que verse: va
+   abajo a la derecha de la imagen y no se toca. #}
+
+{% macro mapa(cls='') %}
+<figure class="map-card {{ cls }}" data-mapa
+        data-src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&amp;z=15{% if lang == 'en' %}&amp;hl=en{% endif %}&amp;output=embed"
+        data-title="{{ t.map_title }}">
+  <img class="map-foto" src="/assets/img/mapa/oficina-800.webp"
+       srcset="/assets/img/mapa/oficina-800.webp 800w, /assets/img/mapa/oficina-1600.webp 1600w"
+       sizes="(min-width: 901px) 46vw, 92vw"
+       width="800" height="500" loading="lazy" decoding="async" alt="{{ t.map_alt }}">
+  <a class="map-open" data-mapa-abrir
+     href="https://www.google.com/maps/search/?api=1&amp;query=Bernardo+de+Irigoyen+330%2C+C1072+CABA"
+     target="_blank" rel="noopener noreferrer">{{ icon('geo-alt') }} {{ t.map_open }}</a>
+  <figcaption class="map-credit">{{ t.map_credit }} ©
+    <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+  </figcaption>
+</figure>
+{% endmacro %}

@@ -42,10 +42,11 @@ src/charts.html          Componentes de los gráficos de los tableros de ejemplo
 src/pipeline.html        Gráfico interactivo de orígenes de datos, curado y agente de IA (Servicios e IA)
 src/flow.html            Inicio: una pregunta recorre los sistemas, el curado y el agente de IA (textos en los dos idiomas)
 src/pages/               Contenido de cada página (en src/pages/en/, la versión en inglés)
+src/mapa.html            El mapa de la oficina: la imagen del barrio y el de Google, que se carga al pedirlo
 src/hero.html            Portada del inicio: la cámara que se acerca al monitor con el scroll, del informe a mano a la respuesta en el momento (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes y video: íconos de vidrio, la imagen del cierre de cada página (nucleo.cjs), la foto de la portada —revelado y agrandado— (portada_foto.py, a partir de tools/hero/portada-original.webp), la foto retocada de otra oficina (hero_foto.py, hoy sin uso) y el video del asistente de la página de IA (video/)
+tools/                   Generadores de imágenes y video: íconos de vidrio, la imagen del cierre de cada página (nucleo.cjs), la foto de la portada —revelado y agrandado— (portada_foto.py, a partir de tools/hero/portada-original.webp), la imagen del mapa de la oficina (mapa.py), la foto retocada de otra oficina (hero_foto.py, hoy sin uso) y el video del asistente de la página de IA (video/)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -86,6 +87,16 @@ El sitio se publica en español (raíz) y en inglés (`/en/`). El blog es solo e
 - En las plantillas, los enlaces internos se escriben con `{{ url('servicios') }}` para que apunten a la página del mismo idioma.
 - Cada página enlaza su versión en el otro idioma desde el encabezado y el pie, y declara las dos versiones con `hreflang` (también en `sitemap.xml`).
 - Al cambiar un texto en español, actualizá también la versión en inglés.
+
+## El mapa de la oficina
+
+En `/contacto/` y `/nosotros/` el mapa de Google venía en un `iframe`. Aunque llevaba `loading="lazy"`, las dos páginas son cortas y el mapa entra en pantalla enseguida, así que **cargaba siempre: unos 400 KB de JavaScript de terceros y entre 20 y 30 pedidos**, los mire o no el visitante.
+
+Ahora esas páginas muestran primero una imagen del barrio (`src/mapa.html`) y el mapa de Google se carga recién al tocar **«Ver el mapa»** (`site.js`). Sin JavaScript el enlace sigue andando: abre Google Maps en otra pestaña, igual que si se lo abre con ctrl o con la rueda del mouse.
+
+La imagen la arma `tools/mapa.py` con los mosaicos de **OpenStreetMap**: baja los que cubren el encuadre, los pega, recorta y marca la dirección. Escribe `src/assets/img/mapa/oficina-{800,1600}.webp` (la grande cubre el mismo terreno con el doble de detalle, para pantallas de alta densidad). Los mosaicos quedan guardados en `tools/mapa-cache/`, que no se sube, y la imagen ya armada se versiona: el sitio no le pega al servidor de mosaicos al compilar.
+
+**Licencia.** Los datos son de OpenStreetMap, con licencia ODbL, y **la atribución tiene que verse junto al mapa**: va en `src/mapa.html`, abajo a la derecha de la imagen, y no se saca. Si se muda la oficina, cambiá `DIRECCION` en `tools/mapa.py` (las coordenadas salen de Nominatim), volvé a correrlo y actualizá la dirección en las páginas y en `i18n.py`.
 
 ## Agenda online
 

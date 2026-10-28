@@ -1854,6 +1854,90 @@ ol {
   background: var(--paper);
 }
 
+/* El mapa de la oficina antes de pedirlo: la imagen del barrio, el botón que trae el de
+   Google y la atribución de OpenStreetMap, que tiene que verse (ver src/mapa.html). */
+.map-card {
+  position: relative;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.map-foto {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  object-fit: cover;
+}
+
+/* Abajo a la izquierda y no en el medio: en el medio tapa la chinche de la dirección,
+   que es lo único que esta imagen tiene que dejar claro. */
+.map-open {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px -12px rgba(11, 18, 32, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.map-open:hover,
+.map-open:focus-visible {
+  background: var(--accent-600);
+  transform: scale(1.03);
+}
+
+.map-open .icon {
+  font-size: 1.05em;
+}
+
+/* La atribución: chica, pero con fondo propio para que se lea sobre cualquier calle */
+.map-credit {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #41505f;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+/* El enlace de la atribución es chico de cuerpo, pero su zona para tocar llega a los
+   24 px que pide WCAG 2.5.8: el margen negativo devuelve el relleno para que la pastilla
+   no crezca. */
+.map-credit a {
+  display: inline-block;
+  padding: 5px 2px;
+  margin: -5px 0;
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-open {
+    transition: none;
+  }
+
+  .map-open:hover,
+  .map-open:focus-visible {
+    transform: none;
+  }
+}
+
 /* ---------- Contacto ---------- */
 .contact-grid {
   display: grid;

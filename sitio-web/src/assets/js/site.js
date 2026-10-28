@@ -444,6 +444,29 @@
     updateWa();
   }
 
+  /* ---------- Mapa de la oficina: el de Google se carga recién al pedirlo ----------
+     Hasta entonces se ve la imagen del barrio (src/mapa.html). El iframe de Google trae
+     unos 400 KB de JavaScript de terceros, y la mayoría de los visitantes no lo abre.
+     Sin JavaScript el enlace sigue andando: abre Google Maps en otra pestaña. */
+  document.querySelectorAll('[data-mapa]').forEach(function (card) {
+    var abrir = card.querySelector('[data-mapa-abrir]');
+    var src = card.getAttribute('data-src');
+    if (!abrir || !src) return;
+    abrir.addEventListener('click', function (e) {
+      // Abrir en otra pestaña (ctrl, cmd, rueda del mouse) sigue yendo a Google Maps
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      var marco = document.createElement('iframe');
+      marco.className = 'map';
+      marco.title = card.getAttribute('data-title') || '';
+      marco.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+      marco.src = src;
+      card.replaceWith(marco);
+      // El foco se va con la tarjeta: se lo lleva al mapa, que es lo que se pidió
+      marco.focus();
+    });
+  });
+
   /* ---------- Movimiento al hacer scroll (estilo apple.com) ----------
      Solo con html.motion (src/assets/js/motion.js): sin JavaScript o con «reducir movimiento»
      todo se ve desde el principio y nada se anima. */

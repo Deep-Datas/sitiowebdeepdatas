@@ -70,6 +70,12 @@ UI = {
         'footer_services': 'Servicios',
         'footer_company': 'Empresa',
         'footer_industries': 'Industrias',
+        # El mapa de la oficina: primero se ve una imagen y el de Google se carga al tocar
+        'map_alt': 'Mapa de Monserrat, Ciudad de Buenos Aires, con la oficina señalada en '
+                   'Bernardo de Irigoyen 330',
+        'map_open': 'Ver el mapa',
+        'map_title': 'Mapa: Bernardo de Irigoyen 330, CABA',
+        'map_credit': 'Datos del mapa',
         'footer_contact': 'Contacto',
         'footer_links_services': [
             ('servicios', '#ingenieria', 'Ingeniería de datos'),
@@ -187,6 +193,11 @@ UI = {
         'footer_services': 'Services',
         'footer_company': 'Company',
         'footer_industries': 'Industries',
+        'map_alt': 'Map of Monserrat, Buenos Aires, with the office marked at '
+                   'Bernardo de Irigoyen 330',
+        'map_open': 'View the map',
+        'map_title': 'Map: Bernardo de Irigoyen 330, Buenos Aires',
+        'map_credit': 'Map data',
         'footer_contact': 'Contact',
         'footer_links_services': [
             ('servicios', '#ingenieria', 'Data engineering'),
