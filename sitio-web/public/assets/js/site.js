@@ -234,7 +234,8 @@
     var status = form.querySelector('.form-status');
     var button = form.querySelector('button[type="submit"]');
     var buttonHtml = button.innerHTML;
-    var fields = form.querySelectorAll('input:not([name="website"]), select, textarea');
+    var fields = form.querySelectorAll('input:not([name="website"]):not([name="cf-turnstile-response"]), select, textarea');
+    var turnstile = form.querySelector('.cf-turnstile');
 
     // Validamos con mensajes propios en español.
     form.setAttribute('novalidate', '');
@@ -310,10 +311,22 @@
         .finally(function () {
           button.disabled = false;
           button.innerHTML = buttonHtml;
+          // El token del Turnstile sirve una sola vez: sin esto, un segundo envío
+          // (después de un error, o una consulta más) llegaría con uno ya gastado.
+          if (turnstile && window.turnstile) window.turnstile.reset(turnstile);
         });
     });
   };
   if (window.fetch) document.querySelectorAll('.contact-form').forEach(setupForm);
+
+  // El script del Turnstile se carga solo donde hay un formulario, y no en todo el sitio.
+  if (document.querySelector('.cf-turnstile')) {
+    var cf = document.createElement('script');
+    cf.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    cf.async = true;
+    cf.defer = true;
+    document.head.appendChild(cf);
+  }
 
   /* ---------- Autoevaluación de datos ---------- */
   var quiz = document.querySelector('[data-quiz]');

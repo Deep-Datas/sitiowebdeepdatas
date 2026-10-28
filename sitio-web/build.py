@@ -223,18 +223,39 @@ CLARITY_CSP = {
     'img-src': 'https://*.clarity.ms https://c.bing.com',
 }
 
+# Turnstile de Cloudflare: comprueba que quien envía el formulario sea una persona.
+# Vacío = desactivado (no se muestra el widget, no se carga ningún script externo, la
+# política de seguridad no se modifica y api/contacto no verifica nada: el formulario
+# queda como estaba). Esta clave es la pública y se publica en el HTML; la secreta va
+# en la configuración de la Static Web App, en TURNSTILE_SECRET, y es la que usa
+# api/contacto. Se activan de a una y en ese orden: primero esta, que viaja en el sitio
+# generado, y recién cuando está publicada, la secreta. Al revés, el servidor pediría un
+# token que las páginas todavía no traen y el formulario quedaría rechazando a todos.
+# Las claves se sacan de https://dash.cloudflare.com → Turnstile.
+TURNSTILE_SITE_KEY = ''
+TURNSTILE_CSP = {
+    'script-src': 'https://challenges.cloudflare.com',
+    'frame-src': 'https://challenges.cloudflare.com',
+}
+
 
 def swa_config():
-    """Configuración de Azure Static Web Apps. Si la analítica está activa,
-    habilita en la política de seguridad solo los dominios de Clarity."""
+    """Configuración de Azure Static Web Apps. Habilita en la política de seguridad los
+    dominios de lo que esté activo, y solo esos: la analítica y el Turnstile."""
     config = json.loads((SRC / 'staticwebapp.config.json').read_text(encoding='utf-8'))
-    if CLARITY_ID:
+    extras = {}
+    for activo, origenes in ((CLARITY_ID, CLARITY_CSP), (TURNSTILE_SITE_KEY, TURNSTILE_CSP)):
+        if not activo:
+            continue
+        for name, value in origenes.items():
+            extras[name] = f'{extras[name]} {value}' if name in extras else value
+    if extras:
         headers = config['globalHeaders']
         rules = [r.strip() for r in headers['Content-Security-Policy'].split(';')]
         for i, rule in enumerate(rules):
             name = rule.split(' ', 1)[0]
-            if name in CLARITY_CSP:
-                rules[i] = f'{rule} {CLARITY_CSP[name]}'
+            if name in extras:
+                rules[i] = f'{rule} {extras[name]}'
         headers['Content-Security-Policy'] = '; '.join(rules)
     return json.dumps(config, ensure_ascii=False, indent=2) + '\n'
 
@@ -470,7 +491,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
+    env.globals.update(icon=icon, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, turnstile_key=TURNSTILE_SITE_KEY, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
                        theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass)
 

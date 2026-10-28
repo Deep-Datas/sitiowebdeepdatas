@@ -92,7 +92,7 @@ Para reemplazar el sitio actual, copiá el contenido de esta carpeta a la raíz 
 
 ## Formulario de contacto
 
-La función `api/contacto` valida la consulta, descarta spam con un campo trampa y envía el correo con **Microsoft Graph** desde el buzón de Microsoft 365 (Office 365 ya no acepta el envío por SMTP con usuario y contraseña). Configuración única:
+La función `api/contacto` valida la consulta, descarta spam (ver [Contra los bots](#contra-los-bots)) y envía el correo con **Microsoft Graph** desde el buzón de Microsoft 365 (Office 365 ya no acepta el envío por SMTP con usuario y contraseña). Configuración única:
 
 1. En el [portal de Azure](https://portal.azure.com) > **Microsoft Entra ID** > **Registros de aplicaciones** > **Nuevo registro**.
 2. **Permisos de API** > **Microsoft Graph** > **Permisos de aplicación** > `Mail.Send` > **Conceder consentimiento de administrador**.
@@ -107,8 +107,31 @@ La función `api/contacto` valida la consulta, descarta spam con un campo trampa
 | `GRAPH_CLIENT_SECRET` | Valor del secreto del paso 3 |
 | `MAIL_SENDER` | Opcional. Buzón que envía (por defecto `fbloise@deepdatas.com`) |
 | `CONTACT_RECIPIENTS` | Opcional. Destinatarios separados por coma (por defecto, el mismo buzón) |
+| `TURNSTILE_SECRET` | Opcional. Clave secreta del Turnstile (ver abajo). Vacía = sin verificación |
 
 Mientras no esté configurado, el formulario muestra un aviso con el email de contacto en lugar de fallar en silencio.
+
+### Contra los bots
+
+Tres capas, de la más barata a la más efectiva:
+
+1. **Campo trampa.** Un campo `website` escondido fuera de pantalla que una persona no ve. Si llega completo, la función responde «enviado» y descarta el mensaje, sin avisar que lo detectó: así el bot no aprende a esquivarlo. Frena a los que completan todo el HTML, no a los que manejan un navegador de verdad.
+2. **Límite por IP.** Cinco envíos cada diez minutos. Vive en la memoria de cada instancia de la función, así que se reinicia en cada arranque en frío y no se comparte entre instancias: frena ráfagas de un mismo origen, no reemplaza un firewall.
+3. **[Turnstile](https://developers.cloudflare.com/turnstile/) de Cloudflare.** Es el que realmente separa personas de bots. El widget deja un token en el formulario y `api/contacto` lo valida contra Cloudflare antes de enviar el correo; la validación es del lado del servidor, que es lo que un bot no puede saltear. Es gratis, no exige que el sitio esté en Cloudflare y no rastrea al visitante.
+
+**Para activarlo**, en [dash.cloudflare.com](https://dash.cloudflare.com) > **Turnstile** creá un widget para `deepdatas.com` y después, **en este orden**:
+
+1. Pegá la **clave de sitio** (la pública) en `TURNSTILE_SITE_KEY`, en `build.py`, y publicá. Hasta acá el widget ya se ve, pero todavía no se verifica nada.
+2. Cargá la **clave secreta** en `TURNSTILE_SECRET`, en las variables de entorno de la Static Web App.
+
+Al revés queda roto un rato: el servidor pediría un token que las páginas publicadas todavía no traen y rechazaría todas las consultas. Con cualquiera de las dos vacía, el formulario funciona como antes.
+
+Dos cosas que conviene saber antes de activarlo:
+
+- **El Turnstile necesita JavaScript.** Hoy el formulario funciona sin JS (envío tradicional y redirección a `/gracias/`); con el Turnstile activo, quien lo tenga desactivado no puede generar el token y recibe el aviso con el email de contacto. Es inherente a cualquier CAPTCHA, no a esta implementación.
+- **Si no se puede consultar a Cloudflare** (está caído, se cortó la red), el envío pasa y queda anotado en los registros. Entre perder consultas reales durante una caída ajena y que se cuele spam un rato, lo segundo es más barato, y las otras dos capas siguen en pie. Lo que nunca se ignora es un «no» de Cloudflare.
+
+El Turnstile distingue bots de personas; no valida identidad. No comprueba que quien escribe sea quien dice ser.
 
 Los formularios envían el idioma de la página (`lang`): la función responde en ese idioma, sin JavaScript redirige a `/gracias/` o `/en/thank-you/`, y los correos que llegan desde la versión en inglés tienen el asunto con `[EN]`. Las consultas de la autoevaluación llegan con el interés «Autoevaluación de datos» (o «AI readiness check») y el resultado con todas las respuestas en el mensaje.
 

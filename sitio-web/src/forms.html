@@ -42,6 +42,11 @@
     <label for="website">{{ f.honeypot }}</label>
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
   </div>
+  {# Turnstile: deja un token en un campo oculto que api/contacto valida contra
+     Cloudflare. Si no hay clave configurada no se dibuja nada. #}
+  {% if turnstile_key %}
+  <div class="cf-turnstile" data-sitekey="{{ turnstile_key }}" data-language="{{ lang }}" data-action="contacto"></div>
+  {% endif %}
   <div class="form-footer">
     <p class="form-note">{{ f.note }} <a href="{{ url('privacidad') }}">{{ f.privacy_link }}</a>.</p>
     <button class="btn btn-primary btn-lg" type="submit">{{ button or f.send }} {{ icon('arrow-right') }}</button>
@@ -76,6 +81,11 @@
     <label for="website">{{ f.honeypot }}</label>
     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
   </div>
+  {# Turnstile: deja un token en un campo oculto que api/contacto valida contra
+     Cloudflare. Si no hay clave configurada no se dibuja nada. #}
+  {% if turnstile_key %}
+  <div class="cf-turnstile" data-sitekey="{{ turnstile_key }}" data-language="{{ lang }}" data-action="contacto"></div>
+  {% endif %}
   <div class="form-footer">
     <p class="form-note">{{ f.note_short }} <a href="{{ url('privacidad') }}">{{ f.privacy_link }}</a>.</p>
     <button class="btn btn-primary btn-lg" type="submit">{{ button or f.lead_send }} {{ icon('arrow-right') }}</button>
