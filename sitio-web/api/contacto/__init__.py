@@ -10,6 +10,11 @@ Variables de entorno (Static Web App > Configuración / Environment variables):
   GRAPH_CLIENT_SECRET  Secreto de cliente de esa aplicación
   MAIL_SENDER          Buzón que envía los mensajes (default: fbloise@deepdatas.com)
   CONTACT_RECIPIENTS   Destinatarios separados por coma (default: MAIL_SENDER)
+  TURNSTILE_SECRET     Clave secreta del Turnstile de Cloudflare. Vacía = sin
+                       verificación (queda el campo trampa y el límite por IP).
+                       Se activa después de publicar la clave pública en el sitio
+                       (TURNSTILE_SITE_KEY, en build.py): al revés, el servidor pediría
+                       un token que las páginas todavía no traen.
 """
 import json
 import logging
@@ -40,6 +45,7 @@ MESSAGES = {
         'too_long': 'Uno de los campos es demasiado largo.',
         'email': 'Ingresá un email válido.',
         'rate': 'Recibimos varios mensajes seguidos. Probá de nuevo en unos minutos o escribinos a fbloise@deepdatas.com.',
+        'robot': 'No pudimos comprobar que seas una persona. Recargá la página e intentá de nuevo, o escribinos a fbloise@deepdatas.com.',
         'fallback': 'No pudimos enviar tu mensaje en este momento. Escribinos a fbloise@deepdatas.com.',
         'thanks': '/gracias/',
     },
@@ -48,6 +54,7 @@ MESSAGES = {
         'too_long': 'One of the fields is too long.',
         'email': 'Please enter a valid email address.',
         'rate': 'We received several messages in a row. Please try again in a few minutes or email us at fbloise@deepdatas.com.',
+        'robot': 'We couldn’t verify that you are a person. Please reload the page and try again, or email us at fbloise@deepdatas.com.',
         'fallback': 'We couldn’t send your message right now. Please email us at fbloise@deepdatas.com.',
         'thanks': '/en/thank-you/',
     },
@@ -59,6 +66,7 @@ MAX_BODY = 20_000  # bytes; los campos suman menos de 6.000 caracteres
 RATE_LIMIT = 5
 RATE_WINDOW = 600  # segundos
 _recent = {}
+TURNSTILE_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -80,9 +88,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     if error:
         return respond(wants_json, False, text[error], 400, lang)
 
-    if too_many(client_ip(req)):
+    ip = client_ip(req)
+    if too_many(ip):
         logging.warning('Formulario de contacto: límite de envíos alcanzado.')
         return respond(wants_json, False, text['rate'], 429, lang)
+
+    if not es_persona(form.get('cf-turnstile-response', ''), ip):
+        return respond(wants_json, False, text['robot'], 403, lang)
 
     config = {key: os.environ.get(key, '').strip() for key in ('GRAPH_TENANT_ID', 'GRAPH_CLIENT_ID', 'GRAPH_CLIENT_SECRET')}
     if not all(config.values()):
@@ -123,6 +135,40 @@ def too_many(ip, now=None):
         return True
     _recent[ip] = times + [now]
     return False
+
+
+def es_persona(token, ip):
+    """Le pregunta a Cloudflare si el token del Turnstile es válido.
+
+    Sin TURNSTILE_SECRET configurada la verificación está apagada y pasa todo: así el
+    sitio sigue andando mientras las claves no están puestas. Si Cloudflare contesta que
+    no, se rechaza. Si no se le puede preguntar (está caído, se cortó la red), se deja
+    pasar y queda anotado: entre perder consultas reales durante una caída ajena y que
+    se cuele spam un rato, lo segundo es más barato, y el campo trampa y el límite por
+    IP siguen en pie. Lo que nunca se ignora es un «no» de Cloudflare.
+    """
+    secret = os.environ.get('TURNSTILE_SECRET', '').strip()
+    if not secret:
+        return True
+    if not token:
+        return False
+    campos = {'secret': secret, 'response': token}
+    if ip and ip != 'desconocida':
+        campos['remoteip'] = ip
+    try:
+        resultado = request_json(
+            TURNSTILE_URL,
+            urllib.parse.urlencode(campos).encode(),
+            {'Content-Type': 'application/x-www-form-urlencoded'},
+        )
+    except Exception:
+        logging.exception('Formulario de contacto: no se pudo verificar el Turnstile.')
+        return True
+    if not resultado.get('success'):
+        logging.warning('Formulario de contacto: Turnstile rechazó el envío (%s).',
+                        ', '.join(resultado.get('error-codes') or ['sin detalle']))
+        return False
+    return True
 
 
 def validate(data):
