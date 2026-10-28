@@ -322,18 +322,18 @@
   <div class="container">
     <div class="section-head section-head-split reveal">
       <div>
-        <p class="eyebrow">Blog</p>
-        <h2 id="blog-title">Ideas para decidir con datos</h2>
+        <p class="eyebrow">{{ t.blog_eyebrow }}</p>
+        <h2 id="blog-title">{{ t.blog_title }}</h2>
       </div>
-      <a class="btn btn-secondary" href="/blog/">Ver todos los artículos {{ icon('arrow-right') }}</a>
+      <a class="btn btn-secondary" href="{{ url('blog') }}">{{ t.blog_all }} {{ icon('arrow-right') }}</a>
     </div>
     <ul class="post-grid">
       {% for p in posts[:3] %}
       <li class="reveal">
         <article class="post-card glow-card">
-          <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>
+          <h3 class="post-card-title"><a href="{{ url('blog') }}{{ p.slug }}/">{{ p.title }}</a></h3>
           <p>{{ p.description }}</p>
-          <p class="post-meta">{{ p.minutes }} min de lectura</p>
+          <p class="post-meta">{{ p.minutes }} {{ t.blog_minutes }}</p>
         </article>
       </li>
       {% endfor %}

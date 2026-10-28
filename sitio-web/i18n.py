@@ -25,7 +25,7 @@ ROUTES = {
     'contacto': {'es': '/contacto/', 'en': '/en/contact/'},
     'privacidad': {'es': '/privacidad/', 'en': '/en/privacy/'},
     'gracias': {'es': '/gracias/', 'en': '/en/thank-you/'},
-    'blog': {'es': '/blog/', 'en': None},
+    'blog': {'es': '/blog/', 'en': '/en/blog/'},
     # Páginas por industria (industrias.py)
     'ind-consumo': {'es': '/industrias/consumo-masivo/', 'en': '/en/industries/consumer-goods/'},
     'ind-distribucion': {'es': '/industrias/distribuidoras/', 'en': '/en/industries/wholesale-distribution/'},
@@ -76,6 +76,15 @@ UI = {
         'map_open': 'Ver el mapa',
         'map_title': 'Mapa: Bernardo de Irigoyen 330, CABA',
         'map_credit': 'Datos del mapa',
+        # Blog
+        'blog_eyebrow': 'Blog',
+        'blog_title': 'Ideas para decidir con datos',
+        'blog_lead': 'Guías prácticas sobre integración y calidad de datos, tableros de gestión e inteligencia artificial aplicada a empresas.',
+        'blog_minutes': 'min de lectura',
+        'blog_author': 'Equipo DeepDatas',
+        'blog_share': 'Compartir en LinkedIn',
+        'blog_related': 'Para seguir leyendo',
+        'blog_all': 'Ver todos los artículos',
         'footer_contact': 'Contacto',
         'footer_links_services': [
             ('servicios', '#ingenieria', 'Ingeniería de datos'),
@@ -177,7 +186,7 @@ UI = {
         'nav_label': 'Main',
         'nav': {
             'servicios': 'Services', 'ia': 'AI for business', 'diagnostico': 'Data assessment',
-            'casos': 'Case studies', 'nosotros': 'About',
+            'casos': 'Case studies', 'blog': 'Blog', 'nosotros': 'About',
         },
         'cta_short': "Let's talk",
         'cta_nav': 'Book a call',
@@ -198,6 +207,14 @@ UI = {
         'map_open': 'View the map',
         'map_title': 'Map: Bernardo de Irigoyen 330, Buenos Aires',
         'map_credit': 'Map data',
+        'blog_eyebrow': 'Blog',
+        'blog_title': 'Ideas for deciding with data',
+        'blog_lead': 'Practical guides on data integration and quality, management dashboards and AI applied to business.',
+        'blog_minutes': 'min read',
+        'blog_author': 'The DeepDatas team',
+        'blog_share': 'Share on LinkedIn',
+        'blog_related': 'Keep reading',
+        'blog_all': 'See all the articles',
         'footer_contact': 'Contact',
         'footer_links_services': [
             ('servicios', '#ingenieria', 'Data engineering'),

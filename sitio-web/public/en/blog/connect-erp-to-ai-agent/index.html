@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="claro">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to connect an ERP to an AI agent | DeepDatas</title>
+  <meta name="description" content="The technical layers for connecting SAP, Tango or Odoo to an AI agent, how often to refresh the data and how to build it on Azure, AWS or Google Cloud.">
+  <link rel="canonical" href="https://deepdatas.com/en/blog/connect-erp-to-ai-agent/">
+  <link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/">
+  <link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/connect-erp-to-ai-agent/">
+  <link rel="alternate" hreflang="x-default" href="https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/">
+  <meta name="theme-color" content="#fafaf8">
+
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="DeepDatas">
+  <meta property="og:title" content="How to connect an ERP to an AI agent | DeepDatas">
+  <meta property="og:description" content="The technical layers for connecting SAP, Tango or Odoo to an AI agent, how often to refresh the data and how to build it on Azure, AWS or Google Cloud.">
+  <meta property="og:url" content="https://deepdatas.com/en/blog/connect-erp-to-ai-agent/">
+  <meta property="og:image" content="https://deepdatas.com/assets/img/brand/og-image-claro.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/brand/favicon-32.png">
+  <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
+
+  <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
+  <link rel="stylesheet" href="/assets/css/site.css?v=3ac9c0bd30">
+  <link rel="stylesheet" href="/assets/css/charts.css?v=6dbf248c21">
+  <link rel="stylesheet" href="/assets/css/design.css?v=ac7e8c3843">
+  <script src="/assets/js/site.js?v=82c442f6b0" defer></script>
+  <script src="/assets/js/design.js?v=723f6d287f" defer></script>
+  <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How an ERP connects to an AI agent: architecture, pipeline and refresh frequency",
+    "description": "The technical layers for connecting SAP, Tango or Odoo to an AI agent, how often to refresh the data and how to build it on Azure, AWS or Google Cloud.",
+    "datePublished": "2026-10-07",
+    "inLanguage": "en",
+    "mainEntityOfPage": "https://deepdatas.com/en/blog/connect-erp-to-ai-agent/",
+    "image": "https://deepdatas.com/assets/img/brand/og-image-claro.jpg",
+    "author": {"@type": "Organization", "name": "DeepDatas", "url": "https://deepdatas.com/"},
+    "publisher": {"@type": "Organization", "name": "DeepDatas", "logo": {"@type": "ImageObject", "url": "https://deepdatas.com/assets/img/brand/icon-512.png"}}
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Skip to content</a>
+
+  <header class="site-header" id="header">
+    <div class="container header-inner">
+      <a href="/en/" class="brand" aria-label="DeepDatas, go to the home page">
+        <img src="/assets/img/brand/logo-mark.png" alt="" width="28" height="32">
+        <span>DeepDatas</span>
+      </a>
+
+      <a class="btn btn-primary nav-cta-mobile" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Let&#39;s talk</a>
+
+      <button class="nav-toggle" type="button" aria-controls="menu" aria-expanded="false" data-label-open="Open menu" data-label-close="Close menu">
+        <span class="visually-hidden">Open menu</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-open" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" x2="20" y1="12" y2="12" /> <line x1="4" x2="20" y1="6" y2="6" /> <line x1="4" x2="20" y1="18" y2="18" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon icon-close" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg>
+      </button>
+
+      <nav class="site-nav" id="menu" aria-label="Main">
+        <ul>
+          <li><a href="/en/services/">Services</a></li>
+          <li><a href="/en/ai-for-business/">AI for business</a></li>
+          <li><a href="/en/data-assessment/">Data assessment</a></li>
+          <li><a href="/en/case-studies/">Case studies</a></li>
+          <li><a href="/en/blog/" aria-current="page">Blog</a></li>
+          <li><a href="/en/about/">About</a></li>
+        </ul>
+        <div class="nav-actions">
+          <a class="nav-lang" href="/blog/integrar-erp-con-agente-de-ia/" hreflang="es" lang="es" title="Ver esta página en español"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg> Español</a>
+          <a class="btn btn-primary nav-cta" href="https://bookings.cloud.microsoft/book/DeepDatas@deepdatas.com/" target="_blank" rel="noopener noreferrer" data-booking>Book a call</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+<article class="post">
+  <header class="page-hero page-hero-compact post-hero">
+    <div class="container post-container">
+      <p class="eyebrow"><a href="/en/blog/">Blog</a></p>
+      <h1>How an ERP connects to an AI agent: architecture, pipeline and refresh frequency</h1>
+      <p class="lead">The technical layers for connecting SAP, Tango or Odoo to an AI agent, how often to refresh the data and how to build it on Azure, AWS or Google Cloud.</p>
+      <p class="post-meta">The DeepDatas team · <time datetime="2026-10-07">October 7, 2026</time> · 7 min read</p>
+    </div>
+  </header>
+
+  <div class="section section-tight">
+    <div class="container post-container">
+      <div class="prose">
+        <p>"We want to ask the ERP questions in plain language." It is one of the requests we hear most. The idea is simple: a manager types <em>"how much did the north territory invoice yesterday?"</em> and gets the answer in seconds, with the source and the timestamp of the data.</p>
+<p>Behind that answer there is a concrete architecture. This article explains how it is put together, how often the data should be refreshed and why it can be built the same way on Azure, AWS or Google Cloud.</p>
+<h2>Two ways to connect the agent to the ERP</h2>
+<p>Pointing the agent straight at the ERP database for everything looks like the fastest route, and it is almost never the best one. ERP tables have cryptic names, internal codes and thousands of relationships that a language model reads badly. On top of that, every query adds load to the system the whole company runs on.</p>
+<p>So we combine two paths:</p>
+<ul>
+<li><strong>Analytical layer (indirect).</strong> A pipeline copies the ERP data into an organized repository and the agent queries that model. It answers the analysis questions: sales, margins, rankings, trends, year-on-year comparisons.</li>
+<li><strong>Live tools (direct).</strong> Specific functions that query the ERP on the spot through its API or a read-only replica. They answer what cannot wait: available stock, the status of an order, a customer's balance.</li>
+</ul>
+<p>The analytical layer handles most questions. The live tools cover the few that need this minute's number.</p>
+<h2>The layers of the architecture</h2>
+<h3>1. Extraction</h3>
+<p>Only the <strong>records that changed</strong> are pulled from the ERP, by modification date, by change data capture (CDC) on the database log, or through the system's API. Extraction runs against a replica or at low-load hours so it does not affect operations.</p>
+<p>Each ERP has its usual route:</p>
+<ul>
+<li><strong>SAP</strong>: CDS views and OData services, BAPI/RFC, or SAP Datasphere as an intermediate layer.</li>
+<li><strong>Tango</strong>: it usually runs on SQL Server, so you read from a replica or with read-only views, as well as through its APIs.</li>
+<li><strong>Odoo</strong>: its JSON-RPC API, or reading the PostgreSQL database from a replica.</li>
+</ul>
+<h3>2. Modelling</h3>
+<p>The data goes through three stages:</p>
+<ol>
+<li><strong>Bronze</strong>: a faithful copy of what came out of the ERP.</li>
+<li><strong>Silver</strong>: clean, deduplicated data with consistent units and currencies.</li>
+<li><strong>Gold</strong>: tables built for the business, such as sales, stock, customers and products.</li>
+</ol>
+<p>This is the stage that most affects the quality of the answers. If the data arrives messy, the agent gets things wrong with the same confidence it gets them right.</p>
+<h3>3. Semantic layer</h3>
+<p>This is where you define, <strong>once</strong>, what each indicator means: net sales, margin, active customer, coverage. The agent queries named indicators, not loose tables. That way the number it answers with is the same one the Power BI dashboard shows and the one finance uses.</p>
+<h3>4. Tools</h3>
+<p>The agent does not write free-form queries against any table. It uses functions with bounded parameters, such as <em>query indicators</em>, <em>current stock</em>, <em>order status</em> or <em>search documents</em>. These days the usual way to expose them is <strong>MCP (Model Context Protocol)</strong>, an open standard that lets you use the same tools with different models and in different clouds.</p>
+<h3>5. The agent</h3>
+<p>This is the language model plus the logic that runs the conversation. It reads the question, picks which tool to use, reads the result and answers <strong>citing the source and the refresh time</strong>. If it also has to know manuals, commercial policies or terms of sale, a search over those documents is added (what is known as RAG).</p>
+<h3>6. Channels</h3>
+<p>The answer arrives wherever the team already works: Teams, Slack, WhatsApp, an internal site or a dashboard.</p>
+<h2>Security: the non-negotiables</h2>
+<ul>
+<li><strong>Read-only.</strong> The agent queries with a user that has no write permissions. If it creates an order, it stays a draft until a person approves it.</li>
+<li><strong>Everyone sees their own.</strong> The user's identity travels with every query and row-level permissions apply: a rep sees their own book, a manager sees their region.</li>
+<li><strong>Protected credentials.</strong> ERP keys live in a secrets store, never inside the model's instructions.</li>
+<li><strong>Auditing.</strong> Every question, every query and every answer is logged.</li>
+<li><strong>Continuous evaluation.</strong> A set of test questions with their correct answers is kept and checked before every change.</li>
+</ul>
+<h2>How often is the data refreshed?</h2>
+<p>Not all data needs the same freshness, and going from a day's delay to a minute's multiplies cost and complexity. So we set the frequency <strong>per type of data</strong>:</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla">
+<table>
+<thead>
+<tr>
+<th>Frequency</th>
+<th>Typical data</th>
+<th>How it is solved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>On the spot (seconds)</td>
+<td>Available stock, order status, account balance</td>
+<td>Live tool against the API or the replica, with a 1 to 5 minute cache</td>
+</tr>
+<tr>
+<td>Every 5 to 15 minutes</td>
+<td>The day's orders and invoicing</td>
+<td>Change data capture or frequent incremental extraction</td>
+</tr>
+<tr>
+<td>Hourly</td>
+<td>The day's sales by territory and rep, collections</td>
+<td>Scheduled incremental extraction</td>
+</tr>
+<tr>
+<td>Once a day (overnight)</td>
+<td>Indicators, history, customers, products, price lists, forecasts</td>
+<td>Daily load after the ERP's nightly close</td>
+</tr>
+<tr>
+<td>Weekly, monthly or on change</td>
+<td>Targets, budgets, documents</td>
+<td>Scheduled load or triggered by the change</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>What we recommend to start is a <strong>daily load plus two or three live tools</strong> for the critical questions, usually stock and order status. That covers the vast majority of queries at low cost. Then you measure which questions need fresher data and only those move to hourly or near real time.</p>
+<p>Two rules we always apply:</p>
+<ul>
+<li>The agent <strong>shows the time of the last refresh</strong> in every answer, so nobody mistakes yesterday's number for today's.</li>
+<li>If a load fails, <strong>the agent says so</strong> instead of answering with stale data as though it were current.</li>
+</ul>
+<h2>Azure, AWS or Google Cloud</h2>
+<p>The architecture is the same in all three clouds. What changes is the names of the services:</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla">
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Azure</th>
+<th>AWS</th>
+<th>Google Cloud</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extraction</td>
+<td>Data Factory, Fabric</td>
+<td>DMS, Glue</td>
+<td>Datastream, Data Fusion</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Data Lake Storage</td>
+<td>S3</td>
+<td>Cloud Storage</td>
+</tr>
+<tr>
+<td>Analytical repository</td>
+<td>Fabric, Synapse, Azure SQL</td>
+<td>Redshift, Athena</td>
+<td>BigQuery</td>
+</tr>
+<tr>
+<td>Language model</td>
+<td>Microsoft Foundry, Azure OpenAI</td>
+<td>Amazon Bedrock</td>
+<td>Vertex AI</td>
+</tr>
+<tr>
+<td>Document search</td>
+<td>Azure AI Search</td>
+<td>OpenSearch, Bedrock Knowledge Bases</td>
+<td>Vertex AI Search</td>
+</tr>
+<tr>
+<td>Running the agent</td>
+<td>Container Apps, Functions</td>
+<td>ECS Fargate, Lambda</td>
+<td>Cloud Run, Cloud Functions</td>
+</tr>
+<tr>
+<td>Secrets</td>
+<td>Key Vault</td>
+<td>Secrets Manager</td>
+<td>Secret Manager</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To keep the solution from being tied to one provider, the logic goes into portable pieces:</p>
+<ul>
+<li><strong>dbt</strong> for the transformations.</li>
+<li><strong>Airflow</strong> or <strong>Dagster</strong> for orchestration.</li>
+<li>The agent and its MCP tools in <strong>containers</strong>.</li>
+<li>The infrastructure described with <strong>Terraform</strong>.</li>
+</ul>
+<p>Choosing a model available in all three clouds, such as Claude (which is on Microsoft Foundry, Amazon Bedrock and Vertex AI), lets you change cloud without rewriting the agent.</p>
+<p>In practice, we recommend building the solution <strong>in the cloud the company already uses</strong>: that is where its permissions, its billing and its security policies already are.</p>
+<h2>In short</h2>
+<ul>
+<li>The agent answers better over <strong>modelled data</strong> than over the ERP's raw tables.</li>
+<li><strong>Live tools</strong> are reserved for the few numbers that have to be up to the minute.</li>
+<li>A <strong>semantic layer</strong> guarantees the agent, the dashboards and finance use the same numbers.</li>
+<li>Frequency is set <strong>per type of data</strong>: start with a daily load and speed up only where it is needed.</li>
+<li>The same architecture works on <strong>Azure, AWS or Google Cloud</strong>.</li>
+</ul>
+<p>If your company wants to query its ERP in plain language, the first step is to pick two or three questions that take time to answer today and prepare the data those questions need.</p>
+      </div>
+
+      <aside class="post-cta" aria-labelledby="post-cta-title">
+        <h2 id="post-cta-title" class="h3-like">AI with your own data</h2>
+        <p>AI agents that answer questions, enter orders and flag problems, connected to reliable data.</p>
+        <a class="btn btn-primary" href="/en/ai-for-business/">See AI solutions <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a>
+      </aside>
+
+      <p class="post-share">
+        <a class="btn btn-secondary" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//deepdatas.com/en/blog/connect-erp-to-ai-agent/" target="_blank" rel="noopener noreferrer">Share on LinkedIn <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 7h10v10" /> <path d="M7 17 17 7" /></svg></a>
+      </p>
+    </div>
+  </div>
+</article>
+
+<section class="section section-paper section-tight" aria-labelledby="related-title">
+  <div class="container">
+    <h2 id="related-title" class="h3-like">Keep reading</h2>
+    <ul class="post-grid">
+      <li>
+        <article class="post-card">
+          <h3 class="post-card-title"><a href="/en/blog/data-you-need-before-ai/">What data you need before implementing artificial intelligence in your company</a></h3>
+          <p class="post-meta">4 min read</p>
+        </article>
+      </li>
+      <li>
+        <article class="post-card">
+          <h3 class="post-card-title"><a href="/en/blog/where-to-store-your-data/">Data warehouse, data lake or spreadsheets: where to store your company&#39;s data</a></h3>
+          <p class="post-meta">3 min read</p>
+        </article>
+      </li>
+      <li>
+        <article class="post-card">
+          <h3 class="post-card-title"><a href="/en/blog/whatsapp-orders/">WhatsApp orders without losing information along the way</a></h3>
+          <p class="post-meta">3 min read</p>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="site-footer" data-deep>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="/en/" class="brand brand-light">
+            <img src="/assets/img/brand/logo-mark.png" alt="" width="28" height="32">
+            <span>DeepDatas</span>
+          </a>
+          <p>Data and business intelligence consultancy. We integrate, clean and analyze your company&#39;s information so you can make better decisions.</p>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Services</h2>
+          <ul class="footer-links">
+            <li><a href="/en/services/#ingenieria">Data engineering</a></li>
+            <li><a href="/en/services/#calidad">Data quality and preparation</a></li>
+            <li><a href="/en/services/#analitica">Analytics and predictive models</a></li>
+            <li><a href="/en/services/#tableros">Management dashboards</a></li>
+            <li><a href="/en/ai-for-business/">Artificial intelligence</a></li>
+            <li><a href="/en/data-assessment/">Data assessment</a></li>
+            <li><a href="/en/ai-readiness-check/">AI readiness check</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Industries</h2>
+          <ul class="footer-links">
+            <li><a href="/en/industries/consumer-goods/">Consumer goods</a></li>
+            <li><a href="/en/industries/wholesale-distribution/">Wholesale distribution</a></li>
+            <li><a href="/en/industries/small-and-midsize-businesses/">Small and midsize businesses</a></li>
+            <li><a href="/en/industries/retail/">Retail</a></li>
+            <li><a href="/en/industries/electrical-and-building-supplies/">Electrical and building supplies</a></li>
+            <li><a href="/en/industries/auto-parts/">Auto parts</a></li>
+            <li><a href="/en/industries/manufacturing/">Manufacturing</a></li>
+            <li><a href="/en/industries/agribusiness/">Agribusiness</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Company</h2>
+          <ul class="footer-links">
+<li><a href="/en/case-studies/">Case studies</a></li>            <li><a href="/en/dashboard-examples/">Dashboard examples</a></li>
+            <li><a href="/en/about/">About us</a></li>
+<li><a href="/en/blog/">Blog (Spanish)</a></li>            <li><a href="/en/contact/">Contact</a></li>
+            <li><a href="https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx" target="_blank" rel="noopener noreferrer">Client portal</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="footer-title">Contact</h2>
+          <ul class="footer-links">
+            <li><a href="mailto:fbloise@deepdatas.com">fbloise@deepdatas.com</a></li>
+            <li><a href="tel:+5491124918713">+54 9 11 2491-8713</a></li>
+            <li><a href="https://wa.me/5491124918713?text=Hi%2C%20I%27m%20coming%20from%20the%20DeepDatas%20website%20and%20I%20have%20a%20question." target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+            <li>Bernardo de Irigoyen 330<br>C1072 Buenos Aires, Argentina</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> DeepDatas · <a href="/en/privacy/">Privacy</a> · <a href="/blog/integrar-erp-con-agente-de-ia/" hreflang="es" lang="es">Español</a></span>
+        <span>Made in Buenos Aires</span>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/5491124918713?text=Hi%2C%20I%27m%20coming%20from%20the%20DeepDatas%20website%20and%20I%20have%20a%20question." target="_blank" rel="noopener noreferrer" data-wa-float><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="icon" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/></svg><span class="visually-hidden">Message us on WhatsApp</span></a>
+</body>
+
+</html>
