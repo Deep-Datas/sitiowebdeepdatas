@@ -1,75 +1,46 @@
 {#
-  Portada del inicio: la oficina de quien decide y una cámara que se le va acercando con
-  el scroll, de derecha a izquierda, en cuatro actos. Acto 1: el pedido que acaba de
-  entrar. Acto 2: WhatsApp y el CRM, los sistemas donde hoy vive esa información.
-  Acto 3: todo se une en un solo modelo. Acto 4: la cámara gira hacia el televisor y se
-  le queda encima, con los números ya ordenados, mientras se pregunta en voz alta.
+  Portada del inicio: una sola foto —el escritorio de quien decide— y una cámara que se
+  le va acercando con el scroll, en cuatro actos. Acto 1: el pedido que acaba de entrar.
+  Acto 2: los sistemas donde hoy vive esa información, uno por uno. Acto 3: todo se une
+  en un solo modelo. Acto 4: la respuesta, ya ordenada, mientras se pregunta en voz alta.
 
-  Las fotos no se mueven: se mueve el recorte. design.js calcula la cámara (centro y
-  ancho visible, en píxeles de la foto) y encaja cada pantalla con una matriz de
-  perspectiva sobre las esquinas medidas acá abajo.
-  Sin JavaScript se ve el último acto, quieto, y el tablero no se encaja: la foto queda
-  en su encuadre final y la barra de voz y los paneles muestran la respuesta.
-  Datos ficticios.
+  La foto no se mueve: se mueve el recorte. design.js calcula la cámara (centro y ancho
+  visible, en píxeles de la foto) a partir de los encuadres de «ESCENA».
+  Sin JavaScript se ve el último acto, quieto: la foto en su encuadre final, el tablero
+  y la barra de voz con la respuesta. Datos ficticios.
 
-  Esquinas y encuadres medidos sobre cada foto; si se cambian hay que volver a medirlos.
   Los textos de los dos idiomas están en «copy». Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Tres fotos encadenadas: el mismo escritorio, la cámara cada vez más cerca. La
-   portada las recorre en ese orden y cada una entra girando sobre la anterior.
+{# Una sola foto: el escritorio de quien decide, y la cámara que se le va acercando con
+   el scroll. La foto no se mueve: se mueve el recorte.
 
-   De cada una: el tamaño en píxeles, el ancho del archivo grande, y los encuadres de la
-   cámara [p, izq., arriba, der., abajo] — lo que tiene que entrar sí o sí en el cuadro
-   en ese punto del scroll. Todo en píxeles de esa foto; design.js lo adapta a la forma
-   del recorte y usa «cam_alto» donde el recorte es mucho más alto que ancho (celulares).
+   «cam» son los encuadres [p, izq., arriba, der., abajo] — lo que tiene que entrar sí o
+   sí en el cuadro en ese punto del scroll, en píxeles de la foto. design.js lo adapta a
+   la forma del recorte y usa «cam_alto» donde el recorte es mucho más angosto que alto
+   (celulares).
 
-   «desde» y «hasta» dicen en qué tramo del scroll esa foto reemplaza a la anterior. La
-   primera no los lleva: está desde el principio.
-
-   «tv» son las cuatro esquinas de la pantalla (arriba izq., arriba der., abajo der.,
-   abajo izq.), y solo la tercera la tiene: es la única con la pantalla despejada. En las
-   otras dos la mano apoya encima, así que ahí se ve el tablero que trae la foto y no el
-   nuestro, que taparía los dedos.
-
-   El tablero es ancho y el recorte de celular es angosto, así que ahí no entra entero:
-   «cam_alto» de la tercera foto encuadra a propósito su mitad izquierda, donde están el
-   título y la facturación. La alternativa era no llegar a esa foto en celulares, y eso
-   dejaba al visitante mirando el tablero que trae la imagen, en español y con otro
-   nombre. #}
+   El tablero no va encajado sobre el monitor: en esta foto la mano apoya sobre la
+   pantalla y lo taparía, así que el monitor se queda con el suyo y el nuestro es una
+   card más, con los números animados. #}
 {% set ESCENA = [
   {
     'w': 1536, 'h': 1024, 'ancho': 2048,
-    'cam': [[0.00, 380, 140, 1320, 760],
-            [0.16, 380, 140, 1320, 760],
-            [0.32, 620, 170, 1400, 720],
-            [0.58, 620, 170, 1400, 720]],
-    'cam_alto': [[0.00, 560, 150, 1300, 780],
-                 [0.16, 560, 150, 1300, 780],
-                 [0.32, 640, 170, 1340, 720],
-                 [0.58, 640, 170, 1340, 720]],
-  },
-  {
-    'w': 1536, 'h': 1024, 'ancho': 2048,
-    'desde': 0.50, 'hasta': 0.58,
-    'cam': [[0.50, 520, 90, 1420, 690],
-            [0.70, 520, 90, 1420, 690],
-            [0.88, 600, 110, 1400, 620],
-            [1.00, 620, 115, 1390, 610]],
-    'cam_alto': [[0.50, 600, 90, 1400, 700],
-                 [0.70, 600, 90, 1400, 700],
-                 [0.88, 640, 110, 1360, 640],
-                 [1.00, 650, 115, 1350, 630]],
-  },
-  {
-    'w': 1536, 'h': 1024, 'ancho': 2304,
-    'desde': 0.80, 'hasta': 0.88,
-    'tv': [[408, 196], [1253, 190], [1250, 700], [410, 707]],
-    'cam': [[0.80, 360, 150, 1300, 760],
-            [1.00, 380, 170, 1285, 735]],
-    'cam_alto': [[0.80, 390, 150, 900, 745],
-                 [1.00, 395, 170, 860, 730]],
+    'cam': [[0.00, 330, 130, 1360, 790],
+            [0.16, 330, 130, 1360, 790],
+            [0.34, 560, 160, 1340, 700],
+            [0.52, 560, 160, 1340, 700],
+            [0.70, 640, 175, 1260, 610],
+            [0.84, 640, 175, 1260, 610],
+            [1.00, 660, 185, 1230, 560]],
+    'cam_alto': [[0.00, 520, 150, 1330, 800],
+                 [0.16, 520, 150, 1330, 800],
+                 [0.34, 620, 165, 1330, 720],
+                 [0.52, 620, 165, 1330, 720],
+                 [0.70, 660, 180, 1260, 620],
+                 [0.84, 660, 180, 1260, 620],
+                 [1.00, 670, 190, 1230, 575]],
   },
 ] %}
 
@@ -104,13 +75,14 @@
     'crm_rows': [('Norte SA', 'Cerrado', True), ('Oeste SRL', 'Sin visita', False), ('Litoral', 'Propuesta', False)],
     'tags': [('mon1', 'ERP · export .csv'), ('mon2', 'Planilla v7, pegada a mano')],
     'join_title': 'Unificando tus sistemas',
-    'flies': ['ERP', 'CRM', 'Planillas', 'WhatsApp'],
+    'fuentes_hd': 'Donde vive hoy esa respuesta',
+    'fuentes': [('erp', 'ERP', 'hdd-network'), ('crm', 'CRM', 'people'),
+                ('xls', 'Planillas', 'file-earmark-spreadsheet'), ('wa', 'WhatsApp', 'whatsapp')],
     'question': '¿Cuánto vendimos ayer en la zona norte?',
     'statuses': [(0.78, 'Escuchando…'), (0.86, 'Leyendo tus sistemas…'), (0.94, 'Respuesta lista · con fuentes')],
     'app': 'DeepDatas · Tablero ejecutivo', 'live': 'En vivo', 'when': '07:00',
     'board_title': 'Ventas de ayer', 'board_chip': 'Zona norte',
-    'nav': ['Inicio', 'Ventas', 'Clientes', 'Inventario', 'Finanzas', 'Reportes', 'Configuración'],
-    'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. semana pasada', 'graph-up-arrow'),
+    'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. ayer', 'graph-up-arrow'),
               ('Pedidos', '482', '', '', '▲ 8,2 % vs. ayer', 'cart3'),
               ('Margen bruto', '24,6', '', ' %', '▲ 1,2 pp', 'bar-chart-line'),
               ('Quiebres', '3', '', '', '▼ 2 vs. ayer', 'exclamation-circle-fill')],
@@ -148,13 +120,14 @@
     'crm_rows': [('Norte SA', 'Closed', True), ('Oeste SRL', 'No visit', False), ('Litoral', 'Proposal', False)],
     'tags': [('mon1', 'ERP · .csv export'), ('mon2', 'Spreadsheet v7, pasted by hand')],
     'join_title': 'Bringing your systems together',
-    'flies': ['ERP', 'CRM', 'Spreadsheets', 'WhatsApp'],
+    'fuentes_hd': 'Where that answer lives today',
+    'fuentes': [('erp', 'ERP', 'hdd-network'), ('crm', 'CRM', 'people'),
+                ('xls', 'Spreadsheets', 'file-earmark-spreadsheet'), ('wa', 'WhatsApp', 'whatsapp')],
     'question': 'How much did we sell yesterday in the north region?',
     'statuses': [(0.78, 'Listening…'), (0.86, 'Reading your systems…'), (0.94, 'Answer ready · with sources')],
     'app': 'DeepDatas · Executive dashboard', 'live': 'Live', 'when': '07:00',
     'board_title': 'Yesterday’s sales', 'board_chip': 'North region',
-    'nav': ['Home', 'Sales', 'Customers', 'Inventory', 'Finance', 'Reports', 'Settings'],
-    'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. last week', 'graph-up-arrow'),
+    'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. yesterday', 'graph-up-arrow'),
               ('Orders', '482', '', '', '▲ 8.2% vs. yesterday', 'cart3'),
               ('Gross margin', '24.6', '', '%', '▲ 1.2 pp', 'bar-chart-line'),
               ('Stockouts', '3', '', '', '▼ 2 vs. yesterday', 'exclamation-circle-fill')],
@@ -171,27 +144,14 @@
 } %}
 {% set C = copy[lang] %}
 
-{# El tablero del televisor. Va dos veces: una en cada foto, encajado en su perspectiva,
-   y se cruzan cuando la cámara gira hacia el primer plano. Los valores finales están en
-   el HTML: sin JavaScript se leen los números de verdad. #}
+{# El tablero. No va encajado sobre el monitor de la foto: ahí la mano apoya sobre la
+   pantalla y lo taparía a media escena. Es una card más del recorrido, con los números
+   que anima el scroll. Los valores finales están en el HTML: sin JavaScript se leen los
+   números de verdad. #}
 {% macro tablero() %}
-{# El tablero sigue la estructura del que trae la foto —barra lateral, cuatro fichas,
-   dos paneles— para que el cruce entre uno y otro no se note. El contenido es nuestro:
-   marca DeepDatas, los dos idiomas y los números que anima el scroll. #}
 <div class="hb-scr">
-  <nav class="hb-nav">
-    {# La marca va sola, como el «Mi PyME» de la foto: el resto lo dice el título del
-       tablero. No se traduce, así que no vive en «copy». #}
-    <span class="hb-nav-app">DeepDatas</span>
-    <ul>
-      {% for item in C.nav %}
-      <li{% if loop.first %} class="is-on"{% endif %}>{{ item }}</li>
-      {% endfor %}
-    </ul>
-  </nav>
-
-  <div class="hb-main">
     <div class="hb-board-head">
+      <span class="hb-board-app">DeepDatas</span>
       <h2>{{ C.board_title }}</h2>
       <span class="hb-chip">{{ C.board_chip }}</span>
       <span class="hb-live"><i></i> {{ C.live }}</span>
@@ -247,7 +207,6 @@
     </div>
 
     <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
-  </div>
 </div>
 {% endmacro %}
 
@@ -260,27 +219,14 @@
       <div class="hb-stage">
         <div class="hb-crop" role="img" aria-label="{{ C.region }}">
 
-          {# Una capa por foto, en orden: cada una entra girando sobre la anterior. El
-             giro necesita su propio envoltorio porque la escena de adentro ya usa su
-             transform para la cámara. #}
-          {% for f in ESCENA %}
-          <div class="hb-turn" data-hb-turn>
+          {# La foto, en su tamaño natural: la cámara la mueve y la acerca #}
+          {% set f = ESCENA[0] %}
           <div class="hb-scene" data-hb-scene>
-            <img class="hb-photo" src="/assets/img/hero/portada-{{ loop.index }}-1536.webp"
-                 srcset="/assets/img/hero/portada-{{ loop.index }}-1536.webp 1536w, /assets/img/hero/portada-{{ loop.index }}-{{ f.ancho }}.webp {{ f.ancho }}w"
+            <img class="hb-photo" src="/assets/img/hero/portada-1536.webp"
+                 srcset="/assets/img/hero/portada-1536.webp 1536w, /assets/img/hero/portada-{{ f.ancho }}.webp {{ f.ancho }}w"
                  sizes="(min-width: 901px) 170vw, 300vw"
-                 width="{{ f.w }}" height="{{ f.h }}" alt=""
-                 {% if loop.first %}fetchpriority="high"{% else %}fetchpriority="low"{% endif %}>
-
-            {% if f.get("tv") %}
-            {# La pantalla: el tablero, encajado en su perspectiva, y el marco que la
-               señala cuando llega la respuesta. #}
-            <div class="hb-screen hb-s-tv" aria-hidden="true">{{ tablero() }}<span class="hb-scan"></span></div>
-            <span class="hb-ring hb-r-tv" aria-hidden="true"></span>
-            {% endif %}
+                 width="{{ f.w }}" height="{{ f.h }}" alt="" fetchpriority="high">
           </div>
-          </div>
-          {% endfor %}
 
           {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}
           {# Viñeta y grano: le dan cuerpo a la foto, que viene de un original chico #}
@@ -321,19 +267,32 @@
               <span class="hb-join-foot"><span data-count="12482">12.482</span> {{ C.records }}</span>
             </div>
 
-            <div class="hb-flies">
-              {% for name in C.flies %}<span class="hb-fly">{{ name }}</span>{% endfor %}
+            {# Las cuatro fuentes: aparecen una por una en el acto 2, cada una con su
+               color, y en el acto 3 cruzan hacia el modelo. design.js las ubica: en el
+               acto 2 reparten el ancho del recorte y en el acto 3 viajan hasta la card
+               de «Unificando tus sistemas». #}
+            <div class="hb-fuentes">
+              <span class="hb-fuentes-hd">{{ C.fuentes_hd }}</span>
+              {% for id, name, ico in C.fuentes %}
+              <span class="hb-fuente hb-f-{{ id }}" data-hb-fuente>
+                <i class="hb-fuente-ico">{{ icon(ico) }}</i>
+                <b>{{ name }}</b>
+              </span>
+              {% endfor %}
             </div>
 
-            <div class="hb-card hb-alert">
-              <span class="hb-alert-hd">{{ icon('exclamation-circle-fill') }} {{ C.alert_title }}</span>
-              <span class="hb-alert-tx">{{ C.alert_text }}</span>
-            </div>
+            {# El tablero: la respuesta del acto 4, sobre el monitor de la foto #}
+            <div class="hb-card hb-board">{{ tablero() }}<span class="hb-scan"></span></div>
 
-            {# La barra de voz y el riel se apilan desde abajo en vez de ir cada uno a
-               una altura fija: así no pueden pisarse, midan lo que midan sus textos,
-               que cambian con el idioma y con el ancho. #}
+            {# La alerta, la barra de voz y el riel se apilan desde abajo en vez de ir
+               cada uno a una altura fija: así no pueden pisarse, midan lo que midan sus
+               textos, que cambian con el idioma y con el ancho. #}
             <div class="hb-bottom">
+              <div class="hb-card hb-alert">
+                <span class="hb-alert-hd">{{ icon('exclamation-circle-fill') }} {{ C.alert_title }}</span>
+                <span class="hb-alert-tx">{{ C.alert_text }}</span>
+              </div>
+
               <div class="hb-voice">
                 <p class="hb-status">{{ C.statuses[-1][1] }}</p>
                 <span class="hb-mic">{{ icon('mic') }}</span>
