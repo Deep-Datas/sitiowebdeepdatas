@@ -503,6 +503,9 @@
     var centers = small
       ? [[0.22, 0.17], [0.78, 0.15], [0.5, 0.34], [0.2, 0.56], [0.8, 0.54]]
       : [[0.17, 0.26], [0.82, 0.22], [0.5, 0.17], [0.2, 0.66], [0.82, 0.64]];
+    // Dónde queda cada nube de verdad: lo calcula size(), que baja las de arriba lo
+    // necesario para que su rótulo no se meta debajo del encabezado.
+    var puestos = centers;
     var count = small ? 380 : 760;
     var sphere = fibonacciSphere(count);
     var pts = [];
@@ -526,6 +529,16 @@
       R = M * 0.3;
       cx = W / 2;
       cy = H * (small ? 0.34 : 0.37);
+
+      // La etapa es pegajosa desde arriba y el encabezado flota encima, así que la
+      // primera franja de la escena queda tapada. El rótulo de cada nube se dibuja a
+      // M * 0.15 por encima de su centro: las nubes de arriba tienen que bajar lo
+      // suficiente para que ese rótulo caiga debajo del encabezado, y no al revés.
+      // El +26 es el aire que queda bajo el encabezado más la altura de las mayúsculas:
+      // lo que se calcula acá es la línea de base del rótulo, no su borde de arriba.
+      var tapa = (parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 0) + 26;
+      var yMin = H ? (tapa + M * 0.15 + 4) / H : 0;
+      puestos = centers.map(function (c) { return [c[0], Math.max(c[1], yMin)]; });
       if (!motion) {
         // Sin animación todo el texto queda debajo: la esfera ocupa el espacio libre de arriba
         var copy = sticky.querySelector('.core-copy');
@@ -557,7 +570,7 @@
         ctx.textAlign = 'center';
         for (var k = 0; k < 5; k++) {
           ctx.fillStyle = hexA(colors[k], la);
-          ctx.fillText(labels[k].toUpperCase(), centers[k][0] * W, centers[k][1] * H - M * 0.15 - 4);
+          ctx.fillText(labels[k].toUpperCase(), puestos[k][0] * W, puestos[k][1] * H - M * 0.15 - 4);
         }
       }
       var items = [], rr = M * 0.14;
@@ -566,8 +579,8 @@
         var v = rotate(q.v, ry, rx);
         var pr = 1 / (1 - v[2] * 0.32);
         var tx = cx + v[0] * R * pr, ty = cy + v[1] * R * pr;
-        var sx = centers[q.c][0] * W + q.ox * M + Math.sin(t * q.sp + q.ph) * jit;
-        var sy = centers[q.c][1] * H + q.oy * M + Math.cos(t * q.sp * 0.8 + q.ph) * jit;
+        var sx = puestos[q.c][0] * W + q.ox * M + Math.sin(t * q.sp + q.ph) * jit;
+        var sy = puestos[q.c][1] * H + q.oy * M + Math.cos(t * q.sp * 0.8 + q.ph) * jit;
         if (ptr.active && travel < 1) {
           var dx = sx - ptr.x, dy = sy - ptr.y, dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < rr && dist > 0.01) {
