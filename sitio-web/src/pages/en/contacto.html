@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% import 'forms.html' as forms with context %}
+{% import 'mapa.html' as mapas with context %}
 
 {% set faqs = [
   ('Does my data need to be organized before we start?',
@@ -54,7 +55,7 @@
         <li>{{ icon('whatsapp') }} <div><strong>WhatsApp</strong><a href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a></div></li>
         <li>{{ icon('geo-alt') }} <div><strong>Office</strong>Bernardo de Irigoyen 330, C1072 Buenos Aires, Argentina</div></li>
       </ul>
-      <iframe class="map" title="Map: Bernardo de Irigoyen 330, Buenos Aires" src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&z=15&output=embed&hl=en" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      {{ mapas.mapa() }}
     </aside>
   </div>
 </section>

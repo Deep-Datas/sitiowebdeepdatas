@@ -102,3 +102,6 @@ sitio-web/tools/hero/modelos/
 
 # Configuración local de Claude Code (puede contener tokens)
 .claude/settings.local.json
+
+# Mosaicos de OpenStreetMap guardados por tools/mapa.py (la imagen armada sí se sube)
+sitio-web/tools/mapa-cache/

@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% import 'mapa.html' as mapas with context %}
 
 {% set specialties = [
   {'icon': 'layers', 'title': 'Arquitectura e implementación',
@@ -71,7 +72,7 @@
         <li>{{ icon('telephone') }} <a href="tel:+5491124918713">+54 9 11 2491-8713</a></li>
       </ul>
     </div>
-    <iframe class="map reveal" title="Mapa: Bernardo de Irigoyen 330, CABA" src="https://www.google.com/maps?q=Bernardo%20de%20Irigoyen%20330,%20C1072%20CABA&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    {{ mapas.mapa("reveal") }}
   </div>
 </section>
 {% endblock %}
