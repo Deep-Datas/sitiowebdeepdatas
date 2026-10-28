@@ -232,7 +232,7 @@ CLARITY_CSP = {
 # generado, y recién cuando está publicada, la secreta. Al revés, el servidor pediría un
 # token que las páginas todavía no traen y el formulario quedaría rechazando a todos.
 # Las claves se sacan de https://dash.cloudflare.com → Turnstile.
-TURNSTILE_SITE_KEY = ''
+TURNSTILE_SITE_KEY = '0x4AAAAAAFpdGad8bvmk_A-I'
 TURNSTILE_CSP = {
     'script-src': 'https://challenges.cloudflare.com',
     'frame-src': 'https://challenges.cloudflare.com',

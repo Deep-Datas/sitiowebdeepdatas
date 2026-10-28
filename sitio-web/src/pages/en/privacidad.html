@@ -25,6 +25,9 @@
           {% endif %}
           <li><strong>AI readiness check:</strong> your answers are processed in your browser to show you the result and are not sent anywhere. We only receive them, together with the result, if you fill in your contact details at the end.</li>
           <li><strong>Usage statistics:</strong> we use Microsoft Clarity, configured without cookies, to understand in aggregate how the website is used (pages visited, clicks, scrolling, device type and approximate location).</li>
+          {% if turnstile_key %}
+          <li><strong>Form protection:</strong> we use Cloudflare Turnstile to check that whoever submits a form is a person and not an automated program. To do so, Cloudflare receives your IP address and signals from your browser. It is not used for advertising or to track you across other websites; it is governed by <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare’s privacy policy</a>.</li>
+          {% endif %}
           <li><strong>Third-party services:</strong> the WhatsApp links and the Google map are governed by those companies’ privacy policies.</li>
         </ul>
 
