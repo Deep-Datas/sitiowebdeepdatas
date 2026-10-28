@@ -43,7 +43,7 @@
     }
   },
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'self'; script-src 'self' https://www.clarity.ms https://scripts.clarity.ms; style-src 'self'; font-src 'self'; img-src 'self' data: https://*.clarity.ms https://c.bing.com; frame-src https://www.google.com https://maps.google.com; connect-src 'self' https://*.clarity.ms https://c.bing.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' https://www.clarity.ms https://scripts.clarity.ms https://challenges.cloudflare.com; style-src 'self'; font-src 'self'; img-src 'self' data: https://*.clarity.ms https://c.bing.com; frame-src https://www.google.com https://maps.google.com https://challenges.cloudflare.com; connect-src 'self' https://*.clarity.ms https://c.bing.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",

@@ -25,6 +25,9 @@
           {% endif %}
           <li><strong>Autoevaluación de datos:</strong> tus respuestas se procesan en tu navegador para mostrarte el resultado y no se envían a ningún lado. Solo nos llegan, junto con el resultado, si completás tus datos de contacto al final.</li>
           <li><strong>Estadísticas de uso:</strong> usamos Microsoft Clarity, configurado sin cookies, para entender de forma agregada cómo se navega el sitio (páginas visitadas, clics, desplazamiento, tipo de dispositivo y ubicación aproximada).</li>
+          {% if turnstile_key %}
+          <li><strong>Protección de los formularios:</strong> usamos Cloudflare Turnstile para comprobar que quien envía un formulario sea una persona y no un programa automático. Para eso Cloudflare recibe tu dirección IP y señales de tu navegador. No se usa para publicidad ni para seguirte por otros sitios; se rige por la <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">política de privacidad de Cloudflare</a>.</li>
+          {% endif %}
           <li><strong>Servicios de terceros:</strong> los enlaces a WhatsApp y el mapa de Google se rigen por las políticas de privacidad de esas empresas.</li>
         </ul>
 
