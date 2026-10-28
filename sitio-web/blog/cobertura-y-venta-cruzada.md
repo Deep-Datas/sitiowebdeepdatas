@@ -1,6 +1,7 @@
 ---
 title: "Cobertura de puntos de venta: cómo encontrar oportunidades de venta cruzada"
-description: Tus clientes ya te compran, pero ¿te compran todo lo que podrían? Cómo medir la cobertura por línea de producto y convertirla en listas concretas para cada vendedor.
+seo_title: Cobertura de puntos de venta y venta cruzada
+description: Tus clientes ya te compran, pero ¿te compran todo lo que podrían? Cómo medir la cobertura por línea y convertirla en listas para cada vendedor.
 date: 2026-09-08
 tags: Ventas y distribución, Analítica
 cta: casos

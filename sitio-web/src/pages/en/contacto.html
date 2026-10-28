@@ -16,6 +16,10 @@
    'Fill in the form or message us on WhatsApp. We’ll set up a first conversation to understand your challenge and then put together a tailored proposal.'),
 ] %}
 
+{# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
+   en el resultado. El marcado sale de la misma lista que arma la página. #}
+{% block head %}{{ faq_schema(faqs) }}{% endblock %}
+
 {% block content %}
 <section class="page-hero page-hero-cover page-hero-compact">
   {{ cover_img('covers/contacto') }}

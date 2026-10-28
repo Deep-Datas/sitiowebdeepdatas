@@ -1,6 +1,6 @@
 ---
 title: "Excel o Power BI: cuándo conviene dar el salto"
-description: Excel sigue siendo una gran herramienta, pero tiene límites. Seis señales de que tu empresa necesita pasar a Power BI y cómo hacer la transición sin dejar de usar planillas.
+description: Excel sigue siendo una gran herramienta, pero tiene límites. Seis señales de que tu empresa necesita pasar a Power BI y cómo hacer la transición.
 date: 2026-07-28
 tags: Tableros de gestión, Power BI
 cta: diagnostico

@@ -1,5 +1,6 @@
 ---
 title: Los KPIs comerciales que todo gerente de ventas debería mirar cada semana
+seo_title: Los KPIs comerciales que mirar cada semana
 description: Ocho indicadores comerciales para seguir las ventas, la cartera de clientes y la rentabilidad, cómo calcularlos y qué decisiones ayudan a tomar.
 date: 2026-08-11
 tags: Ventas y distribución, Tableros de gestión

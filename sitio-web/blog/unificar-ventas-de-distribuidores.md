@@ -1,6 +1,7 @@
 ---
 title: Cómo unificar las ventas de tus distribuidores en un único tablero
-description: Cada distribuidor manda sus ventas en su propia planilla y consolidarlas lleva días. Te contamos cómo automatizarlo, paso a paso, para tener un solo número confiable.
+seo_title: Unificar las ventas de tus distribuidores
+description: Cada distribuidor manda sus ventas en su propia planilla y consolidarlas lleva días. Cómo automatizarlo, paso a paso, para tener un solo número.
 date: 2026-08-25
 tags: Ventas y distribución, Tableros de gestión
 cta: casos

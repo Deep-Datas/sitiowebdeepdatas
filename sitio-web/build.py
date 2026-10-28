@@ -37,32 +37,32 @@ SITE_URL = 'https://deepdatas.com'
 PAGES = [
     {
         'template': 'index.html', 'key': 'inicio', 'path': '/', 'nav': 'inicio',
-        'title': 'DeepDatas | Datos e IA para distribuidoras, pymes y consumo masivo',
-        'description': 'Consultora de datos e IA para distribuidoras, pymes y empresas de consumo masivo: integramos tu ERP, tus planillas y las ventas de tus distribuidores en tableros, pronósticos y agentes de IA, sin que necesites un equipo de datos propio.',
+        'title': 'Datos e IA para distribuidoras, pymes y consumo masivo',
+        'description': 'Integramos tu ERP, tus planillas y las ventas de tus distribuidores en tableros, pronósticos y agentes de IA, sin que necesites un equipo de datos propio.',
     },
     {
         'template': 'servicios.html', 'key': 'servicios', 'path': '/servicios/', 'nav': 'servicios',
         'title': 'Servicios | DeepDatas',
-        'description': 'Ingeniería de datos, calidad y preparación, analítica avanzada con modelos predictivos y tableros de gestión en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
+        'description': 'Ingeniería de datos, calidad, analítica avanzada con modelos predictivos y tableros en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
     },
     {
         'template': 'inteligencia-artificial.html', 'key': 'ia', 'path': '/inteligencia-artificial/', 'nav': 'ia',
-        'title': 'Inteligencia artificial para empresas: agentes de IA con tus datos | DeepDatas',
-        'description': 'Agentes de IA conectados a los datos de tu empresa: consultas a tus indicadores, tus números en WhatsApp o Teams, pedidos automáticos, alertas y pronósticos, con datos curados y seguros.',
+        'title': 'Agentes de IA con los datos de tu empresa | DeepDatas',
+        'description': 'Agentes de IA conectados a los datos de tu empresa: consultá tus indicadores, recibí tus números en WhatsApp o Teams, y sumá alertas y pronósticos.',
     },
     {
         'template': 'diagnostico.html', 'key': 'diagnostico', 'path': '/diagnostico/', 'nav': 'diagnostico',
         'title': 'Diagnóstico de datos | DeepDatas',
-        'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la inteligencia artificial.',
+        'description': 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada para decidir mejor y aprovechar la IA.',
     },
     {
         'template': 'tablero-ventas.html', 'key': 'tablero-ventas', 'path': '/tablero-de-ventas/', 'nav': 'tablero-ventas',
-        'title': 'Tablero de ventas y stock para Tango y SAP Business One | DeepDatas',
-        'description': 'Tablero en Power BI conectado a Tango o SAP Business One: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar, actualizado todos los días. Precio en pesos.',
+        'title': 'Tablero de ventas para Tango y SAP Business One',
+        'description': 'Tablero en Power BI conectado a Tango o SAP Business One: ventas por cliente, zona y vendedor, stock, quiebres y clientes que dejaron de comprar.',
     },
     {
         'template': 'autoevaluacion.html', 'key': 'autoevaluacion', 'path': '/autoevaluacion/', 'nav': 'autoevaluacion',
-        'title': 'Autoevaluación: ¿qué tan listos están tus datos para la IA? | DeepDatas',
+        'title': '¿Tus datos están listos para la IA? | DeepDatas',
         'description': 'Seis preguntas y dos minutos para saber en qué punto están los datos de tu empresa, qué priorizar y cómo prepararte para aplicar inteligencia artificial.',
     },
     {
@@ -106,8 +106,8 @@ PAGES = [
 PAGES_EN = [
     {
         'template': 'en/index.html', 'key': 'inicio', 'nav': 'inicio',
-        'title': 'DeepDatas | Data and AI for distributors, SMEs and consumer goods',
-        'description': 'Data and AI consultancy for distributors, small and midsize businesses and consumer goods companies: we turn your ERP, spreadsheets and distributor sales into dashboards, forecasts and AI agents, no in-house data team required.',
+        'title': 'Data and AI for distributors, SMEs and consumer goods',
+        'description': 'We turn your ERP, spreadsheets and distributor sales into dashboards, forecasts and AI agents, with no in-house data team required.',
     },
     {
         'template': 'en/servicios.html', 'key': 'servicios', 'nav': 'servicios',
@@ -116,8 +116,8 @@ PAGES_EN = [
     },
     {
         'template': 'en/inteligencia-artificial.html', 'key': 'ia', 'nav': 'ia',
-        'title': 'AI for business: AI agents connected to your data | DeepDatas',
-        'description': 'AI agents connected to your company data: ask about your KPIs, get your numbers on WhatsApp or Teams, automate orders, alerts and forecasts, with curated, secure data.',
+        'title': 'AI agents connected to your company data | DeepDatas',
+        'description': 'AI agents connected to your company data: ask about your KPIs, get your numbers on WhatsApp or Teams, and add alerts and forecasts.',
     },
     {
         'template': 'en/diagnostico.html', 'key': 'diagnostico', 'nav': 'diagnostico',
@@ -192,6 +192,51 @@ def _icon_source(name):
     stroke = 'stroke="currentColor"' in head
     viewbox = head.split('viewBox="', 1)[1].split('"', 1)[0]
     return ' '.join(inner.split()), stroke, viewbox
+
+
+# Lo que entra en un resultado de búsqueda antes de que Google lo corte con puntos
+# suspensivos. No es una regla exacta —Google mide en píxeles, no en caracteres— pero
+# por debajo de estos números el texto se ve entero en la mayoría de los resultados.
+TITULO_MAX = 60
+DESCRIPCION_MAX = 160
+
+
+def avisar_largos(pages):
+    """Avisa qué títulos y descripciones se van a ver cortados en el buscador."""
+    largos = [(p['path'], 'título', len(p['title'])) for p in pages if len(p['title']) > TITULO_MAX]
+    largos += [(p['path'], 'descripción', len(p['description'])) for p in pages
+               if len(p['description']) > DESCRIPCION_MAX]
+    if not largos:
+        return
+    print(f'\nAviso: {len(largos)} textos se van a ver cortados en el buscador '
+          f'(máximo {TITULO_MAX} y {DESCRIPCION_MAX} caracteres):')
+    for ruta, que, largo in sorted(largos):
+        print(f'  {ruta}: {que} de {largo}')
+
+
+def faq_schema(faqs):
+    """Marcado FAQPage de las preguntas frecuentes de una página.
+
+    Lo leen Google y Bing para mostrar las preguntas desplegadas en el resultado
+    de búsqueda. Entra la misma lista (pregunta, respuesta) que arma la página,
+    así que el marcado y lo que se ve no se pueden separar: si cambia una, cambia
+    el otro. Las páginas que tienen preguntas lo insertan en su «block head».
+    """
+    if not faqs:
+        return ''
+    datos = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        'mainEntity': [
+            {'@type': 'Question', 'name': q,
+             'acceptedAnswer': {'@type': 'Answer', 'text': a}}
+            for q, a in faqs
+        ],
+    }
+    # Dentro de un <script> la secuencia «</» cerraría la etiqueta: se escapa el
+    # menor que, que en JSON sigue siendo el mismo carácter.
+    texto = json.dumps(datos, ensure_ascii=False, indent=2).replace('<', r'\u003c')
+    return Markup(f'<script type="application/ld+json">\n{texto}\n</script>')
 
 
 def icon(name, label=None, cls=''):
@@ -470,13 +515,13 @@ def build(drafts=False):
     if posts:
         pages.append({
             'template': 'blog.html', 'path': '/blog/', 'nav': 'blog',
-            'title': 'Blog: datos, tableros e inteligencia artificial para empresas | DeepDatas',
+            'title': 'Blog: datos, tableros e IA para empresas | DeepDatas',
             'description': 'Guías prácticas sobre integración y calidad de datos, tableros de gestión, Power BI e inteligencia artificial aplicada a empresas.',
         })
         for post in posts:
             pages.append({
                 'template': 'articulo.html', 'path': f'/blog/{post["slug"]}/', 'nav': 'blog', 'post': post,
-                'title': f'{post["title"]} | DeepDatas', 'description': post['description'],
+                'title': f'{post["seo_title"]} | DeepDatas', 'description': post['description'],
             })
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -491,7 +536,7 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, turnstile_key=TURNSTILE_SITE_KEY, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
+    env.globals.update(icon=icon, faq_schema=faq_schema, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, turnstile_key=TURNSTILE_SITE_KEY, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
                        theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass)
 
@@ -527,6 +572,7 @@ def build(drafts=False):
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
         f'{urls}\n</urlset>\n', encoding='utf-8')
     (OUT / 'robots.txt').write_text(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n', encoding='utf-8')
+    avisar_largos(pages)
     print(f'Sitio generado en {OUT.relative_to(ROOT) if OUT.is_relative_to(ROOT) else OUT}/')
 
 
