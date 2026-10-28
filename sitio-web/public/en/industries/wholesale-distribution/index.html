@@ -35,7 +35,38 @@
   <script src="/assets/js/site.js?v=f8e8815770" defer></script>
   <script src="/assets/js/design.js?v=723f6d287f" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
-</head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do we need a lot of history for the forecast?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The more history, the better, but we evaluate it in the assessment: we review what data exists and what accuracy is reasonable to expect before building the model."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can the agent enter orders into our system?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, if the system allows it (through an API or integration). We always start with a focused pilot and with checks to review what it enters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do we start?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With a data assessment: in two weeks you’ll know which sources you have and which solution to build first."
+      }
+    }
+  ]
+}
+</script></head>
 
 <body>
   <a class="skip-link" href="#contenido">Skip to content</a>

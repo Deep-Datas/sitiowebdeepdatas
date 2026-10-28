@@ -1,5 +1,6 @@
 ---
 title: Qué datos necesitás antes de implementar inteligencia artificial en tu empresa
+seo_title: Qué datos necesitás antes de implementar IA
 description: Antes de sumar un agente de IA, revisá estas cinco condiciones de tus datos. Una guía práctica para saber si tu empresa está lista y por dónde empezar.
 date: 2026-10-06
 tags: Inteligencia artificial, Calidad de datos

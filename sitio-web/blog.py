@@ -40,6 +40,9 @@ def _parse(path):
     return {
         'slug': path.stem,
         'title': meta['title'],
+        # El título de la pestaña y del buscador puede ser más corto que el que se lee
+        # arriba del artículo: ahí entran unos 60 caracteres y después se corta.
+        'seo_title': meta.get('seo_title', meta['title']),
         'description': meta['description'],
         'date': date.fromisoformat(meta['date']),
         'tags': [t.strip() for t in meta.get('tags', '').split(',') if t.strip()],

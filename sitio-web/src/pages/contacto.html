@@ -16,6 +16,10 @@
    'Completá el formulario o escribinos por WhatsApp. Coordinamos una primera conversación para entender tu desafío y, a partir de ahí, te presentamos una propuesta a medida.'),
 ] %}
 
+{# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
+   en el resultado. El marcado sale de la misma lista que arma la página. #}
+{% block head %}{{ faq_schema(faqs) }}{% endblock %}
+
 {% block content %}
 <section class="page-hero page-hero-cover page-hero-compact">
   {{ cover_img('covers/contacto') }}

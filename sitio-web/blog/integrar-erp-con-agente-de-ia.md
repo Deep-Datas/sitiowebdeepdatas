@@ -1,5 +1,6 @@
 ---
 title: Cómo se integra un ERP con un agente de IA: arquitectura, pipeline y frecuencia de actualización
+seo_title: Cómo integrar un ERP con un agente de IA
 description: Las capas técnicas para conectar SAP, Tango u Odoo con un agente de IA, cada cuánto actualizar los datos y cómo implementarlo en Azure, AWS o Google Cloud.
 date: 2026-10-07
 tags: Inteligencia artificial, Ingeniería de datos

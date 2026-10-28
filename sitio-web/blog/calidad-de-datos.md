@@ -1,6 +1,7 @@
 ---
 title: Qué es la calidad de datos y cómo medirla en tu empresa
-description: Datos duplicados, incompletos o desactualizados cuestan dinero todos los días. Las seis dimensiones de la calidad de datos y cómo empezar a medirlas sin grandes inversiones.
+seo_title: Qué es la calidad de datos y cómo medirla
+description: Datos duplicados, incompletos o desactualizados cuestan dinero. Las seis dimensiones de la calidad de datos y cómo empezar a medirlas.
 date: 2026-07-14
 tags: Calidad de datos
 cta: diagnostico

@@ -49,6 +49,10 @@
    'Sí, el abono es mes a mes y lo podés dar de baja cuando quieras.'),
 ] %}
 
+{# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
+   en el resultado. El marcado sale de la misma lista que arma la página. #}
+{% block head %}{{ faq_schema(faqs) }}{% endblock %}
+
 {% block content %}
 <section class="page-hero tv-hero">
   <div class="container">

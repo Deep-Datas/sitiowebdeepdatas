@@ -1,6 +1,7 @@
 ---
 title: Cómo reducir el quiebre de stock con un pronóstico de demanda
-description: Quedarse sin stock cuesta ventas y clientes; tener de más inmoviliza capital. Cómo medir el quiebre de stock y cómo un pronóstico de demanda ayuda a planificar mejor las compras.
+seo_title: Reducir el quiebre de stock con un pronóstico
+description: Quedarse sin stock cuesta ventas; tener de más inmoviliza capital. Cómo medirlo y cómo un pronóstico de demanda ayuda a planificar las compras.
 date: 2026-09-22
 tags: Analítica, Modelos predictivos
 cta: casos

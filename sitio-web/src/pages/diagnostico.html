@@ -64,6 +64,10 @@
    'Sí. Los mismos datos curados que necesita un agente de IA son los que hacen confiables a tus tableros e informes. La hoja de ruta incluye las dos cosas.'),
 ] %}
 
+{# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
+   en el resultado. El marcado sale de la misma lista que arma la página. #}
+{% block head %}{{ faq_schema(faqs) }}{% endblock %}
+
 {% block content %}
 <section class="page-hero dx-hero">
   <div class="container dx-hero-grid">

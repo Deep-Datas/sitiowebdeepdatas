@@ -1,5 +1,6 @@
 ---
 title: "Data warehouse, data lake o planillas: dónde guardar los datos de tu empresa"
+seo_title: Data warehouse, data lake o planillas
 description: Una guía sin tecnicismos para entender las opciones para centralizar los datos de una empresa mediana, cuándo conviene cada una y por dónde empezar.
 date: 2026-09-29
 tags: Ingeniería de datos

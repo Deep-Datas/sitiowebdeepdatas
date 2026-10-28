@@ -12,6 +12,10 @@
 {% set example = (examples | selectattr('id', 'eq', ind.example) | first) if ind.example else none %}
 {% set ind_posts = (posts | selectattr('slug', 'in', ind.posts) | list) if lang == 'es' else [] %}
 
+{# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
+   en el resultado. El marcado sale de la misma lista que arma la página. #}
+{% block head %}{{ faq_schema(ind.faqs) }}{% endblock %}
+
 {% block content %}
 <section class="page-hero ind-hero">
   <div class="container">

@@ -67,6 +67,16 @@ azure-static-web-apps-*.yml   Pipeline de Azure DevOps para publicar
 
 `build.py` también genera `sitemap.xml` y `robots.txt`, y agrega a los enlaces de CSS y JavaScript un código de versión para que los navegadores siempre descarguen la última versión.
 
+## Lo que ve el buscador
+
+**Título y descripción.** Cada página los declara en `PAGES` / `PAGES_EN` (`build.py`), las de industrias en `industrias.py` y los artículos en su propio encabezado. Google los corta: **60 caracteres el título y 160 la descripción**. Al final de cada generación, `build.py` avisa qué textos se pasaron y por cuánto; si aparece el aviso, acortalos antes de publicar. Los límites están en `TITULO_MAX` y `DESCRIPCION_MAX`.
+
+Un artículo puede llevar un título más corto solo para el buscador (`seo_title` en su encabezado): arriba del artículo se sigue leyendo el `title` largo y en la pestaña y en Google va el corto. Si no lleva `seo_title`, se usa el `title`.
+
+**Preguntas frecuentes.** Las páginas que tienen preguntas (diagnóstico, IA, contacto, tablero de ventas y las ocho de industrias, en los dos idiomas) publican además el marcado `FAQPage`, que es lo que le permite a Google mostrarlas desplegadas debajo del resultado. Sale de la misma lista `(pregunta, respuesta)` que arma la página, con `{{ faq_schema(faqs) }}` dentro de su `{% block head %}` —en `industria.html`, `{{ faq_schema(ind.faqs) }}`—, así el marcado y lo que se ve no se pueden separar. **Google pide que la respuesta esté visible en la página**: no agregues al marcado preguntas que no estén también en el `<details>`. Si una página nueva tiene preguntas, sumale ese bloque.
+
+**Datos estructurados que ya hay:** `ProfessionalService` en el inicio (en los dos idiomas), `BlogPosting` en cada artículo y `FAQPage` en las 23 páginas con preguntas.
+
 ## Versión en inglés
 
 El sitio se publica en español (raíz) y en inglés (`/en/`). El blog es solo en español.
@@ -142,6 +152,7 @@ Para publicar un artículo, creá un archivo `.md` en `blog/` (por ejemplo `blog
 ```
 ---
 title: Título del artículo
+seo_title: Título corto para la pestaña y Google
 description: Resumen de unas 25 palabras para Google y LinkedIn
 date: 2026-10-20
 tags: Power BI, Tableros de gestión
@@ -149,7 +160,7 @@ cta: diagnostico
 ---
 ```
 
-`cta` define el llamado a la acción del final: `diagnostico`, `casos` o `ia`. Los artículos con fecha futura no se publican hasta que se vuelva a generar el sitio en esa fecha. Cada artículo se suma solo al blog, al inicio, al sitemap y a los artículos relacionados.
+`seo_title` es opcional y sirve cuando el título del artículo es largo: en la página se sigue leyendo el `title` y en la pestaña va el corto, que con « | DeepDatas» tiene que entrar en 60 caracteres. La `description` no puede pasar de 160. `cta` define el llamado a la acción del final: `diagnostico`, `casos` o `ia`. Los artículos con fecha futura no se publican hasta que se vuelva a generar el sitio en esa fecha. Cada artículo se suma solo al blog, al inicio, al sitemap y a los artículos relacionados.
 
 ## Casos de éxito
 

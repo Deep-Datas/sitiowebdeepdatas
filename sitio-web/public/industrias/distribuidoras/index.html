@@ -35,7 +35,38 @@
   <script src="/assets/js/site.js?v=f8e8815770" defer></script>
   <script src="/assets/js/design.js?v=723f6d287f" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
-</head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Necesitamos mucho historial para el pronóstico?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cuanto más historial, mejor, pero lo evaluamos en el diagnóstico: revisamos qué datos hay y qué precisión es razonable esperar antes de construir el modelo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿El agente puede cargar pedidos en nuestro sistema?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, si el sistema lo permite (por API o integración). Siempre empezamos con un piloto acotado y con controles para revisar lo que carga."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Por dónde empezamos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Por un diagnóstico de datos: en dos semanas sabés qué fuentes tenés y qué solución conviene hacer primero."
+      }
+    }
+  ]
+}
+</script></head>
 
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -389,14 +420,14 @@
       <li class="reveal">
         <article class="post-card">
           <h3 class="post-card-title"><a href="/blog/quiebre-de-stock-y-pronostico/">Cómo reducir el quiebre de stock con un pronóstico de demanda</a></h3>
-          <p>Quedarse sin stock cuesta ventas y clientes; tener de más inmoviliza capital. Cómo medir el quiebre de stock y cómo un pronóstico de demanda ayuda a planificar mejor las compras.</p>
+          <p>Quedarse sin stock cuesta ventas; tener de más inmoviliza capital. Cómo medirlo y cómo un pronóstico de demanda ayuda a planificar las compras.</p>
           <p class="post-meta">3 min de lectura</p>
         </article>
       </li>
       <li class="reveal">
         <article class="post-card">
           <h3 class="post-card-title"><a href="/blog/pedidos-por-whatsapp/">Pedidos por WhatsApp sin perder información en el camino</a></h3>
-          <p>Cada vez más clientes hacen sus pedidos por WhatsApp, pero esa información casi nunca llega ordenada a los sistemas. Cómo integrarla, desde lo más simple hasta un agente de IA.</p>
+          <p>Cada vez más clientes piden por WhatsApp, pero esa información casi nunca llega ordenada a los sistemas. Cómo integrarla, desde lo simple hasta la IA.</p>
           <p class="post-meta">3 min de lectura</p>
         </article>
       </li>

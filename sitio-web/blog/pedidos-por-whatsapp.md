@@ -1,6 +1,7 @@
 ---
 title: Pedidos por WhatsApp sin perder información en el camino
-description: Cada vez más clientes hacen sus pedidos por WhatsApp, pero esa información casi nunca llega ordenada a los sistemas. Cómo integrarla, desde lo más simple hasta un agente de IA.
+seo_title: Pedidos por WhatsApp sin perder información
+description: Cada vez más clientes piden por WhatsApp, pero esa información casi nunca llega ordenada a los sistemas. Cómo integrarla, desde lo simple hasta la IA.
 date: 2026-09-15
 tags: Inteligencia artificial, Ventas y distribución
 cta: ia

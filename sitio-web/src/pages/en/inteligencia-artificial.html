@@ -47,6 +47,10 @@
    'With a data assessment: in two weeks you’ll know which AI use cases are feasible with your current data and what is missing for the rest.'),
 ] %}
 
+{# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
+   en el resultado. El marcado sale de la misma lista que arma la página. #}
+{% block head %}{{ faq_schema(faqs) }}{% endblock %}
+
 {% block content %}
 <section class="page-hero ai-hero">
   <div class="container">
