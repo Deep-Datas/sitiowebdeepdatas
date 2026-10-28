@@ -1,28 +1,22 @@
-"""Prepara las imágenes de la portada del inicio: las aclara y las agranda lo mejor que se puede.
+"""Prepara la imagen de la portada del inicio: la aclara y la agranda lo mejor que se puede.
 
-Parte de tres imágenes del cliente, en tools/hero/, todas de 1536 x 1024 (3:2). Son
-tres momentos del mismo acercamiento, y el recorrido de la portada las encadena:
+Parte de tools/hero/portada-original.webp, de 1536 x 1024 (3:2) —el escritorio de quien
+decide, con el monitor de frente y la mano apoyada sobre la pantalla— y escribe
+src/assets/img/hero/portada-{1536,2048}.webp.
 
-  portada-1-original.webp   plano general: la oficina entera y el monitor al fondo.
-  portada-2-original.webp   plano medio: la misma escena, la cámara más cerca.
-  portada-3-original.webp   el monitor casi de frente, que es adonde llega la cámara.
-                            La única de las tres sobre la que se encaja el tablero.
-
-y escribe src/assets/img/hero/portada-{1,2,3}-{1536,2560}.webp.
-
-Están generadas con IA (Gemini / Nano Banana): no son fotos de una oficina real y la
+Está generada con IA (Gemini / Nano Banana): no es la foto de una oficina real y la
 persona que aparece no existe. La licencia está anotada en el README, en «Portada del
-inicio»; si se reemplazan por fotos de verdad hay que anotar allá la licencia y la
+inicio»; si se reemplaza por una foto de verdad hay que anotar allá la licencia y la
 cesión de imagen de quien aparezca.
 
 Dos cosas pasan acá:
 
-1. Revelado. Las tres vienen con un velo cálido fuerte: la mediana de cada una se desvía
-   del gris entre 25 y 31 niveles. Se neutraliza por canal con una gamma que no mueve ni
-   el negro ni el blanco, y el resto queda apenas insinuado. Ojo acá: estas fotos ya
-   vienen claras (luz media 136 a 149) y con un 1 a 1,5 % quemado, así que el aclarado
-   fuerte que pedían las anteriores les lava los azules del tablero y las aplana. Si se
-   cambian las fotos, volver a mirar estos números antes de dar por buenos los valores.
+1. Revelado. Viene con un velo cálido fuerte: la mediana se desvía del gris unos 30
+   niveles. Se neutraliza por canal con una gamma que no mueve ni el negro ni el blanco,
+   y el resto queda apenas insinuado. Ojo acá: esta foto ya viene clara (luz media 136 a
+   149) y con un 1 a 1,5 % quemado, así que el aclarado fuerte que pedían las anteriores
+   le lava los azules del monitor y la aplana. Si se cambia la foto, volver a mirar estos
+   números antes de dar por buenos los valores.
 
 2. Agrandado. La portada ocupa toda la pantalla y la cámara se acerca, así que el
    navegador tiene que estirar la foto varias veces. Un Lanczos a secas queda blando:
@@ -30,7 +24,7 @@ Dos cosas pasan acá:
    original y devolver la diferencia». Eso no inventa detalle (no hay de dónde), pero
    recupera el que el agrandado se come y deja los bordes mucho más definidos.
 
-   python tools/portada_foto.py            (regenera los seis archivos)
+   python tools/portada_foto.py            (regenera los dos archivos)
    python tools/portada_foto.py --revelado (solo muestra los números del revelado)
 """
 from __future__ import annotations
@@ -44,15 +38,12 @@ from PIL import Image, ImageFilter
 RAIZ = Path(__file__).resolve().parent.parent
 DESTINO = RAIZ / 'src' / 'assets' / 'img' / 'hero'
 # (archivo de origen, nombre que se publica, (ancho, calidad webp) …)
-# El tamaño grande de cada foto sale de cuánto se le acerca la cámara. La mitad de
-# pantalla mide unos 684 px, que a dpr 2 son ~1370 px de dispositivo; si en su encuadre
-# más cerrado una foto aporta menos que eso, hay que agrandarla. La tercera es la que
-# más se acerca (se ven unos 890 de sus 1536 px de ancho) y por eso lleva el tamaño
-# mayor. Si se cambian los encuadres, rehacer esta cuenta.
+# El tamaño grande sale de cuánto se le acerca la cámara. La mitad de pantalla mide unos
+# 684 px, que a dpr 2 son ~1370 px de dispositivo; en el encuadre más cerrado se ven unos
+# 570 de los 1536 px de ancho de la foto, así que hay que agrandarla. Si se cambian los
+# encuadres de hero.html, rehacer esta cuenta.
 FOTOS = (
-    ('portada-1-original.webp', 'portada-1', ((1536, 86), (2048, 82))),
-    ('portada-2-original.webp', 'portada-2', ((1536, 86), (2048, 82))),
-    ('portada-3-original.webp', 'portada-3', ((1536, 86), (2304, 82))),
+    ('portada-original.webp', 'portada', ((1536, 86), (2048, 82))),
 )
 
 GAMMA_LUZ = 0.95        # <1 aclara los medios tonos y deja quietos negro y blanco

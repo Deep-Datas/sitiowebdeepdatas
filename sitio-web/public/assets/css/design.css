@@ -1676,33 +1676,25 @@ html:not(.motion) .phone-view:first-child {
   isolation: isolate;
   overflow: hidden;
   background: #e9edf1;
-  container-type: inline-size;
-}
-
-/* Cada foto va en su capa, y la capa gira: así el giro tiene como centro el recorte y
-   no la esquina de la foto, que es desde donde la cámara mide. */
-.hb-turn {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 50%;
-  transform: perspective(1500px) rotateY(var(--giro, 0deg));
+  /* De tamaño y no solo de ancho: el tablero necesita mirar el alto, porque sin animación
+     el recorte queda ancho y bajo y por ancho solo no entraría. */
+  container-type: size;
 }
 
 /* La foto, en tamaño natural; la cámara la mueve y la acerca. El encuadre que queda
    acá es el del último acto: sin JavaScript se ve la respuesta, quieta. */
 .hb-scene {
   position: absolute;
-  opacity: var(--b, 1);
   left: 0;
   top: 0;
   width: 100%;
   transform-origin: 0 0;
-  transform: translate(0, -38.2%) scale(1.695);
+  transform: translate(-115.8%, -12.8%) scale(2.695);
 }
 
-/* Con animación arranca en el primer acto: el equipo, del otro lado de la oficina */
+/* Con animación arranca en el primer acto: la oficina entera */
 html.motion .hb-scene {
-  transform: translate(-179.7%, -70.9%) scale(2.84);
+  transform: translate(-43.7%, 0%) scale(1.704);
 }
 
 .hb-photo {
@@ -1732,173 +1724,116 @@ html.motion .hb-scene {
   mix-blend-mode: overlay;
 }
 
-/* ----- Las pantallas de la foto, encajadas en perspectiva por design.js ----- */
-.hb-screen {
-  position: absolute;
-  left: 0;
-  top: 0;
+/* ----- El tablero: la respuesta del acto 4. No va encajado sobre el monitor de la foto
+   —ahí la mano apoya sobre la pantalla y lo taparía a media escena—: es una card del
+   recorrido, y por eso se mide en unidades del recorte como las demás. ----- */
+.hb-board {
+  /* La unidad con la que se mide todo el tablero, su propio ancho incluido. Manda el
+     ancho del recorte, salvo cuando el recorte es ancho y bajo —el caso sin animación,
+     donde la escena no se parte al medio—: ahí manda el alto, porque si no el tablero
+     se sale por abajo y se le monta a la barra de voz. */
+  --u: min(1cqw, 1.1cqh);
+
+  left: 50%;
+  top: 12%;
+  width: calc(86 * var(--u));
+  gap: calc(0.9 * var(--u));
+  padding: 0;
   overflow: hidden;
-  transform-origin: 0 0;
-  background: #fff;
-}
-
-/* Recién cuando design.js midió el recorte: antes no tienen dónde encajarse. Va por la
-   negativa para no pisarle el display a cada pantalla, que arma lo suyo con grid. Las
-   fotas que entran después tampoco: sin cámara que las ubique quedarían en una esquina. */
-.hb-crop:not(.hb-ready) .hb-screen,
-.hb-crop:not(.hb-ready) .hb-ring,
-.hb-crop:not(.hb-ready) .hb-turn + .hb-turn {
-  display: none;
-}
-
-/* El rectángulo de diseño del tablero: la proporción de la pantalla medida en la foto
-   (845 x 505 px), para que la perspectiva no estire ni aplaste la tipografía. */
-.hb-s-tv {
-  z-index: 3;
-  width: 1280px;
-  height: 770px;
   opacity: var(--a, 1);
+  transform: translateX(-50%);
 }
-/* ----- El tablero de la pantalla. Sigue la estructura del que trae la foto —barra
-   lateral, cuatro fichas, dos paneles— para que el cruce entre uno y otro no se note.
-   El rectángulo de diseño tiene la proporción de la pantalla medida en la foto. ----- */
+
 .hb-scr {
-  --sbg: #eef4fb;         /* el fondo del tablero */
+  --sbg: #f3f7fc;         /* el fondo del tablero */
   --scard: #fff;          /* las tarjetas */
   --stx: #16263f;         /* texto principal */
   --stx2: #5a6b85;        /* etiquetas */
   --stx3: #8a99b0;        /* texto al pie */
-  --sln: #dfe7f2;         /* líneas y bordes */
+  --sln: #e4ebf4;         /* líneas y bordes */
   --sgr: #e6ecf5;         /* el carril de las barras */
   --s-blue: #2353d6;
-  --s-side: #1a3c60;      /* la barra lateral, muestreada de la foto */
-  --s-side-on: #305980;   /* el ítem activo */
 
-  position: absolute;
-  inset: 0;
   display: grid;
-  grid-template-columns: 186px minmax(0, 1fr);
+  gap: calc(1.1 * var(--u));
+  padding: calc(1.3 * var(--u)) calc(1.6 * var(--u)) calc(1.1 * var(--u));
   background: var(--sbg);
   color: var(--stx);
-  font-size: 30px;
+  font-size: calc(1.6 * var(--u));
   line-height: 1.3;
-  opacity: var(--c, 1);
-}
-
-.hb-nav {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  padding: 26px 0;
-  background: var(--s-side);
-  color: #cddcee;
-}
-
-.hb-nav-app {
-  padding: 0 22px 10px;
-  color: #fff;
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.hb-nav ul {
-  display: grid;
-  gap: 4px;
-  margin: 0;
-  padding: 0 12px;
-  list-style: none;
-}
-
-.hb-nav li {
-  overflow: hidden;
-  padding: 8px 13px;
-  border-radius: 9px;
-  font-size: 19px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hb-nav li.is-on {
-  background: var(--s-side-on);
-  color: #fff;
-  font-weight: 600;
-}
-
-/* El margen lateral es ancho a propósito: en el último acto el recorte puede comerse
-   hasta un 5 % de cada lado de la pantalla, y así no toca contenido. */
-.hb-main {
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  min-width: 0;
-  padding: 0 48px;
 }
 
 .hb-board-head {
   display: flex;
   align-items: baseline;
-  gap: 18px;
-  padding: 26px 0 14px;
+  gap: calc(1.3 * var(--u));
+}
+
+.hb-board-app {
+  color: var(--stx2);
+  font-family: var(--font-mono);
+  font-size: calc(1.15 * var(--u));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .hb-board-head h2 {
   margin: 0;
-  font-size: 44px;
+  font-size: calc(2.3 * var(--u));
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .hb-chip {
-  padding: 5px 15px;
+  padding: calc(0.3 * var(--u)) calc(1 * var(--u));
   border-radius: 999px;
   background: #e2eafc;
   color: var(--s-blue);
-  font-size: 21px;
+  font-size: calc(1.35 * var(--u));
   font-weight: 600;
 }
 
 .hb-live {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(0.6 * var(--u));
   margin-left: auto;
   color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 19px;
+  font-size: calc(1.15 * var(--u));
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .hb-live i {
-  width: 10px;
-  height: 10px;
+  width: calc(0.7 * var(--u));
+  height: calc(0.7 * var(--u));
   border-radius: 50%;
   background: var(--good);
-  box-shadow: 0 0 0 5px rgba(30, 122, 76, 0.18);
+  box-shadow: 0 0 0 calc(0.35 * var(--u)) rgba(30, 122, 76, 0.18);
 }
 
 .hb-when {
   color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 20px;
+  font-size: calc(1.2 * var(--u));
 }
 
-/* Las cuatro fichas en fila, como en la foto: ícono, etiqueta, número y variación */
+/* Las cuatro fichas en fila: ícono, etiqueta, número y variación */
 .hb-tiles {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  padding-bottom: 14px;
+  gap: calc(0.9 * var(--u));
 }
 
 .hb-tile {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-content: center;
-  gap: 2px 12px;
-  padding: 14px 16px;
-  border: 2px solid var(--sln);
-  border-radius: 14px;
+  gap: calc(0.1 * var(--u)) calc(0.8 * var(--u));
+  padding: calc(0.9 * var(--u)) calc(1 * var(--u));
+  border: 1px solid var(--sln);
+  border-radius: calc(1 * var(--u));
   background: var(--scard);
 }
 
@@ -1906,22 +1841,22 @@ html.motion .hb-scene {
   grid-row: 1 / 3;
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
+  width: calc(2.9 * var(--u));
+  height: calc(2.9 * var(--u));
+  border-radius: calc(0.8 * var(--u));
   background: #e2eafc;
   color: var(--s-blue);
-  font-size: 24px;
+  font-size: calc(1.6 * var(--u));
 }
 
 .hb-k {
   color: var(--stx2);
-  font-size: 21px;
+  font-size: calc(1.35 * var(--u));
 }
 
 .hb-v {
   font-family: var(--font-display);
-  font-size: 40px;
+  font-size: calc(2.5 * var(--u));
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
@@ -1931,9 +1866,8 @@ html.motion .hb-scene {
 
 .hb-d {
   grid-column: 1 / 3;
-  padding-top: 2px;
   color: var(--good);
-  font-size: 18px;
+  font-size: calc(1.15 * var(--u));
   font-weight: 600;
 }
 
@@ -1941,32 +1875,29 @@ html.motion .hb-scene {
 .hb-panels {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: 14px;
-  min-height: 0;
-  padding-bottom: 14px;
+  gap: calc(0.9 * var(--u));
 }
 
 .hb-panel {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 0;
-  padding: 16px 20px 14px;
-  border: 2px solid var(--sln);
-  border-radius: 14px;
+  padding: calc(1 * var(--u)) calc(1.2 * var(--u)) calc(0.9 * var(--u));
+  border: 1px solid var(--sln);
+  border-radius: calc(1 * var(--u));
   background: var(--scard);
 }
 
 .hb-panel h3 {
-  margin: 0 0 10px;
-  font-size: 24px;
-  font-weight: 600;
+  margin: 0 0 calc(0.7 * var(--u));
   color: var(--stx);
+  font-size: calc(1.5 * var(--u));
+  font-weight: 600;
 }
 
 .hb-line {
   width: 100%;
-  height: 100%;
-  min-height: 0;
+  height: calc(5.6 * var(--u));
   overflow: visible;
 }
 
@@ -1978,7 +1909,7 @@ html.motion .hb-scene {
 .hb-line-dot {
   fill: none;
   stroke: var(--s-blue);
-  stroke-width: 3;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
@@ -1987,16 +1918,16 @@ html.motion .hb-scene {
 .hb-axis {
   display: flex;
   justify-content: space-between;
-  padding-top: 8px;
+  padding-top: calc(0.5 * var(--u));
   color: var(--stx3);
-  font-size: 17px;
+  font-size: calc(1.1 * var(--u));
 }
 
 .hb-chart-head {
   display: flex;
   align-items: baseline;
-  gap: 14px;
-  margin-bottom: 10px;
+  gap: calc(1 * var(--u));
+  margin-bottom: calc(0.7 * var(--u));
 }
 
 .hb-chart-head h3 {
@@ -2007,32 +1938,32 @@ html.motion .hb-scene {
 .hb-goal {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(0.5 * var(--u));
   margin-left: auto;
   color: var(--stx3);
-  font-size: 18px;
+  font-size: calc(1.15 * var(--u));
 }
 
 .hb-goal::before {
   content: "";
-  width: 3px;
-  height: 16px;
-  background: repeating-linear-gradient(var(--stx3) 0 4px, transparent 4px 8px);
+  width: 2px;
+  height: calc(1.1 * var(--u));
+  background: repeating-linear-gradient(var(--stx3) 0 calc(0.3 * var(--u)), transparent calc(0.3 * var(--u)) calc(0.6 * var(--u)));
 }
 
 .hb-bars {
   display: grid;
   align-content: center;
-  gap: 9px;
+  gap: calc(0.6 * var(--u));
   min-height: 0;
 }
 
 .hb-bar {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr) 100px;
-  gap: 12px;
+  grid-template-columns: calc(8.6 * var(--u)) minmax(0, 1fr) calc(6 * var(--u));
+  gap: calc(0.8 * var(--u));
   align-items: center;
-  font-size: 21px;
+  font-size: calc(1.35 * var(--u));
 }
 
 .hb-bar .hb-nm {
@@ -2044,8 +1975,8 @@ html.motion .hb-scene {
 
 .hb-tr {
   position: relative;
-  height: 18px;
-  border-radius: 5px;
+  height: calc(1.1 * var(--u));
+  border-radius: calc(0.3 * var(--u));
   background: var(--sgr);
 }
 
@@ -2054,7 +1985,7 @@ html.motion .hb-scene {
   position: absolute;
   inset: 0 auto 0 0;
   width: var(--w, 0%);
-  border-radius: 5px 8px 8px 5px;
+  border-radius: calc(0.3 * var(--u)) calc(0.5 * var(--u)) calc(0.5 * var(--u)) calc(0.3 * var(--u));
   background: var(--s-blue);
 }
 
@@ -2063,11 +1994,11 @@ html.motion .hb-scene {
 .hb-tr::after {
   content: "";
   position: absolute;
-  top: -3px;
-  bottom: -3px;
+  top: -calc(0.2 * var(--u));
+  bottom: -calc(0.2 * var(--u));
   left: 80%;
-  width: 3px;
-  background: repeating-linear-gradient(var(--stx3) 0 4px, transparent 4px 8px);
+  width: 2px;
+  background: repeating-linear-gradient(var(--stx3) 0 calc(0.3 * var(--u)), transparent calc(0.3 * var(--u)) calc(0.6 * var(--u)));
 }
 
 .hb-vl {
@@ -2077,19 +2008,20 @@ html.motion .hb-scene {
 
 .hb-foot {
   display: flex;
-  gap: 18px;
-  padding: 12px 0 16px;
-  border-top: 2px solid var(--sln);
+  gap: calc(1.3 * var(--u));
+  padding-top: calc(0.8 * var(--u));
+  border-top: 1px solid var(--sln);
   color: var(--stx3);
   font-family: var(--font-mono);
-  font-size: 18px;
+  font-size: calc(1.15 * var(--u));
 }
 
 .hb-right {
   margin-left: auto;
 }
 
-
+/* El barrido que recorre el tablero cuando se está armando la respuesta. Cuando no barre
+   queda arriba y no abajo: abajo le agregaría a la card un alto de más. */
 .hb-scan {
   position: absolute;
   inset: 0;
@@ -2099,51 +2031,6 @@ html.motion .hb-scene {
   background: linear-gradient(170deg, transparent 34%, rgba(35, 83, 214, 0.22) 45%, rgba(255, 255, 255, 0.98) 50%, rgba(35, 83, 214, 0.22) 55%, transparent 66%);
   transform: translateY(calc(-100% + var(--scan, 0) * 200%));
 }
-
-.hb-ring {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 4;
-  display: block;
-  box-sizing: border-box;
-  border: 14px solid var(--accent-600);
-  border-radius: 18px;
-  opacity: var(--a, 0);
-  pointer-events: none;
-  transform-origin: 0 0;
-  box-shadow: 0 0 90px 10px rgba(228, 88, 28, 0.45), inset 0 0 70px rgba(228, 88, 28, 0.2);
-}
-
-/* El televisor va aparte: el marco naranja señala y se apaga, pero la luz que tira la
-   pantalla sobre la pared se queda, porque el televisor sigue encendido. */
-.hb-r-tv2 {
-  width: 1280px;
-  height: 720px;
-  border-width: 10px;
-  border-radius: 12px;
-  opacity: 1;
-  border-color: rgba(228, 88, 28, calc(var(--a, 0) * 0.9));
-  box-shadow:
-    0 0 200px 40px rgba(255, 255, 255, calc(var(--g, 0) * 0.45)),
-    0 0 120px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.28));
-}
-
-.hb-r-tv {
-  width: 1280px;
-  height: 1650px;
-  border-width: 12px;
-  border-radius: 14px;
-  opacity: 1;
-  border-color: rgba(228, 88, 28, calc(var(--a, 0) * 0.9));
-  box-shadow:
-    0 0 240px 50px rgba(255, 255, 255, calc(var(--g, 0) * 0.5)),
-    0 0 140px 20px rgba(35, 83, 214, calc(var(--g, 0) * 0.3)),
-    inset 0 0 90px rgba(255, 255, 255, calc(var(--a, 0) * 0.25));
-}
-
-/* En el primer plano el tablero es 16:9 de verdad: las fichas van en fila y la
-   tipografía puede ser más chica, porque la pantalla ocupa media escena. */
 
 /* ----- Lo que no vive dentro de la foto: carteles, chips y la barra de voz.
    Cada uno aparece en su acto; las posiciones están atadas a ese encuadre. ----- */
@@ -2377,29 +2264,78 @@ html.motion .hb-scene {
   font-size: 0.95cqw;
 }
 
-/* Los sistemas que cruzan de un ambiente al otro */
-.hb-fly {
+/* ----- Las cuatro fuentes. Son el centro del acto 2: aparecen una por una, repartidas
+   en el ancho del recorte, y en el acto 3 cruzan hacia el modelo. Las ubica design.js,
+   así que acá solo va cómo se ven. ----- */
+.hb-fuentes-hd {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  padding: 0.5cqw 1.2cqw;
+  border-radius: 999px;
+  background: rgba(11, 18, 32, 0.82);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  letter-spacing: 0.14em;
+  opacity: var(--a, 0);
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.hb-fuente {
   position: absolute;
   left: 0;
   top: 0;
-  padding: 0.6cqw 1.1cqw;
+  display: flex;
+  align-items: center;
+  gap: 0.8cqw;
+  padding: 0.9cqw 1.4cqw 0.9cqw 0.9cqw;
   border-radius: 999px;
-  background: var(--text);
-  color: var(--bg);
-  font-family: var(--font-mono);
-  font-size: 1.05cqw;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  background: rgba(253, 253, 255, 0.96);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 1.4cqw 3cqw -1.2cqw rgba(8, 14, 28, 0.85),
+    0 0 0 0.35cqw color-mix(in srgb, var(--c) 28%, transparent);
+  color: var(--text);
   opacity: 0;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 1cqw 2.4cqw -1cqw rgba(8, 14, 28, 0.8), 0 0 2.4cqw rgba(228, 88, 28, 0.45);
+  white-space: nowrap;
 }
 
+.hb-fuente b {
+  font-size: 1.7cqw;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.hb-fuente-ico {
+  display: grid;
+  place-items: center;
+  width: 3cqw;
+  height: 3cqw;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fff;
+  font-size: 1.6cqw;
+}
+
+.hb-f-erp { --c: #0b1220; }
+.hb-f-crm { --c: #2353d6; }
+.hb-f-xls { --c: #12a594; }
+.hb-f-wa { --c: #128c7e; }
+
 /* Acto 4: la alerta que llega sola y la barra de voz, junto al micrófono */
+/* Justo encima del apilado de abajo, como una notificación que entra. Va colgada del
+   apilado y no a una altura fija del recorte porque el hueco que le queda entre el
+   tablero y la barra de voz cambia con el idioma y con la forma del recorte. Y va fuera
+   del flujo del apilado para no reservarle alto durante todo el recorrido: en el acto 2
+   ese alto le comería el lugar a los dos sistemas. */
 .hb-alert {
   right: 3%;
-  top: 7%;
-  width: 26%;
+  bottom: 100%;
+  width: 30%;
+  margin-bottom: 1.6cqw;
   opacity: var(--a, 1);
 }
 
@@ -2578,11 +2514,11 @@ html.motion .hb-scene {
   transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.motion .hb-join {
+.motion .hb-join,
+.motion .hb-board {
   transform: translateX(-50%) translateY(calc((1 - var(--a)) * 22px));
 }
 
-.motion 
 /* Sin animación no hay recorrido: el texto deja de ir encima de la foto y vuelve a ir
    arriba, y debajo queda el último acto, quieto y completo. Es el orden del DOM al
    revés, así que el texto se adelanta con order. */
@@ -2641,8 +2577,8 @@ html:not(.motion) .hb-steps {
 
   .hb-alert {
     right: 4%;
-    top: 2%;
-    width: 54%;
+    width: 64%;
+    margin-bottom: 2.4cqw;
   }
 
   /* El recorte es angosto en las dos formas (celular y media pantalla), así que lo que
@@ -2681,6 +2617,7 @@ html:not(.motion) .hb-steps {
     gap: 0.9cqw;
   }
 
+  /* Uno debajo del otro: acá al lado no entran */
   .hb-wa {
     top: 6%;
   }
@@ -2723,10 +2660,6 @@ html:not(.motion) .hb-steps {
 
   .hb-join-bar {
     height: 1cqw;
-  }
-
-  .hb-fly {
-    font-size: max(10px, 2.5cqw);
   }
 
   .hb-voice {
@@ -2772,12 +2705,123 @@ html:not(.motion) .hb-steps {
   .hb-status {
     display: none;
   }
+
+  /* El tablero. Es la respuesta, así que es lo que más tiene que leerse: crece más que
+     el resto y lleva piso en px para que en el celular no quede en letra chica. */
+  .hb-board {
+    width: calc(92 * var(--u));
+  }
+
+  .hb-scr {
+    gap: calc(1.5 * var(--u));
+    padding: calc(1.8 * var(--u)) calc(2 * var(--u)) calc(1.5 * var(--u));
+    font-size: max(11px, calc(2.2 * var(--u)));
+  }
+
+  .hb-board-app,
+  .hb-live,
+  .hb-when,
+  .hb-d,
+  .hb-goal,
+  .hb-foot {
+    font-size: max(8px, calc(1.6 * var(--u)));
+  }
+
+  .hb-board-head h2 {
+    font-size: max(15px, calc(3.1 * var(--u)));
+  }
+
+  .hb-chip,
+  .hb-k,
+  .hb-bar {
+    font-size: max(9px, calc(1.85 * var(--u)));
+  }
+
+  .hb-v {
+    font-size: max(17px, calc(3.4 * var(--u)));
+  }
+
+  .hb-ico {
+    width: max(20px, calc(3.9 * var(--u)));
+    height: max(20px, calc(3.9 * var(--u)));
+    font-size: max(11px, calc(2.2 * var(--u)));
+  }
+
+  .hb-panel h3 {
+    font-size: max(10px, calc(2.05 * var(--u)));
+  }
+
+  .hb-axis {
+    font-size: max(7px, calc(1.5 * var(--u)));
+  }
+
+  .hb-bar {
+    grid-template-columns: calc(11.8 * var(--u)) minmax(0, 1fr) calc(8.2 * var(--u));
+  }
+
+  .hb-line {
+    height: calc(7.6 * var(--u));
+  }
+
+  /* Las fuentes, que son de lo que habla el acto 2 */
+  .hb-fuentes-hd {
+    font-size: max(9px, 1.9cqw);
+  }
+
+  .hb-fuente {
+    gap: 1.2cqw;
+    padding: 1.3cqw 2cqw 1.3cqw 1.3cqw;
+  }
+
+  .hb-fuente b {
+    font-size: max(13px, 2.9cqw);
+  }
+
+  .hb-fuente-ico {
+    width: max(22px, 4.6cqw);
+    height: max(22px, 4.6cqw);
+    font-size: max(12px, 2.4cqw);
+  }
+}
+
+/* Si la escena queda baja —media pantalla con poca altura, o sin animación— el tablero
+   se lleva el hueco que quedaba libre y la alerta ya no entra debajo. */
+@container (max-height: 720px) {
+  .hb-alert {
+    display: none;
+  }
 }
 
 /* En un recorte de celular ya no entra nada más que lo imprescindible */
 @container (max-width: 520px) {
   .hb-alert {
     display: none;
+  }
+
+  /* El tablero en un recorte de celular: las fichas en dos filas y un solo panel. La
+     curva de ventas es la que se va, porque las barras son las que llevan el objetivo y
+     son lo que contesta la pregunta. */
+  .hb-board {
+    top: 21%;
+    width: calc(94 * var(--u));
+  }
+
+  .hb-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hb-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hb-panels .hb-panel:first-child,
+  .hb-board-app,
+  .hb-when {
+    display: none;
+  }
+
+  .hb-bar {
+    grid-template-columns: calc(19 * var(--u)) minmax(0, 1fr) calc(13 * var(--u));
   }
 
 

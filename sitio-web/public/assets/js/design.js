@@ -68,8 +68,9 @@
      el momento en que todo se unifica y, del otro lado de la mampara, los mismos números
      en el televisor de quien decide. La cámara es un rectángulo de la foto que se lleva
      al recorte; cada acto dice qué tiene que entrar sí o sí y acá se le da la forma del
-     recorte. Las pantallas se encajan con una matriz de perspectiva y viven dentro de la
-     escena, así que la cámara las arrastra sola. Sin animación queda el último acto. */
+     recorte. Lo que va sobre la foto —las cards, las cuatro fuentes y el tablero— vive
+     fuera de la escena, así que no lo arrastra la cámara: lo ubica este archivo. Sin
+     animación queda el último acto. */
   document.querySelectorAll('[data-hb]').forEach(function (track) {
     var fotos, statuses, captions;
     try {
@@ -80,68 +81,42 @@
 
     var crop = track.querySelector('.hb-crop');
     var pin = track.querySelector('.hb-pin');
-    var turns = slice(track.querySelectorAll('[data-hb-turn]'));
-    var scenes = slice(track.querySelectorAll('[data-hb-scene]'));
-    if (!crop || !pin || scenes.length !== fotos.length) return;
+    var scene = track.querySelector('[data-hb-scene]');
+    var foto = fotos[0];
+    if (!crop || !pin || !scene || !foto) return;
 
-    // El rectángulo de diseño del tablero, que la matriz lleva al cuadrilátero medido
-    var TABLERO = { w: 1280, h: 770 };
-
-    // La pantalla y, sobre el mismo cuadrilátero, el marco que la señala. Solo las
-    // fotos con «tv» los tienen: en las demás la mano apoya encima de la pantalla.
-    var screens = [];
-    fotos.forEach(function (f, i) {
-      if (!f.tv) return;
-      ['.hb-s-tv', '.hb-r-tv'].forEach(function (sel) {
-        var el = scenes[i].querySelector(sel);
-        if (el) screens.push({ el: el, w: TABLERO.w, h: TABLERO.h, quad: f.tv, foto: f });
-      });
-    });
-
-    // Gauss con pivoteo parcial: resuelve los 8 coeficientes de la homografía
-    function solve(A, b) {
-      var n = b.length, M = A.map(function (row, i) { return row.concat([b[i]]); });
-      for (var c = 0; c < n; c++) {
-        var piv = c;
-        for (var r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
-        var t = M[c]; M[c] = M[piv]; M[piv] = t;
-        var d = M[c][c];
-        for (var j = c; j <= n; j++) M[c][j] /= d;
-        for (var k = 0; k < n; k++) {
-          if (k === c || !M[k][c]) continue;
-          var f = M[k][c];
-          for (var j2 = c; j2 <= n; j2++) M[k][j2] -= f * M[c][j2];
-        }
-      }
-      return M.map(function (row) { return row[n]; });
-    }
-
-    // Lleva el rectángulo de diseño al cuadrilátero de la pantalla, en píxeles de la
-    // escena. sw es el ancho de la escena; el alto sale de la forma de su propia foto.
-    function matrixFor(s, sw) {
-      var sh = sw * s.foto.h / s.foto.w;
-      var src = [[0, 0], [s.w, 0], [s.w, s.h], [0, s.h]];
-      var A = [], b = [];
-      for (var i = 0; i < 4; i++) {
-        var x = src[i][0], y = src[i][1];
-        var u = s.quad[i][0] / s.foto.w * sw, v = s.quad[i][1] / s.foto.h * sh;
-        A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
-        A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
-      }
-      var h = solve(A, b);
-      s.el.style.transform = 'matrix3d(' + [h[0], h[3], 0, h[6], h[1], h[4], 0, h[7], 0, 0, 1, 0, h[2], h[5], 0, 1].join(',') + ')';
-    }
-
-    var cropW = 0, cropH = 0, ar = fotos[0].w / fotos[0].h, fade = 0;
+    var cropW = 0, cropH = 0, ar = foto.w / foto.h, fade = 0;
     function measure() {
       cropW = crop.clientWidth;
       cropH = crop.clientHeight;
       if (!cropW || !cropH) return false;
       ar = cropW / cropH;
       fade = copy ? parseFloat(getComputedStyle(copy).getPropertyValue('--fade')) || 0 : 0;
-      screens.forEach(function (s) { if (s.el) matrixFor(s, cropW); });
+      ubicarFuentes();
       crop.classList.add('hb-ready');
       return true;
+    }
+
+    // Dónde se para cada fuente mientras está puesta. Se reparten el ancho del recorte
+    // según lo que mide cada una —«Planillas» y «Spreadsheets» no miden lo mismo—, con
+    // el mismo aire entre todas, y en el recorte de celular van en dos filas, porque las
+    // cuatro al hilo no entran.
+    var puestos = [];
+    function ubicarFuentes() {
+      var dosFilas = ar < 0.7;
+      var cols = dosFilas ? 2 : fuentes.length;
+      var sep = 0.035 * cropW;
+      puestos = [];
+      for (var fila = 0; fila * cols < fuentes.length; fila++) {
+        var fin = Math.min(fuentes.length, (fila + 1) * cols), total = -sep;
+        for (var i = fila * cols; i < fin; i++) total += fuentes[i].offsetWidth + sep;
+        var x = (cropW - total) / 2;
+        var y = (dosFilas ? 0.43 + fila * 0.085 : 0.455) * cropH;
+        for (var k = fila * cols; k < fin; k++) {
+          puestos[k] = [x + fuentes[k].offsetWidth / 2, y];
+          x += fuentes[k].offsetWidth + sep;
+        }
+      }
     }
 
     // El encuadre de un acto: se agranda el rectángulo pedido hasta tener la forma del
@@ -156,17 +131,17 @@
       return [cx - w / 2, cy - h / 2, w];
     }
 
-    // Una cámara por foto. No salta al valor del scroll: lo persigue con un retardo
-    // chico, que es lo que hace que el movimiento se sienta de cámara y no de barra de
-    // scroll, y de paso se come los saltos de la rueda del mouse. «quieta» avisa cuándo
-    // ya llegó, para no seguir dibujando de gusto.
+    // La cámara. No salta al valor del scroll: lo persigue con un retardo chico, que es
+    // lo que hace que el movimiento se sienta de cámara y no de barra de scroll, y de
+    // paso se come los saltos de la rueda del mouse. «quieta» avisa cuándo ya llegó,
+    // para no seguir dibujando de gusto.
     function hacerCamara(el, foto) {
       var cam = null, quieta = true;
       return {
         llego: function () { return quieta; },
         arrancar: function () { cam = null; },
         mover: function (p, dt) {
-          // Dos encuadres por foto: «cam» para la media pantalla de escritorio y
+          // Dos juegos de encuadres: «cam» para la media pantalla de escritorio y
           // «cam_alto» para el recorte de celular, que es mucho más angosto y obliga a
           // acercarse más. El umbral cae entre los dos (0,88 y 0,50).
           var k = ar < 0.7 && foto.cam_alto ? foto.cam_alto : foto.cam, i = 0;
@@ -193,10 +168,10 @@
       };
     }
 
-    var camaras = fotos.map(function (f, i) { return hacerCamara(scenes[i], f); });
+    var camara = hacerCamara(scene, foto);
 
     function quieta() {
-      return camaras.every(function (c) { return c.llego(); });
+      return camara.llego();
     }
 
     var question = track.getAttribute('data-question') || '';
@@ -215,12 +190,12 @@
     var copy = track.querySelector('.hb-copy');
     var veil = track.querySelector('.hb-veil');
     var rail = track.querySelector('.hb-rail');
-    var tv = track.querySelector('.hb-s-tv');
+    var board = track.querySelector('.hb-board');
     var wa = track.querySelector('.hb-wa');
     var crm = track.querySelector('.hb-crm');
-    var ringTv = track.querySelector('.hb-r-tv');
     var oks = slice(track.querySelectorAll('.hb-join-rows .hb-ok'));
-    var flies = slice(track.querySelectorAll('.hb-fly'));
+    var fuentes = slice(track.querySelectorAll('[data-hb-fuente]'));
+    var fuentesHd = track.querySelector('.hb-fuentes-hd');
     var steps = slice(track.querySelectorAll('.hb-step'));
     var bars = slice(track.querySelectorAll('.hb-tr i'));
     var kpis = slice(track.querySelectorAll('[data-kpi]')).map(function (n) {
@@ -256,22 +231,7 @@
     }
 
     function render(p, t, dt) {
-      // Cada foto entra girando sobre la anterior: las dos capas giran a la vez, una
-      // saliendo y otra entrando, y la escena queda donde estaba. «cruces» dice cuánto
-      // entró cada una; la primera está siempre, y las que quedan más allá de hasta()
-      // no se usan con esta forma de recorte.
-      var cruces = fotos.map(function (f, i) {
-        return i === 0 ? 1 : smooth(f.desde, f.hasta, p);
-      });
-      fotos.forEach(function (f, i) {
-        camaras[i].mover(p, dt);
-        set(scenes[i], '--b', cruces[i].toFixed(3));
-        // El giro de cada capa compone lo que le falta entrar con lo que la saca la
-        // siguiente, así que una capa del medio pasa por cero cuando le toca estar sola.
-        var entra = (1 - cruces[i]) * 6;
-        var sale = (i + 1 < cruces.length ? cruces[i + 1] : 0) * 5;
-        set(turns[i], '--giro', (entra - sale).toFixed(2) + 'deg');
-      });
+      camara.mover(p, dt);
 
       // Donde el texto va encima de la escena (celulares) se desvanece con el scroll y
       // el pie entra atrás; donde va al lado (escritorio, media pantalla) se queda.
@@ -285,37 +245,41 @@
       }
 
       // Acto 1: el pedido que acaba de entrar, una vez que el título se fue
-      set(ask, '--a', (smooth(0.12, 0.19, p) * (1 - smooth(0.21, 0.27, p))).toFixed(3));
+      set(ask, '--a', (smooth(0.06, 0.12, p) * (1 - smooth(0.22, 0.27, p))).toFixed(3));
 
-      // El tablero se enciende cuando la cámara ya encara el televisor: antes se ve el
-      // que trae la foto, así no quedan números en cero a la vista. La pantalla (--a, la
-      // luz blanca) y el contenido (--c) van por separado, y durante el giro los dos
-      // televisores quedan en blanco: la pantalla prendida tapa el tablero azul oscuro
-      // de la foto, y sin contenido los dos no se superponen como una doble imagen.
-      // El tablero vive en la última foto. La pantalla (--a, la luz blanca) se prende
-      // antes de que la foto entre, así que durante el cruce se ve blanca y no el
-      // tablero que trae la foto; el contenido (--c) llega después, ya del otro lado.
-      set(tv, '--a', smooth(0.78, 0.84, p).toFixed(3));
-      set(tv, '--c', smooth(0.885, 0.94, p).toFixed(3));
+      // El tablero entra cuando la cámara ya está encima del monitor, y tapa el que trae
+      // la foto justo cuando empezaría a leerse.
+      set(board, '--a', smooth(0.79, 0.86, p).toFixed(3));
 
-      // Acto 2: los dos sistemas abiertos mientras se arma la respuesta
-      var sale = 1 - smooth(0.50, 0.56, p);
-      set(wa, '--a', (smooth(0.26, 0.33, p) * sale).toFixed(3));
-      set(crm, '--a', (smooth(0.30, 0.37, p) * sale).toFixed(3));
+      // Acto 2, primera mitad: los dos sistemas abiertos, como están hoy. Se van antes
+      // de que entren las fuentes, que ocupan el mismo lugar de la escena.
+      set(wa, '--a', (smooth(0.26, 0.31, p) * (1 - smooth(0.38, 0.43, p))).toFixed(3));
+      set(crm, '--a', (smooth(0.29, 0.34, p) * (1 - smooth(0.40, 0.45, p))).toFixed(3));
 
-      // Acto 3: los sistemas cruzan la mampara y se unen en un solo modelo
-      set(join, '--a', (smooth(0.55, 0.62, p) * (1 - smooth(0.74, 0.80, p))).toFixed(3));
-      set(joinBar, '--p', (smooth(0.57, 0.73, p) * 100).toFixed(1) + '%');
-      oks.forEach(function (ok, i) { set(ok, '--ok', smooth(0.58 + i * 0.022, 0.62 + i * 0.022, p).toFixed(3)); });
-      flies.forEach(function (fly, i) {
-        var f = smooth(0.52 + i * 0.035, 0.70 + i * 0.035, p);
-        var vis = f > 0.01 && f < 0.99;
-        fly.style.opacity = vis ? 1 : 0;
-        if (!vis) return;
-        // Van por debajo de los monitores, para no tapar lo que se lee en ellos
-        var x = lerp(0.92, 0.06, f) * cropW, y = (0.72 - Math.sin(f * Math.PI) * 0.08 + i * 0.025) * cropH;
-        fly.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) translate(-50%,-50%)';
+      // Las cuatro fuentes. Son de lo que habla el acto 2: aparecen una por una y se
+      // quedan puestas, repartidas en el ancho del recorte —en el celular, en dos filas,
+      // porque las cuatro no entran en una—. En el acto 3 cruzan hacia la card del
+      // modelo y se apagan al llegar, que es lo que se ve como «se unifican».
+      set(fuentesHd, '--a', (smooth(0.42, 0.47, p) * (1 - smooth(0.56, 0.61, p))).toFixed(3));
+      fuentes.forEach(function (n, i) {
+        var entra = smooth(0.42 + i * 0.02, 0.47 + i * 0.02, p);
+        var viaja = smooth(0.58 + i * 0.025, 0.70 + i * 0.025, p);
+        var a = entra * (1 - smooth(0.70 + i * 0.025, 0.745 + i * 0.025, p));
+        n.style.opacity = a.toFixed(3);
+        if (a < 0.005 || !puestos[i]) return;
+        // Hacia la card del modelo, que vive arriba y al medio, con una panza en el medio
+        // del viaje para que el recorrido no sea una recta
+        var x = lerp(puestos[i][0], 0.5 * cropW, viaja);
+        var y = lerp(puestos[i][1], 0.19 * cropH, viaja) + Math.sin(viaja * Math.PI) * 0.045 * cropH;
+        var k = lerp(1, 0.6, viaja);
+        n.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)' +
+          ' translate(-50%,-50%) scale(' + k.toFixed(3) + ')';
       });
+
+      // Acto 3: los sistemas se unen en un solo modelo
+      set(join, '--a', (smooth(0.56, 0.63, p) * (1 - smooth(0.74, 0.80, p))).toFixed(3));
+      set(joinBar, '--p', (smooth(0.57, 0.73, p) * 100).toFixed(1) + '%');
+      oks.forEach(function (ok, i) { set(ok, '--ok', smooth(0.60 + i * 0.022, 0.64 + i * 0.022, p).toFixed(3)); });
 
       // Acto 4: la pregunta en voz alta y la respuesta que ya está en el televisor
       set(voice, '--voice', smooth(0.74, 0.80, p).toFixed(3));
@@ -331,17 +295,11 @@
         statuses.forEach(function (s) { if (p >= s[0]) st = s[1]; });
         text(statusEl, st);
       }
-      // El marco del televisor señala y se apaga; la luz de la pantalla se queda
-      // Un solo marco a la vez: el de la primera foto se va con el giro y el de la
-      // segunda entra cuando la pantalla ya volvió a encenderse, del otro lado.
-      set(ringTv, '--a', (smooth(0.89, 0.94, p) * (1 - smooth(0.985, 1, p))).toFixed(3));
-      set(ringTv, '--g', smooth(0.89, 0.95, p).toFixed(3));
-      // El barrido recorre justo la ventana en que la pantalla está en blanco, para que
-      // el giro se lea como un tablero rehaciéndose. Sin giro no hay blanco: ahí barre
-      // sobre el tablero ya encendido, un poco antes.
-      // Cuando no se ve queda arriba y no abajo: abajo le agregaría a la pantalla un alto
-      // de más, que es scroll que no existe.
-      var sc = smooth(0.845, 0.925, p);
+      // El barrido recorre el tablero mientras se arma la respuesta, entre que la card
+      // acaba de entrar y los números terminan de subir. Cuando no barre queda arriba y
+      // no abajo: abajo le agregaría a la card un alto de más, que es scroll que no
+      // existe.
+      var sc = smooth(0.855, 0.93, p);
       var barriendo = sc > 0.01 && sc < 0.99;
       scans.forEach(function (n) {
         set(n, '--scan', (barriendo ? sc : 0).toFixed(3));
@@ -388,7 +346,7 @@
 
     var resized = function () {
       if (!measure()) return;
-      camaras.forEach(function (c) { c.arrancar(); });
+      camara.arrancar();
       draw(0, 0);
     };
     if ('ResizeObserver' in window) new ResizeObserver(resized).observe(crop);
@@ -426,7 +384,7 @@
       // Al volver a entrar en pantalla la cámara arranca donde está el scroll, sin viaje
       if (on) {
         lastTs = 0;
-        camaras.forEach(function (c) { c.arrancar(); });
+        camara.arrancar();
         window.requestAnimationFrame(frameLoop);
       }
     };
