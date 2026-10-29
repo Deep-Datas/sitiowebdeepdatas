@@ -81,6 +81,7 @@
     <p class="lead">Proyectos de integración de datos, tableros de gestión y modelos predictivos, contados con los números que importan a cada cliente.</p>
     <nav class="pill-nav" aria-label="Casos">
       <a href="#distribuidores">Red de distribuidores</a>
+      <a href="#cobertura">Cobertura y venta cruzada</a>
       <a href="#pronostico">Pronóstico de demanda</a>
     </nav>
   </div>
@@ -279,6 +280,127 @@
 </div>
 
       <figcaption class="screen-caption">Tablero ilustrativo con datos ficticios, similar al implementado. <a class="link-arrow" href="/ejemplos/#distribuidores">Ver el tablero interactivo <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a></figcaption>
+    </figure>
+  </article>
+</section>
+<section class="section section-tight case-section" id="cobertura" aria-labelledby="cobertura-title">
+  <article class="container case case-layout">
+    <div class="case-main">
+      <header class="case-head reveal">
+        <ul class="tags">
+          <li>Consumo masivo</li>
+        </ul>
+        <h2 id="cobertura-title">Cada vendedor sabe a qué cliente ofrecerle qué producto</h2>
+        <p class="case-client-name">Empresa de alimentos</p>
+      </header>
+
+      <dl class="case-results reveal">
+        <div>
+          <dt>puntos de venta analizados</dt>
+          <dd>+5.000</dd>
+        </div>
+        <div>
+          <dt>aumento de la cobertura de las líneas foco</dt>
+          <dd>+35%</dd>
+        </div>
+        <div>
+          <dt>oportunidades de venta cruzada identificadas</dt>
+          <dd>21</dd>
+        </div>
+      </dl>
+
+      <dl class="case-story">
+        <div><dt class="label">El desafío</dt><dd>El equipo comercial conocía el volumen de ventas, pero no en qué puntos de venta faltaba cada línea de producto ni qué vendedor tenía más oportunidades.</dd></div>
+        <div><dt class="label">Qué hicimos</dt><dd>Integramos las ventas por punto de venta del ERP con la cartera de cada vendedor y armamos un tablero de cobertura con listas de oportunidades por vendedor.</dd></div>
+        <div><dt class="label">El resultado</dt><dd>Cada vendedor sale a la calle con una lista concreta de clientes a los que ofrecerles la línea que todavía no compran.</dd></div>
+      </dl>
+
+
+      <div class="case-meta">
+        <div>
+          <p class="label">Fuentes integradas</p>
+          <ul class="case-chips"><li>ERP</li><li>CRM</li><li>Excel y planillas</li></ul>
+        </div>
+        <div>
+          <p class="label">Tecnología</p>
+          <ul class="case-chips"><li>Power BI</li><li>SQL</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <figure class="case-visual reveal">
+      <div class="db" data-dashboard>
+  <div class="db-top">
+    <span class="db-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="db-app">Cobertura de puntos de venta · Ciclo junio 2025</span>
+    <span class="db-badge">Datos ficticios</span>
+  </div>
+  <ul class="db-filters" aria-label="Filtros aplicados">
+    <li><span>Ciclo:</span> Junio 2025 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></li>
+    <li><span>Distribuidor:</span> Todos <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></li>
+    <li><span>Vendedor:</span> Todos <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6" /></svg></li>
+  </ul>
+  <dl class="db-kpis">
+  <div class="db-kpi">
+    <dt>Puntos de venta en cartera</dt>
+    <dd>
+      <strong>3.215</strong>
+      <span class="db-delta is-good">▲ 2,6% vs. ciclo anterior</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Cobertura Línea Clásica</dt>
+    <dd>
+      <strong>91,4%</strong>
+      <span class="db-delta is-good">▲ 1,2 pp</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Cobertura Línea Premium</dt>
+    <dd>
+      <strong>63,8%</strong>
+      <span class="db-delta is-good">▲ 4,5 pp</span>
+    </dd>
+  </div>
+  <div class="db-kpi">
+    <dt>Compran ambas líneas</dt>
+    <dd>
+      <strong>58,9%</strong>
+      <span class="db-delta is-good">▲ 3,9 pp</span>
+    </dd>
+  </div>
+</dl>
+
+  <div class="db-grid">
+    <section class="db-panel db-panel-wide" aria-label="Qué compra cada punto de venta">
+      <header class="db-panel-head">
+        <div>
+          <h3>Qué compra cada punto de venta</h3>
+<p>% de los puntos de venta en cartera</p>        </div>
+      </header>
+<div class="db-stack" role="img" aria-label="Solo Línea Clásica: 32,5%. Ambas líneas: 58,9%. Solo Línea Premium: 4,9%. Sin compra en el ciclo: 3,7%">
+  <span class="db-seg seg-classic w-32-5" data-tip-title="Solo Línea Clásica" data-tip="32,5% de los puntos de venta">
+<span>32,5%</span>  </span>
+  <span class="db-seg seg-both w-58-9" data-tip-title="Ambas líneas" data-tip="58,9% de los puntos de venta">
+<span>58,9%</span>  </span>
+  <span class="db-seg seg-premium w-4-9" data-tip-title="Solo Línea Premium" data-tip="4,9% de los puntos de venta">
+  </span>
+  <span class="db-seg seg-none w-3-7" data-tip-title="Sin compra en el ciclo" data-tip="3,7% de los puntos de venta">
+  </span>
+</div>
+<ul class="db-legend db-legend-values">
+  <li><span class="swatch swatch-classic" aria-hidden="true"></span>Solo Línea Clásica <strong>32,5%</strong></li>
+  <li><span class="swatch swatch-both" aria-hidden="true"></span>Ambas líneas <strong>58,9%</strong></li>
+  <li><span class="swatch swatch-premium" aria-hidden="true"></span>Solo Línea Premium <strong>4,9%</strong></li>
+  <li><span class="swatch swatch-none" aria-hidden="true"></span>Sin compra en el ciclo <strong>3,7%</strong></li>
+</ul>
+
+    </section>
+  </div>
+  <div class="db-tooltip" hidden></div>
+</div>
+
+      <figcaption class="screen-caption">Tablero ilustrativo con datos ficticios, similar al implementado. <a class="link-arrow" href="/ejemplos/#cobertura">Ver el tablero interactivo <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a></figcaption>
     </figure>
   </article>
 </section>
