@@ -1561,12 +1561,15 @@ html:not(.motion) .phone-view:first-child {
   position: relative;
 }
 
-/* ----- 1. El título y la demostración ----- */
+/* ----- 1. El título, la demostración y el núcleo al costado -----
+   La tercera columna es angosta y de ancho fijo: el núcleo es una ilustración, no tiene
+   por qué crecer, y así las otras dos se reparten lo que queda sin que la respuesta se
+   vuelva una columna de palabras sueltas. El espacio sale del texto, que tiene de sobra. */
 .vz-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr) clamp(110px, 10vw, 152px);
   align-items: center;
-  gap: clamp(28px, 3.6vw, 60px);
+  gap: clamp(16px, 2vw, 28px);
   padding-top: calc(var(--header-h) + clamp(28px, 6vh, 64px));
   padding-bottom: clamp(32px, 6vh, 64px);
   min-height: 100svh;
@@ -1574,7 +1577,7 @@ html:not(.motion) .phone-view:first-child {
 
 .vz-copy h1 {
   margin-bottom: 0.46em;
-  font-size: clamp(2.2rem, 1.3rem + 2.9vw, 3.5rem);
+  font-size: clamp(2.1rem, 1.4rem + 2.3vw, 3.15rem);
 }
 
 /* La frase en bastardilla es la otra mitad de la idea: arranca en su propio renglón */
@@ -1662,17 +1665,26 @@ html.motion .is-live .vz-mic::after {
 
 /* Dos renglones de alto fijos: la barra no cambia de tamaño mientras se escribe */
 .vz-said {
+  display: grid;
   margin: 0;
-  min-height: 2.7em;
-  display: flex;
-  align-items: center;
+  min-height: 1.4em;
   color: var(--text);
   font-size: clamp(0.98rem, 0.92rem + 0.2vw, 1.06rem);
   font-weight: 500;
   line-height: 1.35;
 }
 
-.vz-said.is-typing::after {
+/* Las dos capas van en la misma celda: la invisible manda el alto */
+.vz-said > span {
+  grid-area: 1 / 1;
+  align-self: center;
+}
+
+.vz-said-ghost {
+  visibility: hidden;
+}
+
+.vz-said-now.is-typing::after {
   content: "";
   display: inline-block;
   width: 2px;
@@ -1690,7 +1702,7 @@ html.motion .is-live .vz-mic::after {
   display: flex;
   align-items: center;
   gap: 3px;
-  width: 92px;
+  width: clamp(46px, 6vw, 86px);
   height: 32px;
   opacity: 0;
   transition: opacity 0.25s;
@@ -1863,17 +1875,19 @@ html.motion .is-live .vz-mic::after {
 .vz-c-wa { --c: #128c7e; }
 .vz-c-mail { --c: #e4581c; }
 
-/* ----- 2. La consolidación: los cinco sistemas se funden en un núcleo ----- */
-.vz-track {
-  position: relative;
-}
-
-.vz-pin {
-  position: relative;
+/* ----- 2. El núcleo, al costado: los cinco sistemas se funden en uno ----- */
+/* «display» le gana a [hidden], y el recuadro lo dibuja JavaScript: sin él no hay nada */
+.vz-fuse[hidden] {
+  display: none;
 }
 
 .vz-fuse {
   position: relative;
+  align-self: center;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  /* Los sistemas entran desde fuera del recuadro: el recorte los va descubriendo y, sobre
+     todo, impide que empujen la maqueta a lo ancho mientras están afuera */
   overflow: hidden;
   /* Decorativo: nunca se queda con un clic que iba a un botón */
   pointer-events: none;
@@ -1886,95 +1900,44 @@ html.motion .is-live .vz-mic::after {
   height: 100%;
 }
 
+/* Cada sistema, solo con su ícono: a este tamaño un rótulo no se leería, y la frase de
+   al lado ya los nombra a los cinco. design.js los ubica (--x, --y, --s, --o). */
 .vz-sys {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px 8px 9px;
-  border: 1px solid var(--hairline-strong);
-  border-radius: 999px;
-  background: var(--surface);
-  box-shadow: 0 18px 36px -26px rgba(11, 18, 32, 0.6);
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
-
-.vz-sys b {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.vz-sys-ico {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--c) 14%, transparent);
-  color: var(--c);
-}
-
-.vz-sys-ico .icon {
-  width: 15px;
-  height: 15px;
-}
-
-.vz-line {
-  position: relative;
-  max-width: 34ch;
-  margin: clamp(20px, 3.4vh, 32px) auto 0;
-  color: var(--fg-2);
-  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.18rem);
-  line-height: 1.5;
-  text-align: center;
-  text-wrap: balance;
-}
-
-/* Sin animación: la esfera ya formada, los cinco sistemas en una fila y la frase final */
-html:not(.motion) .vz-fuse {
-  padding: clamp(120px, 20vw, 240px) var(--gutter) clamp(44px, 7vw, 80px);
-}
-
-html:not(.motion) .vz-srcs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-/* Con animación la etapa queda fija y design.js mueve cada sistema desde fuera del cuadro
-   hasta su lugar alrededor del núcleo, y de ahí al centro */
-html.motion .vz-track {
-  height: 240vh;
-}
-
-html.motion .vz-pin {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-}
-
-html.motion .vz-fuse {
-  height: 100%;
-}
-
-html.motion .vz-sys {
   position: absolute;
   top: 0;
   left: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 10px 22px -14px rgba(11, 18, 32, 0.7);
+  color: var(--c);
   transform: translate(-50%, -50%) translate(var(--x, 0px), var(--y, 0px)) scale(var(--s, 1));
   opacity: var(--o, 0);
+}
+
+html.motion .vz-sys {
   will-change: transform, opacity;
 }
 
-html.motion .vz-line {
-  position: absolute;
-  bottom: clamp(44px, 9vh, 104px);
-  left: 50%;
-  width: min(34ch, 86vw);
-  margin: 0;
-  transform: translateX(-50%) translateY(var(--y, 0px));
-  opacity: var(--o, 0);
+.vz-sys .icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 1100px) {
+  .vz-sys {
+    width: 28px;
+    height: 28px;
+  }
+
+  .vz-sys .icon {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -2006,27 +1969,16 @@ html.motion .vz-line {
     margin-left: 60px;
   }
 
-  .vz-sys {
-    padding: 6px 11px 6px 7px;
-    font-size: 0.76rem;
-  }
-
-  .vz-sys-ico {
-    width: 24px;
-    height: 24px;
-  }
-
-  .vz-sys-ico .icon {
-    width: 13px;
-    height: 13px;
-  }
-
-  html.motion .vz-track {
-    height: 220vh;
+  /* En una sola columna el recuadro se acuesta: queda ancho y bajo, debajo de la demo */
+  .vz-fuse {
+    aspect-ratio: 16 / 7;
+    max-width: 420px;
+    margin-inline: auto;
   }
 }
 
-/* Con «menos movimiento» motion.js no pone .motion, así que no hay riel ni transiciones */
+/* Con «menos movimiento» motion.js no pone .motion: el núcleo se dibuja una sola vez, ya
+   formado y con los cinco sistemas alrededor, y nada hace transiciones */
 @media (prefers-reduced-motion: reduce) {
   .vz-chip,
   button.vz-mic,
