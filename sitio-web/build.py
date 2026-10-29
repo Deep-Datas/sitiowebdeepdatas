@@ -494,8 +494,14 @@ def published_cases(drafts):
     """Casos a mostrar. Un caso publicado no puede tener datos pendientes."""
     cases = [c for c in CASES if c['publicado'] or drafts]
     for case in cases:
-        if case['publicado'] and PENDIENTE in repr(case):
-            raise SystemExit(f'El caso "{case["id"]}" está publicado pero tiene datos {PENDIENTE}.')
+        if not case['publicado']:
+            continue
+        # Decir qué falta, y no solo que falta algo: es el momento en que alguien está
+        # publicando el caso y quiere saber qué le queda por completar.
+        faltan = [k for k, v in case.items() if PENDIENTE in repr(v)]
+        if faltan:
+            raise SystemExit(f'El caso "{case["id"]}" está publicado pero le falta completar: '
+                             f'{", ".join(sorted(faltan))}.')
     return cases
 
 
