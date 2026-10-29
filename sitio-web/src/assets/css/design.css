@@ -1549,1334 +1549,489 @@ html:not(.motion) .phone-view:first-child {
   border-color: rgba(255, 255, 255, 0.25);
   color: var(--ember-2);
 }
-/* ---------- Portada del inicio: una cámara que cruza la oficina (src/hero.html) ----------
-   Una sola foto y cuatro actos, encadenados al scroll: el equipo de datos trabajando,
-   sus dos monitores, el momento en que todo se unifica y, cruzando la mampara, los
-   mismos números en el televisor de quien decide. La foto no se mueve: se mueve el
-   recorte. design.js calcula la cámara y encaja cada pantalla con una matriz de
-   perspectiva; acá solo queda el encuadre final, para cuando no hay JavaScript. */
-.hb {
+/* ---------- Portada del inicio: la pregunta en voz alta (src/hero.html) ----------
+   Dos partes. Arriba, el título y la barra de voz: se elige una de tres preguntas y abajo
+   aparece la respuesta con los sistemas de donde salió cada número. Debajo, un riel que
+   mantiene fija su etapa mientras dura: los cinco sistemas entran desde los costados y
+   desde abajo y se funden en un solo núcleo.
+   design.js ubica los sistemas con --x, --y, --s y --o: acá no hay posiciones fijas porque
+   dependen de lo que mida la etapa. Sin animación (html sin .motion) no hay riel y la
+   consolidación queda dibujada una vez, en el flujo normal de la página. */
+.vz {
   position: relative;
 }
 
-/* El texto va encima de la foto, a la izquierda, y se va apenas arranca el recorrido */
-.hb-copy {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
+/* ----- 1. El título y la demostración ----- */
+.vz-grid {
   display: grid;
-  /* safe: en pantallas bajas el texto se apoya arriba en vez de salirse por los dos lados */
-  align-content: safe center;
-  justify-items: start;
-  gap: clamp(18px, 2vw, 26px);
-  padding-top: clamp(10px, 2vh, 28px);
-  padding-bottom: clamp(28px, 6vh, 96px);
-  pointer-events: none;
-  opacity: calc(1 - var(--fade, 0) * var(--out, 0));
-  transform: translateY(calc(var(--fade, 0) * var(--out, 0) * -34px));
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  align-items: center;
+  gap: clamp(28px, 3.6vw, 60px);
+  padding-top: calc(var(--header-h) + clamp(28px, 6vh, 64px));
+  padding-bottom: clamp(32px, 6vh, 64px);
+  min-height: 100svh;
 }
 
-.hb-copy[hidden] {
+.vz-copy h1 {
+  margin-bottom: 0.46em;
+  font-size: clamp(2.2rem, 1.3rem + 2.9vw, 3.5rem);
+}
+
+/* La frase en bastardilla es la otra mitad de la idea: arranca en su propio renglón */
+.vz-copy h1 em {
+  display: block;
+}
+
+.vz-copy .lead {
+  max-width: 48ch;
+  margin-bottom: clamp(22px, 3.4vh, 32px);
+}
+
+.vz-demo {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+/* La barra: el micrófono, lo que se está preguntando y la onda */
+.vz-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px 12px 12px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 34px;
+  background: var(--surface);
+  box-shadow: 0 26px 54px -34px rgba(11, 18, 32, 0.55);
+}
+
+/* «display» le gana a [hidden], y acá el micrófono quieto y las preguntas arrancan
+   escondidos hasta que design.js confirma que hay con qué responderlas */
+.vz-mic[hidden],
+.vz-chips[hidden] {
   display: none;
 }
 
-.hb-head,
-.hb-side {
-  max-width: min(100%, 40rem);
-}
-
-/* Solo los botones reciben clics: el resto deja pasar el cursor a la escena */
-.hb-copy .actions {
-  pointer-events: auto;
-}
-
-/* El velo que hace legible el texto sobre la foto; se desvanece con él */
-.hb-veil {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  opacity: calc(var(--fade, 0) * (1 - var(--out, 0)));
-  background: linear-gradient(100deg,
-    color-mix(in srgb, var(--bg) 97%, transparent) 0%,
-    color-mix(in srgb, var(--bg) 93%, transparent) 32%,
-    color-mix(in srgb, var(--bg) 60%, transparent) 50%,
-    transparent 72%);
-}
-
-.hb-copy h1 {
-  margin: 0;
-  font-size: var(--fs-display);
-  line-height: 1.02;
-}
-
-/* La frase en bastardilla arranca en su propio renglón: es la otra mitad de la idea */
-.hb-copy h1 em {
-  display: block;
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--accent-600);
-}
-
-.hb-copy .lead {
-  max-width: 46ch;
-  margin: 0;
-  color: var(--fg-2);
-}
-
-.hb-side {
+.vz-mic {
+  position: relative;
   display: grid;
-  gap: 18px;
-}
-
-/* ----- El riel del scroll: mientras dura, la escena queda fija y la cámara avanza ----- */
-.hb-track {
-  position: relative;
-  height: 320vh;
-}
-
-/* La escena ocupa toda la pantalla, de borde a borde, debajo del encabezado */
-.hb-pin {
-  position: sticky;
-  top: var(--header-h);
-  height: calc(100vh - var(--header-h));
-  height: calc(100svh - var(--header-h));
-}
-
-.hb-stage,
-.hb-crop {
-  width: 100%;
-  height: 100%;
-}
-
-/* De 901 px para arriba la portada se parte al medio: el texto a la izquierda, sobre el
-   fondo de la página, y la escena a la derecha, del alto de la pantalla. */
-@media (min-width: 901px) {
-  .hb-stage {
-    display: grid;
-    /* Un pelo más de la mitad para el texto: «Una pregunta.» tiene que entrar entero */
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  }
-
-  .hb-copy {
-    order: -1;
-    position: static;
-    /* Alineado con el logo del encabezado, no con el borde de la media pantalla */
-    padding-left: max(var(--gutter), (100vw - 1180px) / 2);
-    padding-right: clamp(16px, 2vw, 40px);
-  }
-
-  .hb-veil {
-    display: none;
-  }
-}
-
-.hb-crop {
-  position: relative;
-  /* Encierra el apilado de adentro: si no, el z-index del HUD se escapa y se dibuja
-     por encima del velo que hace legible el texto en celulares. */
-  isolation: isolate;
-  overflow: hidden;
-  background: #e9edf1;
-  /* De tamaño y no solo de ancho: el tablero necesita mirar el alto, porque sin animación
-     el recorte queda ancho y bajo y por ancho solo no entraría. */
-  container-type: size;
-}
-
-/* La foto, en tamaño natural; la cámara la mueve y la acerca. El encuadre que queda
-   acá es el del último acto: sin JavaScript se ve la respuesta, quieta. */
-.hb-scene {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  transform-origin: 0 0;
-  transform: translate(-115.8%, -12.8%) scale(2.695);
-}
-
-/* Con animación arranca en el primer acto: la oficina entera */
-html.motion .hb-scene {
-  transform: translate(-43.7%, 0%) scale(1.704);
-}
-
-.hb-photo {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* La foto original es chica y la cámara se acerca: una viñeta le da profundidad y un
-   grano finito le devuelve el detalle que el agrandado no tiene. */
-.hb-grade {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  background: radial-gradient(118% 88% at 50% 44%, rgba(255, 255, 255, 0.06), rgba(8, 14, 28, 0.05) 60%, rgba(8, 14, 28, 0.2) 100%);
-}
-
-.hb-grain {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  opacity: 0.3;
-  pointer-events: none;
-  background: url("../img/hero/grano.png") repeat;
-  background-size: 128px 128px;
-  mix-blend-mode: overlay;
-}
-
-/* ----- El tablero: la respuesta del acto 4. No va encajado sobre el monitor de la foto
-   —ahí la mano apoya sobre la pantalla y lo taparía a media escena—: es una card del
-   recorrido, y por eso se mide en unidades del recorte como las demás. ----- */
-.hb-board {
-  /* La unidad con la que se mide todo el tablero, su propio ancho incluido. Manda el
-     ancho del recorte, salvo cuando el recorte es ancho y bajo —el caso sin animación,
-     donde la escena no se parte al medio—: ahí manda el alto, porque si no el tablero
-     se sale por abajo y se le monta a la barra de voz. */
-  --u: min(1cqw, 1.1cqh);
-
-  left: 50%;
-  top: 12%;
-  width: calc(86 * var(--u));
-  gap: calc(0.9 * var(--u));
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  flex: none;
   padding: 0;
-  overflow: hidden;
-  opacity: var(--a, 1);
-  transform: translateX(-50%);
-}
-
-.hb-scr {
-  --sbg: #f3f7fc;         /* el fondo del tablero */
-  --scard: #fff;          /* las tarjetas */
-  --stx: #16263f;         /* texto principal */
-  /* Los tres niveles de texto del tablero. Los tres pasan 4,5:1 sobre la tarjeta
-     (--scard) y sobre el fondo (--sbg): son textos chicos y de verdad hay que leerlos,
-     aunque la escena sea ilustrativa. */
-  --stx2: #4a5a73;        /* etiquetas */
-  --stx3: #62708a;        /* texto al pie */
-  --sln: #e4ebf4;         /* líneas y bordes */
-  --sgr: #e6ecf5;         /* el carril de las barras */
-  --s-blue: #2353d6;
-
-  display: grid;
-  gap: calc(1.1 * var(--u));
-  padding: calc(1.3 * var(--u)) calc(1.6 * var(--u)) calc(1.1 * var(--u));
-  background: var(--sbg);
-  color: var(--stx);
-  font-size: calc(1.6 * var(--u));
-  line-height: 1.3;
-}
-
-.hb-board-head {
-  display: flex;
-  align-items: baseline;
-  gap: calc(1.3 * var(--u));
-}
-
-.hb-board-app {
-  color: var(--stx2);
-  font-family: var(--font-mono);
-  font-size: calc(1.15 * var(--u));
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.hb-board-head h2 {
-  margin: 0;
-  font-size: calc(2.3 * var(--u));
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.hb-chip {
-  padding: calc(0.3 * var(--u)) calc(1 * var(--u));
-  border-radius: 999px;
-  background: #e2eafc;
-  color: var(--s-blue);
-  font-size: calc(1.35 * var(--u));
-  font-weight: 600;
-}
-
-.hb-live {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(0.6 * var(--u));
-  margin-left: auto;
-  color: var(--stx3);
-  font-family: var(--font-mono);
-  font-size: calc(1.15 * var(--u));
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.hb-live i {
-  width: calc(0.7 * var(--u));
-  height: calc(0.7 * var(--u));
+  border: 0;
   border-radius: 50%;
-  background: var(--good);
-  box-shadow: 0 0 0 calc(0.35 * var(--u)) rgba(30, 122, 76, 0.18);
-}
-
-.hb-when {
-  color: var(--stx3);
-  font-family: var(--font-mono);
-  font-size: calc(1.2 * var(--u));
-}
-
-/* Las cuatro fichas en fila: ícono, etiqueta, número y variación */
-.hb-tiles {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: calc(0.9 * var(--u));
-}
-
-.hb-tile {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-content: center;
-  gap: calc(0.1 * var(--u)) calc(0.8 * var(--u));
-  padding: calc(0.9 * var(--u)) calc(1 * var(--u));
-  border: 1px solid var(--sln);
-  border-radius: calc(1 * var(--u));
-  background: var(--scard);
-}
-
-.hb-ico {
-  grid-row: 1 / 3;
-  display: grid;
-  place-items: center;
-  width: calc(2.9 * var(--u));
-  height: calc(2.9 * var(--u));
-  border-radius: calc(0.8 * var(--u));
-  background: #e2eafc;
-  color: var(--s-blue);
-  font-size: calc(1.6 * var(--u));
-}
-
-.hb-k {
-  color: var(--stx2);
-  font-size: calc(1.35 * var(--u));
-}
-
-.hb-v {
-  font-family: var(--font-display);
-  font-size: calc(2.5 * var(--u));
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  white-space: nowrap;
-}
-
-.hb-d {
-  grid-column: 1 / 3;
-  color: var(--good);
-  font-size: calc(1.15 * var(--u));
-  font-weight: 600;
-}
-
-/* Los dos paneles de abajo: la curva de ventas y las barras por distribuidor */
-.hb-panels {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: calc(0.9 * var(--u));
-}
-
-.hb-panel {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 0;
-  padding: calc(1 * var(--u)) calc(1.2 * var(--u)) calc(0.9 * var(--u));
-  border: 1px solid var(--sln);
-  border-radius: calc(1 * var(--u));
-  background: var(--scard);
-}
-
-.hb-panel h3 {
-  margin: 0 0 calc(0.7 * var(--u));
-  color: var(--stx);
-  font-size: calc(1.5 * var(--u));
-  font-weight: 600;
-}
-
-.hb-line {
-  width: 100%;
-  height: calc(5.6 * var(--u));
-  overflow: visible;
-}
-
-.hb-line-fill {
-  fill: rgba(35, 83, 214, 0.1);
-  stroke: none;
-}
-
-.hb-line-dot {
-  fill: none;
-  stroke: var(--s-blue);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.hb-axis {
-  display: flex;
-  justify-content: space-between;
-  padding-top: calc(0.5 * var(--u));
-  color: var(--stx3);
-  font-size: calc(1.1 * var(--u));
-}
-
-.hb-chart-head {
-  display: flex;
-  align-items: baseline;
-  gap: calc(1 * var(--u));
-  margin-bottom: calc(0.7 * var(--u));
-}
-
-.hb-chart-head h3 {
-  margin: 0;
-}
-
-/* La referencia del objetivo, con la misma línea cortada que lo marca sobre las barras */
-.hb-goal {
-  display: inline-flex;
-  align-items: center;
-  gap: calc(0.5 * var(--u));
-  margin-left: auto;
-  color: var(--stx3);
-  font-size: calc(1.15 * var(--u));
-}
-
-.hb-goal::before {
-  content: "";
-  width: 2px;
-  height: calc(1.1 * var(--u));
-  background: repeating-linear-gradient(var(--stx3) 0 calc(0.3 * var(--u)), transparent calc(0.3 * var(--u)) calc(0.6 * var(--u)));
-}
-
-.hb-bars {
-  display: grid;
-  align-content: center;
-  gap: calc(0.6 * var(--u));
-  min-height: 0;
-}
-
-.hb-bar {
-  display: grid;
-  grid-template-columns: calc(8.6 * var(--u)) minmax(0, 1fr) calc(6 * var(--u));
-  gap: calc(0.8 * var(--u));
-  align-items: center;
-  font-size: calc(1.35 * var(--u));
-}
-
-.hb-bar .hb-nm {
-  overflow: hidden;
-  color: var(--stx2);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hb-tr {
-  position: relative;
-  height: calc(1.1 * var(--u));
-  border-radius: calc(0.3 * var(--u));
-  background: var(--sgr);
-}
-
-/* El ancho sale de la clase que genera build.py (pos('w', …)); con animación lo pisa design.js */
-.hb-tr i {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--w, 0%);
-  border-radius: calc(0.3 * var(--u)) calc(0.5 * var(--u)) calc(0.5 * var(--u)) calc(0.3 * var(--u));
-  background: var(--s-blue);
-}
-
-/* El objetivo, en el mismo punto de todas las barras: la de arriba lo pasa y el resto no,
-   que es lo que hace que el gráfico diga algo y no solo ordene de mayor a menor. */
-.hb-tr::after {
-  content: "";
-  position: absolute;
-  top: -calc(0.2 * var(--u));
-  bottom: -calc(0.2 * var(--u));
-  left: 80%;
-  width: 2px;
-  background: repeating-linear-gradient(var(--stx3) 0 calc(0.3 * var(--u)), transparent calc(0.3 * var(--u)) calc(0.6 * var(--u)));
-}
-
-.hb-vl {
-  font-variant-numeric: tabular-nums;
-  text-align: right;
-}
-
-.hb-foot {
-  display: flex;
-  gap: calc(1.3 * var(--u));
-  padding-top: calc(0.8 * var(--u));
-  border-top: 1px solid var(--sln);
-  color: var(--stx3);
-  font-family: var(--font-mono);
-  font-size: calc(1.15 * var(--u));
-}
-
-.hb-right {
-  margin-left: auto;
-}
-
-/* El barrido que recorre el tablero cuando se está armando la respuesta. Cuando no barre
-   queda arriba y no abajo: abajo le agregaría a la card un alto de más. */
-.hb-scan {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  opacity: var(--scan-a, 0);
-  pointer-events: none;
-  background: linear-gradient(170deg, transparent 34%, rgba(35, 83, 214, 0.22) 45%, rgba(255, 255, 255, 0.98) 50%, rgba(35, 83, 214, 0.22) 55%, transparent 66%);
-  transform: translateY(calc(-100% + var(--scan, 0) * 200%));
-}
-
-/* ----- Lo que no vive dentro de la foto: carteles, chips y la barra de voz.
-   Cada uno aparece en su acto; las posiciones están atadas a ese encuadre. ----- */
-.hb-hud {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
-}
-
-.hb-card {
-  position: absolute;
-  display: grid;
-  gap: 0.5cqw;
-  padding: 1.1cqw 1.3cqw;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 1.2cqw;
-  background: rgba(253, 253, 255, 0.94);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  box-shadow: 0 2cqw 4cqw -1.8cqw rgba(8, 14, 28, 0.7), 0 0 0 1px rgba(8, 14, 28, 0.05);
-  color: var(--text);
-  font-size: 1.15cqw;
-}
-
-.hb-card::before,
-.hb-card::after {
-  content: "";
-  position: absolute;
-  width: 1cqw;
-  height: 1cqw;
-  border: 1.5px solid var(--accent-500);
-  opacity: 0.75;
-}
-
-.hb-card::before {
-  top: -1px;
-  left: -1px;
-  border-right: 0;
-  border-bottom: 0;
-  border-radius: 1.2cqw 0 0 0;
-}
-
-.hb-card::after {
-  right: -1px;
-  bottom: -1px;
-  border-top: 0;
-  border-left: 0;
-  border-radius: 0 0 1.2cqw 0;
-}
-
-/* Acto 1: el pedido que entra al equipo */
-.hb-ask {
-  left: 3.5%;
-  top: 8%;
-  width: 27%;
-  opacity: var(--a, 0);
-}
-
-.hb-ask-hd {
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 1cqw;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.hb-ask-tx {
-  font-size: 1.3cqw;
-  font-weight: 500;
-  text-wrap: balance;
-}
-
-.hb-ask-eta {
-  display: flex;
-  align-items: center;
-  gap: 0.5cqw;
-  margin-top: 0.2cqw;
-  padding-top: 0.6cqw;
-  border-top: 1px solid var(--hairline);
-  color: #b54708;
-  font-size: 1.05cqw;
-  font-weight: 600;
-}
-
-/* Acto 2: los dos sistemas abiertos, uno al lado del otro */
-.hb-wa {
-  left: 4%;
-  top: 8%;
-  width: 29%;
-  gap: 0.45cqw;
-  opacity: var(--a, 0);
-}
-
-.hb-crm {
-  right: 4%;
-  top: 8%;
-  width: 29%;
-  gap: 0.4cqw;
-  opacity: var(--a, 0);
-}
-
-.hb-wa-hd {
-  margin: -1.1cqw -1.3cqw 0.4cqw;
-  padding: 0.7cqw 1.3cqw;
-  border-radius: 1.2cqw 1.2cqw 0 0;
-  /* Un punto más oscuro que el verde de WhatsApp (#128c7e): encima va texto blanco
-     chico, y con el de marca se queda en 4,14:1. */
-  background: #0f7a6e;
-  color: #fff;
-  font-size: 1.05cqw;
-  font-weight: 600;
-}
-
-.hb-wa-msg {
-  justify-self: start;
-  max-width: 88%;
-  padding: 0.5cqw 0.8cqw;
-  border-radius: 0.9cqw;
-  background: var(--sand-2, #eef1f5);
-  color: var(--text);
-  font-size: 1.05cqw;
-}
-
-.hb-wa-out {
-  justify-self: end;
-  background: #d9fdd3;
-  color: #0f172a;
-}
-
-.hb-crm-hd {
-  color: #2353d6;
-  font-size: 1.05cqw;
-  font-weight: 600;
-}
-
-.hb-crm-row {
-  display: flex;
-  gap: 0.7cqw;
-  align-items: baseline;
-  padding-bottom: 0.35cqw;
-  border-bottom: 1px solid var(--hairline);
-  font-size: 1.05cqw;
-}
-
-.hb-crm-row b {
-  margin-left: auto;
-  color: #b54708;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.hb-crm-ok {
-  color: var(--good);
-}
-
-.hb-crm-foot {
-  margin-top: 0.3cqw;
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 0.9cqw;
-}
-
-/* Acto 3: todo se unifica mientras la cámara cruza la mampara */
-.hb-join {
-  left: 50%;
-  top: 12%;
-  width: 26%;
-  opacity: var(--a, 0);
-  transform: translateX(-50%);
-}
-
-.hb-join-hd {
-  font-size: 1.2cqw;
-  font-weight: 600;
-}
-
-.hb-join-rows {
-  display: grid;
-  gap: 0.4cqw;
-  margin-top: 0.3cqw;
-}
-
-.hb-row {
-  display: flex;
-  align-items: center;
-  gap: 0.7cqw;
-}
-
-.hb-row .hb-nm {
-  color: var(--fg-2);
-}
-
-.hb-sw {
-  flex: none;
-  width: 0.75cqw;
-  height: 0.75cqw;
-  border-radius: 0.2cqw;
-  background: var(--c);
-}
-
-.hb-sw-erp { --c: #0b1220; }
-.hb-sw-crm { --c: #2353d6; }
-.hb-sw-xls { --c: #12a594; }
-.hb-sw-wa { --c: #128c7e; }
-.hb-sw-mail { --c: #e4581c; }
-
-.hb-ok {
-  margin-left: auto;
-  color: var(--good);
-  opacity: var(--ok, 1);
-}
-
-.hb-join-bar {
-  display: block;
-  height: 0.5cqw;
-  margin-top: 0.3cqw;
-  border-radius: 999px;
-  background: var(--hairline);
-}
-
-.hb-join-bar i {
-  display: block;
-  width: var(--p, 100%);
-  height: 100%;
-  border-radius: 999px;
   background: var(--accent-600);
-}
-
-.hb-join-foot {
-  color: var(--fg-3);
-  font-family: var(--font-mono);
-  font-size: 0.95cqw;
-}
-
-/* ----- Las cuatro fuentes. Son el centro del acto 2: aparecen una por una, repartidas
-   en el ancho del recorte, y en el acto 3 cruzan hacia el modelo. Las ubica design.js,
-   así que acá solo va cómo se ven. ----- */
-.hb-fuentes-hd {
-  position: absolute;
-  left: 50%;
-  top: 35%;
-  padding: 0.5cqw 1.2cqw;
-  border-radius: 999px;
-  background: rgba(11, 18, 32, 0.82);
   color: #fff;
-  font-family: var(--font-mono);
-  font-size: 1.1cqw;
-  letter-spacing: 0.14em;
-  opacity: var(--a, 0);
-  text-transform: uppercase;
-  transform: translateX(-50%);
-  white-space: nowrap;
 }
 
-.hb-fuente {
+button.vz-mic {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button.vz-mic:hover {
+  transform: scale(1.05);
+}
+
+.vz-mic .icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* El anillo que late mientras «escucha» */
+.vz-mic::after {
+  content: "";
   position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.8cqw;
-  padding: 0.9cqw 1.4cqw 0.9cqw 0.9cqw;
-  border-radius: 999px;
-  background: rgba(253, 253, 255, 0.96);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.7),
-    0 1.4cqw 3cqw -1.2cqw rgba(8, 14, 28, 0.85),
-    0 0 0 0.35cqw color-mix(in srgb, var(--c) 28%, transparent);
-  color: var(--text);
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-600);
   opacity: 0;
-  white-space: nowrap;
 }
 
-.hb-fuente b {
-  font-size: 1.7cqw;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+html.motion .is-live .vz-mic::after {
+  animation: vz-ping 1.6s ease-out infinite;
 }
 
-.hb-fuente-ico {
-  display: grid;
-  place-items: center;
-  width: 3cqw;
-  height: 3cqw;
-  border-radius: 50%;
-  background: var(--c);
-  color: #fff;
-  font-size: 1.6cqw;
+@keyframes vz-ping {
+  0% { transform: scale(0.92); opacity: 0.65; }
+  100% { transform: scale(1.35); opacity: 0; }
 }
 
-.hb-f-erp { --c: #0b1220; }
-.hb-f-crm { --c: #2353d6; }
-.hb-f-xls { --c: #12a594; }
-.hb-f-wa { --c: #128c7e; }
-
-/* Acto 4: la alerta que llega sola y la barra de voz, junto al micrófono */
-/* Justo encima del apilado de abajo, como una notificación que entra. Va colgada del
-   apilado y no a una altura fija del recorte porque el hueco que le queda entre el
-   tablero y la barra de voz cambia con el idioma y con la forma del recorte. Y va fuera
-   del flujo del apilado para no reservarle alto durante todo el recorrido: en el acto 2
-   ese alto le comería el lugar a los dos sistemas. */
-.hb-alert {
-  right: 3%;
-  bottom: 100%;
-  width: 30%;
-  margin-bottom: 1.6cqw;
-  opacity: var(--a, 1);
-}
-
-.hb-alert-hd {
-  display: flex;
-  align-items: center;
-  gap: 0.55cqw;
-  color: #b54708;
-  font-weight: 600;
-}
-
-.hb-alert-hd .icon {
-  font-size: 1.3cqw;
-}
-
-.hb-alert-tx {
-  color: var(--fg-2);
-  font-size: 1.05cqw;
-}
-
-/* Corrida a la derecha del televisor (tapaba el tablero) y arriba del riel */
-/* Los dos carteles de abajo, apilados desde el borde inferior del recorte */
-.hb-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 3.5%;
-  display: grid;
-  justify-items: center;
-  gap: 1.6cqw;
-}
-
-.hb-voice {
-  display: flex;
-  align-items: center;
-  gap: 1.1cqw;
-  width: 40%;
-  padding: 0.95cqw 1.2cqw;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 999px;
-  background: rgba(253, 253, 255, 0.93);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
-  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
-  opacity: var(--voice, 1);
-}
-
-.hb-mic {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 2.8cqw;
-  height: 2.8cqw;
-  min-width: 26px;
-  min-height: 26px;
-  border-radius: 50%;
-  background: var(--accent-600);
-  color: #fff;
-  box-shadow: 0 0 0 calc(var(--amp, 0) * 0.9cqw) rgba(228, 88, 28, 0.22);
-  transition: box-shadow 0.1s linear;
-}
-
-.hb-mic .icon {
-  font-size: 1.5cqw;
-}
-
-.hb-q {
-  flex: 1 1 auto;
-  min-width: 0;
+/* Dos renglones de alto fijos: la barra no cambia de tamaño mientras se escribe */
+.vz-said {
   margin: 0;
+  min-height: 2.7em;
+  display: flex;
+  align-items: center;
   color: var(--text);
-  font-size: 1.3cqw;
+  font-size: clamp(0.98rem, 0.92rem + 0.2vw, 1.06rem);
   font-weight: 500;
+  line-height: 1.35;
 }
 
-.hb-caret {
+.vz-said.is-typing::after {
+  content: "";
   display: inline-block;
   width: 2px;
   height: 1em;
-  margin-left: 1px;
-  vertical-align: -0.14em;
+  margin-left: 2px;
+  background: var(--accent-600);
+  animation: vz-caret 1s steps(2) infinite;
+}
+
+@keyframes vz-caret {
+  50% { opacity: 0; }
+}
+
+.vz-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 92px;
+  height: 32px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.vz-wave i {
+  width: 3px;
+  height: 5px;
+  border-radius: 2px;
   background: var(--accent-600);
 }
 
-.hb-caret[hidden] {
-  display: none;
+.is-live .vz-wave,
+.is-done .vz-wave {
+  opacity: 1;
 }
 
-.hb-wave {
-  flex: none;
-  width: 16%;
-  height: 2.3cqw;
-}
-
-.hb-wave path {
-  fill: none;
-  stroke: var(--accent-600);
-  stroke-width: 2.4;
-  stroke-linecap: round;
-}
-
-/* Una pastilla detrás: el estado cae sobre la ventana y ahí no se leía */
-.hb-status {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 0.7cqw);
-  width: max-content;
-  max-width: 100%;
-  margin: 0;
-  padding: 0.3cqw 0.8cqw;
-  border-radius: 999px;
-  background: rgba(252, 253, 255, 0.8);
-  color: #4d5667;
-  font-family: var(--font-mono);
-  font-size: 0.95cqw;
-  letter-spacing: 0.08em;
-  text-align: center;
-  text-transform: uppercase;
-  transform: translateX(-50%);
-}
-
-/* ----- Apoyado sobre la foto: en qué acto va el scroll y qué está contando ----- */
-.hb-rail {
-  opacity: var(--cap, 1);
-  display: grid;
-  gap: 0.8cqw;
-  width: min(84%, 62ch);
-  padding: 1.1cqw 1.6cqw;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 1.3cqw;
-  background: rgba(253, 253, 255, 0.93);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
-  box-shadow: 0 1.4cqw 3cqw -1.6cqw rgba(8, 14, 28, 0.6);
-}
-
-.hb-steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1cqw;
-}
-
-/* La línea de arriba es el avance: se pinta encima del carril, de cero a var(--f) */
-.hb-step {
-  padding-top: 0.55cqw;
+.vz-state {
+  margin: 0 0 0 68px;
+  min-height: 1.3em;
   color: var(--fg-3);
-  font-size: 0.86cqw;
-  letter-spacing: 0.02em;
-  text-align: center;
-  background-image: linear-gradient(var(--accent-600), var(--accent-600)), linear-gradient(var(--hairline), var(--hairline));
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-size: var(--f, 100%) 3px, 100% 3px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
 }
 
-.hb-step[data-on] {
+/* Las tres preguntas. La elegida queda marcada con el relleno y con un tilde: el color
+   no es el único aviso. Aparecen recién cuando hay JavaScript para responderlas. */
+.vz-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vz-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 9px 16px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--fg-2);
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+}
+
+.vz-chip:hover {
+  border-color: var(--accent-600);
+  color: var(--text);
+}
+
+.vz-chip-ok {
+  display: inline-grid;
+  place-items: center;
+  width: 0;
+  margin-right: 0;
+  overflow: hidden;
+  transition: width 0.2s, margin-right 0.2s;
+}
+
+.vz-chip-ok .icon {
+  width: 14px;
+  height: 14px;
+}
+
+.vz-chip.is-on {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--on-dark);
+  font-weight: 600;
+}
+
+.vz-chip.is-on .vz-chip-ok {
+  width: 14px;
+  margin-right: 7px;
+}
+
+/* La respuesta */
+.vz-answer {
+  padding: 22px clamp(18px, 2.4vw, 26px);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 30px 60px -42px rgba(11, 18, 32, 0.5);
+}
+
+.vz-a-q {
+  margin: 0 0 10px;
+  color: var(--fg-3);
+  font-size: 0.88rem;
+}
+
+.vz-a-big {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 1.2rem + 2vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.vz-a-tag {
+  margin: 10px 0 0;
+  color: var(--fg-2);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.vz-good .vz-a-tag {
+  color: var(--good);
+}
+
+.vz-warn .vz-a-tag {
+  color: var(--accent-700);
+}
+
+.vz-a-txt {
+  margin: 12px 0 0;
+  color: var(--fg-2);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.vz-a-src {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+}
+
+/* El envoltorio existe solo para que design.js vuelva a armar las pastillas */
+.vz-a-srcs {
+  display: contents;
+}
+
+.vz-src-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--fg-2);
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.vz-src-pill i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c, var(--fg-3));
+}
+
+.vz-src-demo {
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+}
+
+/* El color de cada sistema, el mismo que usa el núcleo de datos ([data-core]) */
+.vz-c-erp { --c: #0b1220; }
+.vz-c-crm { --c: #2353d6; }
+.vz-c-xls { --c: #0f8f7a; }
+.vz-c-wa { --c: #128c7e; }
+.vz-c-mail { --c: #e4581c; }
+
+/* ----- 2. La consolidación: los cinco sistemas se funden en un núcleo ----- */
+.vz-track {
+  position: relative;
+}
+
+.vz-pin {
+  position: relative;
+}
+
+.vz-fuse {
+  position: relative;
+  overflow: hidden;
+  /* Decorativo: nunca se queda con un clic que iba a un botón */
+  pointer-events: none;
+}
+
+.vz-core {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vz-sys {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 9px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 18px 36px -26px rgba(11, 18, 32, 0.6);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.vz-sys b {
   color: var(--text);
   font-weight: 600;
-  text-shadow: 0 0 1.4cqw rgba(228, 88, 28, 0.35);
 }
 
-.hb-caption {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.15cqw;
-  transition: none;
-  font-weight: 500;
+.vz-sys-ico {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  color: var(--c);
+}
+
+.vz-sys-ico .icon {
+  width: 15px;
+  height: 15px;
+}
+
+.vz-line {
+  position: relative;
+  max-width: 34ch;
+  margin: clamp(20px, 3.4vh, 32px) auto 0;
+  color: var(--fg-2);
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.18rem);
+  line-height: 1.5;
   text-align: center;
   text-wrap: balance;
-  opacity: var(--cap, 1);
 }
 
-/* Con animación cada cartel entra cuando le toca, desde más abajo y más chico */
-.motion .hb-card {
-  transform: translateY(calc((1 - var(--a)) * 22px)) scale(calc(0.94 + 0.06 * var(--a)));
-  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+/* Sin animación: la esfera ya formada, los cinco sistemas en una fila y la frase final */
+html:not(.motion) .vz-fuse {
+  padding: clamp(120px, 20vw, 240px) var(--gutter) clamp(44px, 7vw, 80px);
 }
 
-.motion .hb-join,
-.motion .hb-board {
-  transform: translateX(-50%) translateY(calc((1 - var(--a)) * 22px));
-}
-
-/* Sin animación no hay recorrido: el texto deja de ir encima de la foto y vuelve a ir
-   arriba, y debajo queda el último acto, quieto y completo. Es el orden del DOM al
-   revés, así que el texto se adelanta con order. */
-html:not(.motion) .hb-track {
-  height: auto;
-}
-
-html:not(.motion) .hb-pin {
-  position: static;
-  height: auto;
-}
-
-html:not(.motion) .hb-stage {
+html:not(.motion) .vz-srcs {
   display: flex;
-  flex-direction: column;
-  height: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
-html:not(.motion) .hb-copy {
-  order: -1;
-  position: static;
-  padding-top: clamp(26px, 4vw, 54px);
-  padding-bottom: clamp(22px, 3vw, 38px);
-  transform: none;
+/* Con animación la etapa queda fija y design.js mueve cada sistema desde fuera del cuadro
+   hasta su lugar alrededor del núcleo, y de ahí al centro */
+html.motion .vz-track {
+  height: 240vh;
 }
 
-html:not(.motion) .hb-crop {
-  height: min(70svh, 560px);
+html.motion .vz-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
 }
 
-html:not(.motion) .hb-veil {
-  display: none;
+html.motion .vz-fuse {
+  height: 100%;
 }
 
-html:not(.motion) .hb-steps {
-  display: none;
+html.motion .vz-sys {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%) translate(var(--x, 0px), var(--y, 0px)) scale(var(--s, 1));
+  opacity: var(--o, 0);
+  will-change: transform, opacity;
 }
 
-/* Lo que sigue depende del ancho del recorte, no del de la ventana: en escritorio la
-   escena ocupa media pantalla y en celulares toda, pero en los dos casos el recorte es
-   angosto y lo de encima tiene que crecer en proporción. */
-@container (max-width: 900px) {
-  .hb-ask,
-  .hb-join {
-    width: 62%;
-  }
-
-  .hb-ask {
-    left: 4%;
-    top: 5%;
-  }
-
-  .hb-join {
-    top: 6%;
-  }
-
-  .hb-alert {
-    right: 4%;
-    width: 64%;
-    margin-bottom: 2.4cqw;
-  }
-
-  /* El recorte es angosto en las dos formas (celular y media pantalla), así que lo que
-     va sobre la foto se mide en cqw. El piso en px es para el celular, donde el mismo
-     porcentaje daría un cuerpo ilegible. */
-  .hb-card {
-    gap: 0.9cqw;
-    padding: 1.9cqw 2.2cqw;
-    border-radius: 2cqw;
-    font-size: max(12px, 2.9cqw);
-  }
-
-  .hb-ask-hd,
-  .hb-join-foot {
-    font-size: max(10px, 2.4cqw);
-  }
-
-  .hb-ask-tx,
-  .hb-join-hd,
-  .hb-alert-hd {
-    font-size: max(14px, 3.3cqw);
-  }
-
-  .hb-ask-eta,
-  .hb-alert-tx {
-    font-size: max(11px, 2.7cqw);
-  }
-
-  .hb-alert-hd .icon {
-    font-size: max(14px, 3.4cqw);
-  }
-
-  .hb-wa,
-  .hb-crm {
-    width: 52%;
-    gap: 0.9cqw;
-  }
-
-  /* Uno debajo del otro: acá al lado no entran */
-  .hb-wa {
-    top: 6%;
-  }
-
-  .hb-crm {
-    top: 31%;
-  }
-
-  .hb-wa-hd {
-    margin: -1.9cqw -2.2cqw 0.7cqw;
-    padding: 1.2cqw 2.2cqw;
-    border-radius: 2cqw 2cqw 0 0;
-    font-size: max(12px, 2.6cqw);
-  }
-
-  .hb-wa-msg {
-    padding: 0.9cqw 1.4cqw;
-    border-radius: 1.6cqw;
-    font-size: max(12px, 2.6cqw);
-  }
-
-  .hb-crm-hd,
-  .hb-crm-row {
-    font-size: max(12px, 2.6cqw);
-  }
-
-  .hb-crm-row {
-    gap: 1.2cqw;
-    padding-bottom: 0.6cqw;
-  }
-
-  .hb-crm-foot {
-    font-size: max(10px, 2.2cqw);
-  }
-
-  .hb-sw {
-    width: 2cqw;
-    height: 2cqw;
-  }
-
-  .hb-join-bar {
-    height: 1cqw;
-  }
-
-  .hb-voice {
-    width: 86%;
-    gap: 2cqw;
-    padding: 2cqw 2.4cqw;
-  }
-
-  .hb-q {
-    font-size: max(14px, 3.2cqw);
-  }
-
-  .hb-mic {
-    width: max(28px, 6cqw);
-    height: max(28px, 6cqw);
-  }
-
-  .hb-mic .icon {
-    font-size: max(15px, 3.2cqw);
-  }
-
-  .hb-rail {
-    width: 92%;
-    gap: 1.6cqw;
-    padding: 2.2cqw 3.2cqw;
-    border-radius: 3cqw;
-  }
-
-  .hb-steps {
-    gap: 1.6cqw;
-  }
-
-  .hb-step {
-    padding-top: 1.1cqw;
-    font-size: max(10px, 2.3cqw);
-  }
-
-  .hb-caption {
-    font-size: max(12px, 2.8cqw);
-  }
-
-  .hb-wave,
-  .hb-status {
-    display: none;
-  }
-
-  /* El tablero. Es la respuesta, así que es lo que más tiene que leerse: crece más que
-     el resto y lleva piso en px para que en el celular no quede en letra chica. */
-  .hb-board {
-    width: calc(92 * var(--u));
-  }
-
-  .hb-scr {
-    gap: calc(1.5 * var(--u));
-    padding: calc(1.8 * var(--u)) calc(2 * var(--u)) calc(1.5 * var(--u));
-    font-size: max(11px, calc(2.2 * var(--u)));
-  }
-
-  .hb-board-app,
-  .hb-live,
-  .hb-when,
-  .hb-d,
-  .hb-goal,
-  .hb-foot {
-    font-size: max(8px, calc(1.6 * var(--u)));
-  }
-
-  .hb-board-head h2 {
-    font-size: max(15px, calc(3.1 * var(--u)));
-  }
-
-  .hb-chip,
-  .hb-k,
-  .hb-bar {
-    font-size: max(9px, calc(1.85 * var(--u)));
-  }
-
-  .hb-v {
-    font-size: max(17px, calc(3.4 * var(--u)));
-  }
-
-  .hb-ico {
-    width: max(20px, calc(3.9 * var(--u)));
-    height: max(20px, calc(3.9 * var(--u)));
-    font-size: max(11px, calc(2.2 * var(--u)));
-  }
-
-  .hb-panel h3 {
-    font-size: max(10px, calc(2.05 * var(--u)));
-  }
-
-  .hb-axis {
-    font-size: max(7px, calc(1.5 * var(--u)));
-  }
-
-  .hb-bar {
-    grid-template-columns: calc(11.8 * var(--u)) minmax(0, 1fr) calc(8.2 * var(--u));
-  }
-
-  .hb-line {
-    height: calc(7.6 * var(--u));
-  }
-
-  /* Las fuentes, que son de lo que habla el acto 2 */
-  .hb-fuentes-hd {
-    font-size: max(9px, 1.9cqw);
-  }
-
-  .hb-fuente {
-    gap: 1.2cqw;
-    padding: 1.3cqw 2cqw 1.3cqw 1.3cqw;
-  }
-
-  .hb-fuente b {
-    font-size: max(13px, 2.9cqw);
-  }
-
-  .hb-fuente-ico {
-    width: max(22px, 4.6cqw);
-    height: max(22px, 4.6cqw);
-    font-size: max(12px, 2.4cqw);
-  }
-}
-
-/* Si la escena queda baja —media pantalla con poca altura, o sin animación— el tablero
-   se lleva el hueco que quedaba libre y la alerta ya no entra debajo. */
-@container (max-height: 720px) {
-  .hb-alert {
-    display: none;
-  }
-}
-
-/* En un recorte de celular ya no entra nada más que lo imprescindible */
-@container (max-width: 520px) {
-  .hb-alert {
-    display: none;
-  }
-
-  /* El tablero en un recorte de celular: las fichas en dos filas y un solo panel. La
-     curva de ventas es la que se va, porque las barras son las que llevan el objetivo y
-     son lo que contesta la pregunta. */
-  .hb-board {
-    top: 21%;
-    width: calc(94 * var(--u));
-  }
-
-  .hb-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .hb-panels {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .hb-panels .hb-panel:first-child,
-  .hb-board-app,
-  .hb-when {
-    display: none;
-  }
-
-  .hb-bar {
-    grid-template-columns: calc(19 * var(--u)) minmax(0, 1fr) calc(13 * var(--u));
-  }
-
-
+html.motion .vz-line {
+  position: absolute;
+  bottom: clamp(44px, 9vh, 104px);
+  left: 50%;
+  width: min(34ch, 86vw);
+  margin: 0;
+  transform: translateX(-50%) translateY(var(--y, 0px));
+  opacity: var(--o, 0);
 }
 
 @media (max-width: 900px) {
-  .hb-track {
-    height: 260vh;
+  .vz-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+    min-height: 0;
   }
 
-  /* El texto vuelve a ir encima de la escena y se desvanece con el scroll. --fade va en
-     la etapa, no en el texto: el velo es su hermano y tiene que heredarlo igual. */
-  .hb-stage {
-    --fade: 1;
+  .vz-copy .lead {
+    margin-bottom: 20px;
   }
 
-  .hb-copy {
-    align-content: start;
-    padding-top: clamp(22px, 5vh, 48px);
-    padding-bottom: 0;
+  .vz-bar {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 10px 16px 10px 10px;
   }
 
-  /* Acá el texto va arriba, no a la izquierda: el velo baja y llega hasta los botones */
-  .hb-veil {
-    background: linear-gradient(to bottom,
-      color-mix(in srgb, var(--bg) 97%, transparent) 0%,
-      color-mix(in srgb, var(--bg) 96%, transparent) 58%,
-      color-mix(in srgb, var(--bg) 72%, transparent) 74%,
-      transparent 100%);
+  .vz-wave {
+    display: none;
   }
 
-  /* El recorte es alto y angosto: entra toda la foto de arriba abajo y la cámara
-     se mueve en una franja vertical (los encuadres de «cam_alto») */
-  .hb-scene {
-    transform: translate(-4%, -83.7%) scale(5.056);
+  .vz-mic {
+    width: 48px;
+    height: 48px;
   }
 
-  html.motion .hb-scene {
-    transform: translate(-192.7%, 0%) scale(3);
+  .vz-state {
+    margin-left: 60px;
+  }
+
+  .vz-sys {
+    padding: 6px 11px 6px 7px;
+    font-size: 0.76rem;
+  }
+
+  .vz-sys-ico {
+    width: 24px;
+    height: 24px;
+  }
+
+  .vz-sys-ico .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  html.motion .vz-track {
+    height: 220vh;
   }
 }
 
-/* Con «menos movimiento» motion.js no pone .motion, así que ya no hay riel ni actos */
+/* Con «menos movimiento» motion.js no pone .motion, así que no hay riel ni transiciones */
 @media (prefers-reduced-motion: reduce) {
-  .hb-card,
-  .hb-mic {
+  .vz-chip,
+  button.vz-mic,
+  .vz-chip-ok,
+  .vz-wave {
     transition: none;
   }
 }

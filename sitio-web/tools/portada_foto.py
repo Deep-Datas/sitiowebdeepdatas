@@ -1,5 +1,9 @@
 """Prepara la imagen de la portada del inicio: la aclara y la agranda lo mejor que se puede.
 
+La portada ya no usa esta foto: hoy es la pregunta en voz alta (src/hero.html). Se conserva
+el script por si se vuelve a usar la imagen; para eso hay que volver a generarla, porque los
+archivos que escribía se borraron del repositorio.
+
 Parte de tools/hero/portada-original.webp, de 1536 x 1024 (3:2) —el escritorio de quien
 decide, con el monitor de frente y la mano apoyada sobre la pantalla— y escribe
 src/assets/img/hero/portada-{1536,2048}.webp.
