@@ -1,12 +1,20 @@
 {% extends 'layout.html' %}
 {% set post = page.post %}
 {% set post_url = site_url ~ page.path %}
+{# El llamado a la acción del final, según el campo «cta» del artículo #}
 {% set ctas = {
-  'diagnostico': ('¿Tus datos están listos?', 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada.', '/diagnostico/', 'Conocé el diagnóstico de datos'),
-  'casos': ('Mirá cómo lo resolvimos', 'Conocé los resultados que obtuvieron empresas que unificaron sus datos con nosotros.', '/casos/' if cases else '/ejemplos/', 'Ver casos de éxito' if cases else 'Ver ejemplos de tableros'),
-  'ia': ('Inteligencia artificial con tus datos', 'Agentes de IA que responden consultas, cargan pedidos y anticipan problemas, conectados a datos confiables.', '/inteligencia-artificial/', 'Ver soluciones de IA'),
+  'es': {
+    'diagnostico': ('¿Tus datos están listos?', 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada.', url('diagnostico'), 'Conocé el diagnóstico de datos'),
+    'casos': ('Mirá cómo lo resolvimos', 'Conocé los resultados que obtuvieron empresas que unificaron sus datos con nosotros.', url('casos') if cases else url('ejemplos'), 'Ver casos de éxito' if cases else 'Ver ejemplos de tableros'),
+    'ia': ('Inteligencia artificial con tus datos', 'Agentes de IA que responden consultas, cargan pedidos y anticipan problemas, conectados a datos confiables.', url('ia'), 'Ver soluciones de IA'),
+  },
+  'en': {
+    'diagnostico': ('Is your data ready?', 'In two weeks we map your data sources, measure their quality and hand you a prioritized roadmap.', url('diagnostico'), 'Explore the data assessment'),
+    'casos': ('See how we solved it', 'The results companies got after bringing their data together with us.', url('casos') if cases else url('ejemplos'), 'Read the case studies' if cases else 'See sample dashboards'),
+    'ia': ('AI with your own data', 'AI agents that answer questions, enter orders and flag problems, connected to reliable data.', url('ia'), 'See AI solutions'),
+  },
 } %}
-{% set cta_box = ctas[post.cta] %}
+{% set cta_box = ctas[lang][post.cta] %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -16,7 +24,7 @@
     "headline": {{ post.title | tojson }},
     "description": {{ post.description | tojson }},
     "datePublished": "{{ post.date.isoformat() }}",
-    "inLanguage": "es-AR",
+    "inLanguage": "{{ 'es-AR' if lang == 'es' else 'en' }}",
     "mainEntityOfPage": "{{ post_url }}",
     "image": "{{ og_image }}",
     "author": {"@type": "Organization", "name": "DeepDatas", "url": "{{ site_url }}/"},
@@ -29,10 +37,10 @@
 <article class="post">
   <header class="page-hero page-hero-compact post-hero">
     <div class="container post-container">
-      <p class="eyebrow"><a href="/blog/">Blog</a></p>
+      <p class="eyebrow"><a href="{{ url('blog') }}">{{ t.blog_eyebrow }}</a></p>
       <h1>{{ post.title }}</h1>
       <p class="lead">{{ post.description }}</p>
-      <p class="post-meta">Equipo DeepDatas · <time datetime="{{ post.date.isoformat() }}">{{ long_date(post.date) }}</time> · {{ post.minutes }} min de lectura</p>
+      <p class="post-meta">{{ t.blog_author }} · <time datetime="{{ post.date.isoformat() }}">{{ long_date(post.date) }}</time> · {{ post.minutes }} {{ t.blog_minutes }}</p>
     </div>
   </header>
 
@@ -49,7 +57,7 @@
       </aside>
 
       <p class="post-share">
-        <a class="btn btn-secondary" href="https://www.linkedin.com/sharing/share-offsite/?url={{ post_url | urlencode }}" target="_blank" rel="noopener noreferrer">Compartir en LinkedIn {{ icon('box-arrow-up-right') }}</a>
+        <a class="btn btn-secondary" href="https://www.linkedin.com/sharing/share-offsite/?url={{ post_url | urlencode }}" target="_blank" rel="noopener noreferrer">{{ t.blog_share }} {{ icon('box-arrow-up-right') }}</a>
       </p>
     </div>
   </div>
@@ -59,13 +67,13 @@
 {% if related %}
 <section class="section section-paper section-tight" aria-labelledby="related-title">
   <div class="container">
-    <h2 id="related-title" class="h3-like">Seguí leyendo</h2>
+    <h2 id="related-title" class="h3-like">{{ t.blog_related }}</h2>
     <ul class="post-grid">
       {% for p in related %}
       <li>
         <article class="post-card">
-          <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>
-          <p class="post-meta">{{ p.minutes }} min de lectura</p>
+          <h3 class="post-card-title"><a href="{{ url('blog') }}{{ p.slug }}/">{{ p.title }}</a></h3>
+          <p class="post-meta">{{ p.minutes }} {{ t.blog_minutes }}</p>
         </article>
       </li>
       {% endfor %}

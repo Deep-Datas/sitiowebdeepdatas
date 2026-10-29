@@ -110,8 +110,15 @@ Ordená los hallazgos por gravedad y decí en qué tamaño y en qué idioma pasa
 - [ ] Sin animación o sin JavaScript queda inutilizable.
 
 **Accesibilidad**
-- [ ] Contraste: 4,5:1 para texto normal, 3:1 para texto grande.
-- [ ] Objetivos táctiles de 44 × 44 px como mínimo.
+- [ ] Contraste: 4,5:1 para texto normal, 3:1 para texto grande. Ojo con el texto chico
+      de las escenas ilustrativas (el tablero de la portada, el chat, los tableros de
+      ejemplo): es decorativo pero se lee igual, y es donde se escapan los grises claros.
+      Para naranja sobre fondo claro va `--accent-700`, no `--accent-600`: el de marca da
+      3,68:1 y no alcanza para texto.
+- [ ] Objetivos táctiles de 44 × 44 px como mínimo, y nunca menos de 24 × 24 (WCAG 2.5.8).
+      Donde el cuerpo es chico a propósito —cambio de idioma, enlaces del pie, créditos—
+      se agranda la zona para tocar con relleno y se devuelve con margen negativo, así la
+      maqueta no cambia de alto.
 - [ ] Se puede recorrer con teclado y el foco se ve.
 - [ ] Las imágenes decorativas llevan `aria-hidden`; las informativas, texto alternativo.
 - [ ] Los estados no se comunican solo con color.

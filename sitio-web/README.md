@@ -9,7 +9,7 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 | `/` | Propuesta de valor (datos e IA para distribuidoras, pymes y consumo masivo), clientes, industrias, desafíos que resolvemos, recorrido de los datos hasta un agente de IA, casos, testimonios, formas de empezar |
 | `/industrias/…` | Una página por industria (consumo masivo, distribuidoras mayoristas, pymes, retail, materiales eléctricos y construcción, autopartes y repuestos, industria y manufactura y agro): desafíos, soluciones, indicadores, tablero de ejemplo, casos, testimonios, preguntas frecuentes y notas del blog |
 | `/inteligencia-artificial/` | IA para empresas: casos de uso, conversación de ejemplo con un agente, gráfico de datos para IA, principios de seguridad, proceso y preguntas frecuentes |
-| `/blog/` | Artículos (uno por archivo en `blog/`), cada uno en `/blog/<archivo>/` |
+| `/blog/` y `/en/blog/` | Artículos (uno por archivo en `blog/es/` y `blog/en/`), cada uno en `/blog/<archivo>/` o `/en/blog/<archivo>/` |
 | `/diagnostico/` | Oferta de diagnóstico de datos: entregables, ejemplo de informe (datos ficticios), proceso, preguntas frecuentes y formulario |
 | `/autoevaluacion/` | Autoevaluación de 6 preguntas: puntaje de 0 a 100, nivel y prioridades al instante; se puede guardar en PDF y dejar los datos de contacto |
 | `/servicios/` | Detalle de los cuatro servicios, niveles de analítica, formas de trabajo y tecnología |
@@ -24,8 +24,8 @@ Sitio institucional renovado de [deepdatas.com](https://deepdatas.com): un sitio
 
 ```
 build.py                 Genera el sitio en public/ a partir de src/
-blog.py                  Lee los artículos de blog/ (Markdown)
-blog/                    Artículos del blog, uno por archivo .md
+blog.py                  Lee los artículos de blog/<idioma>/ (Markdown)
+blog/es/, blog/en/       Artículos del blog, uno por archivo .md, en cada idioma
 contenido/linkedin.md    Publicaciones sugeridas para LinkedIn (no se publica en el sitio)
 contenido/testimonios.md Guía para pedir testimonios a los clientes (no se publica en el sitio)
 casos.py                 Casos de éxito (se publican al marcarlos como publicados)
@@ -80,7 +80,7 @@ Un artículo puede llevar un título más corto solo para el buscador (`seo_titl
 
 ## Versión en inglés
 
-El sitio se publica en español (raíz) y en inglés (`/en/`). El blog es solo en español.
+El sitio se publica en español (raíz) y en inglés (`/en/`), el blog incluido.
 
 - Cada página en inglés tiene su plantilla en `src/pages/en/`, con el mismo nombre de archivo que la española. Sus títulos y descripciones están en `PAGES_EN` (`build.py`) y sus rutas en `ROUTES` (`i18n.py`).
 - Los textos de los componentes que comparten todas las páginas (menú, pie, formularios, planes, logos, tableros y gráfico de datos) están en `i18n.py`; los de la escena del inicio, en `src/hero.html`; los de los tableros de ejemplo, en `dashboards.py`; los de los casos, en `CASES_EN` (`casos.py`); los de las industrias, en `industrias.py`, y las traducciones de los testimonios, en `testimonios.py`.
@@ -158,7 +158,7 @@ Los formularios envían el idioma de la página (`lang`): la función responde e
 
 ## Blog
 
-Para publicar un artículo, creá un archivo `.md` en `blog/` (por ejemplo `blog/mi-articulo.md`, que se publica en `/blog/mi-articulo/`) con este encabezado y el texto en Markdown debajo:
+El blog va en los dos idiomas: `blog/es/` se publica en `/blog/` y `blog/en/` en `/en/blog/`. Para publicar un artículo, creá un archivo `.md` en la carpeta del idioma (por ejemplo `blog/es/mi-articulo.md`, que se publica en `/blog/mi-articulo/`) con este encabezado y el texto en Markdown debajo:
 
 ```
 ---
@@ -168,10 +168,15 @@ description: Resumen de unas 25 palabras para Google y LinkedIn
 date: 2026-10-20
 tags: Power BI, Tableros de gestión
 cta: diagnostico
+es: mi-articulo
 ---
 ```
 
 `seo_title` es opcional y sirve cuando el título del artículo es largo: en la página se sigue leyendo el `title` y en la pestaña va el corto, que con « | DeepDatas» tiene que entrar en 60 caracteres. La `description` no puede pasar de 160. `cta` define el llamado a la acción del final: `diagnostico`, `casos` o `ia`. Los artículos con fecha futura no se publican hasta que se vuelva a generar el sitio en esa fecha. Cada artículo se suma solo al blog, al inicio, al sitemap y a los artículos relacionados.
+
+**`es` solo va en los artículos en inglés** y dice de qué artículo en español son traducción (su nombre de archivo, sin `.md`). De ahí salen tres cosas: el `hreflang` que relaciona las dos versiones, el enlace del encabezado al otro idioma y las notas que muestra cada página de industria, que en `industrias.py` se listan con el nombre del artículo en español. Un artículo en inglés sin `es` se publica igual, pero queda suelto: sin par y sin aparecer en las industrias.
+
+Cada idioma lleva su propio nombre de archivo, así que la dirección en inglés se escribe en inglés (`/blog/calidad-de-datos/` ↔ `/en/blog/data-quality/`). Los enlaces dentro del texto de un artículo se escriben a mano: al traducir hay que apuntarlos a la versión en inglés (`/en/blog/…`, `/en/dashboard-examples/`).
 
 ## Casos de éxito
 

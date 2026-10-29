@@ -1,7 +1,7 @@
 {# Estructura común a todas las páginas. Cada página extiende esta plantilla.
    Los textos de los componentes compartidos están en i18n.py (t), según el idioma de la página. #}
 {% set nav_keys = ['servicios', 'ia', 'diagnostico', 'casos', 'blog', 'nosotros'] %}
-{% set hidden_nav = ([] if cases else ['casos']) + ([] if posts and lang == 'es' else ['blog']) %}
+{% set hidden_nav = ([] if cases else ['casos']) + ([] if posts else ['blog']) %}
 {% set nav_items = [] %}
 {% for key in nav_keys if key not in hidden_nav %}{% set _ = nav_items.append((key, url(key), t.nav[key])) %}{% endfor %}
 {% set portal_url = 'https://deepdatas.sharepoint.com/_layouts/15/sharepoint.aspx' %}
@@ -145,7 +145,7 @@
             {% if cases %}<li><a href="{{ url('casos') }}">{{ t.footer_cases }}</a></li>{% endif %}
             <li><a href="{{ url('ejemplos') }}">{{ t.footer_examples }}</a></li>
             <li><a href="{{ url('nosotros') }}">{{ t.footer_about_us }}</a></li>
-            {% if posts %}<li><a href="/blog/"{% if lang != 'es' %} hreflang="es"{% endif %}>{{ t.footer_blog }}</a></li>{% endif %}
+            {% if posts %}<li><a href="{{ url('blog') }}">{{ t.footer_blog }}</a></li>{% endif %}
             <li><a href="{{ url('contacto') }}">{{ t.footer_contact_page }}</a></li>
             <li><a href="{{ portal_url }}" target="_blank" rel="noopener noreferrer">{{ t.portal }}</a></li>
           </ul>

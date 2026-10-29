@@ -417,6 +417,7 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 24px;
   font-weight: 600;
 }
 
@@ -2273,6 +2274,15 @@ ol {
   display: grid;
   gap: 10px;
   overflow-wrap: anywhere;
+}
+
+/* Lo mismo que en el cambio de idioma: cuerpo chico, zona para tocar de 24 px. Van
+   uno debajo del otro, así que el relleno de arriba y abajo no los acerca entre sí. */
+.footer-links a,
+.footer-bottom a {
+  display: inline-block;
+  padding: 4px 0;
+  margin: -4px 0;
 }
 
 .site-footer a {
@@ -6606,10 +6616,15 @@ button.text-link-quiet {
 }
 
 /* Selector de idioma en el encabezado */
+/* El cuerpo es chico, pero la zona para tocar llega a los 24 px que pide WCAG 2.5.8;
+   el margen negativo devuelve el relleno para que el encabezado no cambie de alto. */
 .nav-lang {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 24px;
+  padding: 2px 4px;
+  margin: -2px -4px;
   color: var(--fg-2);
   font-size: 0.85rem;
   white-space: nowrap;

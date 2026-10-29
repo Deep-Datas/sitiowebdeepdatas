@@ -499,28 +499,60 @@ def published_cases(drafts):
     return cases
 
 
+# Qué artículo en inglés traduce a cada uno en español, armado una vez por compilación
+PARES_BLOG = {}
+
+
+def post_alternates(post):
+    """Las dos direcciones de un artículo, si tiene traducción."""
+    es = post['slug'] if post['lang'] == 'es' else post.get('es')
+    en = PARES_BLOG.get(es)
+    if not es or not en:
+        return {}
+    return {'es': f'{ROUTES["blog"]["es"]}{es}/', 'en': f'{ROUTES["blog"]["en"]}{en}/'}
+
+
 def alternates(page):
     """Versiones de la página en cada idioma, para hreflang y el selector de idioma."""
     key = page.get('key')
-    if not key or page.get('post'):
+    if page.get('post'):
+        return post_alternates(page['post'])
+    if not key:
         return {}
     return {lang: path for lang, path in ROUTES[key].items() if path}
+
+
+# Título y descripción de la portada del blog en cada idioma
+BLOG_INDEX = {
+    'es': {
+        'title': 'Blog: datos, tableros e IA para empresas | DeepDatas',
+        'description': 'Guías prácticas sobre integración y calidad de datos, tableros de gestión, Power BI e inteligencia artificial aplicada a empresas.',
+    },
+    'en': {
+        'title': 'Blog: data, dashboards and AI for business | DeepDatas',
+        'description': 'Practical guides on data integration and quality, management dashboards, Power BI and AI applied to business.',
+    },
+}
 
 
 def build(drafts=False):
     cases = published_cases(drafts)
     testimonials = published_testimonials(drafts)
     pages = [p for p in PAGES + PAGES_EN if cases or not p.get('requires_cases')] + industry_pages()
-    posts = load_posts(include_future=drafts)
-    if posts:
-        pages.append({
-            'template': 'blog.html', 'path': '/blog/', 'nav': 'blog',
-            'title': 'Blog: datos, tableros e IA para empresas | DeepDatas',
-            'description': 'Guías prácticas sobre integración y calidad de datos, tableros de gestión, Power BI e inteligencia artificial aplicada a empresas.',
-        })
-        for post in posts:
+    # El blog va en los dos idiomas. Cada artículo en inglés dice de cuál en español es
+    # traducción (campo «es»), y de ahí salen el hreflang y el enlace al otro idioma.
+    posts = {lang: load_posts(lang, include_future=drafts) for lang in LANGS}
+    PARES_BLOG.clear()
+    PARES_BLOG.update({p['es']: p['slug'] for p in posts.get('en', []) if p.get('es')})
+    for lang, entradas in posts.items():
+        if not entradas:
+            continue
+        pages.append({**BLOG_INDEX[lang], 'template': 'blog.html', 'lang': lang,
+                      'path': ROUTES['blog'][lang], 'nav': 'blog'})
+        for post in entradas:
             pages.append({
-                'template': 'articulo.html', 'path': f'/blog/{post["slug"]}/', 'nav': 'blog', 'post': post,
+                'template': 'articulo.html', 'lang': lang, 'nav': 'blog', 'post': post,
+                'path': f'{ROUTES["blog"][lang]}{post["slug"]}/',
                 'title': f'{post["seo_title"]} | DeepDatas', 'description': post['description'],
             })
     if OUT.exists():
@@ -536,14 +568,15 @@ def build(drafts=False):
         lstrip_blocks=True,
     )
     pos = Positions()
-    env.globals.update(icon=icon, faq_schema=faq_schema, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, posts=posts, url=url, long_date=long_date, clarity_id=CLARITY_ID, turnstile_key=TURNSTILE_SITE_KEY, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
+    env.globals.update(icon=icon, faq_schema=faq_schema, cover_img=cover_img, booking_url=booking_url, booking_link=booking_link, booking=BOOKING_URL, url=url, clarity_id=CLARITY_ID, turnstile_key=TURNSTILE_SITE_KEY, whatsapp=whatsapp, icon_svg=icon_svg, pipeline=pipeline, asset=asset, hero_chart=hero_chart, pos=pos,
                        cases=cases, drafts=drafts, pending=PENDIENTE, site_url=SITE_URL, year=date.today().year,
                        theme=THEME, theme_color=THEME_COLOR[THEME], og_image=f'{SITE_URL}/assets/img/brand/{OG_IMAGE[THEME]}', glass=glass)
 
     def render(page):
         lang = page.get('lang', 'es')
         return env.get_template(page['template']).render(
-            page=page, lang=lang, t=UI[lang], alt=alternates(page),
+            page=page, lang=lang, t=UI[lang], alt=alternates(page), posts=posts[lang],
+            long_date=lambda v, l=lang: long_date(v, l),
             examples=EXAMPLES[lang], cases=localized_cases(cases, lang),
             testimonials=localized_testimonials(testimonials, lang), industries=industries(lang))
 

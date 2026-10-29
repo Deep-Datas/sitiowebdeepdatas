@@ -10,7 +10,10 @@
 {% set ind_cases = cases | selectattr('id', 'in', ind.cases) | list %}
 {% set ind_quotes = testimonials | selectattr('industry', 'eq', ind.id) | list %}
 {% set example = (examples | selectattr('id', 'eq', ind.example) | first) if ind.example else none %}
-{% set ind_posts = (posts | selectattr('slug', 'in', ind.posts) | list) if lang == 'es' else [] %}
+{# Las notas del blog de esta industria. En español se buscan por su dirección; en
+   inglés, por la del artículo en español que traducen (campo «es»). #}
+{% set ind_posts = (posts | selectattr('slug', 'in', ind.posts) | list) if lang == 'es'
+                   else (posts | selectattr('es', 'in', ind.posts) | list) %}
 
 {# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
    en el resultado. El marcado sale de la misma lista que arma la página. #}
@@ -157,7 +160,7 @@
       {% for p in ind_posts %}
       <li class="reveal">
         <article class="post-card">
-          <h3 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h3>
+          <h3 class="post-card-title"><a href="{{ url('blog') }}{{ p.slug }}/">{{ p.title }}</a></h3>
           <p>{{ p.description }}</p>
           <p class="post-meta">{{ p.minutes }} {{ L.minutes }}</p>
         </article>

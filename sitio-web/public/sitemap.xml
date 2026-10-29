@@ -110,14 +110,65 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/industrias/agro/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/industries/agribusiness/"/></url>
   <url><loc>https://deepdatas.com/blog/</loc></url>
-  <url><loc>https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/</loc></url>
-  <url><loc>https://deepdatas.com/blog/datos-antes-de-implementar-ia/</loc></url>
-  <url><loc>https://deepdatas.com/blog/donde-guardar-los-datos/</loc></url>
-  <url><loc>https://deepdatas.com/blog/quiebre-de-stock-y-pronostico/</loc></url>
-  <url><loc>https://deepdatas.com/blog/pedidos-por-whatsapp/</loc></url>
-  <url><loc>https://deepdatas.com/blog/cobertura-y-venta-cruzada/</loc></url>
-  <url><loc>https://deepdatas.com/blog/unificar-ventas-de-distribuidores/</loc></url>
-  <url><loc>https://deepdatas.com/blog/kpis-comerciales/</loc></url>
-  <url><loc>https://deepdatas.com/blog/excel-o-power-bi/</loc></url>
-  <url><loc>https://deepdatas.com/blog/calidad-de-datos/</loc></url>
+  <url><loc>https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/connect-erp-to-ai-agent/"/></url>
+  <url><loc>https://deepdatas.com/blog/datos-antes-de-implementar-ia/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/datos-antes-de-implementar-ia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/data-you-need-before-ai/"/></url>
+  <url><loc>https://deepdatas.com/blog/donde-guardar-los-datos/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/donde-guardar-los-datos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/where-to-store-your-data/"/></url>
+  <url><loc>https://deepdatas.com/blog/quiebre-de-stock-y-pronostico/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/quiebre-de-stock-y-pronostico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/stockouts-and-demand-forecasting/"/></url>
+  <url><loc>https://deepdatas.com/blog/pedidos-por-whatsapp/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/pedidos-por-whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/whatsapp-orders/"/></url>
+  <url><loc>https://deepdatas.com/blog/cobertura-y-venta-cruzada/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/cobertura-y-venta-cruzada/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/point-of-sale-coverage/"/></url>
+  <url><loc>https://deepdatas.com/blog/unificar-ventas-de-distribuidores/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/unificar-ventas-de-distribuidores/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/unify-distributor-sales/"/></url>
+  <url><loc>https://deepdatas.com/blog/kpis-comerciales/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/kpis-comerciales/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/sales-kpis/"/></url>
+  <url><loc>https://deepdatas.com/blog/excel-o-power-bi/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/excel-o-power-bi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/excel-or-power-bi/"/></url>
+  <url><loc>https://deepdatas.com/blog/calidad-de-datos/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/calidad-de-datos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/data-quality/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/</loc></url>
+  <url><loc>https://deepdatas.com/en/blog/connect-erp-to-ai-agent/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/integrar-erp-con-agente-de-ia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/connect-erp-to-ai-agent/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/data-you-need-before-ai/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/datos-antes-de-implementar-ia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/data-you-need-before-ai/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/where-to-store-your-data/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/donde-guardar-los-datos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/where-to-store-your-data/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/stockouts-and-demand-forecasting/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/quiebre-de-stock-y-pronostico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/stockouts-and-demand-forecasting/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/whatsapp-orders/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/pedidos-por-whatsapp/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/whatsapp-orders/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/point-of-sale-coverage/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/cobertura-y-venta-cruzada/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/point-of-sale-coverage/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/unify-distributor-sales/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/unificar-ventas-de-distribuidores/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/unify-distributor-sales/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/sales-kpis/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/kpis-comerciales/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/sales-kpis/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/excel-or-power-bi/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/excel-o-power-bi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/excel-or-power-bi/"/></url>
+  <url><loc>https://deepdatas.com/en/blog/data-quality/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://deepdatas.com/blog/calidad-de-datos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://deepdatas.com/en/blog/data-quality/"/></url>
 </urlset>

@@ -3,9 +3,9 @@
 {% block content %}
 <section class="page-hero page-hero-compact">
   <div class="container">
-    <p class="eyebrow">Blog</p>
-    <h1>Ideas para decidir con datos</h1>
-    <p class="lead">Guías prácticas sobre integración y calidad de datos, tableros de gestión e inteligencia artificial aplicada a empresas.</p>
+    <p class="eyebrow">{{ t.blog_eyebrow }}</p>
+    <h1>{{ t.blog_title }}</h1>
+    <p class="lead">{{ t.blog_lead }}</p>
   </div>
 </section>
 
@@ -15,10 +15,10 @@
       {% for p in posts %}
       <li class="reveal">
         <article class="post-card">
-          <ul class="tags">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>
-          <h2 class="post-card-title"><a href="/blog/{{ p.slug }}/">{{ p.title }}</a></h2>
+          <ul class="tags">{% for tag in p.tags %}<li>{{ tag }}</li>{% endfor %}</ul>
+          <h2 class="post-card-title"><a href="{{ url('blog') }}{{ p.slug }}/">{{ p.title }}</a></h2>
           <p>{{ p.description }}</p>
-          <p class="post-meta"><time datetime="{{ p.date.isoformat() }}">{{ long_date(p.date) }}</time> · {{ p.minutes }} min de lectura</p>
+          <p class="post-meta"><time datetime="{{ p.date.isoformat() }}">{{ long_date(p.date) }}</time> · {{ p.minutes }} {{ t.blog_minutes }}</p>
         </article>
       </li>
       {% endfor %}
