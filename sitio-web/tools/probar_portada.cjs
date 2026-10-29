@@ -125,7 +125,14 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
       /* ---- Los tres botones cambian la respuesta y se marcan ---- */
       for (let i = 0; i < 3; i++) {
         await page.click(`[data-vz-q="${i}"]`);
-        await page.waitForTimeout(3000);
+        // A media escritura la barra ya tiene que medir lo que va a medir al final:
+        // si creciera renglón a renglón empujaría a los botones y a la respuesta
+        await page.waitForTimeout(600);
+        const medio = await page.$eval('.vz-bar', el => el.getBoundingClientRect().height);
+        await page.waitForTimeout(2400);
+        const fin = await page.$eval('.vz-bar', el => el.getBoundingClientRect().height);
+        controlar(`[barra ${donde}] cambia de alto mientras escribe la pregunta ${i} (${medio} → ${fin})`,
+                  Math.abs(medio - fin) < 1);
         const est = await page.evaluate(() => ({
           marcados: Array.from(document.querySelectorAll('[data-vz-q]')).map(b => b.getAttribute('aria-pressed')),
           pregunta: document.querySelector('[data-vz-aq]').textContent.trim(),
@@ -155,10 +162,12 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
       respuesta: !!el.querySelector('[data-vz-abig]').textContent.trim(),
       botonesVisibles: Array.from(el.querySelectorAll('button')).filter(b => b.offsetParent !== null).length,
       micDibujo: el.querySelector('[data-vz-still]').offsetParent !== null,
+      nucleo: el.querySelector('[data-vz-fuse]').offsetParent !== null,
     }));
     controlar('[sin-js] no se ve la respuesta escrita en el HTML', estado.respuesta);
     controlar(`[sin-js] quedan ${estado.botonesVisibles} botones que no hacen nada`, estado.botonesVisibles === 0);
     controlar('[sin-js] no se ve el micrófono dibujado', estado.micDibujo);
+    controlar('[sin-js] se ve el recuadro del núcleo, que sin JavaScript queda vacío', !estado.nucleo);
     await ctx.close();
   }
 
@@ -170,15 +179,25 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
     await page.waitForTimeout(600);
     await page.click('[data-vz-q="2"]');
     await page.waitForTimeout(200);
-    const est = await page.evaluate(() => ({
-      grande: document.querySelector('[data-vz-abig]').textContent.trim(),
-      marcado: document.querySelector('[data-vz-q="2"]').getAttribute('aria-pressed'),
-      riel: document.querySelector('[data-vz-track]').offsetHeight,
-      alto: window.innerHeight,
-    }));
+    const est = await page.evaluate(() => {
+      const caja = document.querySelector('[data-vz-fuse]').getBoundingClientRect();
+      return {
+        grande: document.querySelector('[data-vz-abig]').textContent.trim(),
+        marcado: document.querySelector('[data-vz-q="2"]').getAttribute('aria-pressed'),
+        // Quieto, los cinco sistemas tienen que verse alrededor del núcleo y dentro del recuadro
+        sistemas: Array.from(document.querySelectorAll('[data-vz-sys]')).map(el => {
+          const r = el.getBoundingClientRect();
+          return { o: +getComputedStyle(el).opacity,
+                   dentro: r.left >= caja.left - 1 && r.right <= caja.right + 1
+                           && r.top >= caja.top - 1 && r.bottom <= caja.bottom + 1 };
+        }),
+      };
+    });
     controlar('[sin-animación] el tercer botón no responde al instante', est.grande.length > 1 && est.marcado === 'true');
-    controlar(`[sin-animación] el riel sigue midiendo ${est.riel}px (debería ser el alto natural)`,
-              est.riel < est.alto * 1.6);
+    controlar('[sin-animación] los cinco sistemas no quedan a la vista alrededor del núcleo',
+              est.sistemas.length === 5 && est.sistemas.every(s => s.o > 0.95));
+    controlar('[sin-animación] algún sistema queda fuera del recuadro del núcleo',
+              est.sistemas.every(s => s.dentro));
     await ctx.close();
   }
 

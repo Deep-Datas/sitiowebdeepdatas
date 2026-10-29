@@ -65,36 +65,39 @@
     update();
   });
   /* ---------- Portada del inicio: la pregunta en voz alta ([data-vz]) ----------
-     Dos cosas en la misma etapa fija.
+     Dos cosas, lado a lado.
 
      La demostración: se elige una de tres preguntas, se escribe sola en la barra, la onda
      late mientras «escucha» y abajo aparece la respuesta con las fuentes. No hay micrófono
      de verdad: no se pide permiso ni sale audio a ningún lado.
 
-     La consolidación: debajo de la portada hay un riel que mantiene fija su etapa mientras
-     dura. Los cinco sistemas entran desde los costados y desde abajo, se acomodan alrededor
-     del centro y sus nubes de registros viajan hasta una sola esfera. Las posiciones se
-     calculan acá porque dependen de lo que mida la etapa.
+     El núcleo, al costado: los cinco sistemas entran desde los costados y desde abajo, se
+     acomodan alrededor del centro y sus nubes de registros se funden en una sola esfera.
+     No lo mueve el scroll sino el tiempo: corre con cada pregunta y termina justo cuando
+     aparece la respuesta. Las posiciones se calculan acá porque dependen de lo que mida el
+     recuadro.
 
-     Sin animación no hay riel: la demostración responde igual (sin escribirse letra por
-     letra) y la consolidación se dibuja una vez, ya terminada. */
+     Sin animación la demostración responde igual (sin escribirse letra por letra) y el
+     núcleo se dibuja una vez, ya formado, con los cinco sistemas alrededor. */
   document.querySelectorAll('[data-vz]').forEach(function (seccion) {
-    var preguntas, estados, leyendas;
+    var preguntas, estados;
     try {
       preguntas = JSON.parse(seccion.getAttribute('data-preguntas'));
       estados = JSON.parse(seccion.getAttribute('data-states'));
-      leyendas = JSON.parse(seccion.getAttribute('data-fuse'));
     } catch (e) { return; }
     if (!preguntas || !preguntas.length) return;
 
-    var track = seccion.querySelector('[data-vz-track]');
-    var pin = seccion.querySelector('.vz-pin');
     var demo = seccion.querySelector('.vz-demo');
+
+    function ahora() {
+      return window.performance && performance.now ? performance.now() : Date.now();
+    }
 
     /* ----- La demostración ----- */
     var quieto = seccion.querySelector('[data-vz-still]');
     var boton = seccion.querySelector('[data-vz-play]');
     var dicho = seccion.querySelector('[data-vz-said]');
+    var fantasma = seccion.querySelector('[data-vz-ghost]');
     var estado = seccion.querySelector('[data-vz-state]');
     var caja = seccion.querySelector('[data-vz-chips]');
     var fichas = slice(seccion.querySelectorAll('[data-vz-q]'));
@@ -140,6 +143,8 @@
 
     // Una sola corrida por vez: cada llamada se queda con el turno y la anterior se calla
     var turno = 0, latido = 0, tecla = 0, apagando = 0, elegida = 0, tocado = false;
+    // Lo que tiene que volver a correr con cada pregunta: el núcleo del costado
+    var corridas = [];
 
     function marcar(i) {
       fichas.forEach(function (ficha, k) {
@@ -153,6 +158,7 @@
       demo.classList.remove('is-live');
       demo.classList.add('is-done');
       estado.textContent = estados[2];
+      if (fantasma) fantasma.textContent = p.q;
       dicho.textContent = p.q;
       dicho.classList.remove('is-typing');
       pintar(p);
@@ -192,13 +198,16 @@
       demo.classList.add('is-live');
       demo.classList.remove('is-done');
       estado.textContent = estados[0];
+      // La copia invisible ya reserva el alto de esta pregunta: lo que se escribe encima
+      // no mueve nada de lo que viene abajo
+      if (fantasma) fantasma.textContent = p.q;
       dicho.classList.add('is-typing');
       dicho.textContent = '';
-      var t0 = window.performance && performance.now ? performance.now() : Date.now();
+      corridas.forEach(function (otra) { otra(); });
+      var t0 = ahora();
       (function latir() {
         if (mio !== turno) return;
-        var ahora = window.performance && performance.now ? performance.now() : Date.now();
-        onda(1, (ahora - t0) / 1000);
+        onda(1, (ahora() - t0) / 1000);
         latido = window.requestAnimationFrame(latir);
       })();
       escribir(p, 0, mio);
@@ -222,73 +231,71 @@
     }
     onda(0, 0);
 
-    /* ----- La consolidación: los cinco sistemas y el núcleo ----- */
+    /* ----- El núcleo al costado: los cinco sistemas se funden en uno -----
+       No lo mueve el scroll sino el tiempo: corre entero al entrar en pantalla y vuelve a
+       correr con cada pregunta, calibrado para terminar justo cuando aparece la respuesta.
+       Entre corrida y corrida la esfera queda girando despacio. */
     var fuse = seccion.querySelector('[data-vz-fuse]');
     var lienzo = seccion.querySelector('[data-vz-core]');
-    var corro = seccion.querySelector('.vz-srcs');
     var sistemas = slice(seccion.querySelectorAll('[data-vz-sys]'));
-    var linea = seccion.querySelector('[data-vz-line]');
     var ctx = lienzo && lienzo.getContext ? lienzo.getContext('2d') : null;
-    if (!fuse || !track || !pin || !linea) return;
+    if (!fuse || !ctx || sistemas.length !== 5) return;
+    fuse.hidden = false;
 
     // El mismo color por sistema que usa el núcleo de datos de más abajo ([data-core])
     var COLORES = ['#0b1220', '#2353d6', '#0f8f7a', '#128c7e', '#e4581c'];
-    // Dónde queda cada sistema alrededor del núcleo, en grados sobre el lienzo (la y crece
-    // hacia abajo): se reparten el arco de arriba, que es el aire que deja la frase.
-    var ANGULOS = [168, 216, 270, 324, 12];
-    // Y de qué lado entra cada uno: los dos del medio por los costados, los otros tres
-    // desde abajo. El rumbo se estira hasta sacarlos del cuadro, mida lo que mida.
-    var RUMBOS = [[-0.75, 1], [-1, 0.15], [0, 1], [1, 0.15], [0.75, 1]];
-    // Cuánto espera cada uno antes de entrar, en fracción del riel
-    var ESPERA = [0.09, 0.035, 0, 0.035, 0.09];
+    // Dónde se para cada uno alrededor del núcleo, en grados sobre el lienzo (la y crece
+    // hacia abajo), y por dónde entra: los de arriba por los costados, los de abajo desde
+    // abajo. El rumbo se estira hasta sacarlo del recuadro, mida lo que mida.
+    var ANGULOS = [234, 162, 90, 18, 306];
+    var RUMBOS = [[-1, 0], [-1, 0.2], [0, 1], [1, 0.2], [1, 0]];
+    // Cuánto espera cada uno antes de entrar, en fracción de la corrida
+    var ESPERA = [0.06, 0.03, 0, 0.03, 0.06];
+
     var dibujos = COLORES.map(sprite);
-    var CUANTOS = window.innerWidth < 720 ? 280 : 600;
+    var CUANTOS = 260;
     var esfera = fibonacciSphere(CUANTOS);
     var puntos = [];
     for (var i = 0; i < CUANTOS; i++) {
       var ang = Math.random() * Math.PI * 2;
-      var rad = Math.sqrt(Math.random()) * 0.13 * (0.5 + Math.random());
-      // Los desvíos van en fracción del lado menor: la escena se adapta sin regenerarse
+      var rad = Math.sqrt(Math.random()) * 0.11 * (0.5 + Math.random());
+      // Los desvíos van en fracción del lado menor: se adapta al tamaño sin regenerarse
       puntos.push({
         c: i % 5, ox: Math.cos(ang) * rad, oy: Math.sin(ang) * rad * 0.8, v: esfera[i],
         ph: Math.random() * Math.PI * 2, sp: 0.5 + Math.random() * 0.9,
-        size: 1.2 + Math.random() * 1.4, d: Math.random(),
+        size: 0.85 + Math.random() * 0.95, d: Math.random(),
       });
     }
 
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var W = 0, H = 0, M = 0, R = 0, cx = 0, cy = 0, giro = 0;
     // «anillo» es dónde termina cada sistema, «entradas» de dónde viene y «puestos» dónde
-    // está ahora: la nube de registros viaja pegada a su pastilla, no la espera en el lugar.
+    // está ahora: la nube de registros viaja pegada a su ícono, no lo espera en el lugar.
     var anillo = [], entradas = [], puestos = [];
 
     function medir() {
-      if (!fuse) return;
       W = fuse.clientWidth;
       H = fuse.clientHeight;
-      if (ctx) {
-        lienzo.width = Math.round(W * dpr);
-        lienzo.height = Math.round(H * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
+      if (!W || !H) return;
+      lienzo.width = Math.round(W * dpr);
+      lienzo.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       M = Math.min(W, H);
-      R = M * 0.2;
+      R = M * 0.22;
       cx = W / 2;
-      cy = H * 0.46;
-      if (!motion) {
-        // Sin riel los cinco sistemas van en una fila y la esfera ocupa el aire de arriba
-        var tope = corro ? corro.offsetTop : H * 0.6;
-        cy = Math.max(tope * 0.5, M * 0.18);
-        R = Math.min(M * 0.26, Math.max(tope * 0.38, 52));
-      }
-      var rx = Math.min(W * 0.33, 430), ry = Math.min(H * 0.27, 250);
+      cy = H / 2;
+      // El anillo deja afuera el ancho del ícono, para que ninguno se corte en el borde.
+      // Donde el recuadro queda ancho y bajo —en celular va debajo de la respuesta— el
+      // ancho se limita, para que los cinco no terminen desparramados de orilla a orilla.
+      var ry = Math.max(16, H / 2 - 17);
+      var rx = Math.max(16, Math.min(W / 2 - 17, ry * 1.9));
       anillo = ANGULOS.map(function (a) {
         var r = a * Math.PI / 180;
         return [cx + Math.cos(r) * rx, cy + Math.sin(r) * ry];
       });
       entradas = RUMBOS.map(function (d) {
-        var hx = Math.abs(d[0]) > 0.01 ? (W / 2 + 220) / Math.abs(d[0]) : Infinity;
-        var hy = Math.abs(d[1]) > 0.01 ? (H / 2 + 160) / Math.abs(d[1]) : Infinity;
+        var hx = Math.abs(d[0]) > 0.01 ? (W / 2 + 18) / Math.abs(d[0]) : Infinity;
+        var hy = Math.abs(d[1]) > 0.01 ? (H / 2 + 18) / Math.abs(d[1]) : Infinity;
         var k = Math.min(hx, hy);
         return [cx + d[0] * k, cy + d[1] * k];
       });
@@ -296,26 +303,26 @@
     }
 
     function dibujar(p, t) {
-      if (!ctx) return;
+      if (!W || !H) return;
       ctx.clearRect(0, 0, W, H);
       // Cada nube se enciende cuando entra la suya, no todas juntas
       var velos = ESPERA.map(function (e) {
-        return motion ? smooth(0.02 + e, 0.22 + e, p) : 1;
+        return motion ? smooth(0.02 + e, 0.26 + e, p) : 1;
       });
+      var fin = smooth(0.78, 1, p);
 
-      var fin = smooth(0.8, 0.98, p);
       if (fin > 0) {
-        var halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.4);
-        halo.addColorStop(0, 'rgba(255, 122, 69, ' + 0.2 * fin + ')');
-        halo.addColorStop(0.45, 'rgba(91, 140, 255, ' + 0.09 * fin + ')');
+        var halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.6);
+        halo.addColorStop(0, 'rgba(255, 122, 69, ' + 0.22 * fin + ')');
+        halo.addColorStop(0.45, 'rgba(91, 140, 255, ' + 0.1 * fin + ')');
         halo.addColorStop(1, 'rgba(91, 140, 255, 0)');
         ctx.fillStyle = halo;
         ctx.fillRect(0, 0, W, H);
       }
 
-      var viaje = smooth(0.48, 0.86, p);
-      var tembleque = (1 - smooth(0.42, 0.84, p)) * 7 + 1.1;
-      giro = lerp(giro, t * 0.14, 0.08);
+      var viaje = smooth(0.5, 0.86, p);
+      var tembleque = (1 - smooth(0.44, 0.84, p)) * 3.2 + 0.6;
+      giro = lerp(giro, t * 0.2, 0.08);
       var lista = [];
       for (var k = 0; k < puntos.length; k++) {
         var q = puntos[k];
@@ -359,55 +366,58 @@
       }
     }
 
-    var dicha = -1;
     function ubicar(p) {
-      var fusion = smooth(0.5, 0.82, p);
+      var fusion = smooth(0.48, 0.84, p);
       for (var i = 0; i < sistemas.length; i++) {
-        // No entran todos de golpe: primero el de abajo, después los costados
-        var entrada = smooth(0.02 + ESPERA[i], 0.24 + ESPERA[i], p);
+        var entrada = smooth(0.02 + ESPERA[i], 0.28 + ESPERA[i], p);
         var casa = anillo[i] || [cx, cy];
         var fuera = entradas[i] || casa;
-        var el = sistemas[i];
         puestos[i] = [lerp(fuera[0], casa[0], entrada), lerp(fuera[1], casa[1], entrada)];
+        var el = sistemas[i];
         el.style.setProperty('--x', lerp(puestos[i][0], cx, fusion).toFixed(1) + 'px');
         el.style.setProperty('--y', lerp(puestos[i][1], cy, fusion).toFixed(1) + 'px');
-        el.style.setProperty('--s', (lerp(0.82, 1, entrada) * lerp(1, 0.3, fusion)).toFixed(3));
+        el.style.setProperty('--s', (lerp(0.7, 1, entrada) * lerp(1, 0.35, fusion)).toFixed(3));
         el.style.setProperty('--o', (entrada * (1 - fusion)).toFixed(3));
       }
-
-      // Dos frases: la de los sistemas sueltos y la del modelo único
-      var a0 = smooth(0.14, 0.26, p) * (1 - smooth(0.42, 0.5, p));
-      var a1 = smooth(0.8, 0.92, p);
-      var cual = a1 >= a0 ? 1 : 0;
-      if (cual !== dicha) { dicha = cual; linea.textContent = leyendas[cual][1]; }
-      var o = Math.max(a0, a1);
-      linea.style.setProperty('--o', o.toFixed(3));
-      linea.style.setProperty('--y', (14 * (1 - o)).toFixed(1) + 'px');
-    }
-
-    function avance() {
-      var rect = track.getBoundingClientRect();
-      var total = track.offsetHeight - pin.offsetHeight;
-      return total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
     }
 
     if (!motion) {
-      medir();
-      dibujar(1, 2);
-      window.addEventListener('resize', function () { medir(); dibujar(1, 2); });
+      // Quieto: la esfera ya formada y los cinco sistemas alrededor, sin fundirse
+      function fijo() {
+        medir();
+        sistemas.forEach(function (el, i) {
+          var casa = anillo[i] || [cx, cy];
+          el.style.setProperty('--x', casa[0].toFixed(1) + 'px');
+          el.style.setProperty('--y', casa[1].toFixed(1) + 'px');
+          el.style.setProperty('--s', '1');
+          el.style.setProperty('--o', '1');
+        });
+        dibujar(1, 2);
+      }
+      fijo();
+      window.addEventListener('resize', fijo);
       return;
     }
 
-    var tiempo = 0, ultimo = 0, visible = false, girando = false;
+    // Lo que dura una corrida: lo mismo que tarda la demostración en traer la respuesta,
+    // así los sistemas terminan de fundirse justo cuando el número aparece.
+    var DURA = 2250;
+    var arranque = 0, tiempo = 0, ultimo = 0, visible = false, girando = false;
+
+    function reproducir() {
+      arranque = ahora();
+    }
+
     function cuadro(ts) {
       if (!visible) { girando = false; return; }
       tiempo += ultimo ? Math.min(0.05, (ts - ultimo) / 1000) : 0;
       ultimo = ts;
-      var p = avance();
+      var p = clamp((ahora() - arranque) / DURA, 0, 1);
       ubicar(p);
       dibujar(p, tiempo);
       window.requestAnimationFrame(cuadro);
     }
+
     function arrancar() {
       if (girando) return;
       girando = true;
@@ -415,16 +425,18 @@
       window.requestAnimationFrame(cuadro);
     }
 
-    window.addEventListener('resize', function () { medir(); ubicar(avance()); });
+    window.addEventListener('resize', function () { medir(); });
     medir();
-    ubicar(avance());
-    dibujar(avance(), 0);
+    ubicar(0);
+    dibujar(0, 0);
+    // Con cada pregunta —la primera incluida— los sistemas vuelven a entrar y a fundirse
+    corridas.push(reproducir);
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
         visible = entries.some(function (e) { return e.isIntersecting; });
         if (visible) arrancar();
-      }, { threshold: 0 }).observe(track);
+      }, { threshold: 0 }).observe(fuse);
     } else {
       visible = true;
       arrancar();

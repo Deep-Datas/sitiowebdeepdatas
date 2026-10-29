@@ -1,31 +1,33 @@
 {#
   Portada del inicio: una pregunta en voz alta y la respuesta, con las fuentes a la vista.
 
-  Dos partes, encadenadas al scroll:
+  Tres columnas:
 
-  1. La barra de voz. Se elige una de tres preguntas, se escribe sola en la barra y abajo
+  1. El título, el texto y los botones.
+
+  2. La barra de voz. Se elige una de tres preguntas, se escribe sola en la barra y abajo
      aparece la respuesta con los sistemas de donde salió cada número. Los tres botones se
      seleccionan de verdad: el elegido queda marcado y su respuesta es la que se ve.
      Es una demostración: no escucha, no pide permiso del micrófono y no manda audio a
      ningún lado, que para una consultora que vende confidencialidad no es un detalle.
 
-  2. La consolidación. Al bajar, el texto y la demostración se van, y los cinco sistemas
-     —ERP, CRM, planillas, WhatsApp y correo— entran desde los costados y desde abajo y se
-     funden en un solo núcleo: la misma constelación de registros que cuenta el resto del
-     sitio ([data-core], más abajo en el inicio).
+  3. El núcleo, al costado. Los cinco sistemas —ERP, CRM, planillas, WhatsApp y correo—
+     entran desde los costados y desde abajo y se funden en un solo núcleo: la misma
+     constelación de registros que cuenta el resto del sitio ([data-core], más abajo en el
+     inicio). Corre al entrar en pantalla y vuelve a correr con cada pregunta, para
+     terminar justo cuando aparece la respuesta.
 
-  Sin JavaScript se ve la primera pregunta con su respuesta ya escrita y los cinco sistemas
-  alrededor del núcleo, quietos. Sin animación ([prefers-reduced-motion]) pasa lo mismo,
-  pero los botones siguen funcionando: cambian la respuesta sin escribirla letra por letra.
-  Datos ficticios.
+  Sin JavaScript se ve la primera pregunta con su respuesta ya escrita; el núcleo no se
+  muestra, porque lo dibuja JavaScript. Sin animación ([prefers-reduced-motion]) el núcleo
+  queda quieto, con los cinco sistemas alrededor, y los botones siguen funcionando: cambian
+  la respuesta sin escribirla letra por letra. Datos ficticios.
 
   Los textos de los dos idiomas están en «copy». Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Las cinco fuentes, en el orden en que se acomodan alrededor del núcleo: costado
-   izquierdo, abajo a la izquierda, abajo, abajo a la derecha, costado derecho.
-   El color de cada una es el mismo que usa el núcleo de datos ([data-core]). #}
+{# Los cinco sistemas que se funden en el núcleo. El color de cada uno es el mismo que usa
+   el núcleo de datos ([data-core]); dónde se para y por dónde entra lo decide design.js. #}
 {% set FUENTES = [('erp', 'hdd-network'), ('crm', 'people'), ('xls', 'file-earmark-spreadsheet'),
                   ('wa', 'whatsapp'), ('mail', 'envelope')] %}
 
@@ -57,9 +59,6 @@
        'txt': 'Papas clásicas 400 g, bastones 2 kg y snacks mixtos. Con el pronóstico de demanda y el stock de hoy, conviene reponer antes del jueves.',
        'src': [['erp', 'ERP · 07:00'], ['xls', 'Planillas'], ['wa', 'WhatsApp']]},
     ],
-    'fuentes': {'erp': 'ERP', 'crm': 'CRM', 'xls': 'Planillas', 'wa': 'WhatsApp', 'mail': 'Correo'},
-    'fuse': [(0.40, 'Hoy esa respuesta vive repartida en cinco sistemas que no se hablan entre sí.'),
-             (0.88, 'Los unimos en un solo modelo confiable. De ahí sale cada respuesta.')],
   },
   'en': {
     'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
@@ -88,9 +87,6 @@
        'txt': 'Classic chips 400 g, 2 kg sticks and mixed snacks. With the demand forecast and today’s stock, it is worth replenishing before Thursday.',
        'src': [['erp', 'ERP · 07:00'], ['xls', 'Spreadsheets'], ['wa', 'WhatsApp']]},
     ],
-    'fuentes': {'erp': 'ERP', 'crm': 'CRM', 'xls': 'Spreadsheets', 'wa': 'WhatsApp', 'mail': 'Email'},
-    'fuse': [(0.40, 'Today that answer lives spread across five systems that do not talk to each other.'),
-             (0.88, 'We bring them into one reliable model. That is where every answer comes from.')],
   },
 } %}
 {% set C = copy[lang] %}
@@ -105,9 +101,9 @@
 {% macro scene() %}
 <section class="vz" aria-labelledby="vz-title" data-vz
          data-preguntas='{{ C.preguntas | tojson }}'
-         data-states='{{ C.states | tojson }}' data-fuse='{{ C.fuse | tojson }}'>
+         data-states='{{ C.states | tojson }}'>
 
-  {# 1. La portada: el título a la izquierda y la demostración a la derecha #}
+  {# 1. La portada: el título a la izquierda, la demostración al medio y el núcleo al costado #}
   <div class="container vz-grid">
     <div class="vz-copy">
       <p class="eyebrow">{{ C.eyebrow }}</p>
@@ -126,7 +122,12 @@
         <button class="vz-mic" type="button" data-vz-play hidden>
           {{ icon('mic') }}<span class="visually-hidden">{{ C.mic }}</span>
         </button>
-        <p class="vz-said" data-vz-said aria-hidden="true">{{ P0.q }}</p>
+        {# La pregunta entera, invisible, reserva el alto: así la barra no crece renglón a
+           renglón mientras se escribe y no empuja a los botones ni a la respuesta. #}
+        <p class="vz-said" aria-hidden="true">
+          <span class="vz-said-ghost" data-vz-ghost>{{ P0.q }}</span>
+          <span class="vz-said-now" data-vz-said>{{ P0.q }}</span>
+        </p>
         <span class="vz-wave" data-vz-wave aria-hidden="true">{% for i in range(22) %}<i></i>{% endfor %}</span>
       </div>
       {# Acompaña a la onda mientras «escucha»: no se anuncia, para no interrumpir con
@@ -154,25 +155,20 @@
         </p>
       </div>
     </div>
-  </div>
 
-  {# 2. La consolidación. Mientras dura el riel la etapa queda fija: los cinco sistemas
-     entran desde los costados y desde abajo, y sus nubes de registros se funden en un
-     solo núcleo. design.js los ubica (--x, --y, --s, --o) porque las posiciones dependen
-     de lo que mida la etapa. Sin animación queda el final, quieto, en el flujo normal. #}
-  <div class="vz-track" data-vz-track>
-    <div class="vz-pin">
-      <div class="vz-fuse" data-vz-fuse>
-        <canvas class="vz-core" data-vz-core aria-hidden="true"></canvas>
-        <div class="vz-srcs">
-          {% for id, ico in FUENTES %}
-          <span class="vz-sys vz-c-{{ id }}" data-vz-sys>
-            <i class="vz-sys-ico">{{ icon(ico) }}</i><b>{{ C.fuentes[id] }}</b>
-          </span>
-          {% endfor %}
-        </div>
-        <p class="vz-line" data-vz-line>{{ C.fuse[-1][1] }}</p>
-      </div>
+    {# 2. La consolidación, al costado: los cinco sistemas entran desde los costados y
+       desde abajo y se funden en un solo núcleo —la misma constelación de registros que
+       cuenta el resto del sitio—. Corre al entrar en pantalla y vuelve a correr con cada
+       pregunta, para terminar justo cuando aparece la respuesta.
+       Es una ilustración de la frase de al lado, que ya nombra los cinco sistemas, así
+       que no lleva rótulos: a este tamaño no se leerían. design.js ubica cada ícono
+       (--x, --y, --s, --o) porque las posiciones dependen de lo que mida el recuadro, y
+       es quien lo muestra: sin JavaScript no habría nada que ver. #}
+    <div class="vz-fuse" data-vz-fuse aria-hidden="true" hidden>
+      <canvas class="vz-core" data-vz-core></canvas>
+      {% for id, ico in FUENTES %}
+      <span class="vz-sys vz-c-{{ id }}" data-vz-sys>{{ icon(ico) }}</span>
+      {% endfor %}
     </div>
   </div>
 </section>
