@@ -46,7 +46,7 @@ src/mapa.html            El mapa de la oficina: la imagen del barrio y el de Goo
 src/hero.html            Portada del inicio: la cámara que se acerca al monitor con el scroll, del informe a mano a la respuesta en el momento (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes y video: íconos de vidrio, la imagen del cierre de cada página (nucleo.cjs), la foto de la portada —revelado y agrandado— (portada_foto.py, a partir de tools/hero/portada-original.webp), la imagen del mapa de la oficina (mapa.py), la foto retocada de otra oficina (hero_foto.py, hoy sin uso) y el video del asistente de la página de IA (video/)
+tools/                   Generadores de imágenes y video: íconos de vidrio, la imagen del cierre de cada página (nucleo.cjs), la foto de la portada —revelado y agrandado— (portada_foto.py, a partir de tools/hero/portada-original.webp), la imagen del mapa de la oficina (mapa.py) y el control del camino de publicación de casos y testimonios (probar_publicacion.py), la foto retocada de otra oficina (hero_foto.py, hoy sin uso) y el video del asistente de la página de IA (video/)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -229,7 +229,11 @@ Los testimonios están en `testimonios.py` y la guía para pedirlos a los client
 2. Revisalo con `python build.py --borradores`.
 3. Cambiá `'publicado'` a `True` y ejecutá `python build.py`.
 
-Cada testimonio publicado aparece en la sección «Lo que dicen nuestros clientes» del inicio, dentro de su caso de éxito (`case`) y en la página de su industria (`industry`). `build.py` no deja publicar un testimonio con datos `[completar]` o sin autorización.
+Cada testimonio publicado aparece en la sección «Lo que dicen nuestros clientes» del inicio, dentro de su caso de éxito (`case`) y en la página de su industria (`industry`). `build.py` no deja publicar un testimonio al que le falte alguno de los datos obligatorios —texto, nombre, cargo, empresa y autorización— y la compilación se detiene diciendo cuál falta.
+
+**La traducción al inglés es opcional.** Un testimonio completo en español se publica igual: en la versión en inglés se muestra la cita en su idioma original, marcada como «Traducida del español» cuando sí hay traducción y con `lang="es"` cuando no la hay. Se puede traducir solo una parte (por ejemplo el cargo y la empresa, pero no la cita): lo que quede en `[completar]` cuenta como «todavía no traducido» y no se muestra.
+
+Ese camino solo corre el día que se publica algo, así que puede romperse sin que nadie lo note. `python tools/probar_publicacion.py` lo ejercita con datos de mentira en memoria —sin tocar los reales ni escribir nada— y controla que la puerta de publicación, la traducción opcional y el aviso de qué falta sigan funcionando. Conviene correrlo después de tocar `testimonios.py` o `casos.py`.
 
 ## Industrias
 

@@ -64,13 +64,24 @@ TESTIMONIALS = [
 ]
 
 
+# Lo que no puede faltar para publicar un testimonio. La traducción al inglés no está:
+# es opcional, y sin ella la cita se muestra en su idioma original, marcada como tal.
+OBLIGATORIOS = ('quote', 'name', 'role', 'company', 'consent')
+
+
+def _escritos(textos):
+    """De una traducción, solo los campos que de verdad están escritos."""
+    return {k: v for k, v in (textos or {}).items() if v and v != PENDIENTE}
+
+
 def published_testimonials(drafts):
     """Testimonios a mostrar. Uno publicado no puede tener datos pendientes."""
     items = [t for t in TESTIMONIALS if t['publicado'] or drafts]
     for item in items:
-        if item['publicado'] and (PENDIENTE in repr(item) or not item['consent']):
-            raise SystemExit(f'El testimonio "{item["id"]}" está publicado pero le faltan datos '
-                             f'o la autorización del cliente.')
+        faltan = [k for k in OBLIGATORIOS if not item.get(k) or item[k] == PENDIENTE]
+        if item['publicado'] and faltan:
+            raise SystemExit(f'El testimonio "{item["id"]}" está publicado pero le falta '
+                             f'{", ".join(faltan)}.')
     return items
 
 
@@ -79,7 +90,7 @@ def localized_testimonials(items, lang):
     idioma está la cita, para marcarla si no coincide con el de la página."""
     result = []
     for item in items:
-        texts = item['en'] if lang == 'en' else {}
+        texts = _escritos(item['en']) if lang == 'en' else {}
         translated = bool(texts.get('quote'))
         result.append({**item, **texts, 'quote_lang': lang if translated or lang == 'es' else 'es',
                        'translated': translated and lang != 'es'})
