@@ -4,7 +4,8 @@
 
 {# Producto: tablero de ventas y stock en Power BI, conectado a Tango o SAP Business One.
    El tablero de muestra es el de distribuidores de dashboards.py (datos ficticios).
-   Precios en pesos argentinos: completá 'price' en cada versión (None = «consultanos»). #}
+   Los precios no se publican: cada versión muestra «Consultar» y el precio en pesos se
+   pasa en la primera conversación. #}
 {% set sample = examples[0] %}
 
 {% set metrics = [
@@ -17,16 +18,13 @@
 {% set tiers = [
   {'label': 'Pago único', 'title': 'Plantilla',
    'text': 'El tablero en Power BI y una planilla modelo. Exportás los datos de Tango o SAP Business One, los pegás y el tablero se arma solo.',
-   'items': ['Tablero de Power BI listo para usar', 'Planilla modelo e instructivo de exportación', 'Una sesión de puesta en marcha'],
-   'price': None},
+   'items': ['Tablero de Power BI listo para usar', 'Planilla modelo e instructivo de exportación', 'Una sesión de puesta en marcha']},
   {'label': 'Instalación + abono mensual', 'title': 'Conectado', 'featured': True,
    'text': 'Conectamos el tablero a tu Tango o SAP Business One con acceso de solo lectura y se actualiza automáticamente todos los días.',
-   'items': ['Conexión a Tango o SAP Business One', 'Actualización automática programada', 'Ajustes a tus zonas, rubros y objetivos', 'Soporte por WhatsApp y mail'],
-   'price': None},
+   'items': ['Conexión a Tango o SAP Business One', 'Actualización automática programada', 'Ajustes a tus zonas, rubros y objetivos', 'Soporte por WhatsApp y mail']},
   {'label': 'Abono mensual', 'title': 'Con asistente de IA',
    'text': 'Todo lo de la versión conectada, más un asistente al que le preguntás por WhatsApp: «¿cuánto vendimos ayer en zona norte?».',
-   'items': ['Todo lo de la versión conectada', 'Consultas en lenguaje natural por WhatsApp', 'Alertas de quiebres y caídas de venta'],
-   'price': None},
+   'items': ['Todo lo de la versión conectada', 'Consultas en lenguaje natural por WhatsApp', 'Alertas de quiebres y caídas de venta']},
 ] %}
 
 {% set process = [
@@ -122,13 +120,8 @@
         <ul class="dx-checks tv-items">
           {% for item in tier['items'] %}<li>{{ icon('check-circle-fill') }} {{ item }}</li>{% endfor %}
         </ul>
-        {% if tier.price %}
-        {% set since, amount, unit, note = tier.price %}
-        <div class="plan-price"><span class="plan-price-from">{{ since }}</span> <strong>{{ amount }}</strong>{% if unit %} <span class="plan-price-unit">{{ unit }}</span>{% endif %}</div>
-        <p class="plan-price-note">{{ note }}</p>
-        {% else %}
+        <div class="plan-price"><strong>{{ t.plans.ask }}</strong></div>
         <p class="plan-price-note">Precio en pesos argentinos: te lo pasamos en la primera conversación.</p>
-        {% endif %}
         <a class="link-arrow plan-link" href="#pedir">Quiero esta versión {{ icon('arrow-right') }}</a>
       </article>
       {% endfor %}
