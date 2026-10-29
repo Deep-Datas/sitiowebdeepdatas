@@ -1,332 +1,177 @@
 {#
-  Portada del inicio: una sola foto —el escritorio de quien decide— y una cámara que se
-  le va acercando con el scroll, en cuatro actos. Acto 1: el pedido que acaba de entrar.
-  Acto 2: los sistemas donde hoy vive esa información, uno por uno. Acto 3: todo se une
-  en un solo modelo. Acto 4: la respuesta, ya ordenada, mientras se pregunta en voz alta.
+  Portada del inicio: una pregunta en voz alta y la respuesta, con las fuentes a la vista.
 
-  La foto no se mueve: se mueve el recorte. design.js calcula la cámara (centro y ancho
-  visible, en píxeles de la foto) a partir de los encuadres de «ESCENA».
-  Sin JavaScript se ve el último acto, quieto: la foto en su encuadre final, el tablero
-  y la barra de voz con la respuesta. Datos ficticios.
+  Dos partes, encadenadas al scroll:
+
+  1. La barra de voz. Se elige una de tres preguntas, se escribe sola en la barra y abajo
+     aparece la respuesta con los sistemas de donde salió cada número. Los tres botones se
+     seleccionan de verdad: el elegido queda marcado y su respuesta es la que se ve.
+     Es una demostración: no escucha, no pide permiso del micrófono y no manda audio a
+     ningún lado, que para una consultora que vende confidencialidad no es un detalle.
+
+  2. La consolidación. Al bajar, el texto y la demostración se van, y los cinco sistemas
+     —ERP, CRM, planillas, WhatsApp y correo— entran desde los costados y desde abajo y se
+     funden en un solo núcleo: la misma constelación de registros que cuenta el resto del
+     sitio ([data-core], más abajo en el inicio).
+
+  Sin JavaScript se ve la primera pregunta con su respuesta ya escrita y los cinco sistemas
+  alrededor del núcleo, quietos. Sin animación ([prefers-reduced-motion]) pasa lo mismo,
+  pero los botones siguen funcionando: cambian la respuesta sin escribirla letra por letra.
+  Datos ficticios.
 
   Los textos de los dos idiomas están en «copy». Se importa con contexto:
   {% import 'hero.html' as hero with context %}
 #}
 
-{# Una sola foto: el escritorio de quien decide, y la cámara que se le va acercando con
-   el scroll. La foto no se mueve: se mueve el recorte.
-
-   «cam» son los encuadres [p, izq., arriba, der., abajo] — lo que tiene que entrar sí o
-   sí en el cuadro en ese punto del scroll, en píxeles de la foto. design.js lo adapta a
-   la forma del recorte y usa «cam_alto» donde el recorte es mucho más angosto que alto
-   (celulares).
-
-   El tablero no va encajado sobre el monitor: en esta foto la mano apoya sobre la
-   pantalla y lo taparía, así que el monitor se queda con el suyo y el nuestro es una
-   card más, con los números animados. #}
-{% set ESCENA = [
-  {
-    'w': 1536, 'h': 1024, 'ancho': 2048,
-    'cam': [[0.00, 330, 130, 1360, 790],
-            [0.16, 330, 130, 1360, 790],
-            [0.34, 560, 160, 1340, 700],
-            [0.52, 560, 160, 1340, 700],
-            [0.70, 640, 175, 1260, 610],
-            [0.84, 640, 175, 1260, 610],
-            [1.00, 660, 185, 1230, 560]],
-    'cam_alto': [[0.00, 520, 150, 1330, 800],
-                 [0.16, 520, 150, 1330, 800],
-                 [0.34, 620, 165, 1330, 720],
-                 [0.52, 620, 165, 1330, 720],
-                 [0.70, 660, 180, 1260, 620],
-                 [0.84, 660, 180, 1260, 620],
-                 [1.00, 670, 190, 1230, 575]],
-  },
-] %}
-
-{# La curva de «Evolución de ventas»: siete meses, de 0 a 100. Es la misma serie en
-   los dos idiomas, así que va una sola vez. #}
-{% set CURVA = [18, 30, 26, 44, 38, 62, 88] %}
-{# Dónde cae el objetivo sobre cada barra del gráfico, en porcentaje de la barra. #}
-{% set OBJETIVO = 80 %}
+{# Las cinco fuentes, en el orden en que se acomodan alrededor del núcleo: costado
+   izquierdo, abajo a la izquierda, abajo, abajo a la derecha, costado derecho.
+   El color de cada una es el mismo que usa el núcleo de datos ([data-core]). #}
+{% set FUENTES = [('erp', 'hdd-network'), ('crm', 'people'), ('xls', 'file-earmark-spreadsheet'),
+                  ('wa', 'whatsapp'), ('mail', 'envelope')] %}
 
 {% set copy = {
   'es': {
     'eyebrow': 'Consultora de datos e IA para distribuidoras, pymes y consumo masivo',
     'title': 'Una pregunta. Todos tus sistemas.', 'title_em': 'Una sola respuesta.',
-    'lead': 'Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo, y un asistente de IA responde con los datos reales de tu empresa.',
+    'lead': 'Conectamos tu ERP, tu CRM, las planillas, WhatsApp y el correo en un solo modelo. Después preguntás como le preguntarías a una persona, y la respuesta dice de dónde salió cada número.',
     'cta': 'Coordinar una llamada', 'secondary': 'Conocé el diagnóstico',
-    'region': 'Ejemplo: en la misma oficina, la pregunta que hoy el equipo de datos responde a mano en dos o tres días pasa a responderse sola en la pantalla de quien decide (datos ficticios).',
-    'scroll': 'Seguí bajando',
-    'captions': [(0, 'Hoy esa pregunta tarda días: exportar, cruzar, revisar.'),
-                 (0.30, 'Cuatro sistemas abiertos a la vez y una planilla que se arma pegando filas.'),
-                 (0.58, 'Unimos todo en un solo modelo confiable.'),
-                 (0.76, 'Una sola respuesta, en el momento, en la pantalla de quien decide.')],
-    'steps': ['La pregunta', 'Tus sistemas', 'Un modelo', 'La respuesta'],
-    'ask_title': 'Pedido #482', 'ask_text': '«¿Cuánto vendimos ayer en la zona norte?»',
-    'ask_eta': 'Entrega estimada: 2 a 3 días',
-    'q_app': 'consulta.sql', 'q_lines': ['SELECT ventas', 'zona = «norte»', '12.482 filas'],
-    'mon_app': 'ventas_zona_norte_v7.xlsx',
-    'mon_rows': [('Norte SA', '412.000'), ('Distrisur', '331.000'), ('La Rueda', '273.000'), ('Pampa Dist.', '170.000')],
-    'mon_status': 'Pegado a mano · sin el CRM',
-    'wa_app': 'WhatsApp · Pedidos',
-    'wa_msgs': [('in', '40 cajas de papas, jueves'), ('out', 'Listo, pedido 7731')],
-    'crm_app': 'CRM · Visitas',
-    'crm_rows': [('Norte SA', 'Cerrado', True), ('Oeste SRL', 'Sin visita', False), ('Litoral', 'Propuesta', False)],
-    'tags': [('mon1', 'ERP · export .csv'), ('mon2', 'Planilla v7, pegada a mano')],
-    'join_title': 'Unificando tus sistemas',
-    'fuentes_hd': 'Donde vive hoy esa respuesta',
-    'fuentes': [('erp', 'ERP', 'hdd-network'), ('crm', 'CRM', 'people'),
-                ('xls', 'Planillas', 'file-earmark-spreadsheet'), ('wa', 'WhatsApp', 'whatsapp')],
-    'question': '¿Cuánto vendimos ayer en la zona norte?',
-    'statuses': [(0.78, 'Escuchando…'), (0.86, 'Leyendo tus sistemas…'), (0.94, 'Respuesta lista · con fuentes')],
-    'app': 'DeepDatas · Tablero ejecutivo', 'live': 'En vivo', 'when': '07:00',
-    'board_title': 'Ventas de ayer', 'board_chip': 'Zona norte',
-    'tiles': [('Facturación', '1,28', '$ ', ' M', '▲ 9,0 % vs. ayer', 'graph-up-arrow'),
-              ('Pedidos', '482', '', '', '▲ 8,2 % vs. ayer', 'cart3'),
-              ('Margen bruto', '24,6', '', ' %', '▲ 1,2 pp', 'bar-chart-line'),
-              ('Quiebres', '3', '', '', '▼ 2 vs. ayer', 'exclamation-circle-fill')],
-    'trend_title': 'Evolución de ventas', 'trend_axis': ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
-    'chart_title': 'Por distribuidor', 'goal': 'Objetivo',
-    'bars': [('Norte SA', 92, '$ 412 k'), ('Distrisur', 74, '$ 331 k'), ('La Rueda', 61, '$ 273 k'), ('Pampa Dist.', 38, '$ 170 k')],
-    'sources': 'Fuentes: ERP · CRM · Planillas · WhatsApp', 'fictional': 'Datos ficticios',
-    'panel_src': 'Fuentes consultadas',
-    'systems': [('erp', 'ERP'), ('crm', 'CRM'), ('xls', 'Planillas'), ('wa', 'WhatsApp'), ('mail', 'Correo')],
-    'records': 'registros leídos · 1,4 s',
-    'alert_title': 'Alerta de stock',
-    'alert_text': 'Papas clásicas 400 g se queda sin stock en 3 días. ¿Preparo la reposición?',
+    'mic': 'Reproducir la demostración',
+    'pick': 'Elegí una pregunta',
+    'placeholder': 'Preguntale algo a tu empresa…',
+    'states': ['Escuchando…', 'Leyendo tus sistemas…', 'Respuesta lista · con fuentes'],
+    'demo': 'demo · datos ficticios',
+    'preguntas': [
+      {'chip': 'Ventas de ayer',
+       'q': '¿Cuánto vendimos ayer en la zona norte?',
+       'big': '$ 1,28 M', 'tag': '▲ 9,0 % contra el mismo día de la semana pasada', 'tone': 'good',
+       'txt': 'Los tres distribuidores que más crecieron: Norte SA, Distrisur y La Rueda. El resto de la zona quedó en línea con la semana anterior.',
+       'src': [['erp', 'ERP · 07:00'], ['crm', 'CRM'], ['xls', 'Planillas']]},
+      {'chip': 'Clientes que se fueron',
+       'q': '¿Qué clientes dejaron de comprar?',
+       'big': '14 clientes', 'tag': '⚠ sin un pedido hace más de 20 días', 'tone': 'warn',
+       'txt': 'Compraban todas las semanas. Siete son de la zona oeste y entre los catorce suman el 6 % de la facturación del trimestre. Te los paso ordenados por monto.',
+       'src': [['erp', 'ERP · 07:00'], ['crm', 'CRM'], ['mail', 'Correo']]},
+      {'chip': 'Riesgo de quiebre',
+       'q': '¿Qué productos se quedan sin stock?',
+       'big': '3 productos', 'tag': '⚠ se quedan sin stock en 5 días', 'tone': 'warn',
+       'txt': 'Papas clásicas 400 g, bastones 2 kg y snacks mixtos. Con el pronóstico de demanda y el stock de hoy, conviene reponer antes del jueves.',
+       'src': [['erp', 'ERP · 07:00'], ['xls', 'Planillas'], ['wa', 'WhatsApp']]},
+    ],
+    'fuentes': {'erp': 'ERP', 'crm': 'CRM', 'xls': 'Planillas', 'wa': 'WhatsApp', 'mail': 'Correo'},
+    'fuse': [(0.40, 'Hoy esa respuesta vive repartida en cinco sistemas que no se hablan entre sí.'),
+             (0.88, 'Los unimos en un solo modelo confiable. De ahí sale cada respuesta.')],
   },
   'en': {
     'eyebrow': 'Data and AI consultancy for distributors, SMEs and consumer goods',
     'title': 'One question. All your systems.', 'title_em': 'One single answer.',
-    'lead': 'We connect your ERP, your CRM, your spreadsheets, WhatsApp and email, and an AI assistant answers with your company’s real data.',
+    'lead': 'We bring your ERP, your CRM, your spreadsheets, WhatsApp and email into one model. Then you ask the way you would ask a person, and the answer says where every number came from.',
     'cta': 'Book a call', 'secondary': 'Explore the data assessment',
-    'region': 'Example: in the same office, the question the data team answers by hand in two or three days is answered on the spot, on the screen of whoever decides (sample data).',
-    'scroll': 'Keep scrolling',
-    'captions': [(0, 'Today that question takes days: export, cross-check, review.'),
-                 (0.30, 'Four systems open at once and a spreadsheet pasted together by hand.'),
-                 (0.58, 'We bring it all into one reliable model.'),
-                 (0.76, 'One single answer, right away, on the screen of whoever decides.')],
-    'steps': ['The question', 'Your systems', 'One model', 'The answer'],
-    'ask_title': 'Request #482', 'ask_text': '“How much did we sell yesterday in the north region?”',
-    'ask_eta': 'Estimated delivery: 2 to 3 days',
-    'q_app': 'query.sql', 'q_lines': ['SELECT sales', 'region=«north»', '12,482 rows'],
-    'mon_app': 'sales_north_v7.xlsx',
-    'mon_rows': [('Norte SA', '412,000'), ('Distrisur', '331,000'), ('La Rueda', '273,000'), ('Pampa Dist.', '170,000')],
-    'mon_status': 'Pasted by hand · CRM missing',
-    'wa_app': 'WhatsApp · Orders',
-    'wa_msgs': [('in', '40 boxes of chips, Thursday'), ('out', 'Done, order 7731')],
-    'crm_app': 'CRM · Visits',
-    'crm_rows': [('Norte SA', 'Closed', True), ('Oeste SRL', 'No visit', False), ('Litoral', 'Proposal', False)],
-    'tags': [('mon1', 'ERP · .csv export'), ('mon2', 'Spreadsheet v7, pasted by hand')],
-    'join_title': 'Bringing your systems together',
-    'fuentes_hd': 'Where that answer lives today',
-    'fuentes': [('erp', 'ERP', 'hdd-network'), ('crm', 'CRM', 'people'),
-                ('xls', 'Spreadsheets', 'file-earmark-spreadsheet'), ('wa', 'WhatsApp', 'whatsapp')],
-    'question': 'How much did we sell yesterday in the north region?',
-    'statuses': [(0.78, 'Listening…'), (0.86, 'Reading your systems…'), (0.94, 'Answer ready · with sources')],
-    'app': 'DeepDatas · Executive dashboard', 'live': 'Live', 'when': '07:00',
-    'board_title': 'Yesterday’s sales', 'board_chip': 'North region',
-    'tiles': [('Revenue', '1.28', '$', 'M', '▲ 9.0% vs. yesterday', 'graph-up-arrow'),
-              ('Orders', '482', '', '', '▲ 8.2% vs. yesterday', 'cart3'),
-              ('Gross margin', '24.6', '', '%', '▲ 1.2 pp', 'bar-chart-line'),
-              ('Stockouts', '3', '', '', '▼ 2 vs. yesterday', 'exclamation-circle-fill')],
-    'trend_title': 'Sales trend', 'trend_axis': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-    'chart_title': 'By distributor', 'goal': 'Target',
-    'bars': [('Norte SA', 92, '$412k'), ('Distrisur', 74, '$331k'), ('La Rueda', 61, '$273k'), ('Pampa Dist.', 38, '$170k')],
-    'sources': 'Sources: ERP · CRM · Spreadsheets · WhatsApp', 'fictional': 'Sample data',
-    'panel_src': 'Sources checked',
-    'systems': [('erp', 'ERP'), ('crm', 'CRM'), ('xls', 'Spreadsheets'), ('wa', 'WhatsApp'), ('mail', 'Email')],
-    'records': 'records read · 1.4 s',
-    'alert_title': 'Stock alert',
-    'alert_text': 'Classic chips 400 g runs out of stock in 3 days. Should I prepare the replenishment?',
+    'mic': 'Play the demo',
+    'pick': 'Pick a question',
+    'placeholder': 'Ask your company something…',
+    'states': ['Listening…', 'Reading your systems…', 'Answer ready · with sources'],
+    'demo': 'demo · sample data',
+    'preguntas': [
+      {'chip': 'Yesterday’s sales',
+       'q': 'How much did we sell yesterday in the north region?',
+       'big': '$1.28M', 'tag': '▲ 9.0% against the same day last week', 'tone': 'good',
+       'txt': 'The three distributors that grew the most: Norte SA, Distrisur and La Rueda. The rest of the region came in level with last week.',
+       'src': [['erp', 'ERP · 07:00'], ['crm', 'CRM'], ['xls', 'Spreadsheets']]},
+      {'chip': 'Customers who left',
+       'q': 'Which customers stopped buying?',
+       'big': '14 customers', 'tag': '⚠ no order in over 20 days', 'tone': 'warn',
+       'txt': 'They used to buy every week. Seven are in the west region and together the fourteen are 6% of the quarter’s revenue. Here they are, by amount.',
+       'src': [['erp', 'ERP · 07:00'], ['crm', 'CRM'], ['mail', 'Email']]},
+      {'chip': 'Stockout risk',
+       'q': 'Which products are running out of stock?',
+       'big': '3 products', 'tag': '⚠ running out within 5 days', 'tone': 'warn',
+       'txt': 'Classic chips 400 g, 2 kg sticks and mixed snacks. With the demand forecast and today’s stock, it is worth replenishing before Thursday.',
+       'src': [['erp', 'ERP · 07:00'], ['xls', 'Spreadsheets'], ['wa', 'WhatsApp']]},
+    ],
+    'fuentes': {'erp': 'ERP', 'crm': 'CRM', 'xls': 'Spreadsheets', 'wa': 'WhatsApp', 'mail': 'Email'},
+    'fuse': [(0.40, 'Today that answer lives spread across five systems that do not talk to each other.'),
+             (0.88, 'We bring them into one reliable model. That is where every answer comes from.')],
   },
 } %}
 {% set C = copy[lang] %}
+{% set P0 = C.preguntas[0] %}
 
-{# El tablero. No va encajado sobre el monitor de la foto: ahí la mano apoya sobre la
-   pantalla y lo taparía a media escena. Es una card más del recorrido, con los números
-   que anima el scroll. Los valores finales están en el HTML: sin JavaScript se leen los
-   números de verdad. #}
-{% macro tablero() %}
-<div class="hb-scr">
-    <div class="hb-board-head">
-      <span class="hb-board-app">DeepDatas</span>
-      <h2>{{ C.board_title }}</h2>
-      <span class="hb-chip">{{ C.board_chip }}</span>
-      <span class="hb-live"><i></i> {{ C.live }}</span>
-      <span class="hb-when">{{ C.when }}</span>
-    </div>
-
-    <div class="hb-tiles">
-      {% for label, value, pre, post, delta, ico in C.tiles %}
-      <div class="hb-tile">
-        <span class="hb-ico">{{ icon(ico) }}</span>
-        <span class="hb-k">{{ label }}</span>
-        <span class="hb-v" data-kpi="{{ value }}" data-pre="{{ pre }}" data-post="{{ post }}">{{ pre }}{{ value }}{{ post }}</span>
-        <span class="hb-d">{{ delta }}</span>
-      </div>
-      {% endfor %}
-    </div>
-
-    <div class="hb-panels">
-      <section class="hb-panel">
-        <h3>{{ C.trend_title }}</h3>
-        {# Siete meses en una curva, con el relleno por debajo. viewBox fijo y
-           preserveAspectRatio "none": se estira a lo que mida el panel. #}
-        <svg class="hb-line" viewBox="0 0 100 46" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          {% set pts = [] %}
-          {% for v in CURVA %}
-          {% set _ = pts.append('%.1f,%.1f' % (loop.index0 * 100 / (CURVA | length - 1), 42 - v * 0.38)) %}
-          {% endfor %}
-          <polygon class="hb-line-fill" points="0,46 {{ pts | join(' ') }} 100,46"/>
-          <polyline class="hb-line-dot" points="{{ pts | join(' ') }}"/>
-        </svg>
-        <div class="hb-axis">
-          {% for m in C.trend_axis %}<span>{{ m }}</span>{% endfor %}
-        </div>
-      </section>
-
-      <section class="hb-panel">
-        <div class="hb-chart-head">
-          <h3>{{ C.chart_title }}</h3>
-          {# La marca del objetivo cae siempre en el mismo punto de la barra, así que su
-             posición vive en el CSS (.hb-tr::after) y acá solo va la referencia. #}
-          <span class="hb-goal">{{ C.goal }}</span>
-        </div>
-        <div class="hb-bars">
-          {% for name, width, value in C.bars %}
-          <div class="hb-bar">
-            <span class="hb-nm">{{ name }}</span>
-            <span class="hb-tr"><i class="{{ pos('w', width) }}"></i></span>
-            <b class="hb-vl">{{ value }}</b>
-          </div>
-          {% endfor %}
-        </div>
-      </section>
-    </div>
-
-    <div class="hb-foot"><span>{{ C.sources }}</span><span class="hb-right">{{ C.fictional }}</span></div>
-</div>
+{# Las pastillas con los sistemas de donde salió la respuesta. Se vuelven a armar desde
+   JavaScript al cambiar de pregunta, así que el molde tiene que ser el mismo. #}
+{% macro fuentes_de(pregunta) %}
+{% for id, label in pregunta.src %}<span class="vz-src-pill vz-c-{{ id }}"><i></i>{{ label }}</span>{% endfor %}
 {% endmacro %}
 
 {% macro scene() %}
-<section class="hb" aria-labelledby="hb-title">
-  <div class="hb-track" data-hb data-escena='{{ ESCENA | tojson }}'
-       data-question="{{ C.question }}" data-statuses='{{ C.statuses | tojson }}'
-       data-captions='{{ C.captions | tojson }}'>
-    <div class="hb-pin">
-      <div class="hb-stage">
-        <div class="hb-crop" role="img" aria-label="{{ C.region }}">
+<section class="vz" aria-labelledby="vz-title" data-vz
+         data-preguntas='{{ C.preguntas | tojson }}'
+         data-states='{{ C.states | tojson }}' data-fuse='{{ C.fuse | tojson }}'>
 
-          {# La foto, en su tamaño natural: la cámara la mueve y la acerca #}
-          {% set f = ESCENA[0] %}
-          <div class="hb-scene" data-hb-scene>
-            <img class="hb-photo" src="/assets/img/hero/portada-1536.webp"
-                 srcset="/assets/img/hero/portada-1536.webp 1536w, /assets/img/hero/portada-{{ f.ancho }}.webp {{ f.ancho }}w"
-                 sizes="(min-width: 901px) 170vw, 300vw"
-                 width="{{ f.w }}" height="{{ f.h }}" alt="" fetchpriority="high">
-          </div>
+  {# 1. La portada: el título a la izquierda y la demostración a la derecha #}
+  <div class="container vz-grid">
+    <div class="vz-copy">
+      <p class="eyebrow">{{ C.eyebrow }}</p>
+      <h1 id="vz-title">{{ C.title }} <em>{{ C.title_em }}</em></h1>
+      <p class="lead">{{ C.lead }}</p>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ C.cta }} {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" href="{{ url('diagnostico') }}">{{ C.secondary }}</a>
+      </div>
+    </div>
 
-          {# Lo que no vive dentro de la foto: carteles, chips y la barra de voz #}
-          {# Viñeta y grano: le dan cuerpo a la foto, que viene de un original chico #}
-          <span class="hb-grade" aria-hidden="true"></span>
-          <span class="hb-grain" aria-hidden="true"></span>
+    <div class="vz-demo">
+      <div class="vz-bar">
+        {# Sin JavaScript el micrófono es un dibujo, no un botón que no hace nada #}
+        <span class="vz-mic vz-mic-still" data-vz-still aria-hidden="true">{{ icon('mic') }}</span>
+        <button class="vz-mic" type="button" data-vz-play hidden>
+          {{ icon('mic') }}<span class="visually-hidden">{{ C.mic }}</span>
+        </button>
+        <p class="vz-said" data-vz-said aria-hidden="true">{{ P0.q }}</p>
+        <span class="vz-wave" data-vz-wave aria-hidden="true">{% for i in range(22) %}<i></i>{% endfor %}</span>
+      </div>
+      {# Acompaña a la onda mientras «escucha»: no se anuncia, para no interrumpir con
+         «Escuchando…» a quien usa un lector de pantalla. Lo que importa es la respuesta,
+         que se anuncia entera en cuanto alguien elige una pregunta (design.js). #}
+      <p class="vz-state" data-vz-state aria-hidden="true">{{ C.states[2] }}</p>
 
-          <div class="hb-hud" aria-hidden="true">
-            <div class="hb-card hb-ask">
-              <span class="hb-ask-hd">{{ C.ask_title }}</span>
-              <span class="hb-ask-tx">{{ C.ask_text }}</span>
-              <span class="hb-ask-eta">{{ icon('clock-history') }} {{ C.ask_eta }}</span>
-            </div>
+      <div class="vz-chips" role="group" aria-label="{{ C.pick }}" data-vz-chips hidden>
+        {% for p in C.preguntas %}
+        <button class="vz-chip{{ ' is-on' if loop.first }}" type="button"
+                data-vz-q="{{ loop.index0 }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">
+          <span class="vz-chip-ok">{{ icon('check2') }}</span>{{ p.chip }}
+        </button>
+        {% endfor %}
+      </div>
 
-            {# Los dos sistemas que más se usan, abiertos mientras se arma la respuesta #}
-            <div class="hb-card hb-wa">
-              <span class="hb-wa-hd">{{ C.wa_app }}</span>
-              {% for dir, text in C.wa_msgs %}
-              <span class="hb-wa-msg hb-wa-{{ dir }}">{{ text }}</span>
-              {% endfor %}
-            </div>
+      <div class="vz-answer vz-{{ P0.tone }}" data-vz-answer>
+        <p class="vz-a-q" data-vz-aq>{{ P0.q }}</p>
+        <p class="vz-a-big" data-vz-abig>{{ P0.big }}</p>
+        <p class="vz-a-tag" data-vz-atag>{{ P0.tag }}</p>
+        <p class="vz-a-txt" data-vz-atxt>{{ P0.txt }}</p>
+        <p class="vz-a-src">
+          <span class="vz-a-srcs" data-vz-asrc>{{ fuentes_de(P0) }}</span>
+          <span class="vz-src-pill vz-src-demo">{{ C.demo }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
 
-            <div class="hb-card hb-crm">
-              <span class="hb-crm-hd">{{ C.crm_app }}</span>
-              {% for name, state, cerrado in C.crm_rows %}
-              <span class="hb-crm-row"><span>{{ name }}</span><b{% if cerrado %} class="hb-crm-ok"{% endif %}>{{ state }}</b></span>
-              {% endfor %}
-              <span class="hb-crm-foot">{{ C.mon_app }} · {{ C.mon_status }}</span>
-            </div>
-
-            <div class="hb-card hb-join">
-              <span class="hb-join-hd">{{ C.join_title }}</span>
-              <span class="hb-join-rows">
-                {% for id, name in C.systems %}
-                <span class="hb-row"><i class="hb-sw hb-sw-{{ id }}"></i><span class="hb-nm">{{ name }}</span><span class="hb-ok">{{ icon('check2') }}</span></span>
-                {% endfor %}
-              </span>
-              <span class="hb-join-bar"><i></i></span>
-              <span class="hb-join-foot"><span data-count="12482">12.482</span> {{ C.records }}</span>
-            </div>
-
-            {# Las cuatro fuentes: aparecen una por una en el acto 2, cada una con su
-               color, y en el acto 3 cruzan hacia el modelo. design.js las ubica: en el
-               acto 2 reparten el ancho del recorte y en el acto 3 viajan hasta la card
-               de «Unificando tus sistemas». #}
-            <div class="hb-fuentes">
-              <span class="hb-fuentes-hd">{{ C.fuentes_hd }}</span>
-              {% for id, name, ico in C.fuentes %}
-              <span class="hb-fuente hb-f-{{ id }}" data-hb-fuente>
-                <i class="hb-fuente-ico">{{ icon(ico) }}</i>
-                <b>{{ name }}</b>
-              </span>
-              {% endfor %}
-            </div>
-
-            {# El tablero: la respuesta del acto 4, sobre el monitor de la foto #}
-            <div class="hb-card hb-board">{{ tablero() }}<span class="hb-scan"></span></div>
-
-            {# La alerta, la barra de voz y el riel se apilan desde abajo en vez de ir
-               cada uno a una altura fija: así no pueden pisarse, midan lo que midan sus
-               textos, que cambian con el idioma y con el ancho. #}
-            <div class="hb-bottom">
-              <div class="hb-card hb-alert">
-                <span class="hb-alert-hd">{{ icon('exclamation-circle-fill') }} {{ C.alert_title }}</span>
-                <span class="hb-alert-tx">{{ C.alert_text }}</span>
-              </div>
-
-              <div class="hb-voice">
-                <p class="hb-status">{{ C.statuses[-1][1] }}</p>
-                <span class="hb-mic">{{ icon('mic') }}</span>
-                <p class="hb-q"><span data-hb-q>{{ C.question }}</span><i class="hb-caret" hidden></i></p>
-                <svg class="hb-wave" viewBox="0 0 120 30" preserveAspectRatio="none"><path d=""></path></svg>
-              </div>
-
-              {# En qué acto va el scroll y qué está contando, apoyado sobre la foto #}
-              <div class="hb-rail">
-                <span class="hb-steps">
-                  {% for step in C.steps %}<span class="hb-step">{{ step }}</span>{% endfor %}
-                </span>
-                <p class="hb-caption">{{ C.captions[-1][1] }}</p>
-              </div>
-            </div>
-          </div>
+  {# 2. La consolidación. Mientras dura el riel la etapa queda fija: los cinco sistemas
+     entran desde los costados y desde abajo, y sus nubes de registros se funden en un
+     solo núcleo. design.js los ubica (--x, --y, --s, --o) porque las posiciones dependen
+     de lo que mida la etapa. Sin animación queda el final, quieto, en el flujo normal. #}
+  <div class="vz-track" data-vz-track>
+    <div class="vz-pin">
+      <div class="vz-fuse" data-vz-fuse>
+        <canvas class="vz-core" data-vz-core aria-hidden="true"></canvas>
+        <div class="vz-srcs">
+          {% for id, ico in FUENTES %}
+          <span class="vz-sys vz-c-{{ id }}" data-vz-sys>
+            <i class="vz-sys-ico">{{ icon(ico) }}</i><b>{{ C.fuentes[id] }}</b>
+          </span>
+          {% endfor %}
         </div>
-
-        {# El texto va encima de la foto; el velo lo hace legible y los dos se van
-           juntos apenas empieza el recorrido, para dejarle la pantalla a la escena. #}
-        <span class="hb-veil" aria-hidden="true"></span>
-        <div class="container hb-copy">
-          <div class="hb-head">
-            <p class="eyebrow">{{ C.eyebrow }}</p>
-            <h1 id="hb-title">{{ C.title }} <em>{{ C.title_em }}</em></h1>
-          </div>
-          <div class="hb-side">
-            <p class="lead">{{ C.lead }}</p>
-            <div class="actions">
-              <a class="btn btn-primary btn-lg" {{ booking_link() }}>{{ C.cta }} {{ icon('arrow-right') }}</a>
-              <a class="btn btn-secondary btn-lg" href="{{ url('diagnostico') }}">{{ C.secondary }}</a>
-            </div>
-          </div>
-        </div>
+        <p class="vz-line" data-vz-line>{{ C.fuse[-1][1] }}</p>
       </div>
     </div>
   </div>

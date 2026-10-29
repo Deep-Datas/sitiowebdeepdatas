@@ -1,5 +1,6 @@
 /* Rediseño 2026: interacciones nuevas (se carga después de site.js).
    - El encabezado pasa a claro sobre los paneles profundos ([data-deep]).
+   - Portada del inicio: la pregunta en voz alta y los cinco sistemas que se funden ([data-vz]).
    - Núcleo de datos: constelación de registros que se ordena con el scroll ([data-core]).
    - Pregunta y respuesta: el recorrido de una pregunta por los sistemas ([data-flow]).
    - Etapa fija que cambia con cada paso ([data-pin], [data-pin-step], [data-pin-view]).
@@ -63,339 +64,374 @@
     window.addEventListener('resize', update);
     update();
   });
-  /* ---------- Portada del inicio: una cámara que cruza la oficina ([data-hb]) ----------
-     Una sola foto y cuatro actos atados al scroll: el equipo de datos, sus dos monitores,
-     el momento en que todo se unifica y, del otro lado de la mampara, los mismos números
-     en el televisor de quien decide. La cámara es un rectángulo de la foto que se lleva
-     al recorte; cada acto dice qué tiene que entrar sí o sí y acá se le da la forma del
-     recorte. Lo que va sobre la foto —las cards, las cuatro fuentes y el tablero— vive
-     fuera de la escena, así que no lo arrastra la cámara: lo ubica este archivo. Sin
-     animación queda el último acto. */
-  document.querySelectorAll('[data-hb]').forEach(function (track) {
-    var fotos, statuses, captions;
+  /* ---------- Portada del inicio: la pregunta en voz alta ([data-vz]) ----------
+     Dos cosas en la misma etapa fija.
+
+     La demostración: se elige una de tres preguntas, se escribe sola en la barra, la onda
+     late mientras «escucha» y abajo aparece la respuesta con las fuentes. No hay micrófono
+     de verdad: no se pide permiso ni sale audio a ningún lado.
+
+     La consolidación: debajo de la portada hay un riel que mantiene fija su etapa mientras
+     dura. Los cinco sistemas entran desde los costados y desde abajo, se acomodan alrededor
+     del centro y sus nubes de registros viajan hasta una sola esfera. Las posiciones se
+     calculan acá porque dependen de lo que mida la etapa.
+
+     Sin animación no hay riel: la demostración responde igual (sin escribirse letra por
+     letra) y la consolidación se dibuja una vez, ya terminada. */
+  document.querySelectorAll('[data-vz]').forEach(function (seccion) {
+    var preguntas, estados, leyendas;
     try {
-      fotos = JSON.parse(track.getAttribute('data-escena'));
-      statuses = JSON.parse(track.getAttribute('data-statuses'));
-      captions = JSON.parse(track.getAttribute('data-captions'));
+      preguntas = JSON.parse(seccion.getAttribute('data-preguntas'));
+      estados = JSON.parse(seccion.getAttribute('data-states'));
+      leyendas = JSON.parse(seccion.getAttribute('data-fuse'));
     } catch (e) { return; }
+    if (!preguntas || !preguntas.length) return;
 
-    var crop = track.querySelector('.hb-crop');
-    var pin = track.querySelector('.hb-pin');
-    var scene = track.querySelector('[data-hb-scene]');
-    var foto = fotos[0];
-    if (!crop || !pin || !scene || !foto) return;
+    var track = seccion.querySelector('[data-vz-track]');
+    var pin = seccion.querySelector('.vz-pin');
+    var demo = seccion.querySelector('.vz-demo');
 
-    var cropW = 0, cropH = 0, ar = foto.w / foto.h, fade = 0;
-    function measure() {
-      cropW = crop.clientWidth;
-      cropH = crop.clientHeight;
-      if (!cropW || !cropH) return false;
-      ar = cropW / cropH;
-      fade = copy ? parseFloat(getComputedStyle(copy).getPropertyValue('--fade')) || 0 : 0;
-      ubicarFuentes();
-      crop.classList.add('hb-ready');
-      return true;
-    }
+    /* ----- La demostración ----- */
+    var quieto = seccion.querySelector('[data-vz-still]');
+    var boton = seccion.querySelector('[data-vz-play]');
+    var dicho = seccion.querySelector('[data-vz-said]');
+    var estado = seccion.querySelector('[data-vz-state]');
+    var caja = seccion.querySelector('[data-vz-chips]');
+    var fichas = slice(seccion.querySelectorAll('[data-vz-q]'));
+    var tarjeta = seccion.querySelector('[data-vz-answer]');
+    var elQ = seccion.querySelector('[data-vz-aq]');
+    var elBig = seccion.querySelector('[data-vz-abig]');
+    var elTag = seccion.querySelector('[data-vz-atag]');
+    var elTxt = seccion.querySelector('[data-vz-atxt]');
+    var elSrc = seccion.querySelector('[data-vz-asrc]');
+    var barras = slice(seccion.querySelectorAll('[data-vz-wave] i'));
 
-    // Dónde se para cada fuente mientras está puesta. Se reparten el ancho del recorte
-    // según lo que mide cada una —«Planillas» y «Spreadsheets» no miden lo mismo—, con
-    // el mismo aire entre todas, y en el recorte de celular van en dos filas, porque las
-    // cuatro al hilo no entran.
-    var puestos = [];
-    function ubicarFuentes() {
-      var dosFilas = ar < 0.7;
-      var cols = dosFilas ? 2 : fuentes.length;
-      var sep = 0.035 * cropW;
-      puestos = [];
-      for (var fila = 0; fila * cols < fuentes.length; fila++) {
-        var fin = Math.min(fuentes.length, (fila + 1) * cols), total = -sep;
-        for (var i = fila * cols; i < fin; i++) total += fuentes[i].offsetWidth + sep;
-        var x = (cropW - total) / 2;
-        var y = (dosFilas ? 0.43 + fila * 0.085 : 0.455) * cropH;
-        for (var k = fila * cols; k < fin; k++) {
-          puestos[k] = [x + fuentes[k].offsetWidth / 2, y];
-          x += fuentes[k].offsetWidth + sep;
-        }
-      }
-    }
+    // Lo que sin JavaScript no haría nada recién aparece ahora
+    if (quieto) quieto.hidden = true;
+    if (boton) boton.hidden = false;
+    if (caja) caja.hidden = false;
 
-    // El encuadre de un acto: se agranda el rectángulo pedido hasta tener la forma del
-    // recorte y se lo mete dentro de la foto. Devuelve [izquierda, arriba, ancho].
-    function frame(box, foto) {
-      var w = box[2] - box[0], h = box[3] - box[1];
-      if (w / h < ar) w = h * ar; else h = w / ar;
-      var k = Math.min(1, foto.w / w, foto.h / h);
-      w *= k; h *= k;
-      var cx = clamp((box[0] + box[2]) / 2, w / 2, foto.w - w / 2);
-      var cy = clamp((box[1] + box[3]) / 2, h / 2, foto.h - h / 2);
-      return [cx - w / 2, cy - h / 2, w];
-    }
-
-    // La cámara. No salta al valor del scroll: lo persigue con un retardo chico, que es
-    // lo que hace que el movimiento se sienta de cámara y no de barra de scroll, y de
-    // paso se come los saltos de la rueda del mouse. «quieta» avisa cuándo ya llegó,
-    // para no seguir dibujando de gusto.
-    function hacerCamara(el, foto) {
-      var cam = null, quieta = true;
-      return {
-        llego: function () { return quieta; },
-        arrancar: function () { cam = null; },
-        mover: function (p, dt) {
-          // Dos juegos de encuadres: «cam» para la media pantalla de escritorio y
-          // «cam_alto» para el recorte de celular, que es mucho más angosto y obliga a
-          // acercarse más. El umbral cae entre los dos (0,88 y 0,50).
-          var k = ar < 0.7 && foto.cam_alto ? foto.cam_alto : foto.cam, i = 0;
-          while (i < k.length - 2 && p > k[i + 1][0]) i++;
-          var a = k[i], b = k[i + 1], t = smooth(a[0], b[0], p);
-          var meta = frame([lerp(a[1], b[1], t), lerp(a[2], b[2], t),
-                            lerp(a[3], b[3], t), lerp(a[4], b[4], t)], foto);
-          if (!cam || !dt) {
-            cam = meta;
-            quieta = true;
-          } else {
-            var f = 1 - Math.exp(-dt * 7);
-            quieta = true;
-            for (var j = 0; j < 3; j++) {
-              var d = meta[j] - cam[j];
-              if (Math.abs(d) > 0.05) quieta = false;
-              cam[j] += d * f;
-            }
-          }
-          var s = foto.w / cam[2];
-          el.style.transform = 'translate(' + (-s * cam[0] / foto.w * 100).toFixed(3) + '%,' +
-            (-s * cam[1] / foto.h * 100).toFixed(3) + '%) scale(' + s.toFixed(4) + ')';
-        }
-      };
-    }
-
-    var camara = hacerCamara(scene, foto);
-
-    function quieta() {
-      return camara.llego();
-    }
-
-    var question = track.getAttribute('data-question') || '';
-    var qEl = track.querySelector('[data-hb-q]');
-    var caret = track.querySelector('.hb-caret');
-    var statusEl = track.querySelector('.hb-status');
-    var captionEl = track.querySelector('.hb-caption');
-    var micEl = track.querySelector('.hb-mic');
-    var scans = slice(track.querySelectorAll('.hb-scan'));
-    var wave = track.querySelector('.hb-wave path');
-    var voice = track.querySelector('.hb-voice');
-    var ask = track.querySelector('.hb-ask');
-    var join = track.querySelector('.hb-join');
-    var joinBar = track.querySelector('.hb-join-bar i');
-    var alertEl = track.querySelector('.hb-alert');
-    var copy = track.querySelector('.hb-copy');
-    var veil = track.querySelector('.hb-veil');
-    var rail = track.querySelector('.hb-rail');
-    var board = track.querySelector('.hb-board');
-    var wa = track.querySelector('.hb-wa');
-    var crm = track.querySelector('.hb-crm');
-    var oks = slice(track.querySelectorAll('.hb-join-rows .hb-ok'));
-    var fuentes = slice(track.querySelectorAll('[data-hb-fuente]'));
-    var fuentesHd = track.querySelector('.hb-fuentes-hd');
-    var steps = slice(track.querySelectorAll('.hb-step'));
-    var bars = slice(track.querySelectorAll('.hb-tr i'));
-    var kpis = slice(track.querySelectorAll('[data-kpi]')).map(function (n) {
-      return { n: n, to: n.getAttribute('data-kpi'), pre: n.getAttribute('data-pre') || '', post: n.getAttribute('data-post') || '' };
+    var semillas = barras.map(function (_, i) {
+      return 0.35 + 0.65 * Math.abs(Math.sin(i * 12.9898) * 43758.5453 % 1);
     });
-    var counts = slice(track.querySelectorAll('[data-count]')).map(function (n) {
-      return { n: n, to: parseFloat(n.getAttribute('data-count')) };
+
+    function onda(amp, t) {
+      for (var i = 0; i < barras.length; i++) {
+        var h = 4 + amp * (0.55 + 0.45 * Math.sin(t * 7 + i * 0.8)) * semillas[i] * 22;
+        barras[i].style.setProperty('height', h.toFixed(1) + 'px');
+      }
+    }
+
+    function pintar(p) {
+      elQ.textContent = p.q;
+      elBig.textContent = p.big;
+      elTag.textContent = p.tag;
+      elTxt.textContent = p.txt;
+      tarjeta.className = 'vz-answer vz-' + p.tone;
+      while (elSrc.firstChild) elSrc.removeChild(elSrc.firstChild);
+      p.src.forEach(function (f) {
+        var pastilla = document.createElement('span');
+        pastilla.className = 'vz-src-pill vz-c-' + f[0];
+        pastilla.appendChild(document.createElement('i'));
+        pastilla.appendChild(document.createTextNode(f[1]));
+        elSrc.appendChild(pastilla);
+      });
+    }
+
+    // Una sola corrida por vez: cada llamada se queda con el turno y la anterior se calla
+    var turno = 0, latido = 0, tecla = 0, apagando = 0, elegida = 0, tocado = false;
+
+    function marcar(i) {
+      fichas.forEach(function (ficha, k) {
+        ficha.classList.toggle('is-on', k === i);
+        ficha.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+      });
+    }
+
+    function terminar(p, mio) {
+      if (mio !== turno) return;
+      demo.classList.remove('is-live');
+      demo.classList.add('is-done');
+      estado.textContent = estados[2];
+      dicho.textContent = p.q;
+      dicho.classList.remove('is-typing');
+      pintar(p);
+      if (!motion) return;
+      window.cancelAnimationFrame(latido);
+      clearInterval(apagando);
+      var t = 0;
+      apagando = setInterval(function () {
+        t += 0.08;
+        onda(Math.max(0, 1 - t * 2.5), t);
+        if (t > 0.4) { clearInterval(apagando); onda(0, 0); }
+      }, 40);
+    }
+
+    function escribir(p, n, mio) {
+      if (mio !== turno) return;
+      n++;
+      dicho.textContent = p.q.slice(0, n);
+      if (n < p.q.length) {
+        tecla = setTimeout(function () { escribir(p, n, mio); }, 1300 / p.q.length);
+      } else {
+        dicho.classList.remove('is-typing');
+        estado.textContent = estados[1];
+        tecla = setTimeout(function () { terminar(p, mio); }, 850);
+      }
+    }
+
+    function correr(i) {
+      var mio = ++turno;
+      elegida = i;
+      marcar(i);
+      clearTimeout(tecla);
+      clearInterval(apagando);
+      window.cancelAnimationFrame(latido);
+      var p = preguntas[i];
+      if (!motion) { terminar(p, mio); return; }
+      demo.classList.add('is-live');
+      demo.classList.remove('is-done');
+      estado.textContent = estados[0];
+      dicho.classList.add('is-typing');
+      dicho.textContent = '';
+      var t0 = window.performance && performance.now ? performance.now() : Date.now();
+      (function latir() {
+        if (mio !== turno) return;
+        var ahora = window.performance && performance.now ? performance.now() : Date.now();
+        onda(1, (ahora - t0) / 1000);
+        latido = window.requestAnimationFrame(latir);
+      })();
+      escribir(p, 0, mio);
+    }
+
+    // La respuesta se anuncia recién cuando alguien pide una: así la que se escribe sola
+    // al entrar a la página no le interrumpe la lectura a nadie.
+    function pedida() {
+      tocado = true;
+      tarjeta.setAttribute('aria-live', 'polite');
+    }
+
+    fichas.forEach(function (ficha) {
+      ficha.addEventListener('click', function () {
+        pedida();
+        correr(+ficha.getAttribute('data-vz-q'));
+      });
     });
-    // El ancho de cada barra sale de la variable que dejó build.py (pos('w', …)): las
-    // pantallas arrancan ocultas, así que el ancho ya calculado todavía no existe.
-    var widths = bars.map(function (i) { return parseFloat(getComputedStyle(i).getPropertyValue('--w')) || 0; });
-    // Cada paso del riel cubre su acto
-    var ACTS = [[0, 0.26], [0.26, 0.54], [0.54, 0.76], [0.76, 1]];
+    if (boton) {
+      boton.addEventListener('click', function () { pedida(); correr(elegida); });
+    }
+    onda(0, 0);
 
-    var locale = root.lang === 'en' ? 'en-US' : 'es-AR';
-    function set(el, prop, v) { if (el) el.style.setProperty(prop, v); }
-    function text(el, v) {
-      if (el && el.getAttribute('data-v') !== v) { el.setAttribute('data-v', v); el.textContent = v; }
+    /* ----- La consolidación: los cinco sistemas y el núcleo ----- */
+    var fuse = seccion.querySelector('[data-vz-fuse]');
+    var lienzo = seccion.querySelector('[data-vz-core]');
+    var corro = seccion.querySelector('.vz-srcs');
+    var sistemas = slice(seccion.querySelectorAll('[data-vz-sys]'));
+    var linea = seccion.querySelector('[data-vz-line]');
+    var ctx = lienzo && lienzo.getContext ? lienzo.getContext('2d') : null;
+    if (!fuse || !track || !pin || !linea) return;
+
+    // El mismo color por sistema que usa el núcleo de datos de más abajo ([data-core])
+    var COLORES = ['#0b1220', '#2353d6', '#0f8f7a', '#128c7e', '#e4581c'];
+    // Dónde queda cada sistema alrededor del núcleo, en grados sobre el lienzo (la y crece
+    // hacia abajo): se reparten el arco de arriba, que es el aire que deja la frase.
+    var ANGULOS = [168, 216, 270, 324, 12];
+    // Y de qué lado entra cada uno: los dos del medio por los costados, los otros tres
+    // desde abajo. El rumbo se estira hasta sacarlos del cuadro, mida lo que mida.
+    var RUMBOS = [[-0.75, 1], [-1, 0.15], [0, 1], [1, 0.15], [0.75, 1]];
+    // Cuánto espera cada uno antes de entrar, en fracción del riel
+    var ESPERA = [0.09, 0.035, 0, 0.035, 0.09];
+    var dibujos = COLORES.map(sprite);
+    var CUANTOS = window.innerWidth < 720 ? 280 : 600;
+    var esfera = fibonacciSphere(CUANTOS);
+    var puntos = [];
+    for (var i = 0; i < CUANTOS; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var rad = Math.sqrt(Math.random()) * 0.13 * (0.5 + Math.random());
+      // Los desvíos van en fracción del lado menor: la escena se adapta sin regenerarse
+      puntos.push({
+        c: i % 5, ox: Math.cos(ang) * rad, oy: Math.sin(ang) * rad * 0.8, v: esfera[i],
+        ph: Math.random() * Math.PI * 2, sp: 0.5 + Math.random() * 0.9,
+        size: 1.2 + Math.random() * 1.4, d: Math.random(),
+      });
     }
-    function scramble(value, s) {
-      return value.replace(/\d/g, function () { return String((Math.floor(s * 977) + Math.floor(Math.random() * 10)) % 10); });
-    }
-    var NB = 22;
-    function seedAmp(i) { return 0.35 + 0.65 * Math.abs((Math.sin(i * 12.9898) * 43758.5453) % 1); }
-    function drawWave(amp, t) {
-      var d = '';
-      for (var i = 0; i < NB; i++) {
-        var x = 2.5 + i * (115 / (NB - 1));
-        var hh = 1.6 + amp * (0.55 + 0.45 * Math.sin(t * 7 + i * 0.9)) * seedAmp(i) * 12;
-        d += 'M' + x.toFixed(1) + ' ' + (15 - hh).toFixed(1) + ' V' + (15 + hh).toFixed(1) + ' ';
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    var W = 0, H = 0, M = 0, R = 0, cx = 0, cy = 0, giro = 0;
+    // «anillo» es dónde termina cada sistema, «entradas» de dónde viene y «puestos» dónde
+    // está ahora: la nube de registros viaja pegada a su pastilla, no la espera en el lugar.
+    var anillo = [], entradas = [], puestos = [];
+
+    function medir() {
+      if (!fuse) return;
+      W = fuse.clientWidth;
+      H = fuse.clientHeight;
+      if (ctx) {
+        lienzo.width = Math.round(W * dpr);
+        lienzo.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
-      if (wave) wave.setAttribute('d', d);
+      M = Math.min(W, H);
+      R = M * 0.2;
+      cx = W / 2;
+      cy = H * 0.46;
+      if (!motion) {
+        // Sin riel los cinco sistemas van en una fila y la esfera ocupa el aire de arriba
+        var tope = corro ? corro.offsetTop : H * 0.6;
+        cy = Math.max(tope * 0.5, M * 0.18);
+        R = Math.min(M * 0.26, Math.max(tope * 0.38, 52));
+      }
+      var rx = Math.min(W * 0.33, 430), ry = Math.min(H * 0.27, 250);
+      anillo = ANGULOS.map(function (a) {
+        var r = a * Math.PI / 180;
+        return [cx + Math.cos(r) * rx, cy + Math.sin(r) * ry];
+      });
+      entradas = RUMBOS.map(function (d) {
+        var hx = Math.abs(d[0]) > 0.01 ? (W / 2 + 220) / Math.abs(d[0]) : Infinity;
+        var hy = Math.abs(d[1]) > 0.01 ? (H / 2 + 160) / Math.abs(d[1]) : Infinity;
+        var k = Math.min(hx, hy);
+        return [cx + d[0] * k, cy + d[1] * k];
+      });
+      puestos = motion ? entradas.slice() : anillo.slice();
     }
 
-    function render(p, t, dt) {
-      camara.mover(p, dt);
+    function dibujar(p, t) {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, W, H);
+      // Cada nube se enciende cuando entra la suya, no todas juntas
+      var velos = ESPERA.map(function (e) {
+        return motion ? smooth(0.02 + e, 0.22 + e, p) : 1;
+      });
 
-      // Donde el texto va encima de la escena (celulares) se desvanece con el scroll y
-      // el pie entra atrás; donde va al lado (escritorio, media pantalla) se queda.
-      // Quién manda es el CSS, con --fade; acá solo se le pasa cuánto se fue.
-      if (motion) {
-        var fuera = fade ? smooth(0.02, 0.11, p) : 0;
-        set(copy, '--out', fuera.toFixed(3));
-        set(veil, '--out', fuera.toFixed(3));
-        if (copy) copy.hidden = fuera > 0.99;
-        set(rail, '--cap', fade ? smooth(0.06, 0.14, p).toFixed(3) : '1');
+      var fin = smooth(0.8, 0.98, p);
+      if (fin > 0) {
+        var halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 2.4);
+        halo.addColorStop(0, 'rgba(255, 122, 69, ' + 0.2 * fin + ')');
+        halo.addColorStop(0.45, 'rgba(91, 140, 255, ' + 0.09 * fin + ')');
+        halo.addColorStop(1, 'rgba(91, 140, 255, 0)');
+        ctx.fillStyle = halo;
+        ctx.fillRect(0, 0, W, H);
       }
 
-      // Acto 1: el pedido que acaba de entrar, una vez que el título se fue
-      set(ask, '--a', (smooth(0.06, 0.12, p) * (1 - smooth(0.22, 0.27, p))).toFixed(3));
-
-      // El tablero entra cuando la cámara ya está encima del monitor, y tapa el que trae
-      // la foto justo cuando empezaría a leerse.
-      set(board, '--a', smooth(0.79, 0.86, p).toFixed(3));
-
-      // Acto 2, primera mitad: los dos sistemas abiertos, como están hoy. Se van antes
-      // de que entren las fuentes, que ocupan el mismo lugar de la escena.
-      set(wa, '--a', (smooth(0.26, 0.31, p) * (1 - smooth(0.38, 0.43, p))).toFixed(3));
-      set(crm, '--a', (smooth(0.29, 0.34, p) * (1 - smooth(0.40, 0.45, p))).toFixed(3));
-
-      // Las cuatro fuentes. Son de lo que habla el acto 2: aparecen una por una y se
-      // quedan puestas, repartidas en el ancho del recorte —en el celular, en dos filas,
-      // porque las cuatro no entran en una—. En el acto 3 cruzan hacia la card del
-      // modelo y se apagan al llegar, que es lo que se ve como «se unifican».
-      set(fuentesHd, '--a', (smooth(0.42, 0.47, p) * (1 - smooth(0.56, 0.61, p))).toFixed(3));
-      fuentes.forEach(function (n, i) {
-        var entra = smooth(0.42 + i * 0.02, 0.47 + i * 0.02, p);
-        var viaja = smooth(0.58 + i * 0.025, 0.70 + i * 0.025, p);
-        var a = entra * (1 - smooth(0.70 + i * 0.025, 0.745 + i * 0.025, p));
-        n.style.opacity = a.toFixed(3);
-        if (a < 0.005 || !puestos[i]) return;
-        // Hacia la card del modelo, que vive arriba y al medio, con una panza en el medio
-        // del viaje para que el recorrido no sea una recta
-        var x = lerp(puestos[i][0], 0.5 * cropW, viaja);
-        var y = lerp(puestos[i][1], 0.19 * cropH, viaja) + Math.sin(viaja * Math.PI) * 0.045 * cropH;
-        var k = lerp(1, 0.6, viaja);
-        n.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)' +
-          ' translate(-50%,-50%) scale(' + k.toFixed(3) + ')';
-      });
-
-      // Acto 3: los sistemas se unen en un solo modelo
-      set(join, '--a', (smooth(0.56, 0.63, p) * (1 - smooth(0.74, 0.80, p))).toFixed(3));
-      set(joinBar, '--p', (smooth(0.57, 0.73, p) * 100).toFixed(1) + '%');
-      oks.forEach(function (ok, i) { set(ok, '--ok', smooth(0.60 + i * 0.022, 0.64 + i * 0.022, p).toFixed(3)); });
-
-      // Acto 4: la pregunta en voz alta y la respuesta que ya está en el televisor
-      set(voice, '--voice', smooth(0.74, 0.80, p).toFixed(3));
-      set(alertEl, '--a', smooth(0.93, 0.98, p).toFixed(3));
-      var amp = smooth(0.78, 0.83, p) * (1 - smooth(0.90, 0.94, p));
-      set(micEl, '--amp', amp.toFixed(3));
-      drawWave(amp, t);
-      var qn = Math.round(smooth(0.78, 0.90, p) * question.length);
-      if (qEl) qEl.textContent = question.slice(0, qn);
-      if (caret) caret.hidden = !(qn > 0 && qn < question.length);
-      if (statusEl) {
-        var st = statuses[0][1];
-        statuses.forEach(function (s) { if (p >= s[0]) st = s[1]; });
-        text(statusEl, st);
+      var viaje = smooth(0.48, 0.86, p);
+      var tembleque = (1 - smooth(0.42, 0.84, p)) * 7 + 1.1;
+      giro = lerp(giro, t * 0.14, 0.08);
+      var lista = [];
+      for (var k = 0; k < puntos.length; k++) {
+        var q = puntos[k];
+        var v = rotate(q.v, giro, -0.25);
+        var pr = 1 / (1 - v[2] * 0.32);
+        var tx = cx + v[0] * R * pr, ty = cy + v[1] * R * pr;
+        var casa = puestos[q.c] || anillo[q.c] || [cx, cy];
+        var sx = casa[0] + q.ox * M + Math.sin(t * q.sp + q.ph) * tembleque;
+        var sy = casa[1] + q.oy * M + Math.cos(t * q.sp * 0.8 + q.ph) * tembleque;
+        var e = clamp((viaje - q.d * 0.3) / 0.7, 0, 1), es = e * e * (3 - 2 * e);
+        var hondo = (v[2] + 1) / 2;
+        lista.push({
+          x: lerp(sx, tx, es), y: lerp(sy, ty, es),
+          s: q.size * lerp(1, 0.55 + 0.95 * hondo, es),
+          a: lerp(0.8, 0.28 + 0.72 * hondo, es) * velos[q.c],
+          c: q.c, z: v[2] * es,
+        });
       }
-      // El barrido recorre el tablero mientras se arma la respuesta, entre que la card
-      // acaba de entrar y los números terminan de subir. Cuando no barre queda arriba y
-      // no abajo: abajo le agregaría a la card un alto de más, que es scroll que no
-      // existe.
-      var sc = smooth(0.855, 0.93, p);
-      var barriendo = sc > 0.01 && sc < 0.99;
-      scans.forEach(function (n) {
-        set(n, '--scan', (barriendo ? sc : 0).toFixed(3));
-        set(n, '--scan-a', barriendo ? '1' : '0');
-      });
-      kpis.forEach(function (c) {
-        var f = smooth(0.82, 0.93, p);
-        if (f <= 0) { c.n.textContent = c.pre + c.to.replace(/\d/g, '0') + c.post; return; }
-        if (f < 0.45) { c.n.textContent = c.pre + scramble(c.to, f) + c.post; return; }
-        var g = clamp((f - 0.45) / 0.55, 0, 1);
-        var sep = c.to.indexOf(',') >= 0 ? ',' : '.';
-        var dec = (c.to.split(sep)[1] || '').length;
-        c.n.textContent = c.pre + (parseFloat(c.to.replace(',', '.')) * g).toFixed(dec).replace('.', sep) + c.post;
-      });
-      counts.forEach(function (c) {
-        c.n.textContent = Math.round(c.to * smooth(0.57, 0.73, p)).toLocaleString(locale);
-      });
-      bars.forEach(function (bar, i) {
-        bar.style.setProperty('--w', (widths[i] * smooth(0.85 + i * 0.02, 0.94 + i * 0.02, p)).toFixed(2) + '%');
-      });
+      lista.sort(function (a, b) { return a.z - b.z; });
+      for (var j = 0; j < lista.length; j++) {
+        var it = lista[j], s = it.s * 2.2;
+        ctx.globalAlpha = it.a;
+        ctx.drawImage(dibujos[it.c], it.x - s, it.y - s, s * 2, s * 2);
+      }
+      ctx.globalAlpha = 1;
 
-      // El riel: en qué acto va el scroll y qué está contando
-      steps.forEach(function (step, i) {
-        var a = ACTS[i] || ACTS[ACTS.length - 1];
-        set(step, '--f', (clamp((p - a[0]) / (a[1] - a[0]), 0, 1) * 100).toFixed(1) + '%');
-        if (p >= a[0] && (p < a[1] || i === steps.length - 1)) step.setAttribute('data-on', '');
-        else step.removeAttribute('data-on');
-      });
-      if (captionEl) {
-        var cap = captions[0][1];
-        captions.forEach(function (c) { if (p >= c[0]) cap = c[1]; });
-        text(captionEl, cap);
+      if (fin > 0) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(35, 83, 214, ' + 0.35 * fin + ')';
+        ctx.beginPath(); ctx.ellipse(0, 0, R * 1.6, R * 0.52, -0.5 + t * 0.05, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(0, 0, R * 1.38, R * 0.44, 0.9 - t * 0.04, 0, Math.PI * 2); ctx.stroke();
+        ctx.restore();
+        var centro = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.5);
+        centro.addColorStop(0, 'rgba(255, 255, 255, ' + 0.95 * fin + ')');
+        centro.addColorStop(0.5, 'rgba(255, 184, 148, ' + 0.4 * fin + ')');
+        centro.addColorStop(1, 'rgba(255, 184, 148, 0)');
+        ctx.fillStyle = centro;
+        ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
       }
     }
 
-    var p0 = motion ? 0 : 1;
-    function draw(ts, dt) {
-      if (!cropW) return;
-      render(p0, ts / 1000, dt);
-    }
-
-    measure();
-    draw(0, 0);
-
-    var resized = function () {
-      if (!measure()) return;
-      camara.arrancar();
-      draw(0, 0);
-    };
-    if ('ResizeObserver' in window) new ResizeObserver(resized).observe(crop);
-    else window.addEventListener('resize', resized);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(resized);
-    if (!motion) return;
-
-    // El avance es la parte del riel ya recorrida: la escena queda fija y la cámara viaja
-    var header = parseFloat(getComputedStyle(root).getPropertyValue('--header-h')) || 64;
-    // Cuánto avanzó la escena dentro del riel, de 0 a 1. Ojo: el riel empieza pegado al
-    // borde de la página, así que con la página arriba de todo la escena pegajosa ya
-    // está corrida la altura del encabezado. Eso es el cero, no el borde del riel.
-    function progress() {
-      var max = track.offsetHeight - pin.offsetHeight;
-      if (max <= 0) return 1;
-      var top = track.getBoundingClientRect().top;
-      var cero = clamp(header - (top + window.pageYOffset), 0, max);
-      var ahora = clamp(header - top, 0, max);
-      return max - cero <= 0 ? 1 : clamp((ahora - cero) / (max - cero), 0, 1);
-    }
-
-    var running = false, lastP = -1, lastTs = 0;
-    function frameLoop(ts) {
-      if (!running) return;
-      var dt = lastTs ? Math.min(0.05, (ts - lastTs) / 1000) : 0;
-      lastTs = ts;
-      p0 = progress();
-      // Quieto el scroll y llegada la cámara, solo hace falta la onda de la voz
-      if (p0 !== lastP || !quieta() || (p0 > 0.76 && p0 < 0.95)) { lastP = p0; draw(ts, dt); }
-      window.requestAnimationFrame(frameLoop);
-    }
-    var play = function (on) {
-      if (on === running) return;
-      running = on;
-      // Al volver a entrar en pantalla la cámara arranca donde está el scroll, sin viaje
-      if (on) {
-        lastTs = 0;
-        camara.arrancar();
-        window.requestAnimationFrame(frameLoop);
+    var dicha = -1;
+    function ubicar(p) {
+      var fusion = smooth(0.5, 0.82, p);
+      for (var i = 0; i < sistemas.length; i++) {
+        // No entran todos de golpe: primero el de abajo, después los costados
+        var entrada = smooth(0.02 + ESPERA[i], 0.24 + ESPERA[i], p);
+        var casa = anillo[i] || [cx, cy];
+        var fuera = entradas[i] || casa;
+        var el = sistemas[i];
+        puestos[i] = [lerp(fuera[0], casa[0], entrada), lerp(fuera[1], casa[1], entrada)];
+        el.style.setProperty('--x', lerp(puestos[i][0], cx, fusion).toFixed(1) + 'px');
+        el.style.setProperty('--y', lerp(puestos[i][1], cy, fusion).toFixed(1) + 'px');
+        el.style.setProperty('--s', (lerp(0.82, 1, entrada) * lerp(1, 0.3, fusion)).toFixed(3));
+        el.style.setProperty('--o', (entrada * (1 - fusion)).toFixed(3));
       }
-    };
+
+      // Dos frases: la de los sistemas sueltos y la del modelo único
+      var a0 = smooth(0.14, 0.26, p) * (1 - smooth(0.42, 0.5, p));
+      var a1 = smooth(0.8, 0.92, p);
+      var cual = a1 >= a0 ? 1 : 0;
+      if (cual !== dicha) { dicha = cual; linea.textContent = leyendas[cual][1]; }
+      var o = Math.max(a0, a1);
+      linea.style.setProperty('--o', o.toFixed(3));
+      linea.style.setProperty('--y', (14 * (1 - o)).toFixed(1) + 'px');
+    }
+
+    function avance() {
+      var rect = track.getBoundingClientRect();
+      var total = track.offsetHeight - pin.offsetHeight;
+      return total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
+    }
+
+    if (!motion) {
+      medir();
+      dibujar(1, 2);
+      window.addEventListener('resize', function () { medir(); dibujar(1, 2); });
+      return;
+    }
+
+    var tiempo = 0, ultimo = 0, visible = false, girando = false;
+    function cuadro(ts) {
+      if (!visible) { girando = false; return; }
+      tiempo += ultimo ? Math.min(0.05, (ts - ultimo) / 1000) : 0;
+      ultimo = ts;
+      var p = avance();
+      ubicar(p);
+      dibujar(p, tiempo);
+      window.requestAnimationFrame(cuadro);
+    }
+    function arrancar() {
+      if (girando) return;
+      girando = true;
+      ultimo = 0;
+      window.requestAnimationFrame(cuadro);
+    }
+
+    window.addEventListener('resize', function () { medir(); ubicar(avance()); });
+    medir();
+    ubicar(avance());
+    dibujar(avance(), 0);
+
     if ('IntersectionObserver' in window) {
-      var seen = new IntersectionObserver(function (entries) {
-        play(entries.some(function (e) { return e.isIntersecting; }));
-      }, { threshold: 0 });
-      seen.observe(track);
+      new IntersectionObserver(function (entries) {
+        visible = entries.some(function (e) { return e.isIntersecting; });
+        if (visible) arrancar();
+      }, { threshold: 0 }).observe(track);
     } else {
-      play(true);
+      visible = true;
+      arrancar();
     }
+
+    // La primera respuesta se escribe sola, una sola vez, si nadie tocó nada antes
+    setTimeout(function () { if (!tocado) correr(0); }, 700);
   });
 
   /* ---------- Núcleo de datos: constelación de registros ----------
