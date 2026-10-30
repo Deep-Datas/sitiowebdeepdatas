@@ -42,8 +42,8 @@
   <div class="container">
     <div class="bridge reveal">
       <p class="eyebrow">What you just saw</p>
-      <h2 id="puente-title">That was Vera. The answers hold up because <em>we organized your data first.</em></h2>
-      <p class="lead">Behind every answer are four steps we handle for you. Those steps are our services, and they are what keeps Vera from making things up.</p>
+      <h2 id="puente-title">This is how AI works when your data <em>is ready.</em></h2>
+      <p class="lead">Behind every answer are four steps we handle for you. Those steps are our services.</p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="{{ url('ia') }}">Meet Vera {{ icon('arrow-right') }}</a>
         <a class="btn btn-secondary btn-lg" {{ booking_link() }}>Book a call</a>
@@ -184,6 +184,48 @@
         <p class="pain-answer">{{ icon('arrow-right') }} Vera flags it, explains what happened and proposes what to do.</p>
       </article>
     </div>
+  </div>
+</section>
+
+<!-- ======= LA EVOLUCIÓN DEL BUSINESS INTELLIGENCE ======= -->
+<section class="section" aria-labelledby="bi-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">How business intelligence moved on</p>
+      <h2 id="bi-title">A dashboard tells you about yesterday. <em>Today’s question is about tomorrow.</em></h2>
+      <p class="lead">Business intelligence was built to look back in an orderly way, and it does that well. But the decisions that cost money are made before the month closes, not after.</p>
+    </div>
+
+    <div class="bi-grid">
+      <article class="bi-card bi-antes reveal">
+        <div>
+          <span class="label">Until yesterday</span>
+          <h3>Five steps to find out about something that already happened</h3>
+        </div>
+        <ol class="bi-pasos">
+          <li>Request an account</li>
+          <li>Remember the password</li>
+          <li>Log in to the portal</li>
+          <li>Wait for the refresh</li>
+          <li>Find the dashboard and read about yesterday</li>
+        </ol>
+        <p class="bi-pie">By the time you open it, the decision is made and the mistake is already in the numbers.</p>
+      </article>
+
+      <article class="bi-card bi-ahora reveal">
+        <div>
+          <span class="label">Today</span>
+          <h3>One question, where you are already working</h3>
+        </div>
+        <div class="bi-chat" role="img" aria-label="Illustrative example: Vera is asked how much to buy from the supplier and answers 820 cases across 18 products to cover four weeks, citing the ERP and spreadsheets (sample data)">
+          <p class="bi-dice">How much should I buy from my supplier for the forecast demand?</p>
+          <p class="bi-responde">{{ vera.avatar() }}<span><strong>820 cases</strong> across 18 products, enough to cover four weeks. The order is drafted and ready for you to approve.<span class="bi-fuente">Source: ERP and spreadsheets · 07:00</span></span></p>
+        </div>
+        <p class="bi-pie">No account, no portal, no waiting for the close. And the answer is about what comes next.</p>
+      </article>
+    </div>
+
+    <p class="bi-cierre reveal"><strong>Dashboards are not going away</strong>, and we keep building them: they are still the best place to explore and to audit a number. What changed is where you start. You used to open the dashboard hoping to spot something; now you ask the question, and the dashboard is there when you want the detail.</p>
   </div>
 </section>
 
