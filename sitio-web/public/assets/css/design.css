@@ -1817,6 +1817,8 @@ html.motion .is-live .vz-mic::after {
   font-weight: 600;
 }
 
+/* El tono de la línea que acompaña al número: «good» para lo que mejora, «warn» para lo
+   que hay que atender y «plain» —sin regla propia— para lo que solo informa */
 .vz-good .vz-a-tag {
   color: var(--good);
 }
