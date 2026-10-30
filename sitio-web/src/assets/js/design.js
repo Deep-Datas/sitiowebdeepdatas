@@ -358,16 +358,20 @@
       var salida = { x: r.x + r.w / 2, y: r.y + r.h };
 
       var cajas = sistemas.map(medirCaja);
-      // Si los sistemas quedaron arriba del núcleo en vez de a su costado, la maqueta está
-      // apilada (una sola columna) y las curvas tienen que bajar, no cruzar
-      var apilado = cajas.every(function (c) { return c.y + c.h <= nucleo.y - 10; });
+      // Los sistemas pueden quedar debajo del núcleo —la maqueta de hoy, donde la cadena
+      // sube: fuentes, núcleo y tablet— o encima, o a su costado. En los dos primeros
+      // casos las curvas van en vertical y cada una sale por el canto que mira al núcleo;
+      // al costado, cruzan a lo ancho.
+      var arriba = cajas.every(function (c) { return c.y + c.h <= nucleo.y - 10; });
+      var abajo = cajas.every(function (c) { return c.y >= nucleo.y + 10; });
+      var apilado = arriba || abajo;
 
       var grupo = document.createElementNS(SVG, 'g');
       tela.appendChild(grupo);
 
       cajas.forEach(function (c, k) {
         var desde = apilado
-          ? { x: c.x + c.w / 2, y: c.y + c.h }
+          ? { x: c.x + c.w / 2, y: arriba ? c.y + c.h : c.y }
           : { x: c.x + c.w, y: c.y + c.h / 2 };
         hilos.push(hilo(grupo, curva(desde, nucleo, apilado), COLORES[k], 1.6, 0.42));
       });

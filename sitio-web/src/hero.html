@@ -10,10 +10,11 @@
   permiso del micrófono y no manda audio a ningún lado, que para una consultora que vende
   confidencialidad no es un detalle.
 
-  Abajo, la red que explica de dónde sale ese número: los cinco sistemas —ERP, CRM,
-  planillas, WhatsApp y correo—, las curvas que los unen en un solo núcleo (la misma
-  constelación de registros que cuenta el resto del sitio, [data-core]) y, desde ahí, una
-  línea que sube hasta la respuesta. Varios sistemas, un solo número.
+  La columna de la derecha se lee de abajo hacia arriba y es el argumento entero: los
+  cinco sistemas en una fila —ERP, CRM, planillas, WhatsApp y correo—, las curvas que
+  suben y los unen en un solo núcleo (la misma constelación de registros que cuenta el
+  resto del sitio, [data-core]) y, desde ahí, una línea que sigue subiendo hasta la
+  respuesta en la tablet. Varios sistemas, un solo número, en una sola vertical.
 
   Por esas curvas viajan los datos: fluyen despacio solos y el scroll los empuja, así que
   bajar la página mueve la información de los sistemas al núcleo y del núcleo a la
@@ -186,13 +187,15 @@
       </div>
     </div>
 
-    {# 2. La red: los cinco sistemas, las curvas que los unen en un solo núcleo y, de ahí,
-       la línea que sube hasta la respuesta. Las curvas no están dibujadas acá: design.js
-       las calcula midiendo dónde quedó cada cosa, porque eso depende del ancho, del largo
-       de los textos y del idioma. Sin JavaScript no se muestra: no habría nada que ver. #}
+    {# 2. La red, debajo de la tablet y en su misma columna: los cinco sistemas en una fila,
+       las curvas que suben y los unen en un solo núcleo y, de ahí, la línea que sigue hasta
+       la respuesta. En el HTML las fuentes van primero porque es el orden en que se cuentan;
+       el CSS las manda abajo con «order». Las curvas no están dibujadas acá: design.js las
+       calcula midiendo dónde quedó cada cosa, porque eso depende del ancho, del largo de los
+       textos y del idioma. Sin JavaScript no se muestra: no habría nada que ver. #}
     <div class="vz-net" data-vz-net aria-hidden="true" hidden>
       <div class="vz-srcs">
-        <span class="vz-net-hd">{{ C.net }}</span>
+        <span class="vz-net-hd"><span>{{ C.net }}</span></span>
         {% for id, ico in FUENTES %}
         <span class="vz-sys vz-c-{{ id }}" data-vz-sys>
           <i class="vz-sys-ico">{{ icon(ico) }}</i><b>{{ C.fuentes[id] }}</b>
@@ -201,7 +204,7 @@
       </div>
       <div class="vz-mid">
         <canvas class="vz-core" data-vz-core></canvas>
-        <span class="vz-node">{{ C.model }}</span>
+        <span class="vz-node"><span>{{ C.model }}</span></span>
       </div>
     </div>
   </div>
