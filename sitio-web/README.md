@@ -268,13 +268,24 @@ Tres, de menos a más caro. Los tres necesitan `python3 build.py` antes, porque 
 
 ```
 python3 tools/probar_publicacion.py   # casos y testimonios, en memoria: segundos
-node tools/probar_portada.cjs         # la portada del inicio, en detalle: ~1 minuto
-node tools/probar_sitio.cjs           # las 59 páginas, escritorio y celular: ~10 minutos
+node tools/probar_portada.cjs         # la portada del inicio, en detalle: ~2 minutos
+node tools/probar_sitio.cjs           # las 59 páginas, escritorio y celular: ~15 minutos
+node tools/probar_sitio.cjs /blog/    # solo las direcciones que contengan eso: ~1 minuto
 ```
 
 `probar_sitio.cjs` sirve `public/` **con la política de seguridad de producción puesta** y recorre cada dirección del sitemap, bajando de a una ventana para que se disparen las animaciones de entrada. Controla que **Vera esté nombrada en el contenido** de cada página comercial (no solo en el menú y el pie, que la nombran siempre), que no haya quedado texto hablando de «un agente de IA» donde ahora va su nombre, el contraste de cada texto contra el color que de verdad tiene detrás, las zonas para tocar de 24 × 24, que no aparezca scroll horizontal, que la consola no tenga errores —sobre todo bloqueos de la política de seguridad— y que ningún enlace interno lleve a una página que no existe.
 
-Dos detalles que le costaron encontrar: el fondo real se averigua preguntándole al navegador qué hay pintado en ese punto (`elementsFromPoint`) y no subiendo por el árbol, porque un rótulo puede ser hijo de una barra de color y dibujarse arriba de ella; y el navegador devuelve los `color-mix` como `color(srgb 1 0.96 0.95)`, con componentes de 0 a 1, que leídos como si fueran de 0 a 255 dan casi negro y acusan contrastes falsos. Donde hay un degradado o una foto detrás, el color no se puede deducir y ese texto no se mide: queda para el ojo humano.
+Recorrerlo entero tarda, así que para volver a controlar lo que se acaba de tocar conviene pasarle un pedazo de dirección como argumento.
+
+**Medir el contraste bien cuesta más de lo que parece.** Las tres veces que este control acusó un problema que no existía fue por lo mismo: creer que sabía qué color había detrás del texto.
+
+- El fondo se arma **subiendo por el árbol, pero contando solo las cajas que de verdad cubren el punto**: un rótulo puede ser hijo de una barra de color y dibujarse arriba de ella, y ahí el fondo es la sección, no la barra. `elementsFromPoint`, que parecía el camino corto, **se saltea todo lo que tenga `pointer-events: none`** y pierde justo las cajas animadas.
+- Se cuenta **desde el propio elemento**: el fondo de un botón es lo que queda detrás de su texto, no la sección de atrás.
+- El navegador devuelve los `color-mix` como **`color(srgb 1 0.96 0.95)`**, con componentes de 0 a 1; leídos como si fueran de 0 a 255 dan casi negro y acusan contrastes falsos en todo lo que use un color mezclado.
+- Si el punto cae fuera de la ventana **no se mide ahí**: recortarlo al borde lo saca del elemento. Como se baja de a una ventana entera, al elemento le toca su pasada igual.
+- Donde hay un **degradado o una foto** detrás, el color pintado no se puede deducir del `backgroundColor` y ese texto no se mide: queda para el ojo humano. Los botones naranjas del sitio entran ahí.
+
+Cada hallazgo imprime los dos colores medidos (`#ffffff sobre #0b1220`), que es lo que permite discutirlo sin volver a correr todo.
 
 ## Industrias
 
