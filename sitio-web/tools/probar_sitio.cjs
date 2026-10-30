@@ -64,9 +64,14 @@ const fallas = [];
   const todas = Array.from(sitemap.matchAll(/<loc>([^<]*)<\/loc>/g),
                            m => m[1].replace(/^https?:\/\/[^/]+/, '') || '/');
   if (todas.length < 20) fallas.push(`[sitemap] solo ${todas.length} direcciones: ¿compilaste?`);
+  // Un argumento limita el recorrido a las direcciones que lo contengan. Con «=» adelante
+  // se pide la dirección exacta, que es la única forma de controlar solo el inicio: «/»
+  // está dentro de todas las demás.
   const filtro = process.argv[2];
-  const rutas = filtro ? todas.filter(r => r.includes(filtro)) : todas;
-  if (filtro && !rutas.length) fallas.push(`[filtro] ninguna dirección contiene «${filtro}»`);
+  const exacta = filtro && filtro.startsWith('=');
+  const rutas = !filtro ? todas
+    : todas.filter(r => (exacta ? r === filtro.slice(1) : r.includes(filtro)));
+  if (filtro && !rutas.length) fallas.push(`[filtro] ninguna dirección coincide con «${filtro}»`);
 
   const nav = await chromium.launch();
   for (const med of [{ n: 'escritorio', w: 1440, h: 900 }, { n: 'celular', w: 390, h: 844 }]) {
