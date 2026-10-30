@@ -53,8 +53,8 @@
     'preguntas': [
       {'chip': 'Cuánto comprar',
        'q': '¿Cuánto le compro a mi proveedor según la demanda estimada?',
-       'big': '820 bultos', 'tag': '18 productos · cubre cuatro semanas', 'tone': 'plain',
-       'txt': 'Cruzo el pronóstico de demanda con el stock de hoy y con los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para que la apruebes.',
+       'big': '820 bultos', 'tag': '18 productos · 4 semanas', 'tone': 'plain',
+       'txt': 'Pronóstico de demanda, stock de hoy y los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para aprobar.',
        'src': [['erp', 'ERP · 07:00'], ['xls', 'Planillas'], ['mail', 'Correo']]},
       {'chip': 'Clientes que se fueron',
        'q': '¿Qué clientes dejaron de comprar?',
@@ -83,8 +83,8 @@
     'preguntas': [
       {'chip': 'How much to buy',
        'q': 'How much should I buy from my supplier for the forecast demand?',
-       'big': '820 cases', 'tag': '18 products · covers four weeks', 'tone': 'plain',
-       'txt': 'I cross the demand forecast with today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready for you to approve.',
+       'big': '820 cases', 'tag': '18 products · 4 weeks', 'tone': 'plain',
+       'txt': 'Demand forecast, today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready to approve.',
        'src': [['erp', 'ERP · 07:00'], ['xls', 'Spreadsheets'], ['mail', 'Email']]},
       {'chip': 'Customers who left',
        'q': 'Which customers stopped buying?',
@@ -129,6 +129,8 @@
        sobre el escritorio de quien decide. El marco, la cámara, el soporte y el reflejo en
        la mesa son decorados; lo que importa sigue siendo lo de adentro. #}
     <div class="vz-escena">
+      <span class="vz-piso" aria-hidden="true"><i></i></span>
+      <div class="vz-dispositivo">
       <div class="vz-tab">
       <span class="vz-tab-cam" aria-hidden="true"></span>
       <div class="vz-tab-screen">
@@ -181,7 +183,7 @@
       </div>
       </div>
       <span class="vz-stand" aria-hidden="true"></span>
-      <span class="vz-desk" aria-hidden="true"></span>
+      </div>
     </div>
 
     {# 2. La red: los cinco sistemas, las curvas que los unen en un solo núcleo y, de ahí,

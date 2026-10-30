@@ -31,7 +31,7 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=3ac9c0bd30">
   <link rel="stylesheet" href="/assets/css/charts.css?v=6dd3d3b271">
-  <link rel="stylesheet" href="/assets/css/design.css?v=871cd3740a">
+  <link rel="stylesheet" href="/assets/css/design.css?v=7b44ddea6d">
   <script src="/assets/js/site.js?v=82c442f6b0" defer></script>
   <script src="/assets/js/design.js?v=04fc313414" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
@@ -98,7 +98,7 @@
 
 <!-- ======= HERO: the spoken question and the dashboard (src/hero.html) ======= -->
 <section class="vz" aria-labelledby="vz-title" data-vz
-         data-preguntas='[{"big": "820 cases", "chip": "How much to buy", "q": "How much should I buy from my supplier for the forecast demand?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Spreadsheets"], ["mail", "Email"]], "tag": "18 products \u00b7 covers four weeks", "tone": "plain", "txt": "I cross the demand forecast with today\u2019s stock and the 12 days your supplier takes to deliver. The order is drafted, ready for you to approve."}, {"big": "14 customers", "chip": "Customers who left", "q": "Which customers stopped buying?", "src": [["erp", "ERP \u00b7 07:00"], ["crm", "CRM"], ["mail", "Email"]], "tag": "\u26a0 no order in over 20 days", "tone": "warn", "txt": "They used to buy every week. Seven are in the west region and together the fourteen are 6% of the quarter\u2019s revenue. Here they are, by amount."}, {"big": "3 products", "chip": "Stockout risk", "q": "Which products are running out of stock?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Spreadsheets"], ["wa", "WhatsApp"]], "tag": "\u26a0 running out within 5 days", "tone": "warn", "txt": "Classic chips 400 g, 2 kg sticks and mixed snacks. With the demand forecast and today\u2019s stock, it is worth replenishing before Thursday."}]'
+         data-preguntas='[{"big": "820 cases", "chip": "How much to buy", "q": "How much should I buy from my supplier for the forecast demand?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Spreadsheets"], ["mail", "Email"]], "tag": "18 products \u00b7 4 weeks", "tone": "plain", "txt": "Demand forecast, today\u2019s stock and the 12 days your supplier takes to deliver. The order is drafted, ready to approve."}, {"big": "14 customers", "chip": "Customers who left", "q": "Which customers stopped buying?", "src": [["erp", "ERP \u00b7 07:00"], ["crm", "CRM"], ["mail", "Email"]], "tag": "\u26a0 no order in over 20 days", "tone": "warn", "txt": "They used to buy every week. Seven are in the west region and together the fourteen are 6% of the quarter\u2019s revenue. Here they are, by amount."}, {"big": "3 products", "chip": "Stockout risk", "q": "Which products are running out of stock?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Spreadsheets"], ["wa", "WhatsApp"]], "tag": "\u26a0 running out within 5 days", "tone": "warn", "txt": "Classic chips 400 g, 2 kg sticks and mixed snacks. With the demand forecast and today\u2019s stock, it is worth replenishing before Thursday."}]'
          data-states='["Listening\u2026", "Reading your systems\u2026", "Answer ready \u00b7 with sources"]'>
 
   <div class="container vz-grid">
@@ -113,6 +113,8 @@
     </div>
 
     <div class="vz-escena">
+      <span class="vz-piso" aria-hidden="true"><i></i></span>
+      <div class="vz-dispositivo">
       <div class="vz-tab">
       <span class="vz-tab-cam" aria-hidden="true"></span>
       <div class="vz-tab-screen">
@@ -154,8 +156,8 @@
       <div class="vz-answer vz-plain" data-vz-answer>
         <p class="vz-a-q" data-vz-aq>How much should I buy from my supplier for the forecast demand?</p>
         <p class="vz-a-big" data-vz-abig>820 cases</p>
-        <p class="vz-a-tag" data-vz-atag>18 products · covers four weeks</p>
-        <p class="vz-a-txt" data-vz-atxt>I cross the demand forecast with today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready for you to approve.</p>
+        <p class="vz-a-tag" data-vz-atag>18 products · 4 weeks</p>
+        <p class="vz-a-txt" data-vz-atxt>Demand forecast, today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready to approve.</p>
         <p class="vz-a-src">
           <span class="vz-a-srcs" data-vz-asrc><span class="vz-src-pill vz-c-erp"><i></i>ERP · 07:00</span><span class="vz-src-pill vz-c-xls"><i></i>Spreadsheets</span><span class="vz-src-pill vz-c-mail"><i></i>Email</span></span>
           <span class="vz-src-pill vz-src-demo">demo · sample data</span>
@@ -165,7 +167,7 @@
       </div>
       </div>
       <span class="vz-stand" aria-hidden="true"></span>
-      <span class="vz-desk" aria-hidden="true"></span>
+      </div>
     </div>
 
     <div class="vz-net" data-vz-net aria-hidden="true" hidden>

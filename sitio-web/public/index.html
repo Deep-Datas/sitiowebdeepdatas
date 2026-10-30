@@ -31,7 +31,7 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=3ac9c0bd30">
   <link rel="stylesheet" href="/assets/css/charts.css?v=6dd3d3b271">
-  <link rel="stylesheet" href="/assets/css/design.css?v=871cd3740a">
+  <link rel="stylesheet" href="/assets/css/design.css?v=7b44ddea6d">
   <script src="/assets/js/site.js?v=82c442f6b0" defer></script>
   <script src="/assets/js/design.js?v=04fc313414" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
@@ -98,7 +98,7 @@
 
 <!-- ======= PORTADA: la pregunta en voz alta y los cinco sistemas que se funden (src/hero.html) ======= -->
 <section class="vz" aria-labelledby="vz-title" data-vz
-         data-preguntas='[{"big": "820 bultos", "chip": "Cu\u00e1nto comprar", "q": "\u00bfCu\u00e1nto le compro a mi proveedor seg\u00fan la demanda estimada?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Planillas"], ["mail", "Correo"]], "tag": "18 productos \u00b7 cubre cuatro semanas", "tone": "plain", "txt": "Cruzo el pron\u00f3stico de demanda con el stock de hoy y con los 12 d\u00edas que tarda el proveedor en entregar. Te dejo la orden armada para que la apruebes."}, {"big": "14 clientes", "chip": "Clientes que se fueron", "q": "\u00bfQu\u00e9 clientes dejaron de comprar?", "src": [["erp", "ERP \u00b7 07:00"], ["crm", "CRM"], ["mail", "Correo"]], "tag": "\u26a0 sin un pedido hace m\u00e1s de 20 d\u00edas", "tone": "warn", "txt": "Compraban todas las semanas. Siete son de la zona oeste y entre los catorce suman el 6 % de la facturaci\u00f3n del trimestre. Te los paso ordenados por monto."}, {"big": "3 productos", "chip": "Riesgo de quiebre", "q": "\u00bfQu\u00e9 productos se quedan sin stock?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Planillas"], ["wa", "WhatsApp"]], "tag": "\u26a0 se quedan sin stock en 5 d\u00edas", "tone": "warn", "txt": "Papas cl\u00e1sicas 400 g, bastones 2 kg y snacks mixtos. Con el pron\u00f3stico de demanda y el stock de hoy, conviene reponer antes del jueves."}]'
+         data-preguntas='[{"big": "820 bultos", "chip": "Cu\u00e1nto comprar", "q": "\u00bfCu\u00e1nto le compro a mi proveedor seg\u00fan la demanda estimada?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Planillas"], ["mail", "Correo"]], "tag": "18 productos \u00b7 4 semanas", "tone": "plain", "txt": "Pron\u00f3stico de demanda, stock de hoy y los 12 d\u00edas que tarda el proveedor en entregar. Te dejo la orden armada para aprobar."}, {"big": "14 clientes", "chip": "Clientes que se fueron", "q": "\u00bfQu\u00e9 clientes dejaron de comprar?", "src": [["erp", "ERP \u00b7 07:00"], ["crm", "CRM"], ["mail", "Correo"]], "tag": "\u26a0 sin un pedido hace m\u00e1s de 20 d\u00edas", "tone": "warn", "txt": "Compraban todas las semanas. Siete son de la zona oeste y entre los catorce suman el 6 % de la facturaci\u00f3n del trimestre. Te los paso ordenados por monto."}, {"big": "3 productos", "chip": "Riesgo de quiebre", "q": "\u00bfQu\u00e9 productos se quedan sin stock?", "src": [["erp", "ERP \u00b7 07:00"], ["xls", "Planillas"], ["wa", "WhatsApp"]], "tag": "\u26a0 se quedan sin stock en 5 d\u00edas", "tone": "warn", "txt": "Papas cl\u00e1sicas 400 g, bastones 2 kg y snacks mixtos. Con el pron\u00f3stico de demanda y el stock de hoy, conviene reponer antes del jueves."}]'
          data-states='["Escuchando\u2026", "Leyendo tus sistemas\u2026", "Respuesta lista \u00b7 con fuentes"]'>
 
   <div class="container vz-grid">
@@ -113,6 +113,8 @@
     </div>
 
     <div class="vz-escena">
+      <span class="vz-piso" aria-hidden="true"><i></i></span>
+      <div class="vz-dispositivo">
       <div class="vz-tab">
       <span class="vz-tab-cam" aria-hidden="true"></span>
       <div class="vz-tab-screen">
@@ -154,8 +156,8 @@
       <div class="vz-answer vz-plain" data-vz-answer>
         <p class="vz-a-q" data-vz-aq>¿Cuánto le compro a mi proveedor según la demanda estimada?</p>
         <p class="vz-a-big" data-vz-abig>820 bultos</p>
-        <p class="vz-a-tag" data-vz-atag>18 productos · cubre cuatro semanas</p>
-        <p class="vz-a-txt" data-vz-atxt>Cruzo el pronóstico de demanda con el stock de hoy y con los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para que la apruebes.</p>
+        <p class="vz-a-tag" data-vz-atag>18 productos · 4 semanas</p>
+        <p class="vz-a-txt" data-vz-atxt>Pronóstico de demanda, stock de hoy y los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para aprobar.</p>
         <p class="vz-a-src">
           <span class="vz-a-srcs" data-vz-asrc><span class="vz-src-pill vz-c-erp"><i></i>ERP · 07:00</span><span class="vz-src-pill vz-c-xls"><i></i>Planillas</span><span class="vz-src-pill vz-c-mail"><i></i>Correo</span></span>
           <span class="vz-src-pill vz-src-demo">demo · datos ficticios</span>
@@ -165,7 +167,7 @@
       </div>
       </div>
       <span class="vz-stand" aria-hidden="true"></span>
-      <span class="vz-desk" aria-hidden="true"></span>
+      </div>
     </div>
 
     <div class="vz-net" data-vz-net aria-hidden="true" hidden>

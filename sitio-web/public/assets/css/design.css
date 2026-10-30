@@ -1559,6 +1559,9 @@ html:not(.motion) .phone-view:first-child {
    consolidación queda dibujada una vez, en el flujo normal de la página. */
 .vz {
   position: relative;
+  /* El plano de la mesa se ensancha al acostarse: que no empuje la página a lo ancho.
+     «clip» no crea un contenedor de scroll, a diferencia de «hidden». */
+  overflow-x: clip;
 }
 
 /* ----- 1. El título y la barra de voz -----
@@ -1569,7 +1572,7 @@ html:not(.motion) .phone-view:first-child {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   column-gap: clamp(22px, 3vw, 52px);
   row-gap: clamp(24px, 4vh, 50px);
@@ -1580,7 +1583,7 @@ html:not(.motion) .phone-view:first-child {
 
 .vz-copy h1 {
   margin-bottom: 0.46em;
-  font-size: clamp(2.1rem, 1.4rem + 2.3vw, 3.15rem);
+  font-size: clamp(2rem, 1.35rem + 2.1vw, 2.95rem);
 }
 
 /* La frase en bastardilla es la otra mitad de la idea: arranca en su propio renglón */
@@ -1593,13 +1596,30 @@ html:not(.motion) .phone-view:first-child {
   margin-bottom: clamp(22px, 3.4vh, 32px);
 }
 
-/* La escena de la derecha: una tablet horizontal en un soporte, sobre el escritorio.
-   Mismo lenguaje que el teléfono de más abajo —marco oscuro, filete por dentro y sombra
-   profunda—, pero sin proporción fija: el alto lo manda el contenido, que cambia con el
-   idioma, y así no hay nada que se corte. */
+/* La escena de la derecha: una tablet apaisada, girada un poco como en una foto de
+   producto, apoyada en su pata trasera sobre un escritorio. El marco sigue el lenguaje del
+   teléfono de más abajo —marco oscuro, filete por dentro y sombra profunda— pero sin
+   proporción fija: el alto lo manda el contenido, que cambia con el idioma, y así no hay
+   nada que se corte. */
 .vz-escena {
   position: relative;
-  padding-bottom: 74px;
+  /* La tablet no crece con la columna: a partir de cierto ancho se queda quieta y
+     centrada, que es como se ve un aparato apoyado en una mesa */
+  max-width: 544px;
+  margin-inline: auto;
+  padding-bottom: 96px;
+  perspective: 1900px;
+  perspective-origin: 50% 44%;
+}
+
+/* El giro: el canto izquierdo se acerca y el derecho se va para atrás, como en la foto.
+   Poco, y con mucha distancia de cámara: adentro hay texto y botones de verdad, y pasarse
+   de ángulo los deja borrosos y más difíciles de tocar. */
+.vz-dispositivo {
+  position: relative;
+  z-index: 2;
+  transform: rotateY(9deg) rotateX(1.5deg);
+  transform-origin: 50% 96%;
 }
 
 .vz-tab {
@@ -1611,9 +1631,6 @@ html:not(.motion) .phone-view:first-child {
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.12),
     0 36px 60px -34px rgba(11, 18, 32, 0.62);
-  /* El reflejo en la mesa, donde el navegador lo soporta: se apaga enseguida, así no
-     compite con la escena ni con lo que viene abajo */
-  -webkit-box-reflect: below 10px linear-gradient(rgba(0, 0, 0, 0.16), transparent 22%);
 }
 
 /* La cámara, centrada en el borde de arriba */
@@ -1629,75 +1646,80 @@ html:not(.motion) .phone-view:first-child {
   transform: translateX(-50%);
 }
 
-/* El soporte: el cuello sale de atrás de la tablet y la base se apoya en la mesa.
-   Las medidas se cuentan desde el piso de la escena: la base en 18, el cuello de 30 a 80
-   —los últimos seis quedan tapados por la tablet, que apoya en 74— y el canto de la mesa
-   en 20, justo donde la base toca la superficie. */
+/* La pata trasera: un panel un poco más angosto que la tablet, que asoma por arriba y por
+   abajo y apoya en la mesa con un pie más ancho. Con el giro se la ve de costado, que es
+   lo que le da cuerpo al conjunto. */
 .vz-stand {
   position: absolute;
-  bottom: 30px;
-  left: 50%;
   z-index: 1;
-  width: 74px;
-  height: 50px;
-  border-radius: 0 0 9px 9px;
-  background: linear-gradient(100deg, #10141c, #272c38 42%, #0d1118);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-  transform: translateX(-50%);
+  inset: -11px 7% 52px;
+  border-radius: 24px 24px 16px 16px;
+  background: linear-gradient(168deg, #262b36, #10141c 55%, #080b11);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 
 .vz-stand::after {
   content: "";
   position: absolute;
-  bottom: -12px;
+  bottom: -14px;
   left: 50%;
-  width: 184px;
-  height: 12px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #2a303d, #11151e);
+  width: 104%;
+  height: 20px;
+  border-radius: 6px 6px 13px 13px;
+  background: linear-gradient(180deg, #1b202a, #090c12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 6px 14px -6px rgba(11, 18, 32, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 20px -8px rgba(11, 18, 32, 0.5);
   transform: translateX(-50%);
 }
 
-/* El escritorio: una superficie traslúcida, sin bordes duros —se desvanece a los costados
-   y hacia abajo—, con el canto de la mesa y la sombra del contacto alrededor de la base. */
-.vz-desk {
+/* El escritorio: un plano acostado que viene hacia quien mira. Se desvanece en los bordes
+   —no es una mesa recortada, es la sugerencia de una— y lleva la sombra del apoyo. */
+.vz-piso {
   position: absolute;
-  bottom: 0;
+  /* La bisagra del plano va donde apoya el aparato: unos píxeles más arriba del borde de
+     abajo, que la tablet tapa, para que no se vea el canto flotando por delante */
+  top: calc(100% - 120px);
   left: 50%;
   z-index: 0;
   /* Se estira a los costados hasta donde da el aire del bloque, nunca más: un porcentaje
      solo se pasaría de largo justo cuando el contenedor llega a su ancho máximo */
-  width: min(124%, calc(100% + 2 * var(--gutter)));
-  /* Más alto que el apoyo: el canto del fondo queda tapado por la tablet y solo asoma a
-     los costados, que es como se ve una mesa desde un poco más arriba */
-  height: 104px;
-  background:
-    radial-gradient(ellipse 28% 34% at 50% 84%, rgba(11, 18, 32, 0.2), rgba(11, 18, 32, 0) 72%),
-    linear-gradient(180deg,
-      color-mix(in srgb, var(--text) 7%, transparent),
-      color-mix(in srgb, var(--text) 3%, transparent) 46%,
-      transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  width: min(132%, calc(100% + 2 * var(--gutter)));
+  height: 230px;
+  perspective: 620px;
+  perspective-origin: 50% 0;
   transform: translateX(-50%);
 }
 
-.vz-desk::before {
+.vz-piso i {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 24% 13% at 50% 3%, rgba(11, 18, 32, 0.34), rgba(11, 18, 32, 0) 70%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--text) 14%, transparent),
+      color-mix(in srgb, var(--text) 6%, transparent) 34%,
+      transparent 86%);
+  mask-image: radial-gradient(ellipse 58% 90% at 50% 0, #000 34%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 58% 90% at 50% 0, #000 34%, transparent 100%);
+  transform: rotateX(74deg);
+  transform-origin: 50% 0;
+}
+
+/* El canto de la mesa, donde arranca la superficie */
+.vz-piso::before {
   content: "";
   position: absolute;
   top: 0;
-  right: 0;
-  left: 0;
+  right: 14%;
+  left: 14%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--hairline-strong) 26%, var(--hairline-strong) 74%, transparent);
+  background: linear-gradient(90deg, transparent, var(--hairline-strong) 30%, var(--hairline-strong) 70%, transparent);
 }
 
 .vz-tab-screen {
   overflow: hidden;
-  padding: clamp(12px, 1.2vw, 17px);
+  padding: clamp(11px, 1vw, 15px);
   border-radius: 12px;
   background: var(--paper);
 }
@@ -1706,10 +1728,10 @@ html:not(.motion) .phone-view:first-child {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: var(--fg-3);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
 }
 
 .vz-tab-app {
@@ -1778,6 +1800,66 @@ html:not(.motion) .phone-view:first-child {
     padding-inline: 19px;
   }
 
+  /* La pantalla es chica: la letra de adentro acompaña */
+  .vz-tab .vz-mic {
+    width: 46px;
+    height: 46px;
+  }
+
+  .vz-tab .vz-mic .icon {
+    width: 19px;
+    height: 19px;
+  }
+
+  .vz-tab .vz-said {
+    font-size: 0.92rem;
+  }
+
+  .vz-tab .vz-state {
+    margin-left: 60px;
+    font-size: 0.71rem;
+  }
+
+  /* Las tres preguntas tienen que entrar en un renglón: si saltan a dos, la pantalla
+     deja de ser apaisada */
+  .vz-tab .vz-chips {
+    gap: 6px;
+  }
+
+  .vz-tab .vz-chip {
+    min-height: 30px;
+    padding: 5px 9px;
+    font-size: 0.72rem;
+  }
+
+  .vz-tab .vz-chip-ok .icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .vz-tab .vz-chip.is-on .vz-chip-ok {
+    width: 12px;
+    margin-right: 5px;
+  }
+
+  .vz-tab .vz-answer {
+    padding: 14px 16px;
+  }
+
+  .vz-tab .vz-a-big {
+    font-size: clamp(1.5rem, 0.9rem + 1.5vw, 2.1rem);
+  }
+
+  .vz-tab .vz-a-tag,
+  .vz-tab .vz-a-txt {
+    font-size: 0.82rem;
+  }
+
+  .vz-tab .vz-src-pill {
+    padding: 3px 9px;
+    font-size: 0.69rem;
+  }
+
   .vz-tab .vz-a-src {
     grid-area: src;
   }
@@ -1792,7 +1874,7 @@ html:not(.motion) .phone-view:first-child {
 
 .vz-demo {
   display: grid;
-  gap: 10px;
+  gap: 9px;
   align-content: start;
 }
 
@@ -2238,6 +2320,28 @@ html.motion .is-live .vz-mic::after {
     height: 48px;
   }
 
+  /* En una columna sola el giro no suma: la pantalla es chica y leerla en ángulo cuesta.
+     La tablet se pone de frente y la mesa se achica. */
+  .vz-escena {
+    max-width: none;
+    padding-bottom: 72px;
+    perspective: none;
+  }
+
+  .vz-dispositivo {
+    transform: none;
+  }
+
+  .vz-piso {
+    top: calc(100% - 92px);
+    height: 160px;
+  }
+
+  .vz-stand {
+    inset: -8px 8% 40px;
+    border-radius: 20px 20px 14px 14px;
+  }
+
   .vz-tab {
     padding: 10px;
     border-radius: 20px;
@@ -2247,14 +2351,7 @@ html.motion .is-live .vz-mic::after {
     border-radius: 12px;
   }
 
-  .vz-desk {
-    width: 100%;
-  }
 
-  .vz-desk::before {
-    right: 0;
-    left: -8%;
-  }
 
   .vz-state {
     margin-left: 60px;
