@@ -31,9 +31,9 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=3ac9c0bd30">
   <link rel="stylesheet" href="/assets/css/charts.css?v=6dd3d3b271">
-  <link rel="stylesheet" href="/assets/css/design.css?v=962467ed39">
+  <link rel="stylesheet" href="/assets/css/design.css?v=871cd3740a">
   <script src="/assets/js/site.js?v=82c442f6b0" defer></script>
-  <script src="/assets/js/design.js?v=f437c7648f" defer></script>
+  <script src="/assets/js/design.js?v=04fc313414" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -112,7 +112,17 @@
       </div>
     </div>
 
-    <div class="vz-demo">
+    <div class="vz-escena">
+      <div class="vz-tab">
+      <span class="vz-tab-cam" aria-hidden="true"></span>
+      <div class="vz-tab-screen">
+        <div class="vz-tab-top" aria-hidden="true">
+          <span>7:05 AM</span>
+          <span class="vz-tab-app">DeepDatas</span>
+          <span class="vz-tab-bat"><i></i><i></i><i></i></span>
+        </div>
+
+        <div class="vz-demo">
       <div class="vz-bar">
         <span class="vz-mic vz-mic-still" data-vz-still aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg></span>
         <button class="vz-mic" type="button" data-vz-play hidden>
@@ -151,6 +161,11 @@
           <span class="vz-src-pill vz-src-demo">demo · sample data</span>
         </p>
       </div>
+        </div>
+      </div>
+      </div>
+      <span class="vz-stand" aria-hidden="true"></span>
+      <span class="vz-desk" aria-hidden="true"></span>
     </div>
 
     <div class="vz-net" data-vz-net aria-hidden="true" hidden>
@@ -292,11 +307,11 @@
       <h2>AI is only as good as the data it runs on</h2>
       <p>We bring together the information now spread across systems, spreadsheets and messages, curate it and organize it so an AI agent can use it with confidence. Pick a question and watch the journey.</p>
     </div>
-    <div class="fl reveal" data-flow data-qa='[{"a": "$1.28M yesterday in the north region, +9% vs. the same day last week. Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.", "hot": ["erp", "xls", "crm"], "q": "How much did we sell yesterday in the north region?", "src": "Sources: ERP \u00b7 Spreadsheets \u00b7 CRM \u00b7 updated today at 7:00 AM"}, {"a": "38 customers who bought every month did not buy in September. I am sending you the list by sales rep, sorted by revenue, with the last recorded visit.", "hot": ["erp", "crm"], "q": "Which customers stopped buying?", "src": "Sources: ERP \u00b7 CRM \u00b7 updated today at 7:00 AM"}, {"a": "Three products run out before the 15th: classic chips 400 g (3 days), fries 1 kg (4 days) and mash 125 g (4 days). Should I prepare the suggested replenishment order?", "hot": ["erp", "xls", "wa"], "q": "Which products are about to run out of stock?", "src": "Sources: ERP \u00b7 Forecast \u00b7 WhatsApp \u00b7 updated today at 7:00 AM"}]' role="region" aria-label="Example: a question travels through your systems to the AI agent’s answer (sample data)">
+    <div class="fl reveal" data-flow data-qa='[{"a": "820 cases across 18 products, to cover four weeks. I crossed the demand forecast with today\u2019s stock and the 12 days your supplier takes to deliver. The order is drafted, ready for you to approve.", "hot": ["erp", "xls", "mail"], "q": "How much should I buy from my supplier for the forecast demand?", "src": "Sources: ERP \u00b7 Spreadsheets \u00b7 Email \u00b7 updated today at 7:00 AM"}, {"a": "38 customers who bought every month did not buy in September. I am sending you the list by sales rep, sorted by revenue, with the last recorded visit.", "hot": ["erp", "crm"], "q": "Which customers stopped buying?", "src": "Sources: ERP \u00b7 CRM \u00b7 updated today at 7:00 AM"}, {"a": "Three products run out before the 15th: classic chips 400 g (3 days), fries 1 kg (4 days) and mash 125 g (4 days). Should I prepare the suggested replenishment order?", "hot": ["erp", "xls", "wa"], "q": "Which products are about to run out of stock?", "src": "Sources: ERP \u00b7 Forecast \u00b7 WhatsApp \u00b7 updated today at 7:00 AM"}]' role="region" aria-label="Example: a question travels through your systems to the AI agent’s answer (sample data)">
   <div class="fl-top">
     <span class="label">Try a question</span>
     <div class="fl-chips" role="group" aria-label="Try a question">
-      <button class="fl-chip" type="button" data-flow-chip="0" aria-pressed="true">How much did we sell yesterday in the north region?</button>
+      <button class="fl-chip" type="button" data-flow-chip="0" aria-pressed="true">How much should I buy from my supplier for the forecast demand?</button>
       <button class="fl-chip" type="button" data-flow-chip="1" aria-pressed="false">Which customers stopped buying?</button>
       <button class="fl-chip" type="button" data-flow-chip="2" aria-pressed="false">Which products are about to run out of stock?</button>
     </div>
@@ -318,9 +333,9 @@
     <div class="fl-right">
       <div class="fl-agent" data-flow-agent><span class="fl-orb" aria-hidden="true"></span><span class="fl-agent-name">AI agent<small>Answers with sources, never invents numbers</small></span></div>
       <div class="fl-answer">
-        <p class="fl-q"><span class="fl-avatar" aria-hidden="true">MG</span><span data-flow-q>How much did we sell yesterday in the north region?</span></p>
-        <p class="fl-a"><span data-flow-a>$1.28M yesterday in the north region, +9% vs. the same day last week. Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.</span><span class="fl-caret" data-flow-caret hidden></span></p>
-        <p class="fl-src-line" data-flow-srcline>Sources: ERP · Spreadsheets · CRM · updated today at 7:00 AM</p>
+        <p class="fl-q"><span class="fl-avatar" aria-hidden="true">MG</span><span data-flow-q>How much should I buy from my supplier for the forecast demand?</span></p>
+        <p class="fl-a"><span data-flow-a>820 cases across 18 products, to cover four weeks. I crossed the demand forecast with today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready for you to approve.</span><span class="fl-caret" data-flow-caret hidden></span></p>
+        <p class="fl-src-line" data-flow-srcline>Sources: ERP · Spreadsheets · Email · updated today at 7:00 AM</p>
       </div>
       <p class="fl-note">Example with sample data</p>
     </div>
@@ -473,8 +488,8 @@
             <div class="phone-view" data-pin-view>
               <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
               <div class="chat-body">
-                <div class="chat-msg chat-out"><p>How much did we sell yesterday in the north?</p><span class="chat-time">9:41</span></div>
-                <div class="chat-msg"><p><strong>$1.28M</strong> yesterday in the north, <strong>+9%</strong> versus the same day last week.</p><p>The three fastest-growing distributors: Norte SA, Distrisur and La Rueda.</p><span class="chat-time">9:41 · Source: ERP</span></div>
+                <div class="chat-msg chat-out"><p>How much should I buy from my supplier for the forecast demand?</p><span class="chat-time">9:41</span></div>
+                <div class="chat-msg"><p><strong>820 cases</strong> across 18 products, to cover four weeks.</p><p>I crossed the demand forecast with today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready to approve.</p><span class="chat-time">9:41 · Source: ERP and spreadsheets</span></div>
                 <div class="chat-msg chat-out"><p>And which customers stopped buying?</p><span class="chat-time">9:42</span></div>
                 <div class="chat-msg"><p><strong>38 customers</strong> who used to buy every month didn’t buy in September. I’m sending you the list by sales rep, sorted by revenue.</p><span class="chat-time">9:42 · Source: ERP and CRM</span></div>
               </div>

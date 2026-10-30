@@ -120,14 +120,14 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
         const hilos = Array.from(svg.querySelectorAll('.vz-wire'));
         const sis = Array.from(document.querySelectorAll('[data-vz-sys]'));
         const nucleo = document.querySelector('.vz-core').getBoundingClientRect();
-        const resp = document.querySelector('[data-vz-answer]').getBoundingClientRect();
+        const resp = document.querySelector('.vz-tab').getBoundingClientRect();
         return {
           hilos: hilos.length,
           sistemas: sis.length,
           // Cada sistema arranca una curva, y todas terminan en el núcleo
           salen: sis.every((el, i) => hilos[i] && dentro(pt(hilos[i], 0), el.getBoundingClientRect())),
           llegan: sis.every((_, i) => hilos[i] && dentro(pt(hilos[i], hilos[i].getTotalLength()), nucleo)),
-          // La última sube del núcleo a la respuesta
+          // La última sube del núcleo a la tablet, donde se lee la respuesta
           sube: hilos.length > sis.length
                 && dentro(pt(hilos[sis.length], 0), nucleo)
                 && dentro(pt(hilos[sis.length], hilos[sis.length].getTotalLength()), resp),
@@ -138,7 +138,7 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
                 red.hilos === red.sistemas + 1);
       controlar(`[red ${donde}] alguna curva no arranca en su sistema`, red.salen);
       controlar(`[red ${donde}] alguna curva no llega al núcleo`, red.llegan);
-      controlar(`[red ${donde}] la curva de salida no va del núcleo a la respuesta`, red.sube);
+      controlar(`[red ${donde}] la curva de salida no va del núcleo a la tablet`, red.sube);
       controlar(`[red ${donde}] no hay datos viajando por las curvas`, red.datos > 0);
 
       /* ---- Nada tapado por el encabezado ni desbordado ---- */

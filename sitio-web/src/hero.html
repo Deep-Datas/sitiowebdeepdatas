@@ -47,7 +47,7 @@
     'pick': 'Elegí una pregunta',
     'placeholder': 'Preguntale algo a tu empresa…',
     'states': ['Escuchando…', 'Leyendo tus sistemas…', 'Respuesta lista · con fuentes'],
-    'demo': 'demo · datos ficticios',
+    'demo': 'demo · datos ficticios', 'hora': '7:05',
     'fuentes': {'erp': 'ERP', 'crm': 'CRM', 'xls': 'Planillas', 'wa': 'WhatsApp', 'mail': 'Correo'},
     'net': 'Tus sistemas', 'model': 'Un modelo confiable', 'out': 'Un solo número',
     'preguntas': [
@@ -77,7 +77,7 @@
     'pick': 'Pick a question',
     'placeholder': 'Ask your company something…',
     'states': ['Listening…', 'Reading your systems…', 'Answer ready · with sources'],
-    'demo': 'demo · sample data',
+    'demo': 'demo · sample data', 'hora': '7:05 AM',
     'fuentes': {'erp': 'ERP', 'crm': 'CRM', 'xls': 'Spreadsheets', 'wa': 'WhatsApp', 'mail': 'Email'},
     'net': 'Your systems', 'model': 'One reliable model', 'out': 'One single number',
     'preguntas': [
@@ -125,7 +125,20 @@
       </div>
     </div>
 
-    <div class="vz-demo">
+    {# La demostración no flota: vive en la pantalla de una tablet apoyada en un soporte,
+       sobre el escritorio de quien decide. El marco, la cámara, el soporte y el reflejo en
+       la mesa son decorados; lo que importa sigue siendo lo de adentro. #}
+    <div class="vz-escena">
+      <div class="vz-tab">
+      <span class="vz-tab-cam" aria-hidden="true"></span>
+      <div class="vz-tab-screen">
+        <div class="vz-tab-top" aria-hidden="true">
+          <span>{{ C.hora }}</span>
+          <span class="vz-tab-app">DeepDatas</span>
+          <span class="vz-tab-bat"><i></i><i></i><i></i></span>
+        </div>
+
+        <div class="vz-demo">
       <div class="vz-bar">
         {# Sin JavaScript el micrófono es un dibujo, no un botón que no hace nada #}
         <span class="vz-mic vz-mic-still" data-vz-still aria-hidden="true">{{ icon('mic') }}</span>
@@ -164,6 +177,11 @@
           <span class="vz-src-pill vz-src-demo">{{ C.demo }}</span>
         </p>
       </div>
+        </div>
+      </div>
+      </div>
+      <span class="vz-stand" aria-hidden="true"></span>
+      <span class="vz-desk" aria-hidden="true"></span>
     </div>
 
     {# 2. La red: los cinco sistemas, las curvas que los unen en un solo núcleo y, de ahí,

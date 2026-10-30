@@ -31,9 +31,9 @@
   <script src="/assets/js/motion.js?v=3cdd44e1a8"></script>
   <link rel="stylesheet" href="/assets/css/site.css?v=3ac9c0bd30">
   <link rel="stylesheet" href="/assets/css/charts.css?v=6dd3d3b271">
-  <link rel="stylesheet" href="/assets/css/design.css?v=962467ed39">
+  <link rel="stylesheet" href="/assets/css/design.css?v=871cd3740a">
   <script src="/assets/js/site.js?v=82c442f6b0" defer></script>
-  <script src="/assets/js/design.js?v=f437c7648f" defer></script>
+  <script src="/assets/js/design.js?v=04fc313414" defer></script>
   <script src="/assets/js/analytics.js?v=98cd2f40a8" data-clarity="ytmns2p931" defer></script>
   <script type="application/ld+json">
   {
@@ -112,7 +112,17 @@
       </div>
     </div>
 
-    <div class="vz-demo">
+    <div class="vz-escena">
+      <div class="vz-tab">
+      <span class="vz-tab-cam" aria-hidden="true"></span>
+      <div class="vz-tab-screen">
+        <div class="vz-tab-top" aria-hidden="true">
+          <span>7:05</span>
+          <span class="vz-tab-app">DeepDatas</span>
+          <span class="vz-tab-bat"><i></i><i></i><i></i></span>
+        </div>
+
+        <div class="vz-demo">
       <div class="vz-bar">
         <span class="vz-mic vz-mic-still" data-vz-still aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg></span>
         <button class="vz-mic" type="button" data-vz-play hidden>
@@ -151,6 +161,11 @@
           <span class="vz-src-pill vz-src-demo">demo · datos ficticios</span>
         </p>
       </div>
+        </div>
+      </div>
+      </div>
+      <span class="vz-stand" aria-hidden="true"></span>
+      <span class="vz-desk" aria-hidden="true"></span>
     </div>
 
     <div class="vz-net" data-vz-net aria-hidden="true" hidden>
@@ -292,11 +307,11 @@
       <h2>Una IA es tan buena como los datos que consume</h2>
       <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Elegí una pregunta y mirá el recorrido.</p>
     </div>
-    <div class="fl reveal" data-flow data-qa='[{"a": "$ 1,28 M ayer en la zona norte, +9 % contra el mismo d\u00eda de la semana pasada. Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya arm\u00e9 la lista de pedidos pendientes por vendedor.", "hot": ["erp", "xls", "crm"], "q": "\u00bfCu\u00e1nto vendimos ayer en la zona norte?", "src": "Fuentes: ERP \u00b7 Planillas \u00b7 CRM \u00b7 actualizado hoy a las 7:00"}, {"a": "38 clientes que compraban todos los meses no compraron en septiembre. Te mando la lista por vendedor, ordenada por facturaci\u00f3n, con la \u00faltima visita registrada.", "hot": ["erp", "crm"], "q": "\u00bfQu\u00e9 clientes dejaron de comprar?", "src": "Fuentes: ERP \u00b7 CRM \u00b7 actualizado hoy a las 7:00"}, {"a": "Tres productos se quedan sin stock antes del 15: papas cl\u00e1sicas 400 g (3 d\u00edas), bastones 1 kg (4 d\u00edas) y pur\u00e9 125 g (4 d\u00edas). \u00bfPreparo la orden de reposici\u00f3n sugerida?", "hot": ["erp", "xls", "wa"], "q": "\u00bfQu\u00e9 productos se quedan sin stock?", "src": "Fuentes: ERP \u00b7 Pron\u00f3stico \u00b7 WhatsApp \u00b7 actualizado hoy a las 7:00"}]' role="region" aria-label="Ejemplo: una pregunta recorre tus sistemas hasta la respuesta del agente de IA (datos ficticios)">
+    <div class="fl reveal" data-flow data-qa='[{"a": "820 bultos de 18 productos, para cubrir cuatro semanas. Cruc\u00e9 el pron\u00f3stico de demanda con el stock de hoy y con los 12 d\u00edas que tarda el proveedor en entregar. Ya dej\u00e9 la orden armada para que la apruebes.", "hot": ["erp", "xls", "mail"], "q": "\u00bfCu\u00e1nto le compro a mi proveedor seg\u00fan la demanda estimada?", "src": "Fuentes: ERP \u00b7 Planillas \u00b7 Correo \u00b7 actualizado hoy a las 7:00"}, {"a": "38 clientes que compraban todos los meses no compraron en septiembre. Te mando la lista por vendedor, ordenada por facturaci\u00f3n, con la \u00faltima visita registrada.", "hot": ["erp", "crm"], "q": "\u00bfQu\u00e9 clientes dejaron de comprar?", "src": "Fuentes: ERP \u00b7 CRM \u00b7 actualizado hoy a las 7:00"}, {"a": "Tres productos se quedan sin stock antes del 15: papas cl\u00e1sicas 400 g (3 d\u00edas), bastones 1 kg (4 d\u00edas) y pur\u00e9 125 g (4 d\u00edas). \u00bfPreparo la orden de reposici\u00f3n sugerida?", "hot": ["erp", "xls", "wa"], "q": "\u00bfQu\u00e9 productos se quedan sin stock?", "src": "Fuentes: ERP \u00b7 Pron\u00f3stico \u00b7 WhatsApp \u00b7 actualizado hoy a las 7:00"}]' role="region" aria-label="Ejemplo: una pregunta recorre tus sistemas hasta la respuesta del agente de IA (datos ficticios)">
   <div class="fl-top">
     <span class="label">Probá una pregunta</span>
     <div class="fl-chips" role="group" aria-label="Probá una pregunta">
-      <button class="fl-chip" type="button" data-flow-chip="0" aria-pressed="true">¿Cuánto vendimos ayer en la zona norte?</button>
+      <button class="fl-chip" type="button" data-flow-chip="0" aria-pressed="true">¿Cuánto le compro a mi proveedor según la demanda estimada?</button>
       <button class="fl-chip" type="button" data-flow-chip="1" aria-pressed="false">¿Qué clientes dejaron de comprar?</button>
       <button class="fl-chip" type="button" data-flow-chip="2" aria-pressed="false">¿Qué productos se quedan sin stock?</button>
     </div>
@@ -318,9 +333,9 @@
     <div class="fl-right">
       <div class="fl-agent" data-flow-agent><span class="fl-orb" aria-hidden="true"></span><span class="fl-agent-name">Agente de IA<small>Responde con fuentes, sin inventar números</small></span></div>
       <div class="fl-answer">
-        <p class="fl-q"><span class="fl-avatar" aria-hidden="true">MG</span><span data-flow-q>¿Cuánto vendimos ayer en la zona norte?</span></p>
-        <p class="fl-a"><span data-flow-a>$ 1,28 M ayer en la zona norte, +9 % contra el mismo día de la semana pasada. Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.</span><span class="fl-caret" data-flow-caret hidden></span></p>
-        <p class="fl-src-line" data-flow-srcline>Fuentes: ERP · Planillas · CRM · actualizado hoy a las 7:00</p>
+        <p class="fl-q"><span class="fl-avatar" aria-hidden="true">MG</span><span data-flow-q>¿Cuánto le compro a mi proveedor según la demanda estimada?</span></p>
+        <p class="fl-a"><span data-flow-a>820 bultos de 18 productos, para cubrir cuatro semanas. Crucé el pronóstico de demanda con el stock de hoy y con los 12 días que tarda el proveedor en entregar. Ya dejé la orden armada para que la apruebes.</span><span class="fl-caret" data-flow-caret hidden></span></p>
+        <p class="fl-src-line" data-flow-srcline>Fuentes: ERP · Planillas · Correo · actualizado hoy a las 7:00</p>
       </div>
       <p class="fl-note">Ejemplo con datos ficticios</p>
     </div>
@@ -473,8 +488,8 @@
             <div class="phone-view" data-pin-view>
               <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
               <div class="chat-body">
-                <div class="chat-msg chat-out"><p>¿Cuánto vendimos ayer en la zona norte?</p><span class="chat-time">9:41</span></div>
-                <div class="chat-msg"><p><strong>$ 1,28 M</strong> ayer en el norte, <strong>+9 %</strong> contra el mismo día de la semana pasada.</p><p>Los tres distribuidores que más crecieron: Norte SA, Distrisur y La Rueda.</p><span class="chat-time">9:41 · Fuente: ERP</span></div>
+                <div class="chat-msg chat-out"><p>¿Cuánto le compro a mi proveedor según la demanda estimada?</p><span class="chat-time">9:41</span></div>
+                <div class="chat-msg"><p><strong>820 bultos</strong> de 18 productos, para cubrir cuatro semanas.</p><p>Crucé el pronóstico de demanda con el stock de hoy y con los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para aprobar.</p><span class="chat-time">9:41 · Fuente: ERP y planillas</span></div>
                 <div class="chat-msg chat-out"><p>¿Y qué clientes dejaron de comprar?</p><span class="chat-time">9:42</span></div>
                 <div class="chat-msg"><p><strong>38 clientes</strong> que compraban todos los meses no compraron en septiembre. Te mando la lista por vendedor, ordenada por facturación.</p><span class="chat-time">9:42 · Fuente: ERP y CRM</span></div>
               </div>

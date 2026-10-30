@@ -241,6 +241,7 @@
     var tela = seccion.querySelector('[data-vz-wires]');
     var lienzo = seccion.querySelector('[data-vz-core]');
     var medio = seccion.querySelector('.vz-mid');
+    var tableta = seccion.querySelector('.vz-tab');
     var sistemas = slice(seccion.querySelectorAll('[data-vz-sys]'));
     var ctx = lienzo && lienzo.getContext ? lienzo.getContext('2d') : null;
     if (!red || !tela || !ctx || !medio || !tarjeta || sistemas.length !== 5) return;
@@ -352,8 +353,8 @@
 
       var n = medirCaja(medio);
       var nucleo = { x: n.x + n.w / 2, y: n.y + NH / 2 };
-      var r = medirCaja(tarjeta);
-      // La salida entra por abajo de la respuesta, que es el «un solo número»
+      // La salida entra por abajo de la tablet, que es donde se lee el «un solo número»
+      var r = medirCaja(tableta || tarjeta);
       var salida = { x: r.x + r.w / 2, y: r.y + r.h };
 
       var cajas = sistemas.map(medirCaja);

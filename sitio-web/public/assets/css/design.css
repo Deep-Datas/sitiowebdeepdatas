@@ -1569,7 +1569,7 @@ html:not(.motion) .phone-view:first-child {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
   align-items: center;
   column-gap: clamp(22px, 3vw, 52px);
   row-gap: clamp(24px, 4vh, 50px);
@@ -1593,9 +1593,206 @@ html:not(.motion) .phone-view:first-child {
   margin-bottom: clamp(22px, 3.4vh, 32px);
 }
 
+/* La escena de la derecha: una tablet horizontal en un soporte, sobre el escritorio.
+   Mismo lenguaje que el teléfono de más abajo —marco oscuro, filete por dentro y sombra
+   profunda—, pero sin proporción fija: el alto lo manda el contenido, que cambia con el
+   idioma, y así no hay nada que se corte. */
+.vz-escena {
+  position: relative;
+  padding-bottom: 74px;
+}
+
+.vz-tab {
+  position: relative;
+  z-index: 2;
+  padding: 13px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #2a2d36, #0b0d14 42%, #1b1e27);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 36px 60px -34px rgba(11, 18, 32, 0.62);
+  /* El reflejo en la mesa, donde el navegador lo soporta: se apaga enseguida, así no
+     compite con la escena ni con lo que viene abajo */
+  -webkit-box-reflect: below 10px linear-gradient(rgba(0, 0, 0, 0.16), transparent 22%);
+}
+
+/* La cámara, centrada en el borde de arriba */
+.vz-tab-cam {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #333842;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  transform: translateX(-50%);
+}
+
+/* El soporte: el cuello sale de atrás de la tablet y la base se apoya en la mesa.
+   Las medidas se cuentan desde el piso de la escena: la base en 18, el cuello de 30 a 80
+   —los últimos seis quedan tapados por la tablet, que apoya en 74— y el canto de la mesa
+   en 20, justo donde la base toca la superficie. */
+.vz-stand {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  z-index: 1;
+  width: 74px;
+  height: 50px;
+  border-radius: 0 0 9px 9px;
+  background: linear-gradient(100deg, #10141c, #272c38 42%, #0d1118);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform: translateX(-50%);
+}
+
+.vz-stand::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  width: 184px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2a303d, #11151e);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 6px 14px -6px rgba(11, 18, 32, 0.5);
+  transform: translateX(-50%);
+}
+
+/* El escritorio: una superficie traslúcida, sin bordes duros —se desvanece a los costados
+   y hacia abajo—, con el canto de la mesa y la sombra del contacto alrededor de la base. */
+.vz-desk {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 0;
+  /* Se estira a los costados hasta donde da el aire del bloque, nunca más: un porcentaje
+     solo se pasaría de largo justo cuando el contenedor llega a su ancho máximo */
+  width: min(124%, calc(100% + 2 * var(--gutter)));
+  /* Más alto que el apoyo: el canto del fondo queda tapado por la tablet y solo asoma a
+     los costados, que es como se ve una mesa desde un poco más arriba */
+  height: 104px;
+  background:
+    radial-gradient(ellipse 28% 34% at 50% 84%, rgba(11, 18, 32, 0.2), rgba(11, 18, 32, 0) 72%),
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--text) 7%, transparent),
+      color-mix(in srgb, var(--text) 3%, transparent) 46%,
+      transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  transform: translateX(-50%);
+}
+
+.vz-desk::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--hairline-strong) 26%, var(--hairline-strong) 74%, transparent);
+}
+
+.vz-tab-screen {
+  overflow: hidden;
+  padding: clamp(12px, 1.2vw, 17px);
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.vz-tab-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.vz-tab-app {
+  color: var(--fg-2);
+  font-weight: 600;
+}
+
+.vz-tab-bat {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.vz-tab-bat i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+/* Adentro de una pantalla las sombras se achican: lo de adentro no «flota» sobre la mesa */
+.vz-tab .vz-bar {
+  box-shadow: 0 10px 22px -16px rgba(11, 18, 32, 0.45);
+}
+
+.vz-tab .vz-answer {
+  box-shadow: 0 12px 26px -20px rgba(11, 18, 32, 0.4);
+}
+
+/* La pantalla es apaisada: la respuesta se reparte en dos columnas —el número a la
+   izquierda, el detalle a la derecha— y las fuentes cruzan abajo, enteras */
+@media (min-width: 901px) {
+  .vz-tab .vz-answer {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    grid-template-areas:
+      "q   txt"
+      "big txt"
+      "tag txt"
+      "src src";
+    align-items: start;
+    column-gap: clamp(14px, 1.6vw, 24px);
+  }
+
+  .vz-tab .vz-a-q { grid-area: q; }
+  .vz-tab .vz-a-big { grid-area: big; }
+  .vz-tab .vz-a-tag { grid-area: tag; }
+
+  .vz-tab .vz-a-txt {
+    grid-area: txt;
+    margin-top: 0;
+  }
+
+  /* La pregunta ya se lee arriba, en la barra: en la tarjeta se repetía. Se esconde a la
+     vista pero sigue ahí para los lectores de pantalla, porque la barra es decorativa. */
+  .vz-tab .vz-a-q {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Los dos botones entran en un renglón sin achicar la letra */
+  .vz-copy .btn-lg {
+    padding-inline: 19px;
+  }
+
+  .vz-tab .vz-a-src {
+    grid-area: src;
+  }
+
+  /* Las tres preguntas entran en un renglón */
+  .vz-tab .vz-chip {
+    min-height: 36px;
+    padding: 7px 13px;
+    font-size: 0.82rem;
+  }
+}
+
 .vz-demo {
   display: grid;
-  gap: 12px;
+  gap: 10px;
   align-content: start;
 }
 
@@ -1787,7 +1984,7 @@ html.motion .is-live .vz-mic::after {
 
 /* La respuesta */
 .vz-answer {
-  padding: 22px clamp(18px, 2.4vw, 26px);
+  padding: 18px clamp(16px, 2vw, 22px);
   border: 1px solid var(--hairline);
   border-radius: var(--radius);
   background: var(--surface);
@@ -2039,6 +2236,24 @@ html.motion .is-live .vz-mic::after {
   .vz-mic {
     width: 48px;
     height: 48px;
+  }
+
+  .vz-tab {
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .vz-tab-screen {
+    border-radius: 12px;
+  }
+
+  .vz-desk {
+    width: 100%;
+  }
+
+  .vz-desk::before {
+    right: 0;
+    left: -8%;
   }
 
   .vz-state {
