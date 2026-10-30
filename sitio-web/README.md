@@ -227,7 +227,11 @@ Las secciones claras (marfil) cuentan la historia del negocio y las «profundas�
 
 Una sección del inicio, en los dos idiomas, entre «El problema» y la de Vera. Es el argumento de por qué el sitio cambió de orden, contado sin pelearse con lo que la empresa sigue vendiendo.
 
-Dos paneles enfrentados (`.bi-grid` en `design.css`): a la izquierda **el ritual del portal** —pedir un usuario, acordarte de la contraseña, entrar, esperar el refresh, buscar el tablero y leer qué pasó ayer—, numerado y en gris; a la derecha **la pregunta de hoy**, en el formato en el que la gente la hace, con el avatar de Vera y la fuente del número. Cierra diciendo que **el tablero no desaparece**: sigue siendo el mejor lugar para explorar y para auditar un número, y lo seguimos construyendo. Lo que cambió es por dónde se empieza.
+Dos paneles enfrentados (`.bi-grid` en `design.css`): a la izquierda **el ritual del portal** —pedir un usuario, acordarte de la contraseña, entrar, esperar el refresh, buscar el tablero y leer qué pasó ayer—, numerado y en gris; a la derecha **la pregunta de hoy**, en el formato en el que la gente la hace, con el avatar de Vera y la fuente del número.
+
+Abajo, el corazón de la sección: **el cambio de tiempo verbal** (`.bi-tiempos`). Tres pares de la misma pregunta, con el verbo movido del pasado al futuro —«¿Cuánto vendimos el mes pasado?» → «¿Cuánto voy a vender el mes que viene?»—, la de ayer tachada con un trazo suave y la de hoy en tinta plena. Es el argumento entero sin un solo adjetivo. La flecha es decorativa: la relación la dicen el texto de arriba y un «pasa a ser» escondido en cada fila, para quien no ve.
+
+Cierra con que **el tablero no se va a ningún lado: cambió de lugar.** Dejó de ser por donde empezás y pasó a ser adonde vas cuando querés ver cómo se llegó al número. Importa decirlo: la única versión mala de esta idea es la que se pelea con lo que la empresa sigue vendiendo. **La página de ejemplos sostiene la misma línea** («El tablero es para explorar. Vera es para preguntar») y aprovecha que dos de los tres tableros de muestra ya no cuentan qué pasó.
 
 No se anima nada más allá del `.reveal` que ya traen todas las secciones: la idea tiene que entenderse quieta, que es como se lee sin animación y sin JavaScript. Los datos del chat son ficticios y la caja lo declara en su `aria-label`.
 
