@@ -2412,6 +2412,69 @@ html.motion .is-live .vz-mic::after {
   }
 }
 
+/* ---------- Vera: la marca de la asistente (src/vera.html) ----------
+   Dos fuentes que convergen en un solo punto: muchos sistemas, una sola respuesta. Los
+   rayos y los nodos toman el color del texto donde estén; el punto de abajo es el naranja
+   de la marca. En chico los nodos se rellenan y el trazo engorda, si no se empasta. */
+.vera-marca {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.vera-rayo {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 6.5;
+  stroke-linecap: round;
+}
+
+.vera-nodo {
+  fill: var(--surface);
+  stroke: currentcolor;
+  stroke-width: 3.5;
+}
+
+.vera-punto {
+  fill: var(--accent-600);
+}
+
+.vera-marca-sm .vera-rayo {
+  stroke-width: 8.5;
+}
+
+.vera-marca-sm .vera-nodo {
+  fill: currentcolor;
+  stroke: none;
+}
+
+/* El avatar para los chats: recorte circular, todo en blanco sobre el naranja */
+.vera-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-600);
+}
+
+.vera-avatar svg {
+  width: 62%;
+  height: 62%;
+}
+
+.vera-avatar .vera-rayo {
+  stroke: #fff;
+  stroke-width: 7.5;
+}
+
+.vera-avatar .vera-nodo,
+.vera-avatar .vera-punto {
+  fill: #fff;
+  stroke: none;
+}
+
 /* ---------- Cadena de cuatro pasos (inicio): Integrar, Curar, Modelar, Recomendar ----------
    Los pasos van uno al lado del otro, unidos por una línea que pasa por detrás de cada nodo.
    Con animación (html.motion), al entrar en pantalla la línea se dibuja, los nodos se encienden

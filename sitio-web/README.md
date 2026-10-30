@@ -210,9 +210,29 @@ Las secciones claras (marfil) cuentan la historia del negocio y las «profundas�
 - **Portadas**: Nosotros, Servicios y Contacto usan fotos de Unsplash (licencia de Unsplash, uso comercial sin atribución) recortadas en `src/assets/img/covers/`: equipo trabajando en una oficina luminosa ([Vitaly Gariev](https://unsplash.com/photos/CXxH2EiX760)) para Nosotros, un consultor ayudando frente a la pantalla en un loft ([Proxyclick](https://unsplash.com/photos/l90zRbWvCoE), espejada) para Servicios y una oficina abierta con luz natural ([Arlington Research](https://unsplash.com/photos/kN_kViDchA0), espejada) para Contacto. La persona o el grupo va a la derecha, porque el texto ocupa la izquierda.
 - **Carrusel de industrias** (`[data-rail]`), **teléfono con el asistente** (`[data-pin]`, los pasos cambian la pantalla), **brillo que sigue al cursor** (`.glow-card`), encabezado que pasa a claro sobre los paneles profundos (`[data-deep]`) y transición entre páginas en los navegadores que la soportan.
 
+## Vera, la asistente
+
+El asistente de IA tiene nombre, cara y voz propia: **Vera**. Su marca son **dos fuentes que convergen en un solo punto** —muchos sistemas, una sola respuesta verificada—, que es exactamente lo que cuenta el resto del sitio; el punto de abajo va en el naranja de la marca.
+
+- **`src/vera.html`** tiene el isotipo (`vera.marca()`), el avatar circular para los chats (`vera.avatar()`) y los textos de su sección en los dos idiomas. Los estilos, en `design.css` (`.vera-*`).
+- **Dónde aparece**: el nombre en la barra de estado de la tablet de la portada y en su texto; la sección del inicio «Conocé a Vera» (la que antes era «La IA en el bolsillo»), con su avatar en las tres pantallas del teléfono; el agente del recorrido de la pregunta (`src/flow.html`); la página de IA, que pasa a ser la de Vera; y el video del asistente.
+- **No se usa el logotipo «vera» en Sora** del manual de marca: sumar una sexta tipografía para una sola palabra no se paga sola, así que el nombre va en Geist, la tipografía de títulos del sitio. Si alguna vez se quiere el logotipo exacto, hay que sumar Sora y medir lo que pesa.
+- **En chico** (favicon, 20 px) el isotipo lleva `vera-marca-sm`: nodos rellenos y trazo más grueso, porque si no se empasta.
+
+## Imagen para compartir en redes
+
+La que se ve cuando alguien comparte un enlace del sitio (1200 × 630). **No es una captura del inicio**: se dibuja en `tools/og/portada.html` y se captura con `tools/og/render.cjs`.
+
+```
+python3 -m http.server 8077 --directory public &
+node tools/og/render.cjs
+```
+
+Escribe `src/assets/img/brand/og-image-claro.jpg` y `og-image.jpg` (el oscuro); `build.py` elige según `THEME`. El sitio tiene que estar servido en el 8077 por las tipografías y el logo. Para cambiar los textos se edita el HTML y se vuelve a correr: así la imagen no se queda vieja cuando cambia el mensaje del inicio, que es lo que pasaba antes.
+
 ## Video del asistente
 
-El encabezado de la página de IA muestra un video de 32 segundos del asistente respondiendo tres preguntas (ventas de ayer, clientes que dejaron de comprar y productos por quedarse sin stock), sin sonido y en bucle, con datos ficticios. No es una grabación: se renderiza cuadro a cuadro desde `tools/video/escena.html` (un guion determinista en el que cada instante se calcula a partir del tiempo) con `tools/video/render.cjs`, y `tools/video/codificar.sh` lo convierte a `src/assets/video/asistente-{es,en}.{mp4,webm}` más el cuadro de portada `.webp`. Para cambiar textos o cifras, editá `escena.html` y volvé a correr el script. Para reemplazarlo por una grabación real del asistente, exportala en 1280 × 800 (16:10), sin sonido, y guardala con los mismos nombres.
+El encabezado de la página de IA muestra un video de 32 segundos de Vera respondiendo tres preguntas (cuánto comprarle al proveedor, clientes que dejaron de comprar y productos por quedarse sin stock), sin sonido y en bucle, con datos ficticios. No es una grabación: se renderiza cuadro a cuadro desde `tools/video/escena.html` (un guion determinista en el que cada instante se calcula a partir del tiempo) con `tools/video/render.cjs`, y `tools/video/codificar.sh` lo convierte a `src/assets/video/asistente-{es,en}.{mp4,webm}` más el cuadro de portada `.webp`. Para cambiar textos o cifras, editá `escena.html` y volvé a correr el script. Para reemplazarlo por una grabación real del asistente, exportala en 1280 × 800 (16:10), sin sonido, y guardala con los mismos nombres.
 
 ## Animaciones al hacer scroll
 

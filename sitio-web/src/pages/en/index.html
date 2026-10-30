@@ -5,6 +5,7 @@
 {% import 'logos.html' as logos with context %}
 {% import 'flow.html' as flow with context %}
 {% import 'testimonials.html' as testimonials_ui with context %}
+{% import 'vera.html' as vera with context %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -186,18 +187,19 @@
   </div>
 </section>
 
-<!-- ======= AI IN YOUR POCKET ======= -->
+<!-- ======= VERA: THE ASSISTANT, IN THE APP THE TEAM ALREADY USES ======= -->
 <section class="section section-paper pin" data-pin aria-labelledby="bolsillo-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">AI for business</p>
-      <h2 id="bolsillo-title">Your data, in the app your team <em>already uses.</em></h2>
+      <p class="eyebrow">{{ vera.V.eyebrow }}</p>
+      <h2 id="bolsillo-title">{{ vera.V.title }} <em>{{ vera.V.title_em }}</em></h2>
+      <p class="lead">{{ vera.V.lead }}</p>
     </div>
     <div class="pin-grid">
       <div class="pin-steps">
         <div class="pin-step reveal" data-pin-step>
           <span class="label">01 · Questions</span>
-          <h3>Ask your data like you’d ask an analyst</h3>
+          <h3>Ask Vera the way you’d ask an analyst</h3>
           <p>Sales, inventory, customers and targets, answered instantly on WhatsApp or Teams, with the source behind every number.</p>
         </div>
         <div class="pin-step reveal" data-pin-step>
@@ -217,7 +219,7 @@
         <div class="phone" role="img" aria-label="Illustrative example: conversations with the AI assistant on WhatsApp (sample data)">
           <div class="phone-screen">
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>How much should I buy from my supplier for the forecast demand?</p><span class="chat-time">9:41</span></div>
                 <div class="chat-msg"><p><strong>820 cases</strong> across 18 products, to cover four weeks.</p><p>I crossed the demand forecast with today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready to approve.</p><span class="chat-time">9:41 · Source: ERP and spreadsheets</span></div>
@@ -227,7 +229,7 @@
               <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg"><span class="chat-tag">Inventory alert</span><p>Three products will run out of stock before October 15:</p>
                   <ul class="chat-list"><li><span>Classic Chips 400 g</span><span>3 days</span></li><li><span>Fries 1 kg</span><span>4 days</span></li><li><span>Mashed Potatoes 125 g</span><span>4 days</span></li></ul>
@@ -238,7 +240,7 @@
               <div class="chat-input"><span>Ask anything…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="wa-avatar">AI</span><div><strong>DeepDatas Assistant</strong><small>online</small></div></div>
+              <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>Hi! Send me 20 boxes of classic 400 g, 10 of fries and 5 of mashed potatoes for Thursday. Thanks</p><span class="chat-time">11:20 · El Sol Minimarket</span></div>
                 <div class="chat-msg"><span class="chat-tag chat-tag-ok">Order entered</span><p>Order <strong>48,213</strong> entered into the ERP for El Sol Minimarket: 3 items, delivery Thursday 10/10.</p><p>One thing to confirm: should the fries use the wholesale price list?</p><span class="chat-time">11:21</span></div>

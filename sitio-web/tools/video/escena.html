@@ -7,7 +7,11 @@
 html, body { margin: 0; }
 body { width: 1280px; height: 800px; overflow: hidden; background: #faf9f5; color: #0b1220; font-family: "Inter", sans-serif; font-size: 17px; line-height: 1.45; }
 .top { display: flex; align-items: center; gap: 12px; height: 56px; padding: 0 28px; background: #fff; border-bottom: 1px solid rgba(11,18,32,.08); font-size: 15px; color: #4b5466; }
-.top img { width: 20px; height: auto; }
+/* La marca de Vera: dos fuentes que convergen en un solo punto */
+.vera { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #e4581c; }
+.vera svg { width: 19px; height: 19px; }
+.vera line { stroke: #fff; stroke-width: 7.5; stroke-linecap: round; }
+.vera circle { fill: #fff; }
 .top b { color: #0b1220; font-weight: 650; }
 .top .dot { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-family: "Geist Mono", monospace; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #6b7280; }
 .top .dot i { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
@@ -27,7 +31,7 @@ body { width: 1280px; height: 800px; overflow: hidden; background: #faf9f5; colo
 .label { font-family: "Geist Mono", monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #c2410c; font-weight: 600; margin-bottom: 10px; }
 .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; }
 .big { font-family: "Geist", sans-serif; font-size: 58px; font-weight: 600; letter-spacing: -.045em; line-height: 1; font-variant-numeric: tabular-nums; }
-.up { display: inline-block; margin: 10px 0 12px; padding: 5px 12px; border-radius: 999px; background: #dcf5e4; color: #1e7a4c; font-size: 14px; font-weight: 650; }
+.up { display: inline-block; margin: 10px 0 12px; padding: 5px 12px; border-radius: 999px; background: #eef0f3; color: #3e4654; font-size: 14px; font-weight: 650; }
 .card p { margin: 0; color: #2a3345; font-size: 16px; }
 .bars { display: grid; gap: 10px; align-content: center; }
 .bars div { display: grid; grid-template-columns: 96px 1fr 60px; align-items: center; gap: 10px; font-size: 14px; }
@@ -58,19 +62,19 @@ tr.row { overflow: hidden; }
 .foot { position: absolute; right: 28px; bottom: 100px; color: #8590a3; font-size: 12px; font-family: "Geist Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
 </style></head>
 <body>
-<div class="top"><img src="/assets/img/brand/logo-mark.png" alt=""> <b data-i18n="brand"></b> <span data-i18n="by"></span><span class="dot"><i></i><span data-i18n="live"></span><span style="color:#aab2c0">·</span><span data-i18n="fict"></span></span></div>
+<div class="top"><span class="vera"><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="12" y1="13" x2="29.5" y2="44"></line><line x1="52" y1="13" x2="34.5" y2="44"></line><circle cx="12" cy="13" r="7"></circle><circle cx="52" cy="13" r="7"></circle><circle cx="32" cy="52" r="8.5"></circle></svg></span> <b data-i18n="brand"></b> <span data-i18n="by"></span><span class="dot"><i></i><span data-i18n="live"></span><span style="color:#aab2c0">·</span><span data-i18n="fict"></span></span></div>
 <div class="view"><div class="thread" id="thread"></div><div class="fade"></div></div>
 <div class="input" id="input"><span><span id="typed"></span><span class="caret" id="caret"></span><span class="ph" id="ph"></span></span><span class="send">→</span></div>
 <script>
 (function () {
   var L = {
     es: {
-      brand: 'Asistente de IA', by: 'con tus datos curados por DeepDatas', live: 'Datos de hoy 7:00', fict: 'Ejemplo con datos ficticios', user: 'MG', ph: 'Escribí tu consulta…',
-      greet: 'Hola, Martín. ¿Qué querés saber hoy de tu negocio?',
-      q1: '¿Cuánto vendimos ayer en la zona norte?',
-      s1: ['Consultando el ERP', 'Cruzando el CRM y las planillas', 'Revisando WhatsApp y correo'],
-      a1: { label: 'Ventas de ayer · Zona norte', big: '$ 1,28 M', up: '▲ 9 % contra el mismo día de la semana pasada', text: 'Tres distribuidores explican el crecimiento: Norte SA, Distrisur y La Rueda. Ya armé la lista de pedidos pendientes por vendedor.', chart: 'Por distribuidor · contra el objetivo', src: 'Fuentes: ERP, CRM, planillas y WhatsApp', src2: 'actualizado hoy a las 7:00',
-            bars: [['Norte SA', 92, '+14 %'], ['Distrisur', 74, '+9 %'], ['La Rueda', 61, '+6 %'], ['Pampa Dist.', 38, '+2 %'], ['Oeste SRL', 22, '−5 %', true]] },
+      brand: 'Vera', by: 'la asistente de DeepDatas, con tus datos curados', live: 'Datos de hoy 7:00', fict: 'Ejemplo con datos ficticios', user: 'MG', ph: 'Escribí tu consulta…',
+      greet: 'Hola, Martín. Soy Vera. ¿Qué querés saber hoy de tu negocio?',
+      q1: '¿Cuánto le compro a mi proveedor según la demanda estimada?',
+      s1: ['Leyendo el stock y las ventas del ERP', 'Cruzando el pronóstico de demanda', 'Buscando los plazos del proveedor en el correo'],
+      a1: { label: 'Compra sugerida · próximas 4 semanas', to: 820, unit: 'bultos', up: '18 productos · cubre 4 semanas', text: 'Crucé el pronóstico de demanda con el stock de hoy y con los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para aprobar.', chart: 'Por rubro · bultos a comprar', src: 'Fuentes: ERP, planillas y correo', src2: 'actualizado hoy a las 7:00',
+            bars: [['Snacks', 92, '310'], ['Congelados', 74, '190'], ['Almacén', 61, '160'], ['Bebidas', 38, '95'], ['Limpieza', 22, '65']] },
       chips: ['¿Qué clientes dejaron de comprar?', '¿Qué productos están por quedarse sin stock?', '¿Cómo viene el margen por canal?'],
       s2: ['Comparando las compras de los últimos tres meses'],
       a2: { label: 'Clientes en riesgo · Septiembre', text: '<b>38 clientes</b> que compraban todos los meses no compraron en septiembre. Representan <b>$ 420 mil</b> de venta mensual. Estos son los cinco más grandes:',
@@ -83,12 +87,12 @@ tr.row { overflow: hidden; }
             text: '¿Querés que prepare la orden de reposición para que la apruebe Compras?', src: 'Fuentes: ERP y pronóstico de demanda', src2: 'actualizado hoy a las 7:00' },
     },
     en: {
-      brand: 'AI assistant', by: 'with your data curated by DeepDatas', live: 'Data as of 7:00 AM', fict: 'Example with sample data', user: 'MG', ph: 'Ask anything…',
-      greet: 'Hi Martin. What would you like to know about your business today?',
-      q1: 'How much did we sell yesterday in the north region?',
-      s1: ['Querying the ERP', 'Cross-referencing the CRM and spreadsheets', 'Checking WhatsApp and email'],
-      a1: { label: 'Yesterday’s sales · North region', big: '$1.28M', up: '▲ 9% vs. the same day last week', text: 'Three distributors explain the growth: Norte SA, Distrisur and La Rueda. I already built the list of pending orders by sales rep.', chart: 'By distributor · vs. target', src: 'Sources: ERP, CRM, spreadsheets and WhatsApp', src2: 'updated today at 7:00 AM',
-            bars: [['Norte SA', 92, '+14%'], ['Distrisur', 74, '+9%'], ['La Rueda', 61, '+6%'], ['Pampa Dist.', 38, '+2%'], ['Oeste SRL', 22, '−5%', true]] },
+      brand: 'Vera', by: 'the DeepDatas assistant, with your curated data', live: 'Data as of 7:00 AM', fict: 'Example with sample data', user: 'MG', ph: 'Ask anything…',
+      greet: 'Hi Martin. I am Vera. What would you like to know about your business today?',
+      q1: 'How much should I buy from my supplier for the forecast demand?',
+      s1: ['Reading stock and sales from the ERP', 'Cross-referencing the demand forecast', 'Checking supplier lead times in email'],
+      a1: { label: 'Suggested purchase · next 4 weeks', to: 820, unit: 'cases', up: '18 products · covers 4 weeks', text: 'I crossed the demand forecast with today’s stock and the 12 days your supplier takes to deliver. The order is drafted, ready to approve.', chart: 'By category · cases to buy', src: 'Sources: ERP, spreadsheets and email', src2: 'updated today at 7:00 AM',
+            bars: [['Snacks', 92, '310'], ['Frozen', 74, '190'], ['Grocery', 61, '160'], ['Drinks', 38, '95'], ['Cleaning', 22, '65']] },
       chips: ['Which customers stopped buying?', 'Which products are about to run out?', 'How is margin by channel doing?'],
       s2: ['Comparing purchases over the last three months'],
       a2: { label: 'At-risk customers · September', text: '<b>38 customers</b> who used to buy every month didn’t buy in September. They represent <b>$420K</b> in monthly sales. These are the five largest:',
@@ -176,8 +180,8 @@ tr.row { overflow: hidden; }
         var s0 = b.at + 0.3;
         var kk = easeOut(ramp(s0, s0 + 1.3, t));
         var big = b.inner.querySelector('[data-big]');
-        var target = 1.28, val = target * kk;
-        big.textContent = lang === 'es' ? '$ ' + val.toFixed(2).replace('.', ',') + ' M' : '$' + val.toFixed(2) + 'M';
+        var A1 = T.a1, val = A1.to * kk;
+        big.textContent = Math.round(val).toLocaleString(lang === 'es' ? 'es-AR' : 'en-US') + ' ' + A1.unit;
         b.inner.querySelector('[data-up]').style.opacity = ramp(s0 + 1.1, s0 + 1.5, t).toFixed(3);
         b.inner.querySelectorAll('.bars i').forEach(function (bar, i) { bar.style.transform = 'scaleX(' + easeOut(ramp(s0 + 1.2 + i * 0.3, s0 + 1.9 + i * 0.3, t)).toFixed(3) + ')'; });
         b.inner.querySelector('[data-text]').style.opacity = ramp(s0 + 2.8, s0 + 3.4, t).toFixed(3);

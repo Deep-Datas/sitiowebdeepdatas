@@ -5,6 +5,7 @@
 {% import 'logos.html' as logos with context %}
 {% import 'flow.html' as flow with context %}
 {% import 'testimonials.html' as testimonials_ui with context %}
+{% import 'vera.html' as vera with context %}
 
 {% block head %}
   <script type="application/ld+json">
@@ -186,29 +187,30 @@
   </div>
 </section>
 
-<!-- ======= LA IA EN EL BOLSILLO ======= -->
+<!-- ======= VERA: LA ASISTENTE, EN LA APLICACIÓN QUE EL EQUIPO YA USA ======= -->
 <section class="section section-paper pin" data-pin aria-labelledby="bolsillo-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">IA para empresas</p>
-      <h2 id="bolsillo-title">Tus datos, en la aplicación que tu equipo <em>ya usa.</em></h2>
+      <p class="eyebrow">{{ vera.V.eyebrow }}</p>
+      <h2 id="bolsillo-title">{{ vera.V.title }} <em>{{ vera.V.title_em }}</em></h2>
+      <p class="lead">{{ vera.V.lead }}</p>
     </div>
     <div class="pin-grid">
       <div class="pin-steps">
         <div class="pin-step reveal" data-pin-step>
           <span class="label">01 · Consultas</span>
-          <h3>Preguntale a tus datos como a un analista</h3>
+          <h3>Preguntale a Vera como le preguntarías a un analista</h3>
           <p>Ventas, stock, clientes y objetivos, respondidos al instante desde WhatsApp o Teams, con la fuente de donde sale cada número.</p>
         </div>
         <div class="pin-step reveal" data-pin-step>
           <span class="label">02 · Alertas</span>
           <h3>Alertas que explican qué pasó</h3>
-          <p>El agente detecta desvíos en ventas, stock o cobranzas y avisa con contexto, antes de que el problema crezca.</p>
+          <p>Vera detecta desvíos en ventas, stock o cobranzas y avisa con contexto, antes de que el problema crezca.</p>
         </div>
         <div class="pin-step reveal" data-pin-step>
           <span class="label">03 · Automatización</span>
           <h3>Pedidos que se cargan solos</h3>
-          <p>Lee los pedidos que llegan por WhatsApp o email, los carga en tu sistema y pregunta solo cuando falta un dato.</p>
+          <p>Vera lee los pedidos que llegan por WhatsApp o email, los carga en tu sistema y pregunta solo cuando falta un dato.</p>
           <p class="section-foot"><a class="link-arrow" href="/inteligencia-artificial/">Ver todas las soluciones de IA {{ icon('arrow-right') }}</a></p>
         </div>
       </div>
@@ -217,7 +219,7 @@
         <div class="phone" role="img" aria-label="Ejemplo ilustrativo: conversaciones con el asistente de IA por WhatsApp (datos ficticios)">
           <div class="phone-screen">
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>¿Cuánto le compro a mi proveedor según la demanda estimada?</p><span class="chat-time">9:41</span></div>
                 <div class="chat-msg"><p><strong>820 bultos</strong> de 18 productos, para cubrir cuatro semanas.</p><p>Crucé el pronóstico de demanda con el stock de hoy y con los 12 días que tarda el proveedor en entregar. Te dejo la orden armada para aprobar.</p><span class="chat-time">9:41 · Fuente: ERP y planillas</span></div>
@@ -227,7 +229,7 @@
               <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg"><span class="chat-tag">Alerta de stock</span><p>Tres productos van a quedarse sin stock antes del 15 de octubre:</p>
                   <ul class="chat-list"><li><span>Papas clásicas 400 g</span><span>3 días</span></li><li><span>Bastones 1 kg</span><span>4 días</span></li><li><span>Puré 125 g</span><span>4 días</span></li></ul>
@@ -238,7 +240,7 @@
               <div class="chat-input"><span>Escribí tu consulta…</span><span class="chat-send">{{ icon('arrow-right') }}</span></div>
             </div>
             <div class="phone-view" data-pin-view>
-              <div class="chat-top"><span class="wa-avatar">IA</span><div><strong>Asistente DeepDatas</strong><small>en línea</small></div></div>
+              <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
               <div class="chat-body">
                 <div class="chat-msg chat-out"><p>Hola! Mandame 20 cajas de clásicas 400 g, 10 de bastones y 5 de puré para el jueves. Gracias</p><span class="chat-time">11:20 · Autoservicio El Sol</span></div>
                 <div class="chat-msg"><span class="chat-tag chat-tag-ok">Pedido cargado</span><p>Pedido <strong>48.213</strong> cargado en el ERP para Autoservicio El Sol: 3 ítems, entrega jueves 10/10.</p><p>Falta confirmar el precio de los bastones: ¿aplica la lista mayorista?</p><span class="chat-time">11:21</span></div>

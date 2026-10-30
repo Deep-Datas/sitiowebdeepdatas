@@ -1,0 +1,63 @@
+{#
+  Vera: la asistente de IA de DeepDatas.
+
+  Su marca son dos fuentes que convergen en un solo punto —muchos sistemas, una sola
+  respuesta verificada—, que es exactamente lo que cuenta el resto del sitio. El punto de
+  abajo va en el naranja de la marca.
+
+  Acá viven el isotipo y el avatar, y los textos de su sección en los dos idiomas. No se
+  usa el logotipo «vera» en Sora: sumar una sexta tipografía para una palabra no se paga
+  sola, así que el nombre va en la tipografía de títulos del sitio.
+
+  Se importa con contexto:  {% import 'vera.html' as vera with context %}
+#}
+
+{% macro marca(cls='') %}
+<svg class="vera-marca {{ cls }}" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+  <line class="vera-rayo" x1="12" y1="13" x2="29.5" y2="44"/>
+  <line class="vera-rayo" x1="52" y1="13" x2="34.5" y2="44"/>
+  <circle class="vera-nodo" cx="12" cy="13" r="6"/>
+  <circle class="vera-nodo" cx="52" cy="13" r="6"/>
+  <circle class="vera-punto" cx="32" cy="52" r="7.5"/>
+</svg>
+{% endmacro %}
+
+{# El avatar: recorte circular, sin nombre, para los chats. En chico los nodos van
+   rellenos y el trazo más grueso, si no se empasta. #}
+{% macro avatar(cls='') %}
+<span class="vera-avatar {{ cls }}" aria-hidden="true">
+  <svg viewBox="0 0 64 64" focusable="false">
+    <line class="vera-rayo" x1="12" y1="13" x2="29.5" y2="44"/>
+    <line class="vera-rayo" x1="52" y1="13" x2="34.5" y2="44"/>
+    <circle class="vera-nodo" cx="12" cy="13" r="7"/>
+    <circle class="vera-nodo" cx="52" cy="13" r="7"/>
+    <circle class="vera-punto" cx="32" cy="52" r="8.5"/>
+  </svg>
+</span>
+{% endmacro %}
+
+{% set COPY = {
+  'es': {
+    'eyebrow': 'Vera · asistente de IA',
+    'title': 'Conocé a Vera. Te responde con la verdad de', 'title_em': 'tus números.',
+    'lead': 'Vera es la asistente que trabaja con tus datos. Le escribís por WhatsApp o Teams como a una persona del equipo, y te dice qué pasó, por qué y qué hacer. Siempre con la fuente de cada número.',
+    'online': 'en línea',
+    'promesas': [
+      ('Preguntá como hablás', 'Ventas, stock, clientes y objetivos, sin tableros ni filtros.'),
+      ('Respuestas con fuente', 'Cada número dice de dónde sale: ERP, planillas o correo. Vera no inventa.'),
+      ('Se anticipa y actúa', 'Avisa antes de un quiebre de stock, arma la orden de compra y carga los pedidos que llegan por WhatsApp.'),
+    ],
+  },
+  'en': {
+    'eyebrow': 'Vera · AI assistant',
+    'title': 'Meet Vera. Answers with the truth in', 'title_em': 'your numbers.',
+    'lead': 'Vera is the assistant that works with your data. You write to Vera on WhatsApp or Teams the way you would to someone on the team, and get what happened, why, and what to do. Always with the source of every number.',
+    'online': 'online',
+    'promesas': [
+      ('Ask the way you talk', 'Sales, stock, customers and targets, with no dashboards and no filters.'),
+      ('Answers with a source', 'Every number says where it comes from: the ERP, a spreadsheet or an email. Vera does not make things up.'),
+      ('Anticipates, and acts', 'Warns before a stockout, drafts the purchase order and loads the orders that arrive on WhatsApp.'),
+    ],
+  },
+} %}
+{% set V = COPY[lang] %}
