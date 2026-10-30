@@ -37,13 +37,13 @@ SITE_URL = 'https://deepdatas.com'
 PAGES = [
     {
         'template': 'index.html', 'key': 'inicio', 'path': '/', 'nav': 'inicio',
-        'title': 'Datos e IA para distribuidoras, pymes y consumo masivo',
-        'description': 'Integramos tu ERP, tus planillas y las ventas de tus distribuidores en tableros, pronósticos y agentes de IA, sin que necesites un equipo de datos propio.',
+        'title': 'Vera: datos e IA para distribuidoras y pymes',
+        'description': 'Vera es la asistente de IA que responde con los datos de tu empresa. Integramos tu ERP, tus planillas y tus ventas para que no invente ningún número.',
     },
     {
         'template': 'servicios.html', 'key': 'servicios', 'path': '/servicios/', 'nav': 'servicios',
         'title': 'Servicios | DeepDatas',
-        'description': 'Ingeniería de datos, calidad, analítica avanzada con modelos predictivos y tableros en Power BI. Un solo equipo para todo el ciclo de vida de tus datos.',
+        'description': 'Ingeniería de datos, calidad, analítica con modelos predictivos y tableros en Power BI: el trabajo que sostiene a Vera y a los números de tu empresa.',
     },
     {
         'template': 'inteligencia-artificial.html', 'key': 'ia', 'path': '/inteligencia-artificial/', 'nav': 'ia',
@@ -63,7 +63,7 @@ PAGES = [
     {
         'template': 'autoevaluacion.html', 'key': 'autoevaluacion', 'path': '/autoevaluacion/', 'nav': 'autoevaluacion',
         'title': '¿Tus datos están listos para la IA? | DeepDatas',
-        'description': 'Seis preguntas y dos minutos para saber en qué punto están los datos de tu empresa, qué priorizar y cómo prepararte para aplicar inteligencia artificial.',
+        'description': 'Seis preguntas y dos minutos para saber en qué punto están los datos de tu empresa, qué priorizar y qué podría responderte hoy Vera, nuestra asistente de IA.',
     },
     {
         'template': 'casos.html', 'key': 'casos', 'path': '/casos/', 'nav': 'casos', 'requires_cases': True,
@@ -78,7 +78,7 @@ PAGES = [
     {
         'template': 'nosotros.html', 'key': 'nosotros', 'path': '/nosotros/', 'nav': 'nosotros',
         'title': 'Nosotros | DeepDatas',
-        'description': 'Somos un equipo de especialistas en datos con más de 10 años de experiencia, con base en Buenos Aires, Argentina.',
+        'description': 'Somos un equipo de especialistas en datos con más de 10 años de experiencia, con base en Buenos Aires, y los que construimos a Vera y respondemos por ella.',
     },
     {
         'template': 'contacto.html', 'key': 'contacto', 'path': '/contacto/', 'nav': 'contacto',
@@ -106,13 +106,13 @@ PAGES = [
 PAGES_EN = [
     {
         'template': 'en/index.html', 'key': 'inicio', 'nav': 'inicio',
-        'title': 'Data and AI for distributors, SMEs and consumer goods',
-        'description': 'We turn your ERP, spreadsheets and distributor sales into dashboards, forecasts and AI agents, with no in-house data team required.',
+        'title': 'Vera: data and AI for distributors and SMEs',
+        'description': 'Vera is the AI assistant that answers with your company data. We turn your ERP, spreadsheets and distributor sales into numbers Vera will not make up.',
     },
     {
         'template': 'en/servicios.html', 'key': 'servicios', 'nav': 'servicios',
         'title': 'Services | DeepDatas',
-        'description': 'Data engineering, data quality and preparation, advanced analytics with predictive models and Power BI dashboards. One team for the whole data lifecycle.',
+        'description': 'Data engineering, data quality, advanced analytics with predictive models and Power BI dashboards: the work that holds up Vera and your numbers.',
     },
     {
         'template': 'en/inteligencia-artificial.html', 'key': 'ia', 'nav': 'ia',
@@ -127,7 +127,7 @@ PAGES_EN = [
     {
         'template': 'en/autoevaluacion.html', 'key': 'autoevaluacion', 'nav': 'autoevaluacion',
         'title': 'AI readiness check: is your data ready for AI? | DeepDatas',
-        'description': 'Six questions and two minutes to find out where your company’s data stands, what to prioritize and how to get ready to apply artificial intelligence.',
+        'description': 'Six questions and two minutes to find out where your company’s data stands, what to prioritize and what Vera, our AI assistant, could already answer.',
     },
     {
         'template': 'en/casos.html', 'key': 'casos', 'nav': 'casos', 'requires_cases': True,
@@ -142,7 +142,7 @@ PAGES_EN = [
     {
         'template': 'en/nosotros.html', 'key': 'nosotros', 'nav': 'nosotros',
         'title': 'About us | DeepDatas',
-        'description': 'A team of data specialists with more than 10 years of experience, based in Buenos Aires, Argentina.',
+        'description': 'A team of data specialists with more than 10 years of experience, based in Buenos Aires: the people who built Vera and stand behind every answer.',
     },
     {
         'template': 'en/contacto.html', 'key': 'contacto', 'nav': 'contacto',
@@ -350,9 +350,9 @@ WHATSAPP_MESSAGES = {
     'servicios': 'Hola, vengo de la web de DeepDatas y quiero consultar por sus servicios.',
     'diagnostico': 'Hola, vengo de la web de DeepDatas y me interesa el diagnóstico de datos.',
     'casos': 'Hola, vengo de la web de DeepDatas, vi sus casos de éxito y quiero consultar por un proyecto.',
-    'ia': 'Hola, vengo de la web de DeepDatas y me interesa aplicar inteligencia artificial en mi empresa.',
+    'ia': 'Hola, vengo de la web de DeepDatas y me interesa Vera para mi empresa.',
     'tablero-ventas': 'Hola, vengo de la web de DeepDatas y me interesa el tablero de ventas y stock.',
-    'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos.',
+    'autoevaluacion': 'Hola, hice la autoevaluación de datos en la web de DeepDatas y quiero consultar por los próximos pasos y por Vera.',
     'ejemplos': 'Hola, vengo de la web de DeepDatas, vi los tableros de ejemplo y quiero consultar por uno para mi empresa.',
     'ind-consumo': 'Hola, vengo de la web de DeepDatas. Trabajo en una empresa de consumo masivo y quiero hacer una consulta.',
     'ind-distribucion': 'Hola, vengo de la web de DeepDatas. Trabajo en una distribuidora y quiero hacer una consulta.',
@@ -368,7 +368,7 @@ WHATSAPP_MESSAGES_EN = {
     'servicios': "Hi, I'm coming from the DeepDatas website and I'd like to ask about your services.",
     'diagnostico': "Hi, I'm coming from the DeepDatas website and I'm interested in the data assessment.",
     'casos': "Hi, I'm coming from the DeepDatas website. I saw your case studies and I'd like to discuss a project.",
-    'ia': "Hi, I'm coming from the DeepDatas website and I'm interested in applying AI in my company.",
+    'ia': "Hi, I'm coming from the DeepDatas website and I'm interested in Vera for my company.",
     'autoevaluacion': "Hi, I took the AI readiness check on the DeepDatas website and I'd like to discuss next steps.",
     'ejemplos': "Hi, I'm coming from the DeepDatas website. I saw the sample dashboards and I'd like to ask about one for my company.",
     'ind-consumo': "Hi, I'm coming from the DeepDatas website. I work at a consumer goods company and I have a question.",

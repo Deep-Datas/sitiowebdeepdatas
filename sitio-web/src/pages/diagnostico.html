@@ -13,7 +13,7 @@
 {% set opportunities = [
   ('Unificar clientes entre CRM y ERP', 'Impacto alto', 'Esfuerzo bajo'),
   ('Registrar los pedidos de WhatsApp', 'Impacto alto', 'Esfuerzo medio'),
-  ('Agente de IA para consultas de ventas', 'Impacto alto', 'Requiere 1 y 2'),
+  ('Vera para consultas de ventas', 'Impacto alto', 'Requiere 1 y 2'),
 ] %}
 
 {% set deliverables = [
@@ -21,8 +21,8 @@
    'Qué fuentes tenés (sistemas, planillas, mensajes, archivos), qué información guarda cada una y cómo circula entre áreas.'),
   ('shield-check', 'Evaluación de calidad',
    'Un puntaje por fuente: completitud, duplicados, consistencia y actualización. Sabés exactamente dónde están los problemas.'),
-  ('robot', 'Preparación para IA',
-   'Qué casos de inteligencia artificial son viables hoy con tus datos, cuáles no todavía y qué falta para llegar.'),
+  ('robot', '¿Están tus datos listos para Vera?',
+   'Qué preguntas podría responder Vera hoy con tus datos, cuáles no todavía y qué falta para llegar a cada una.'),
   ('compass', 'Hoja de ruta priorizada',
    'Las oportunidades de mayor impacto, ordenadas por beneficio y esfuerzo, con plazos estimados para cada una.'),
 ] %}
@@ -41,7 +41,7 @@
 {% set fit = [
   'Tenés información repartida entre sistemas, planillas y mensajes.',
   'Los reportes llevan días de trabajo manual y no siempre coinciden.',
-  'Querés aplicar inteligencia artificial pero no sabés por dónde empezar.',
+  'Querés poner a Vera a responder, pero no sabés si tus datos alcanzan.',
   'Necesitás justificar una inversión en datos con un plan concreto.',
 ] %}
 
@@ -61,7 +61,7 @@
   ('Mis datos están en Excel y en WhatsApp, ¿sirve igual?',
    'Sí, es el caso más común. El diagnóstico justamente identifica qué información vale la pena rescatar de esas fuentes y cómo integrarla.'),
   ('¿Sirve si todavía no pensamos en usar IA?',
-   'Sí. Los mismos datos curados que necesita un agente de IA son los que hacen confiables a tus tableros e informes. La hoja de ruta incluye las dos cosas.'),
+   'Sí. Los mismos datos curados que necesita Vera son los que hacen confiables a tus tableros e informes. La hoja de ruta incluye las dos cosas, y si más adelante querés la asistente, el trabajo ya está hecho.'),
 ] %}
 
 {# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
@@ -74,7 +74,7 @@
     <div>
       <p class="eyebrow">Diagnóstico de datos</p>
       <h1>En dos semanas sabés qué datos tenés, qué falta y <em>por dónde empezar.</em></h1>
-      <p class="lead">Relevamos tus fuentes, medimos su calidad y te entregamos un plan con las oportunidades de mayor impacto. Sin compromiso de continuar.</p>
+      <p class="lead">Relevamos tus fuentes, medimos su calidad y te entregamos un plan con las oportunidades de mayor impacto, incluidas las preguntas que Vera ya podría responder en tu empresa. Sin compromiso de continuar.</p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="#pedir">Pedir mi diagnóstico {{ icon('arrow-right') }}</a>
         <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener noreferrer">{{ icon('whatsapp') }} o consultanos por WhatsApp</a>

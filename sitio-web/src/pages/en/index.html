@@ -27,7 +27,7 @@
       "addressCountry": "AR"
     },
     "areaServed": "AR",
-    "knowsAbout": ["Business intelligence", "Data engineering", "Data science", "Machine Learning", "Power BI"]
+    "knowsAbout": ["AI assistants", "Business intelligence", "Data engineering", "Data science", "Machine Learning", "Power BI"]
   }
   </script>
 {% endblock %}
@@ -42,11 +42,11 @@
   <div class="container">
     <div class="bridge reveal">
       <p class="eyebrow">What you just saw</p>
-      <h2 id="puente-title">This is how AI works when your data <em>is ready.</em></h2>
-      <p class="lead">Behind every answer are four steps we handle for you. Those steps are our services.</p>
+      <h2 id="puente-title">That was Vera. The answers hold up because <em>we organized your data first.</em></h2>
+      <p class="lead">Behind every answer are four steps we handle for you. Those steps are our services, and they are what keeps Vera from making things up.</p>
       <div class="actions">
-        <a class="btn btn-primary btn-lg" {{ booking_link() }}>Book a call {{ icon('arrow-right') }}</a>
-        <a class="btn btn-secondary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment</a>
+        <a class="btn btn-primary btn-lg" href="{{ url('ia') }}">Meet Vera {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" {{ booking_link() }}>Book a call</a>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
         ('01', 'Data engineering', 'Integrate', 'We connect your ERP, CRM, spreadsheets and APIs into a single model that updates itself.', url('servicios') ~ '#ingenieria', 'cubo'),
         ('02', 'Data quality', 'Curate', 'We clean your data, unify codes and validate every number against business rules.', url('servicios') ~ '#calidad', 'embudo'),
         ('03', 'Analytics', 'Model', 'KPIs built around your business and models that anticipate demand and customer churn.', url('servicios') ~ '#analitica', 'barras'),
-        ('04', 'Dashboards and AI', 'Recommend', 'Dashboards and AI agents that tell you what happened, why, and what to do next.', url('ia'), 'esfera'),
+        ('04', 'Vera and the dashboards', 'Recommend', 'Vera tells you what happened, why, and what to do next, with the dashboards alongside for the detail.', url('ia'), 'esfera'),
       ] %}
     {# Cadena de cuatro pasos, uno al lado del otro: la línea se enciende y un flujo de datos la recorre (design.css) #}
     <div class="chain reveal">
@@ -102,13 +102,13 @@
     <div class="core-sticky">
       <canvas class="core-canvas" data-core data-labels="ERP|CRM|Spreadsheets|WhatsApp|Email" aria-hidden="true"></canvas>
       <div class="core-copy">
-        <p class="eyebrow">Data ready for AI</p>
+        <p class="eyebrow">The data Vera needs</p>
         <div class="core-text">
-        <h2 class="core-title" id="core-title">From scattered data to an AI agent that answers <em>with precision.</em></h2>
+        <h2 class="core-title" id="core-title">From scattered data to Vera, answering <em>with precision.</em></h2>
         <div class="core-captions">
           <p class="core-caption" data-at="0.12">Today your data is <strong>scattered</strong> across systems, spreadsheets and messages.</p>
           <p class="core-caption" data-at="0.42">We bring it together, clean it and <strong>organize it</strong> with business rules.</p>
-          <p class="core-caption" data-at="0.68">The result: <strong>a single reliable source</strong> that an AI can use without getting it wrong.</p>
+          <p class="core-caption" data-at="0.68">The result: <strong>a single reliable source</strong> that Vera can use without getting it wrong.</p>
         </div>
         </div>
       </div>
@@ -117,14 +117,14 @@
   <div class="container core-diagram">
     <div class="section-head reveal">
       <p class="eyebrow">Your data’s journey</p>
-      <h2>AI is only as good as the data it runs on</h2>
-      <p>We bring together the information now spread across systems, spreadsheets and messages, curate it and organize it so an AI agent can use it with confidence. Pick a question and watch the journey.</p>
+      <h2>Vera is only as good as the data behind each answer</h2>
+      <p>We bring together the information now spread across systems, spreadsheets and messages, curate it and organize it so Vera can use it with confidence. Pick a question and watch the journey.</p>
     </div>
     {{ flow.scene() }}
     <div class="pl-cta">
-      <p>Want to know how ready your data is?</p>
+      <p>Want to know how ready your data is for Vera?</p>
       <a class="btn btn-primary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment {{ icon('arrow-right') }}</a>
-      <a class="btn btn-secondary btn-lg" href="{{ url('ia') }}">See AI solutions</a>
+      <a class="btn btn-secondary btn-lg" href="{{ url('ia') }}">Meet Vera</a>
     </div>
   </div>
 </section>
@@ -136,7 +136,7 @@
       <div>
         <p class="eyebrow">Industries</p>
         <h2 id="industrias-title">For companies that grew faster than <em>their systems.</em></h2>
-        <p>Distributors and small and midsize companies that run on their ERP, Excel and WhatsApp, without an in-house data team. We know the KPIs and typical problems of each sector.</p>
+        <p>Distributors and small and midsize companies that run on their ERP, Excel and WhatsApp, without an in-house data team. We know the KPIs and typical problems of each sector, and Vera arrives already knowing the questions they ask every day.</p>
       </div>
     </div>
     <div class="rail" data-rail>
@@ -181,18 +181,18 @@
       <article class="pain-card glow-card reveal">
         <h3>Flying blind</h3>
         <p>Without clear KPIs, it’s hard to tell which customer, product or channel is underperforming, and why.</p>
-        <p class="pain-answer">{{ icon('arrow-right') }} Alerts and recommendations when something goes off track.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Vera flags it, explains what happened and proposes what to do.</p>
       </article>
     </div>
   </div>
 </section>
 
 <!-- ======= VERA: THE ASSISTANT, IN THE APP THE TEAM ALREADY USES ======= -->
-<section class="section section-paper pin" data-pin aria-labelledby="bolsillo-title">
+<section class="section section-paper pin" data-pin aria-labelledby="vera-title">
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">{{ vera.V.eyebrow }}</p>
-      <h2 id="bolsillo-title">{{ vera.V.title }} <em>{{ vera.V.title_em }}</em></h2>
+      <h2 id="vera-title">{{ vera.V.title }} <em>{{ vera.V.title_em }}</em></h2>
       <p class="lead">{{ vera.V.lead }}</p>
     </div>
     <div class="pin-grid">
@@ -205,18 +205,18 @@
         <div class="pin-step reveal" data-pin-step>
           <span class="label">02 · Alerts</span>
           <h3>Alerts that explain what happened</h3>
-          <p>The agent spots deviations in sales, inventory or collections and warns you with context, before the problem grows.</p>
+          <p>Vera spots deviations in sales, inventory or collections and warns you with context, before the problem grows.</p>
         </div>
         <div class="pin-step reveal" data-pin-step>
           <span class="label">03 · Automation</span>
           <h3>Orders that enter themselves</h3>
           <p>It reads the orders that arrive on WhatsApp or email, enters them into your system and asks only when something is missing.</p>
-          <p class="section-foot"><a class="link-arrow" href="{{ url('ia') }}">See all AI solutions {{ icon('arrow-right') }}</a></p>
+          <p class="section-foot"><a class="link-arrow" href="{{ url('ia') }}">See everything Vera does {{ icon('arrow-right') }}</a></p>
         </div>
       </div>
       <div class="pin-stage reveal">
         <div class="phone-halo" aria-hidden="true"></div>
-        <div class="phone" role="img" aria-label="Illustrative example: conversations with the AI assistant on WhatsApp (sample data)">
+        <div class="phone" role="img" aria-label="Illustrative example: conversations with Vera on WhatsApp (sample data)">
           <div class="phone-screen">
             <div class="phone-view" data-pin-view>
               <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
@@ -311,8 +311,8 @@
       <h2 id="porque-title">Your data, always <em>under your control.</em></h2>
     </div>
     <dl class="reasons-list reveal">
-      <div><dt>Tailored solutions</dt><dd>We work with the platforms you already use, without locking you into a single vendor.</dd></div>
-      <div><dt>Confidentiality</dt><dd>Read-only access and role-based permissions: each person sees only what they’re meant to see.</dd></div>
+      <div><dt>Tailored solutions</dt><dd>Vera and the dashboards work with the platforms you already use, without locking you into a single vendor.</dd></div>
+      <div><dt>Confidentiality</dt><dd>Read-only access and role-based permissions: each person — and Vera — sees only what they’re meant to see.</dd></div>
       <div><dt>Scalable from day one</dt><dd>We design every solution to grow with your company, so you never have to rebuild it.</dd></div>
     </dl>
   </div>

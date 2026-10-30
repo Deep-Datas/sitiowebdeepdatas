@@ -13,7 +13,7 @@
 {% set opportunities = [
   ('Unify customers across CRM and ERP', 'High impact', 'Low effort'),
   ('Capture WhatsApp orders', 'High impact', 'Medium effort'),
-  ('AI agent for sales questions', 'High impact', 'Requires 1 and 2'),
+  ('Vera for sales questions', 'High impact', 'Requires 1 and 2'),
 ] %}
 
 {% set deliverables = [
@@ -21,8 +21,8 @@
    'Which sources you have (systems, spreadsheets, messages, files), what information each one holds and how it flows between departments.'),
   ('shield-check', 'Quality assessment',
    'A score for each source: completeness, duplicates, consistency and freshness. You know exactly where the problems are.'),
-  ('robot', 'AI readiness',
-   'Which artificial intelligence use cases are feasible today with your data, which ones aren’t yet and what it takes to get there.'),
+  ('robot', 'Is your data ready for Vera?',
+   'Which questions Vera could answer today with your data, which ones not yet and what it takes to get to each of them.'),
   ('compass', 'Prioritized roadmap',
    'The highest-impact opportunities, ranked by benefit and effort, with estimated timelines for each one.'),
 ] %}
@@ -41,7 +41,7 @@
 {% set fit = [
   'Your information is spread across systems, spreadsheets and messages.',
   'Reports take days of manual work and don’t always match.',
-  'You want to apply artificial intelligence but don’t know where to start.',
+  'You want to put Vera to work answering, but you don’t know whether your data is enough.',
   'You need to justify an investment in data with a concrete plan.',
 ] %}
 
@@ -61,7 +61,7 @@
   ('My data lives in Excel and WhatsApp. Does that work?',
    'Yes, that’s the most common case. The assessment identifies exactly which information is worth rescuing from those sources and how to integrate it.'),
   ('Is it useful if we’re not thinking about AI yet?',
-   'Yes. The same curated data an AI agent needs is what makes your dashboards and reports reliable. The roadmap covers both.'),
+   'Yes. The same curated data Vera needs is what makes your dashboards and reports reliable. The roadmap covers both, and if you want the assistant later on, the work is already done.'),
 ] %}
 
 {# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
@@ -74,7 +74,7 @@
     <div>
       <p class="eyebrow">Data assessment</p>
       <h1>In two weeks, you’ll know what data you have, what’s missing and <em>where to start.</em></h1>
-      <p class="lead">We review your sources, measure their quality and deliver a plan with the highest-impact opportunities. No commitment to continue.</p>
+      <p class="lead">We review your sources, measure their quality and deliver a plan with the highest-impact opportunities, including the questions Vera could already answer at your company. No commitment to continue.</p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="#pedir">Request my assessment {{ icon('arrow-right') }}</a>
         <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener noreferrer">{{ icon('whatsapp') }} or ask us on WhatsApp</a>

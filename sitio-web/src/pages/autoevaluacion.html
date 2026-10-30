@@ -27,26 +27,26 @@
   {'id': 'ia', 'area': 'Inteligencia artificial',
    'q': '¿Qué uso le dan hoy a la inteligencia artificial?',
    'options': ['Ninguno todavía', 'Algunas personas usan herramientas como ChatGPT por su cuenta', 'Probamos algún piloto', 'Tenemos casos en uso con datos de la empresa'],
-   'tip': 'Elegir un caso acotado y de impacto (consultas de ventas, alertas o pedidos) y probarlo con datos curados.'},
+   'tip': 'Elegir un caso acotado y de impacto —consultas de ventas, alertas o carga de pedidos— y probarlo con Vera sobre datos curados.'},
 ] %}
 
 {% set levels = [
   {'from': 0, 'to': 34, 'name': 'Datos dispersos',
-   'text': 'Hoy la información está repartida y cuesta confiar en los números. Antes de pensar en inteligencia artificial conviene ordenar la base: integrar las fuentes principales y definir los indicadores clave. Es el punto de partida más común y donde un diagnóstico rinde más.'},
+   'text': 'Hoy la información está repartida y cuesta confiar en los números. Antes de sumar a Vera conviene ordenar la base: integrar las fuentes principales y definir los indicadores clave. Es el punto de partida más común y donde un diagnóstico rinde más.'},
   {'from': 35, 'to': 59, 'name': 'Base en construcción',
-   'text': 'Ya tienen sistemas y algunos reportes, pero buena parte del trabajo sigue siendo manual y los números no siempre coinciden. Automatizar la integración y la calidad de los datos les va a liberar horas y a preparar el terreno para la IA.'},
+   'text': 'Ya tienen sistemas y algunos reportes, pero buena parte del trabajo sigue siendo manual y los números no siempre coinciden. Automatizar la integración y la calidad de los datos les va a liberar horas y a dejar el terreno listo para Vera.'},
   {'from': 60, 'to': 84, 'name': 'Listos para escalar',
-   'text': 'Tienen una base sólida. El próximo salto es pasar de mirar lo que pasó a anticiparse: modelos de demanda, alertas y un primer agente de IA sobre datos curados.'},
-  {'from': 85, 'to': 100, 'name': 'Listos para la IA',
-   'text': 'Sus datos están integrados, son confiables y se usan para decidir. Pueden aplicar agentes de IA en procesos concretos, con un impacto medible desde el primer piloto.'},
+   'text': 'Tienen una base sólida. El próximo salto es pasar de mirar lo que pasó a anticiparse: modelos de demanda, alertas y un primer piloto de Vera sobre las fuentes que ya están curadas.'},
+  {'from': 85, 'to': 100, 'name': 'Listos para Vera',
+   'text': 'Sus datos están integrados, son confiables y se usan para decidir. Vera puede entrar en procesos concretos, con un impacto medible desde el primer piloto.'},
 ] %}
 
 {% block content %}
 <section class="page-hero">
   <div class="container">
     <p class="eyebrow">Autoevaluación · 2 minutos</p>
-    <h1>¿Qué tan listos están tus datos <em>para la IA?</em></h1>
-    <p class="lead">Respondé seis preguntas y te mostramos en qué punto está tu empresa y por dónde conviene empezar. El resultado es inmediato y no hace falta dejar tus datos.</p>
+    <h1>¿Qué tan listos están tus datos <em>para Vera?</em></h1>
+    <p class="lead">Respondé seis preguntas y te mostramos en qué punto está tu empresa, qué podría responderte hoy Vera —nuestra asistente de IA— y por dónde conviene empezar. El resultado es inmediato y no hace falta dejar tus datos.</p>
   </div>
 </section>
 
@@ -111,7 +111,7 @@
         <li data-tip="{{ q.id }}" hidden><strong>{{ q.area }}.</strong> {{ q.tip }}</li>
         {% endfor %}
       </ol>
-      <p class="quiz-all-good" data-quiz-all-good hidden>Tus respuestas muestran una base muy sólida en todas las áreas. El próximo paso es elegir el caso de IA con más impacto para tu negocio.</p>
+      <p class="quiz-all-good" data-quiz-all-good hidden>Tus respuestas muestran una base muy sólida en todas las áreas. El próximo paso es elegir con qué preguntas arranca Vera en tu empresa.</p>
 
       <div class="actions quiz-result-actions">
         <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>

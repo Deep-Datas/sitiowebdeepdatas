@@ -27,26 +27,26 @@
   {'id': 'ia', 'area': 'Artificial intelligence',
    'q': 'How do you use artificial intelligence today?',
    'options': ['We don’t use it yet', 'Some people use tools like ChatGPT on their own', 'We’ve tried a pilot', 'We have use cases running on company data'],
-   'tip': 'Choose a focused, high-impact use case (sales questions, alerts or orders) and test it with curated data.'},
+   'tip': 'Choose a focused, high-impact use case — sales questions, alerts or order entry — and test it with Vera on curated data.'},
 ] %}
 
 {% set levels = [
   {'from': 0, 'to': 34, 'name': 'Scattered data',
-   'text': 'Today your information is spread out and it’s hard to trust the numbers. Before thinking about artificial intelligence, it pays to build the foundation: integrate your main sources and define your key KPIs. It’s the most common starting point, and the one where an assessment pays off the most.'},
+   'text': 'Today your information is spread out and it’s hard to trust the numbers. Before bringing Vera in, it pays to build the foundation: integrate your main sources and define your key KPIs. It’s the most common starting point, and the one where an assessment pays off the most.'},
   {'from': 35, 'to': 59, 'name': 'Foundation under construction',
-   'text': 'You already have systems and some reports, but much of the work is still manual and the numbers don’t always match. Automating data integration and quality will free up hours and prepare the ground for AI.'},
+   'text': 'You already have systems and some reports, but much of the work is still manual and the numbers don’t always match. Automating data integration and quality will free up hours and get the ground ready for Vera.'},
   {'from': 60, 'to': 84, 'name': 'Ready to scale',
-   'text': 'You have a solid foundation. The next leap is moving from looking back to looking ahead: demand models, alerts and a first AI agent running on curated data.'},
-  {'from': 85, 'to': 100, 'name': 'Ready for AI',
-   'text': 'Your data is integrated, reliable and used to make decisions. You can apply AI agents to specific processes, with measurable impact from the very first pilot.'},
+   'text': 'You have a solid foundation. The next leap is moving from looking back to looking ahead: demand models, alerts and a first Vera pilot on the sources that are already curated.'},
+  {'from': 85, 'to': 100, 'name': 'Ready for Vera',
+   'text': 'Your data is integrated, reliable and used to make decisions. Vera can step into specific processes, with measurable impact from the very first pilot.'},
 ] %}
 
 {% block content %}
 <section class="page-hero">
   <div class="container">
     <p class="eyebrow">AI readiness check · 2 minutes</p>
-    <h1>How ready is your data <em>for AI?</em></h1>
-    <p class="lead">Answer six questions and we’ll show you where your company stands and where to start. You get the result instantly, with no need to leave your details.</p>
+    <h1>How ready is your data <em>for Vera?</em></h1>
+    <p class="lead">Answer six questions and we’ll show you where your company stands, what Vera — our AI assistant — could already answer for you, and where to start. You get the result instantly, with no need to leave your details.</p>
   </div>
 </section>
 
@@ -111,7 +111,7 @@
         <li data-tip="{{ q.id }}" hidden><strong>{{ q.area }}.</strong> {{ q.tip }}</li>
         {% endfor %}
       </ol>
-      <p class="quiz-all-good" data-quiz-all-good hidden>Your answers show a very solid foundation across every area. The next step is choosing the AI use case with the greatest impact on your business.</p>
+      <p class="quiz-all-good" data-quiz-all-good hidden>Your answers show a very solid foundation across every area. The next step is choosing which questions Vera starts with at your company.</p>
 
       <div class="actions quiz-result-actions">
         <a class="btn btn-primary btn-lg" href="{{ url('diagnostico') }}">Explore the data assessment {{ icon('arrow-right') }}</a>

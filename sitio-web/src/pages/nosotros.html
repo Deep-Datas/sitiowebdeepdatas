@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% import 'mapa.html' as mapas with context %}
+{% import 'vera.html' as vera with context %}
 
 {% set specialties = [
   {'icon': 'layers', 'title': 'Arquitectura e implementación',
@@ -8,6 +9,8 @@
    'text': 'Definimos criterios comunes, responsables y controles para que todas las áreas confíen en los mismos números.'},
   {'icon': 'cpu', 'title': 'Ingeniería de datos y modelos predictivos',
    'text': 'Construimos pipelines automatizados y modelos predictivos que convierten la información en anticipación.'},
+  {'icon': 'chat-dots', 'title': 'Vera y los asistentes sobre tus datos',
+   'text': 'Conectamos a Vera a tus fuentes ya curadas, le enseñamos las preguntas de tu negocio y revisamos con tu equipo cada respuesta antes de abrirla a todos.'},
 ] %}
 
 {% block content %}
@@ -16,7 +19,7 @@
   <div class="container">
     <p class="eyebrow">Nosotros</p>
     <h1>Consultores de datos con <em>mirada de negocio.</em></h1>
-    <p class="lead">Somos una consultora de datos e inteligencia artificial de Buenos Aires. Integramos, ordenamos y analizamos datos para empresas de consumo masivo, distribución y pymes.</p>
+    <p class="lead">Somos una consultora de datos e inteligencia artificial de Buenos Aires. Integramos, ordenamos y analizamos datos para empresas de consumo masivo, distribución y pymes, y construimos a Vera: la asistente que convierte todo eso en respuestas.</p>
   </div>
 </section>
 
@@ -28,6 +31,26 @@
       <p>Ofrecemos estrategias concretas para resolver los desafíos más complejos de cada organización con datos: no solo para las grandes corporaciones, sino para cualquier empresa que quiera decidir mejor.</p>
       <p>Por eso combinamos experiencia técnica con visión de negocio. Antes de hablar de herramientas, entendemos qué decisiones necesitás tomar.</p>
     </div>
+  </div>
+</section>
+
+<!-- ======= QUIÉN ES VERA ======= -->
+{# Las tres promesas salen de src/vera.html, las mismas que muestra el inicio: si cambian
+   allá, cambian acá. #}
+<section class="section section-paper" aria-labelledby="vera-title">
+  <div class="container">
+    <div class="section-head reveal">
+      {{ vera.marca('vera-marca-lg') }}
+      <p class="eyebrow">{{ vera.V.eyebrow }}</p>
+      <h2 id="vera-title">A Vera la hicimos nosotros, <em>y la sostenemos nosotros.</em></h2>
+      <p class="lead">No revendemos un chat genérico. Vera es nuestra: la conectamos a tus sistemas, le enseñamos las reglas de tu negocio y respondemos por cada número que da. Su marca son dos fuentes que convergen en un punto, que es de lo que se trata todo esto.</p>
+    </div>
+    <dl class="hairline-grid hairline-grid-3 principles reveal">
+      {% for title, text in vera.V.promesas %}
+      <div><dt>{{ title }}</dt><dd>{{ text }}</dd></div>
+      {% endfor %}
+    </dl>
+    <p class="section-foot reveal"><a class="link-arrow" href="/inteligencia-artificial/">Conocé a Vera en detalle {{ icon('arrow-right') }}</a></p>
   </div>
 </section>
 
@@ -52,7 +75,7 @@
       <h2>Un equipo multidisciplinario detrás de cada proyecto</h2>
       <p>Trabajás directamente con especialistas que combinan más de 10 años de experiencia en datos, tecnología y negocio.</p>
     </div>
-    <dl class="hairline-grid hairline-grid-3 principles reveal">
+    <dl class="hairline-grid hairline-grid-4 principles reveal">
       {% for s in specialties %}
       <div><dt>{{ s.title }}</dt><dd>{{ s.text }}</dd></div>
       {% endfor %}

@@ -1,4 +1,5 @@
-{# Gráfico «Del dato disperso al agente de IA». Contenido y geometría en pipeline.py. #}
+{# Gráfico «Del dato disperso a Vera». Contenido y geometría en pipeline.py. #}
+{% import 'vera.html' as vera with context %}
 
 {% macro node_attrs(n) -%}
 class="pl-node pl-{{ n.kind }}" data-pl="{{ n.id }}" data-chain="{{ n.chain | join(' ') }}"
@@ -26,7 +27,7 @@ tabindex="0" role="button" aria-label="{{ n.title }}: {{ n.sub }}"
         {% endfor %}
       </g>
 
-      {# Líneas: datos crudos (orígenes) y datos curados (hacia y desde el agente) #}
+      {# Líneas: datos crudos (orígenes) y datos curados (hacia y desde Vera) #}
       <g class="pl-links" aria-hidden="true">
         {% for n in d.sources %}
         <g class="pl-link pl-link-raw" data-pl="{{ n.id }}-link">
@@ -79,7 +80,7 @@ tabindex="0" role="button" aria-label="{{ n.title }}: {{ n.sub }}"
         <circle class="pl-ring" cx="{{ a.cx }}" cy="{{ '%.1f' % d.mid_y }}" r="{{ a.r }}"></circle>
         <circle class="pl-ring pl-ring-2" cx="{{ a.cx }}" cy="{{ '%.1f' % d.mid_y }}" r="{{ a.r }}"></circle>
         <circle class="pl-agent-core" cx="{{ a.cx }}" cy="{{ '%.1f' % d.mid_y }}" r="{{ a.r }}"></circle>
-        {{ icon_svg(a.icon, a.cx - 26, d.mid_y - 28, 52, 'pl-agent-icon') }}
+        {{ vera.dibujo(a.cx - 24, d.mid_y - 26, 48, 'pl-agent-icon') }}
         <text class="pl-agent-title" x="{{ a.cx }}" y="{{ '%.1f' % (d.mid_y + a.r + 34) }}" text-anchor="middle" aria-hidden="true">{{ a.title }}</text>
         <text class="pl-sub" x="{{ a.cx }}" y="{{ '%.1f' % (d.mid_y + a.r + 54) }}" text-anchor="middle" aria-hidden="true">{{ a.sub }}</text>
       </g>

@@ -27,7 +27,7 @@
       "addressCountry": "AR"
     },
     "areaServed": "AR",
-    "knowsAbout": ["Inteligencia de negocios", "Ingeniería de datos", "Ciencia de datos", "Machine Learning", "Power BI"]
+    "knowsAbout": ["Asistentes de inteligencia artificial", "Inteligencia de negocios", "Ingeniería de datos", "Ciencia de datos", "Machine Learning", "Power BI"]
   }
   </script>
 {% endblock %}
@@ -42,11 +42,11 @@
   <div class="container">
     <div class="bridge reveal">
       <p class="eyebrow">Lo que acabás de ver</p>
-      <h2 id="puente-title">Así trabaja la IA cuando tus datos <em>están listos.</em></h2>
-      <p class="lead">Detrás de cada respuesta hay cuatro pasos que hacemos por vos. Son nuestros servicios.</p>
+      <h2 id="puente-title">Era Vera. Y responde así porque antes <em>ordenamos tus datos.</em></h2>
+      <p class="lead">Detrás de cada respuesta hay cuatro pasos que hacemos por vos. Son nuestros servicios, y son lo que hace que Vera no invente.</p>
       <div class="actions">
-        <a class="btn btn-primary btn-lg" {{ booking_link() }}>Coordinar una llamada {{ icon('arrow-right') }}</a>
-        <a class="btn btn-secondary btn-lg" href="/diagnostico/">Conocé el diagnóstico</a>
+        <a class="btn btn-primary btn-lg" href="/inteligencia-artificial/">Conocé a Vera {{ icon('arrow-right') }}</a>
+        <a class="btn btn-secondary btn-lg" {{ booking_link() }}>Coordinar una llamada</a>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
         ('01', 'Ingeniería de datos', 'Integrar', 'Conectamos ERP, CRM, planillas y APIs en un único modelo que se actualiza solo.', '/servicios/#ingenieria', 'cubo'),
         ('02', 'Calidad de datos', 'Curar', 'Limpiamos, unificamos códigos y validamos cada número con reglas de negocio.', '/servicios/#calidad', 'embudo'),
         ('03', 'Analítica', 'Modelar', 'Indicadores propios de tu negocio y modelos que anticipan demanda y bajas de clientes.', '/servicios/#analitica', 'barras'),
-        ('04', 'Tableros e IA', 'Recomendar', 'Tableros y agentes de IA que te dicen qué pasó, por qué y qué hacer.', '/inteligencia-artificial/', 'esfera'),
+        ('04', 'Vera y los tableros', 'Recomendar', 'Vera te dice qué pasó, por qué y qué hacer, con los tableros al lado para ver el detalle.', '/inteligencia-artificial/', 'esfera'),
       ] %}
     {# Cadena de cuatro pasos, uno al lado del otro: la línea se enciende y un flujo de datos la recorre (design.css) #}
     <div class="chain reveal">
@@ -69,7 +69,7 @@
             <span class="label">{{ service }}</span>
             <h3>{{ verb }}</h3>
             <p>{{ text }}</p>
-            <a class="link-arrow" href="{{ href }}">{{ 'Ver soluciones de IA' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
+            <a class="link-arrow" href="{{ href }}">{{ 'Conocé a Vera' if num == '04' else 'Conocer el servicio' }} {{ icon('arrow-right') }}</a>
           </li>
           {% endfor %}
         </ol>
@@ -102,13 +102,13 @@
     <div class="core-sticky">
       <canvas class="core-canvas" data-core data-labels="ERP|CRM|Planillas|WhatsApp|Correo" aria-hidden="true"></canvas>
       <div class="core-copy">
-        <p class="eyebrow">Datos listos para la IA</p>
+        <p class="eyebrow">Los datos que Vera necesita</p>
         <div class="core-text">
-        <h2 class="core-title" id="core-title">Del dato disperso a un agente de IA que responde <em>con precisión.</em></h2>
+        <h2 class="core-title" id="core-title">Del dato disperso a Vera, que responde <em>con precisión.</em></h2>
         <div class="core-captions">
           <p class="core-caption" data-at="0.12">Hoy tus datos están <strong>repartidos</strong> en sistemas, planillas y mensajes.</p>
           <p class="core-caption" data-at="0.42">Los reunimos, los limpiamos y los <strong>ordenamos</strong> con reglas de negocio.</p>
-          <p class="core-caption" data-at="0.68">El resultado: <strong>una sola fuente confiable</strong> que una IA puede usar sin equivocarse.</p>
+          <p class="core-caption" data-at="0.68">El resultado: <strong>una sola fuente confiable</strong> que Vera puede usar sin equivocarse.</p>
         </div>
         </div>
       </div>
@@ -117,14 +117,14 @@
   <div class="container core-diagram">
     <div class="section-head reveal">
       <p class="eyebrow">El recorrido de tus datos</p>
-      <h2>Una IA es tan buena como los datos que consume</h2>
-      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que un agente de inteligencia artificial pueda usarla con confianza. Elegí una pregunta y mirá el recorrido.</p>
+      <h2>Vera es tan buena como los datos que consume</h2>
+      <p>Reunimos la información que hoy está repartida en sistemas, planillas y mensajes, la curamos y la ordenamos para que Vera pueda usarla con confianza. Elegí una pregunta y mirá el recorrido.</p>
     </div>
     {{ flow.scene() }}
     <div class="pl-cta">
-      <p>¿Querés saber qué tan listos están tus datos?</p>
+      <p>¿Querés saber qué tan listos están tus datos para Vera?</p>
       <a class="btn btn-primary btn-lg" href="/diagnostico/">Conocé el diagnóstico de datos {{ icon('arrow-right') }}</a>
-      <a class="btn btn-secondary btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA</a>
+      <a class="btn btn-secondary btn-lg" href="/inteligencia-artificial/">Conocé a Vera</a>
     </div>
   </div>
 </section>
@@ -136,7 +136,7 @@
       <div>
         <p class="eyebrow">Industrias</p>
         <h2 id="industrias-title">Para empresas que crecieron más rápido que <em>sus sistemas.</em></h2>
-        <p>Distribuidoras, pymes y empresas medianas que se gestionan con el ERP, Excel y WhatsApp, sin un equipo de datos propio. Conocemos los indicadores y los problemas típicos de cada sector.</p>
+        <p>Distribuidoras, pymes y empresas medianas que se gestionan con el ERP, Excel y WhatsApp, sin un equipo de datos propio. Conocemos los indicadores y los problemas típicos de cada sector, y Vera llega sabiendo las preguntas que se hacen todos los días.</p>
       </div>
     </div>
     <div class="rail" data-rail>
@@ -181,18 +181,18 @@
       <article class="pain-card glow-card reveal">
         <h3>Decisiones a ciegas</h3>
         <p>Sin indicadores claros es difícil saber qué cliente, producto o canal está dejando de rendir, y por qué.</p>
-        <p class="pain-answer">{{ icon('arrow-right') }} Alertas y recomendaciones cuando algo se desvía.</p>
+        <p class="pain-answer">{{ icon('arrow-right') }} Vera avisa, explica qué pasó y propone qué hacer.</p>
       </article>
     </div>
   </div>
 </section>
 
 <!-- ======= VERA: LA ASISTENTE, EN LA APLICACIÓN QUE EL EQUIPO YA USA ======= -->
-<section class="section section-paper pin" data-pin aria-labelledby="bolsillo-title">
+<section class="section section-paper pin" data-pin aria-labelledby="vera-title">
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">{{ vera.V.eyebrow }}</p>
-      <h2 id="bolsillo-title">{{ vera.V.title }} <em>{{ vera.V.title_em }}</em></h2>
+      <h2 id="vera-title">{{ vera.V.title }} <em>{{ vera.V.title_em }}</em></h2>
       <p class="lead">{{ vera.V.lead }}</p>
     </div>
     <div class="pin-grid">
@@ -211,12 +211,12 @@
           <span class="label">03 · Automatización</span>
           <h3>Pedidos que se cargan solos</h3>
           <p>Vera lee los pedidos que llegan por WhatsApp o email, los carga en tu sistema y pregunta solo cuando falta un dato.</p>
-          <p class="section-foot"><a class="link-arrow" href="/inteligencia-artificial/">Ver todas las soluciones de IA {{ icon('arrow-right') }}</a></p>
+          <p class="section-foot"><a class="link-arrow" href="/inteligencia-artificial/">Ver todo lo que hace Vera {{ icon('arrow-right') }}</a></p>
         </div>
       </div>
       <div class="pin-stage reveal">
         <div class="phone-halo" aria-hidden="true"></div>
-        <div class="phone" role="img" aria-label="Ejemplo ilustrativo: conversaciones con el asistente de IA por WhatsApp (datos ficticios)">
+        <div class="phone" role="img" aria-label="Ejemplo ilustrativo: conversaciones con Vera por WhatsApp (datos ficticios)">
           <div class="phone-screen">
             <div class="phone-view" data-pin-view>
               <div class="chat-top">{{ vera.avatar() }}<div><strong>Vera</strong><small>{{ vera.V.online }}</small></div></div>
@@ -311,8 +311,8 @@
       <h2 id="porque-title">Tus datos, siempre <em>bajo tu control.</em></h2>
     </div>
     <dl class="reasons-list reveal">
-      <div><dt>Soluciones a medida</dt><dd>Trabajamos con las plataformas que ya usás, sin atarte a un proveedor.</dd></div>
-      <div><dt>Confidencialidad</dt><dd>Accesos de solo lectura y permisos por rol: cada persona ve solo lo que le corresponde.</dd></div>
+      <div><dt>Soluciones a medida</dt><dd>Vera y los tableros trabajan con las plataformas que ya usás, sin atarte a un proveedor.</dd></div>
+      <div><dt>Confidencialidad</dt><dd>Accesos de solo lectura y permisos por rol: cada persona —y Vera— ve solo lo que le corresponde.</dd></div>
       <div><dt>Escalable desde el día uno</dt><dd>Diseñamos para que la solución crezca con tu empresa sin tener que rehacerla.</dd></div>
     </dl>
   </div>
