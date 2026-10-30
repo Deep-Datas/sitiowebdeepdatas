@@ -9,8 +9,9 @@
    - Que no aparezca scroll horizontal.
    - Que se llegue a las tres preguntas con el teclado.
    - Que cada pregunta quede marcada sola, traiga su respuesta y cite tres fuentes.
+   - Que las curvas salgan de cada sistema y lleguen al núcleo y a la respuesta.
    - Que sin JavaScript se lea la primera respuesta y no quede ningún botón muerto.
-   - Que sin animación los botones respondan al instante y no haya riel.
+   - Que sin animación los botones respondan al instante y no viajen datos por las curvas.
 
    Antes hay que compilar:  python3 build.py && node tools/probar_portada.cjs
    Falla diciendo qué está mal, en qué idioma y en qué tamaño. */
@@ -109,6 +110,37 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
       });
       chicos.forEach(c => fallas.push(`[tocar ${donde}] ${c.s} mide ${c.w}x${c.h}, mínimo 24x24`));
 
+      /* ---- Las curvas salen de cada sistema y llegan al núcleo y a la respuesta ---- */
+      const red = await page.evaluate(() => {
+        const svg = document.querySelector('[data-vz-wires]');
+        const caja = svg.getBoundingClientRect();
+        const pt = (p, l) => { const q = p.getPointAtLength(l); return { x: q.x, y: q.y }; };
+        const dentro = (p, r) => p.x >= r.left - caja.left - 2 && p.x <= r.right - caja.left + 2
+                              && p.y >= r.top - caja.top - 2 && p.y <= r.bottom - caja.top + 2;
+        const hilos = Array.from(svg.querySelectorAll('.vz-wire'));
+        const sis = Array.from(document.querySelectorAll('[data-vz-sys]'));
+        const nucleo = document.querySelector('.vz-core').getBoundingClientRect();
+        const resp = document.querySelector('.vz-tab').getBoundingClientRect();
+        return {
+          hilos: hilos.length,
+          sistemas: sis.length,
+          // Cada sistema arranca una curva, y todas terminan en el núcleo
+          salen: sis.every((el, i) => hilos[i] && dentro(pt(hilos[i], 0), el.getBoundingClientRect())),
+          llegan: sis.every((_, i) => hilos[i] && dentro(pt(hilos[i], hilos[i].getTotalLength()), nucleo)),
+          // La última sube del núcleo a la tablet, donde se lee la respuesta
+          sube: hilos.length > sis.length
+                && dentro(pt(hilos[sis.length], 0), nucleo)
+                && dentro(pt(hilos[sis.length], hilos[sis.length].getTotalLength()), resp),
+          datos: svg.querySelectorAll('.vz-dato').length,
+        };
+      });
+      controlar(`[red ${donde}] se dibujaron ${red.hilos} curvas y hay ${red.sistemas} sistemas`,
+                red.hilos === red.sistemas + 1);
+      controlar(`[red ${donde}] alguna curva no arranca en su sistema`, red.salen);
+      controlar(`[red ${donde}] alguna curva no llega al núcleo`, red.llegan);
+      controlar(`[red ${donde}] la curva de salida no va del núcleo a la tablet`, red.sube);
+      controlar(`[red ${donde}] no hay datos viajando por las curvas`, red.datos > 0);
+
       /* ---- Nada tapado por el encabezado ni desbordado ---- */
       const ancho = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
       controlar(`[scroll-x ${donde}] ${ancho[0]} > ${ancho[1]}`, ancho[0] <= ancho[1] + 1);
@@ -162,12 +194,12 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
       respuesta: !!el.querySelector('[data-vz-abig]').textContent.trim(),
       botonesVisibles: Array.from(el.querySelectorAll('button')).filter(b => b.offsetParent !== null).length,
       micDibujo: el.querySelector('[data-vz-still]').offsetParent !== null,
-      nucleo: el.querySelector('[data-vz-fuse]').offsetParent !== null,
+      red: el.querySelector('[data-vz-net]') && !el.querySelector('[data-vz-net]').hidden,
     }));
     controlar('[sin-js] no se ve la respuesta escrita en el HTML', estado.respuesta);
     controlar(`[sin-js] quedan ${estado.botonesVisibles} botones que no hacen nada`, estado.botonesVisibles === 0);
     controlar('[sin-js] no se ve el micrófono dibujado', estado.micDibujo);
-    controlar('[sin-js] se ve el recuadro del núcleo, que sin JavaScript queda vacío', !estado.nucleo);
+    controlar('[sin-js] se ve la red, que sin JavaScript queda sin curvas ni núcleo', !estado.red);
     await ctx.close();
   }
 
@@ -179,25 +211,19 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
     await page.waitForTimeout(600);
     await page.click('[data-vz-q="2"]');
     await page.waitForTimeout(200);
-    const est = await page.evaluate(() => {
-      const caja = document.querySelector('[data-vz-fuse]').getBoundingClientRect();
-      return {
-        grande: document.querySelector('[data-vz-abig]').textContent.trim(),
-        marcado: document.querySelector('[data-vz-q="2"]').getAttribute('aria-pressed'),
-        // Quieto, los cinco sistemas tienen que verse alrededor del núcleo y dentro del recuadro
-        sistemas: Array.from(document.querySelectorAll('[data-vz-sys]')).map(el => {
-          const r = el.getBoundingClientRect();
-          return { o: +getComputedStyle(el).opacity,
-                   dentro: r.left >= caja.left - 1 && r.right <= caja.right + 1
-                           && r.top >= caja.top - 1 && r.bottom <= caja.bottom + 1 };
-        }),
-      };
-    });
+    const est = await page.evaluate(() => ({
+      grande: document.querySelector('[data-vz-abig]').textContent.trim(),
+      marcado: document.querySelector('[data-vz-q="2"]').getAttribute('aria-pressed'),
+      // Quieto quedan las curvas y el núcleo, pero ningún dato viajando
+      hilos: document.querySelectorAll('.vz-wire').length,
+      datos: document.querySelectorAll('.vz-dato').length,
+      sistemas: Array.from(document.querySelectorAll('[data-vz-sys]'))
+        .filter(el => +getComputedStyle(el).opacity > 0.95).length,
+    }));
     controlar('[sin-animación] el tercer botón no responde al instante', est.grande.length > 1 && est.marcado === 'true');
-    controlar('[sin-animación] los cinco sistemas no quedan a la vista alrededor del núcleo',
-              est.sistemas.length === 5 && est.sistemas.every(s => s.o > 0.95));
-    controlar('[sin-animación] algún sistema queda fuera del recuadro del núcleo',
-              est.sistemas.every(s => s.dentro));
+    controlar(`[sin-animación] se dibujaron ${est.hilos} curvas en vez de 6`, est.hilos === 6);
+    controlar(`[sin-animación] quedaron ${est.datos} datos viajando por las curvas`, est.datos === 0);
+    controlar('[sin-animación] los cinco sistemas no quedan a la vista', est.sistemas === 5);
     await ctx.close();
   }
 
