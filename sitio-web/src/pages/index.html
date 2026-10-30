@@ -193,7 +193,7 @@
     <div class="section-head reveal">
       <p class="eyebrow">La evolución del Business Intelligence</p>
       <h2 id="bi-title">El tablero te cuenta qué pasó ayer. <em>La pregunta de hoy es sobre mañana.</em></h2>
-      <p class="lead">El Business Intelligence nació para mirar el pasado con orden, y lo hace bien. Pero las decisiones que cuestan plata se toman antes, no después del cierre.</p>
+      <p class="lead">Veinte años de Business Intelligence nos enseñaron a mirar el pasado con orden. El problema no es el tablero: es que cuando te muestra el desvío, el desvío ya te costó plata.</p>
     </div>
 
     <div class="bi-grid">
@@ -209,7 +209,7 @@
           <li>Esperar a que refresque</li>
           <li>Buscar el tablero y leer qué pasó ayer</li>
         </ol>
-        <p class="bi-pie">Para cuando lo abrís, la decisión ya está tomada y el error ya está cometido.</p>
+        <p class="bi-pie">Y lo que leés al final del recorrido es de ayer. O del cierre del mes, que es peor.</p>
       </article>
 
       <article class="bi-card bi-ahora reveal">
@@ -221,11 +221,38 @@
           <p class="bi-dice">¿Cuánto le compro a mi proveedor según la demanda estimada?</p>
           <p class="bi-responde">{{ vera.avatar() }}<span><strong>820 bultos</strong> de 18 productos, para cubrir cuatro semanas. Te dejo la orden armada para aprobar.<span class="bi-fuente">Fuente: ERP y planillas · 07:00</span></span></p>
         </div>
-        <p class="bi-pie">Sin usuario, sin portal y sin esperar el cierre. Y la respuesta es sobre lo que viene.</p>
+        <p class="bi-pie">Sin usuario, sin portal y sin esperar el cierre. Y a tiempo de cambiar la decisión.</p>
       </article>
     </div>
 
-    <p class="bi-cierre reveal"><strong>El tablero no desaparece</strong>, y lo seguimos construyendo: sigue siendo el mejor lugar para explorar y para auditar un número. Lo que cambió es por dónde se empieza. Antes abrías el tablero a ver si encontrabas algo; ahora hacés la pregunta, y si querés el detalle, el tablero está ahí.</p>
+    {# El corazón de la sección: la misma pregunta, con el verbo movido de tiempo. Es el
+       argumento entero sin un solo adjetivo. #}
+    <div class="bi-tiempos reveal">
+      <p class="bi-tiempos-intro">Lo que cambió no es la herramienta. Es el <em>tiempo verbal</em> de la pregunta.</p>
+      <ul>
+        <li>
+          <span class="bi-ayer">¿Cuánto vendimos el mes pasado?</span>
+          <span class="visually-hidden">pasa a ser</span>
+          {{ icon('arrow-right', cls='bi-flecha') }}
+          <span class="bi-hoy">¿Cuánto voy a vender el mes que viene?</span>
+        </li>
+        <li>
+          <span class="bi-ayer">¿Qué productos se quedaron sin stock?</span>
+          <span class="visually-hidden">pasa a ser</span>
+          {{ icon('arrow-right', cls='bi-flecha') }}
+          <span class="bi-hoy">¿Cuáles se van a quedar sin stock en 15 días?</span>
+        </li>
+        <li>
+          <span class="bi-ayer">¿Qué clientes dejaron de comprarnos?</span>
+          <span class="visually-hidden">pasa a ser</span>
+          {{ icon('arrow-right', cls='bi-flecha') }}
+          <span class="bi-hoy">¿Qué clientes están por dejar de comprarnos?</span>
+        </li>
+      </ul>
+      <p class="bi-tiempos-pie">Las tres de la izquierda las contesta un tablero. Las tres de la derecha llegan tarde si hay que ir a buscarlas.</p>
+    </div>
+
+    <p class="bi-cierre reveal"><strong>El tablero no se va a ningún lado: cambió de lugar.</strong> Dejó de ser por donde empezás y pasó a ser adonde vas cuando querés ver cómo se llegó a ese número. Lo seguimos construyendo, y <a class="text-link" href="/ejemplos/">acá están los tres de ejemplo</a>.</p>
   </div>
 </section>
 
