@@ -9,16 +9,16 @@
   ('inboxes', 'Pedidos automáticos',
    'Vera lee los pedidos que llegan por WhatsApp o email en texto libre, los carga en tu sistema y avisa si falta algún dato.'),
   ('bell', 'Alertas con contexto',
-   'Detecta desvíos en ventas, stock o cobranzas y te avisa explicando qué pasó y a quién afecta, antes de que el problema crezca.'),
+   'Vera detecta desvíos en ventas, stock o cobranzas y te avisa explicando qué pasó y a quién afecta, antes de que el problema crezca.'),
   ('graph-up-arrow', 'Pronósticos y recomendaciones',
-   'Modelos predictivos de demanda, precios o abandono de clientes, con recomendaciones concretas que tu equipo puede aplicar.'),
-  ('journal-text', 'Asistente sobre tus documentos',
+   'Modelos predictivos de demanda, precios o abandono de clientes, que Vera explica con recomendaciones concretas que tu equipo puede aplicar.'),
+  ('journal-text', 'Vera sobre tus documentos',
    'Respuestas rápidas sobre listas de precios, políticas comerciales, manuales y contratos, citando el documento de origen.'),
 ] %}
 
 {% set principles = [
   ('patch-check', 'Responde con datos, no inventa',
-   'El agente consulta información curada y verificada. Si no tiene el dato, lo dice en lugar de improvisar una respuesta.'),
+   'Vera consulta información curada y verificada. Si no tiene el dato, lo dice en lugar de improvisar una respuesta.'),
   ('lock', 'Cada usuario ve lo que le corresponde',
    'Respetamos los permisos de tus sistemas: un vendedor ve su cartera y la dirección ve el total.'),
   ('search', 'Respuestas trazables',
@@ -28,10 +28,10 @@
 ] %}
 
 {% set steps = [
-  ('search', 'Diagnóstico', 'Identificamos los casos de uso con más impacto y evaluamos si tus datos están listos para cada uno.'),
-  ('funnel', 'Preparación de datos', 'Integramos, curamos y ordenamos las fuentes que el agente va a necesitar.'),
-  ('robot', 'Piloto acotado', 'Ponemos en marcha un primer agente con un grupo de usuarios y medimos los resultados.'),
-  ('arrow-repeat', 'Escalamiento', 'Sumamos usuarios, fuentes y casos de uso a partir de lo que funcionó.'),
+  ('search', 'Diagnóstico', 'Identificamos las preguntas con más impacto y evaluamos si tus datos están listos para cada una.'),
+  ('funnel', 'Preparación de datos', 'Integramos, curamos y ordenamos las fuentes que Vera va a necesitar.'),
+  ('robot', 'Piloto acotado', 'Ponemos a Vera a responder con un grupo de usuarios y medimos los resultados.'),
+  ('arrow-repeat', 'Escalamiento', 'Sumamos usuarios, fuentes y preguntas a partir de lo que funcionó.'),
 ] %}
 
 {% set faqs = [
@@ -42,9 +42,9 @@
   ('¿Mis datos se usan para entrenar modelos de terceros?',
    'No debería ocurrir y lo cuidamos en el diseño: usamos servicios empresariales que no entrenan sus modelos con la información de sus clientes, y lo revisamos con tu equipo antes de empezar.'),
   ('¿La IA reemplaza a mi equipo?',
-   'No. Le saca el trabajo repetitivo, como buscar números, armar reportes o cargar pedidos, para que dedique su tiempo a analizar y decidir.'),
+   'No. Vera le saca el trabajo repetitivo —buscar números, armar reportes, cargar pedidos— para que tu equipo dedique su tiempo a analizar y decidir.'),
   ('¿Por dónde empiezo?',
-   'Por un diagnóstico de datos: en dos semanas sabés qué casos de IA son viables con tu información actual y qué falta para los demás.'),
+   'Por un diagnóstico de datos: en dos semanas sabés qué preguntas puede responder Vera con tu información actual y qué falta para las demás.'),
 ] %}
 
 {# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
@@ -66,14 +66,14 @@
   </div>
 
   <div class="container">
-    <figure class="demo-video demo-wide reveal" aria-label="Video de ejemplo: el asistente responde preguntas de ventas, clientes y stock con datos ficticios">
+    <figure class="demo-video demo-wide reveal" aria-label="Video de ejemplo: Vera responde preguntas de compras, clientes y stock con datos ficticios">
       <div class="demo-screen">
         <video controls muted loop playsinline preload="metadata" poster="/assets/video/asistente-es.webp" data-autoplay>
           <source src="/assets/video/asistente-es.webm" type="video/webm">
           <source src="/assets/video/asistente-es.mp4" type="video/mp4">
         </video>
       </div>
-      <figcaption>El asistente en acción: una pregunta de ventas, dos de seguimiento y las respuestas con sus fuentes (ejemplo con datos ficticios).</figcaption>
+      <figcaption>Vera en acción: una pregunta de compra, dos de seguimiento y las respuestas con sus fuentes (ejemplo con datos ficticios).</figcaption>
     </figure>
   </div>
 </section>
@@ -84,7 +84,7 @@
     <div class="section-head reveal">
       <p class="eyebrow">Qué podés resolver</p>
       <h2>Inteligencia artificial aplicada a problemas concretos</h2>
-      <p>No se trata de tener un chat más, sino de ahorrar horas de trabajo y decidir antes. Estos son los casos que más valor generan en empresas comerciales e industriales.</p>
+      <p>No se trata de tener un chat más, sino de ahorrar horas de trabajo y decidir antes. Estas son las preguntas y tareas en las que Vera genera más valor en empresas comerciales e industriales.</p>
     </div>
     <div class="ai-grid">
       {% for ic, title, text in use_cases %}
@@ -103,8 +103,8 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow eyebrow-light">La base de todo</p>
-      <h2 id="pipeline-title">Una IA es tan buena como los datos que consume</h2>
-      <p>Si los datos están duplicados, desactualizados o repartidos en planillas, el agente responde mal. Por eso cada proyecto empieza por reunir, curar y ordenar la información que va a usar.</p>
+      <h2 id="pipeline-title">Vera es tan buena como los datos que consume</h2>
+      <p>Si los datos están duplicados, desactualizados o repartidos en planillas, Vera responde mal. Por eso cada proyecto empieza por reunir, curar y ordenar la información que va a usar.</p>
     </div>
     {{ pipeline_chart.diagram() }}
   </div>
@@ -115,7 +115,7 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Confianza y seguridad</p>
-      <h2>Cómo diseñamos cada agente</h2>
+      <h2>Cómo está hecha Vera</h2>
     </div>
     <div class="dx-grid">
       {% for ic, title, text in principles %}
@@ -134,7 +134,7 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Cómo empezamos</p>
-      <h2>De la idea a un agente funcionando, paso a paso</h2>
+      <h2>De la idea a Vera respondiendo, paso a paso</h2>
     </div>
     <ol class="steps">
       {% for ic, title, text in steps %}
@@ -169,4 +169,4 @@
 {% endblock %}
 
 {% block cta_title %}Probá a Vera <em>con tus datos.</em>{% endblock %}
-{% block cta_text %}En una llamada te mostramos qué preguntas podría responder un agente en tu empresa.{% endblock %}
+{% block cta_text %}En una llamada te mostramos qué preguntas podría responder Vera en tu empresa.{% endblock %}

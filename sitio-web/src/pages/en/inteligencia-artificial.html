@@ -9,16 +9,16 @@
   ('inboxes', 'Automated order entry',
    'Vera reads free-text orders that arrive by WhatsApp or email, enters them into your system and flags anything that is missing.'),
   ('bell', 'Alerts with context',
-   'It spots deviations in sales, inventory or collections and alerts you, explaining what happened and who is affected, before the problem grows.'),
+   'Vera spots deviations in sales, inventory or collections and alerts you, explaining what happened and who is affected, before the problem grows.'),
   ('graph-up-arrow', 'Forecasts and recommendations',
-   'Predictive models for demand, pricing or customer churn, with concrete recommendations your team can act on.'),
-  ('journal-text', 'An assistant for your documents',
+   'Predictive models for demand, pricing or customer churn, which Vera explains with concrete recommendations your team can act on.'),
+  ('journal-text', 'Vera on your documents',
    'Quick answers about price lists, sales policies, manuals and contracts, citing the source document.'),
 ] %}
 
 {% set principles = [
   ('patch-check', 'It answers with data, it doesn’t make things up',
-   'The agent queries curated, verified information. If it doesn’t have the data, it says so instead of improvising an answer.'),
+   'Vera queries curated, verified information. If the data is not there, Vera says so instead of improvising an answer.'),
   ('lock', 'Everyone sees only what they should',
    'We respect the permissions in your systems: a sales rep sees their own accounts and leadership sees the full picture.'),
   ('search', 'Traceable answers',
@@ -28,10 +28,10 @@
 ] %}
 
 {% set steps = [
-  ('search', 'Assessment', 'We identify the highest-impact use cases and check whether your data is ready for each one.'),
-  ('funnel', 'Data preparation', 'We integrate, curate and organize the sources the agent will need.'),
-  ('robot', 'Focused pilot', 'We launch a first agent with a group of users and measure the results.'),
-  ('arrow-repeat', 'Scale-up', 'We add users, sources and use cases based on what worked.'),
+  ('search', 'Assessment', 'We identify the highest-impact questions and check whether your data is ready for each one.'),
+  ('funnel', 'Data preparation', 'We integrate, curate and organize the sources Vera will need.'),
+  ('robot', 'Focused pilot', 'We put Vera to work with a group of users and measure the results.'),
+  ('arrow-repeat', 'Scale-up', 'We add users, sources and questions based on what worked.'),
 ] %}
 
 {% set faqs = [
@@ -42,9 +42,9 @@
   ('Will my data be used to train third-party models?',
    'It shouldn’t, and we take care of that in the design: we use enterprise services that don’t train their models on their customers’ information, and we review it with your team before we start.'),
   ('Will AI replace my team?',
-   'No. It takes over repetitive work, like looking up numbers, building reports or entering orders, so your team can spend its time analyzing and deciding.'),
+   'No. Vera takes over the repetitive work — looking up numbers, building reports, entering orders — so your team can spend its time analyzing and deciding.'),
   ('Where do I start?',
-   'With a data assessment: in two weeks you’ll know which AI use cases are feasible with your current data and what is missing for the rest.'),
+   'With a data assessment: in two weeks you’ll know which questions Vera can answer with your current data and what is missing for the rest.'),
 ] %}
 
 {# Las mismas preguntas, para el buscador: así puede mostrarlas desplegadas
@@ -66,14 +66,14 @@
   </div>
 
   <div class="container">
-    <figure class="demo-video demo-wide reveal" aria-label="Sample video: the assistant answers sales, customer and inventory questions with sample data">
+    <figure class="demo-video demo-wide reveal" aria-label="Sample video: Vera answers purchasing, customer and inventory questions with sample data">
       <div class="demo-screen">
         <video controls muted loop playsinline preload="metadata" poster="/assets/video/asistente-en.webp" data-autoplay>
           <source src="/assets/video/asistente-en.webm" type="video/webm">
           <source src="/assets/video/asistente-en.mp4" type="video/mp4">
         </video>
       </div>
-      <figcaption>The assistant in action: a sales question, two follow-ups and the answers with their sources (example with sample data).</figcaption>
+      <figcaption>Vera in action: a purchasing question, two follow-ups and the answers with their sources (example with sample data).</figcaption>
     </figure>
   </div>
 </section>
@@ -84,7 +84,7 @@
     <div class="section-head reveal">
       <p class="eyebrow">What you can solve</p>
       <h2>Artificial intelligence applied to real problems</h2>
-      <p>It’s not about adding yet another chat window, but about saving hours of work and deciding sooner. These are the use cases that create the most value in commercial and industrial companies.</p>
+      <p>It’s not about adding yet another chat window, but about saving hours of work and deciding sooner. These are the questions and tasks where Vera creates the most value in commercial and industrial companies.</p>
     </div>
     <div class="ai-grid">
       {% for ic, title, text in use_cases %}
@@ -103,8 +103,8 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow eyebrow-light">The foundation</p>
-      <h2 id="pipeline-title">AI is only as good as the data it runs on</h2>
-      <p>If the data is duplicated, out of date or scattered across spreadsheets, the agent gives poor answers. That’s why every project starts by gathering, curating and organizing the information it will use.</p>
+      <h2 id="pipeline-title">Vera is only as good as the data behind each answer</h2>
+      <p>If the data is duplicated, out of date or scattered across spreadsheets, Vera gives poor answers. That’s why every project starts by gathering, curating and organizing the information Vera will use.</p>
     </div>
     {{ pipeline_chart.diagram() }}
   </div>
@@ -115,7 +115,7 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">Trust and security</p>
-      <h2>How we design every agent</h2>
+      <h2>How Vera is built</h2>
     </div>
     <div class="dx-grid">
       {% for ic, title, text in principles %}
@@ -134,7 +134,7 @@
   <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">How we get started</p>
-      <h2>From idea to a working agent, step by step</h2>
+      <h2>From idea to Vera answering, step by step</h2>
     </div>
     <ol class="steps">
       {% for ic, title, text in steps %}
@@ -169,4 +169,4 @@
 {% endblock %}
 
 {% block cta_title %}Try Vera <em>with your data.</em>{% endblock %}
-{% block cta_text %}On a call, we’ll show you which questions an agent could answer in your company.{% endblock %}
+{% block cta_text %}On a call, we’ll show you which questions Vera could answer in your company.{% endblock %}

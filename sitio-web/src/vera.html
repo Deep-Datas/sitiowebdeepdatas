@@ -22,6 +22,19 @@
 </svg>
 {% endmacro %}
 
+{# La marca dentro de otro SVG, en la posición y el tamaño que se le pidan (como el
+   ayudante icon_svg de build.py, pero con los nodos de Vera). Se usa en el gráfico del
+   recorrido de los datos, donde Vera ocupa el lugar que antes tenía un ícono genérico. #}
+{% macro dibujo(x, y, size, cls='') %}
+<g class="vera-marca-sm {{ cls }}" transform="translate({{ x }} {{ y }}) scale({{ '%.4f' % (size / 64) }})" aria-hidden="true">
+  <line class="vera-rayo" x1="12" y1="13" x2="29.5" y2="44"/>
+  <line class="vera-rayo" x1="52" y1="13" x2="34.5" y2="44"/>
+  <circle class="vera-nodo" cx="12" cy="13" r="7"/>
+  <circle class="vera-nodo" cx="52" cy="13" r="7"/>
+  <circle class="vera-punto" cx="32" cy="52" r="8.5"/>
+</g>
+{% endmacro %}
+
 {# El avatar: recorte circular, sin nombre, para los chats. En chico los nodos van
    rellenos y el trazo más grueso, si no se empasta. #}
 {% macro avatar(cls='') %}

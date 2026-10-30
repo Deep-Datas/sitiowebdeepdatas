@@ -2439,6 +2439,13 @@ html.motion .is-live .vz-mic::after {
   fill: var(--accent-600);
 }
 
+/* En grande, para presentarla: el isotipo solo, sin el nombre al lado */
+.vera-marca-lg {
+  width: clamp(56px, 7vw, 76px);
+  height: clamp(56px, 7vw, 76px);
+  margin-bottom: 20px;
+}
+
 .vera-marca-sm .vera-rayo {
   stroke-width: 8.5;
 }
@@ -2446,6 +2453,12 @@ html.motion .is-live .vz-mic::after {
 .vera-marca-sm .vera-nodo {
   fill: currentcolor;
   stroke: none;
+}
+
+/* En el centro del gráfico del recorrido de los datos Vera va sobre el círculo naranja,
+   así que el punto también va en blanco: el naranja sobre naranja se lee como un agujero. */
+.pl-agent-icon .vera-punto {
+  fill: #fff;
 }
 
 /* El avatar para los chats: recorte circular, todo en blanco sobre el naranja */

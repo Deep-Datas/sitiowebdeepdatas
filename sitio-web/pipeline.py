@@ -1,4 +1,4 @@
-"""Contenido y geometría del gráfico «Del dato disperso al agente de IA».
+"""Contenido y geometría del gráfico «Del dato disperso a Vera».
 
 El gráfico de escritorio es un SVG con coordenadas fijas (viewBox); en
 pantallas chicas se muestra una versión apilada en HTML con el mismo
@@ -40,13 +40,13 @@ STEPS_ES = [
      'Organizamos la información en un modelo de datos documentado, con permisos y trazabilidad: listo para tableros y para la IA.'),
 ]
 
-AGENT_ES = ('agente', 'robot', 'Agente de IA', 'Consume datos confiables',
-         'Un agente de inteligencia artificial conectado a datos curados responde con precisión, sin inventar números: '
-         'consulta, cruza y analiza la información de toda la empresa en segundos.')
+AGENT_ES = ('agente', 'robot', 'Vera', 'Consume datos confiables',
+         'Vera, la asistente de IA, trabaja sobre datos curados: responde con precisión, sin inventar números, '
+         'y consulta, cruza y analiza la información de toda la empresa en segundos.')
 
 OUTPUTS_ES = [
     ('respuestas', 'chat-dots', 'Respuestas', 'En lenguaje natural',
-     '«¿Cuánto vendimos en el norte este mes?» El agente responde al instante, con datos verificables.'),
+     '«¿Cuánto vendimos en el norte este mes?» Vera responde al instante, con datos verificables.'),
     ('pronosticos', 'graph-up-arrow', 'Pronósticos', 'Ventas y demanda',
      'Proyecciones de ventas, demanda y stock para planificar compras y producción con anticipación.'),
     ('alertas', 'bell', 'Alertas', 'Proactivas y a tiempo',
@@ -89,13 +89,13 @@ STEPS_EN = [
      'We organize the information into a documented data model with permissions and lineage: ready for dashboards and for AI.'),
 ]
 
-AGENT_EN = ('agente', 'robot', 'AI agent', 'Runs on trusted data',
-            'An artificial intelligence agent connected to curated data answers accurately, without making up numbers: '
-            'it queries, cross-references and analyzes information from across the company in seconds.')
+AGENT_EN = ('agente', 'robot', 'Vera', 'Runs on trusted data',
+            'Vera, the AI assistant, works on curated data: answers accurately, without making up numbers, '
+            'and queries, cross-references and analyzes information from across the company in seconds.')
 
 OUTPUTS_EN = [
     ('respuestas', 'chat-dots', 'Answers', 'In plain language',
-     '“How much did we sell in the north this month?” The agent answers instantly, with verifiable data.'),
+     '“How much did we sell in the north this month?” Vera answers instantly, with verifiable data.'),
     ('pronosticos', 'graph-up-arrow', 'Forecasts', 'Sales and demand',
      'Sales, demand and inventory projections to plan purchasing and production ahead of time.'),
     ('alertas', 'bell', 'Alerts', 'Proactive and timely',

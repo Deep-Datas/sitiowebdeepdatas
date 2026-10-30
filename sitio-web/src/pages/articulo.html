@@ -6,12 +6,12 @@
   'es': {
     'diagnostico': ('¿Tus datos están listos?', 'En dos semanas relevamos tus fuentes de datos, medimos su calidad y te entregamos una hoja de ruta priorizada.', url('diagnostico'), 'Conocé el diagnóstico de datos'),
     'casos': ('Mirá cómo lo resolvimos', 'Conocé los resultados que obtuvieron empresas que unificaron sus datos con nosotros.', url('casos') if cases else url('ejemplos'), 'Ver casos de éxito' if cases else 'Ver ejemplos de tableros'),
-    'ia': ('Inteligencia artificial con tus datos', 'Agentes de IA que responden consultas, cargan pedidos y anticipan problemas, conectados a datos confiables.', url('ia'), 'Ver soluciones de IA'),
+    'ia': ('Vera, con los datos de tu empresa', 'La asistente de IA que responde consultas, carga pedidos y anticipa problemas, conectada a datos confiables.', url('ia'), 'Conocé a Vera'),
   },
   'en': {
     'diagnostico': ('Is your data ready?', 'In two weeks we map your data sources, measure their quality and hand you a prioritized roadmap.', url('diagnostico'), 'Explore the data assessment'),
     'casos': ('See how we solved it', 'The results companies got after bringing their data together with us.', url('casos') if cases else url('ejemplos'), 'Read the case studies' if cases else 'See sample dashboards'),
-    'ia': ('AI with your own data', 'AI agents that answer questions, enter orders and flag problems, connected to reliable data.', url('ia'), 'See AI solutions'),
+    'ia': ('Vera, with your own company data', 'The AI assistant that answers questions, enters orders and flags problems, connected to reliable data.', url('ia'), 'Meet Vera'),
   },
 } %}
 {% set cta_box = ctas[lang][post.cta] %}

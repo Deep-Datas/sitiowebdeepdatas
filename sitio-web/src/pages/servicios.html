@@ -2,6 +2,10 @@
 {% import 'pipeline.html' as pipeline_chart with context %}
 {% import 'plans.html' as plans with context %}
 
+{# Los cinco servicios. Vera va al final porque es lo que los otros cuatro hacen posible:
+   sin datos integrados y curados, la asistente responde mal. La esfera de vidrio es el
+   objeto con el que el sitio viene representando a Vera (el núcleo de la portada y el
+   centro del gráfico del recorrido), así que los tableros pasan al anillo. #}
 {% set services = [
   {
     'id': 'ingenieria', 'num': '01', 'icon': 'hdd-network', 'glass': 'cubo', 'short': 'Ingeniería', 'case': 'distribuidores',
@@ -40,7 +44,7 @@
     'outcome': 'Indicadores que muestran dónde actuar y pronósticos para decidir antes.',
   },
   {
-    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line', 'glass': 'esfera', 'short': 'Tableros', 'case': 'distribuidores',
+    'id': 'tableros', 'num': '04', 'icon': 'bar-chart-line', 'glass': 'anillo', 'short': 'Tableros', 'case': 'distribuidores',
     'title': 'Tableros de gestión',
     'lead': 'Tableros para cada área, desde la dirección hasta el equipo comercial, con la información clave a un clic.',
     'includes': [
@@ -50,6 +54,20 @@
       'Capacitación a usuarios y documentación',
     ],
     'outcome': 'Cada persona ve lo que necesita para decidir, actualizado y desde cualquier dispositivo.',
+    'more': ('/ejemplos/', 'Ver tableros de ejemplo'),
+  },
+  {
+    'id': 'vera', 'num': '05', 'icon': 'chat-dots', 'glass': 'esfera', 'short': 'Vera', 'case': None,
+    'title': 'Vera, la asistente de IA',
+    'lead': 'La asistente que trabaja con tus datos ya curados: le escribís por WhatsApp o Teams como a una persona del equipo y te responde al instante, con la fuente de cada número.',
+    'includes': [
+      'Consultas en lenguaje natural sobre ventas, stock, clientes y objetivos',
+      'Alertas con contexto antes de un quiebre de stock o una caída de ventas',
+      'Carga automática de los pedidos que llegan por WhatsApp o email',
+      'Permisos por rol: cada persona pregunta solo por lo que le corresponde',
+    ],
+    'outcome': 'Las preguntas de todos los días se responden solas, con datos trazables y sin armar un reporte.',
+    'more': ('/inteligencia-artificial/', 'Conocé a Vera'),
   },
 ] %}
 
@@ -59,7 +77,7 @@
   <div class="container">
     <p class="eyebrow">Servicios</p>
     <h1>Un solo equipo para todo el ciclo de vida de tus datos</h1>
-    <p class="lead">Integramos, limpiamos y analizamos tus datos. Contratá el recorrido completo o solo la etapa que necesitás.</p>
+    <p class="lead">Integramos, limpiamos y analizamos tus datos: es el trabajo que sostiene a Vera y a tus tableros. Contratá el recorrido completo o solo la etapa que necesitás.</p>
     <nav class="pill-nav" aria-label="Servicios">
       {% for s in services %}
       <a href="#{{ s.id }}">{{ s.short }}</a>
@@ -87,10 +105,11 @@
         </ul>
         <p class="outcome"><span class="label">Resultado</span>{{ s.outcome }}</p>
         {% set related = cases | selectattr('id', 'eq', s.case) | list if s.case else [] %}
-        {% if related or s.id == 'tableros' %}
+        {% set more = s.get('more') %}
+        {% if related or more %}
         <p class="service-links">
           {% if related %}<a class="link-arrow" href="/casos/#{{ s.case }}">Caso relacionado {{ icon('arrow-right') }}</a>{% endif %}
-          {% if s.id == 'tableros' %}<a class="link-arrow" href="/ejemplos/">Ver tableros de ejemplo {{ icon('arrow-right') }}</a>{% endif %}
+          {% if more %}<a class="link-arrow" href="{{ more[0] }}">{{ more[1] }} {{ icon('arrow-right') }}</a>{% endif %}
         </p>
         {% endif %}
       </div>
@@ -110,7 +129,7 @@
       <li><span class="label">01</span><h3>Ver qué pasó</h3><p>Indicadores estándar en un solo tablero.</p></li>
       <li><span class="label">02</span><h3>Entender por qué</h3><p>Indicadores propios de tu negocio.</p></li>
       <li><span class="label">03</span><h3>Anticipar</h3><p>Modelos que predicen la demanda y las bajas de clientes.</p></li>
-      <li class="maturity-top"><span class="label">04 · Lo que viste en el inicio</span><h3>Saber qué hacer</h3><p>Recomendaciones con IA sobre tus datos.</p></li>
+      <li class="maturity-top"><span class="label">04 · Vera</span><h3>Saber qué hacer</h3><p>Vera responde, avisa y recomienda sobre tus datos.</p></li>
     </ol>
     <p class="section-foot"><a class="link-arrow" href="/autoevaluacion/">¿Dónde está tu empresa hoy? Averigualo en 2 minutos con la autoevaluación {{ icon('arrow-right') }}</a></p>
   </div>
@@ -132,13 +151,13 @@
 <section class="section section-dark section-pipeline" aria-labelledby="pipeline-title">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow eyebrow-light">Datos listos para la inteligencia artificial</p>
-      <h2 id="pipeline-title">Cómo preparamos tus datos para que la IA trabaje con ellos</h2>
-      <p>Nuestros servicios de ingeniería y calidad de datos son la base de cualquier proyecto de inteligencia artificial: conectamos tus fuentes, curamos la información y la dejamos ordenada para que un agente de IA responda, pronostique y automatice con datos confiables.</p>
+      <p class="eyebrow eyebrow-light">Los datos que Vera necesita</p>
+      <h2 id="pipeline-title">Cómo preparamos tus datos para que Vera trabaje con ellos</h2>
+      <p>Nuestros servicios de ingeniería y calidad de datos son la base de todo: conectamos tus fuentes, curamos la información y la dejamos ordenada para que Vera responda, pronostique y automatice con datos confiables, diciendo de dónde sale cada número.</p>
     </div>
     {{ pipeline_chart.diagram() }}
     <div class="pl-cta">
-      <a class="btn btn-primary btn-lg" href="/inteligencia-artificial/">Ver soluciones de IA para empresas {{ icon('arrow-right') }}</a>
+      <a class="btn btn-primary btn-lg" href="/inteligencia-artificial/">Conocé a Vera {{ icon('arrow-right') }}</a>
     </div>
   </div>
 </section>

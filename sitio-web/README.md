@@ -46,7 +46,7 @@ src/mapa.html            El mapa de la oficina: la imagen del barrio y el de Goo
 src/hero.html            Portada del inicio: la pregunta en voz alta, con tres preguntas que se eligen, y la red de cinco sistemas que se unen en un núcleo (textos en los dos idiomas)
 src/icons/               Íconos SVG (Bootstrap Icons, licencia MIT)
 src/assets/              CSS, JavaScript, tipografías e imágenes
-tools/                   Generadores de imágenes y video: íconos de vidrio, la imagen del cierre de cada página (nucleo.cjs), la foto que usaba la portada vieja —revelado y agrandado— (portada_foto.py, a partir de tools/hero/portada-original.webp, hoy sin uso), la imagen del mapa de la oficina (mapa.py) y el control del camino de publicación de casos y testimonios (probar_publicacion.py), el control de la portada del inicio (probar_portada.cjs), la foto retocada de otra oficina (hero_foto.py, hoy sin uso) y el video del asistente de la página de IA (video/)
+tools/                   Generadores de imágenes y video: íconos de vidrio, la imagen del cierre de cada página (nucleo.cjs), la foto que usaba la portada vieja —revelado y agrandado— (portada_foto.py, a partir de tools/hero/portada-original.webp, hoy sin uso), la imagen del mapa de la oficina (mapa.py) y el control del camino de publicación de casos y testimonios (probar_publicacion.py), el control de la portada del inicio (probar_portada.cjs), el control de todo el sitio página por página (probar_sitio.cjs), la foto retocada de otra oficina (hero_foto.py, hoy sin uso) y el video del asistente de la página de IA (video/)
 src/staticwebapp.config.json  Seguridad, caché, página 404 y redirecciones
 public/                  Sitio generado: es lo que se publica (no editar a mano)
 api/contacto/            Función que recibe el formulario y envía el correo
@@ -212,12 +212,15 @@ Las secciones claras (marfil) cuentan la historia del negocio y las «profundas�
 
 ## Vera, la asistente
 
-El asistente de IA tiene nombre, cara y voz propia: **Vera**. Su marca son **dos fuentes que convergen en un solo punto** —muchos sistemas, una sola respuesta verificada—, que es exactamente lo que cuenta el resto del sitio; el punto de abajo va en el naranja de la marca.
+**Vera es el producto que vende el sitio.** La asistente de IA tiene nombre, cara y voz propia, y los cuatro servicios de datos son lo que la hace posible: sin fuentes integradas y curadas, Vera responde mal. Ese es el argumento de todo el sitio, y en ese orden. Su marca son **dos fuentes que convergen en un solo punto** —muchos sistemas, una sola respuesta verificada—; el punto de abajo va en el naranja de la marca.
 
-- **`src/vera.html`** tiene el isotipo (`vera.marca()`), el avatar circular para los chats (`vera.avatar()`) y los textos de su sección en los dos idiomas. Los estilos, en `design.css` (`.vera-*`).
-- **Dónde aparece**: el nombre en la barra de estado de la tablet de la portada y en su texto; la sección del inicio «Conocé a Vera» (la que antes era «La IA en el bolsillo»), con su avatar en las tres pantallas del teléfono; el agente del recorrido de la pregunta (`src/flow.html`); la página de IA, que pasa a ser la de Vera; y el video del asistente.
+- **`src/vera.html`** tiene el isotipo (`vera.marca()`), el avatar circular para los chats (`vera.avatar()`), la marca para dibujar dentro de otro SVG (`vera.dibujo(x, y, tamaño)`) y los textos de su sección en los dos idiomas. Los estilos, en `design.css` (`.vera-*`).
+- **Dónde aparece.** En el menú y el pie de todas las páginas, y en el llamado final, que es el mismo en todo el sitio. Después, en el contenido: la portada del inicio (el nombre en la tablet y en el texto), la sección «Conocé a Vera» del inicio con su avatar en las tres pantallas del teléfono, el recorrido de la pregunta (`src/flow.html`), el centro del gráfico del recorrido de los datos (`src/pipeline.html`, donde reemplazó a un ícono genérico de robot), **Servicios** como quinto servicio, **Nosotros** con su propia sección, el **diagnóstico** y la **autoevaluación** (que miden si los datos están listos para ella), **Casos** y **Ejemplos** con una franja que explica qué habilita esa base, el **tablero de ventas** como tercera versión, las **ocho páginas de industria**, el formulario de contacto y el cierre de los artículos del blog. La página de IA (`/inteligencia-artificial/`) es su página: se le dejó la dirección por lo que ya está indexado.
+- **Los casos de éxito no la mencionan retroactivamente.** Son proyectos reales anteriores a Vera: la franja del final dice qué habilita la base que dejaron, que es otra cosa que decir que la usaron.
+- **Los artículos del blog siguen hablando de «agentes de IA» en general**, y está bien: son notas con su propio argumento, y algunas tratan justamente del tema en abstracto. El control de `tools/probar_sitio.cjs` las deja afuera a propósito.
 - **No se usa el logotipo «vera» en Sora** del manual de marca: sumar una sexta tipografía para una sola palabra no se paga sola, así que el nombre va en Geist, la tipografía de títulos del sitio. Si alguna vez se quiere el logotipo exacto, hay que sumar Sora y medir lo que pesa.
-- **En chico** (favicon, 20 px) el isotipo lleva `vera-marca-sm`: nodos rellenos y trazo más grueso, porque si no se empasta.
+- **En inglés no se le pone pronombre.** Se repite el nombre o se dice «the assistant»: elegirle un género en inglés es una decisión de marca que no está tomada.
+- **En chico** (favicon, 20 px) el isotipo lleva `vera-marca-sm`: nodos rellenos y trazo más grueso, porque si no se empasta. En grande, `vera-marca-lg`.
 
 ## Imagen para compartir en redes
 
@@ -258,6 +261,20 @@ Cada testimonio publicado aparece en la sección «Lo que dicen nuestros cliente
 **La traducción al inglés es opcional.** Un testimonio completo en español se publica igual: en la versión en inglés se muestra la cita en su idioma original, marcada como «Traducida del español» cuando sí hay traducción y con `lang="es"` cuando no la hay. Se puede traducir solo una parte (por ejemplo el cargo y la empresa, pero no la cita): lo que quede en `[completar]` cuenta como «todavía no traducido» y no se muestra.
 
 Ese camino solo corre el día que se publica algo, así que puede romperse sin que nadie lo note. `python tools/probar_publicacion.py` lo ejercita con datos de mentira en memoria —sin tocar los reales ni escribir nada— y controla que la puerta de publicación, la traducción opcional y el aviso de qué falta sigan funcionando. Conviene correrlo después de tocar `testimonios.py` o `casos.py`.
+
+## Controles
+
+Tres, de menos a más caro. Los tres necesitan `python3 build.py` antes, porque miran `public/`.
+
+```
+python3 tools/probar_publicacion.py   # casos y testimonios, en memoria: segundos
+node tools/probar_portada.cjs         # la portada del inicio, en detalle: ~1 minuto
+node tools/probar_sitio.cjs           # las 59 páginas, escritorio y celular: ~10 minutos
+```
+
+`probar_sitio.cjs` sirve `public/` **con la política de seguridad de producción puesta** y recorre cada dirección del sitemap, bajando de a una ventana para que se disparen las animaciones de entrada. Controla que **Vera esté nombrada en el contenido** de cada página comercial (no solo en el menú y el pie, que la nombran siempre), que no haya quedado texto hablando de «un agente de IA» donde ahora va su nombre, el contraste de cada texto contra el color que de verdad tiene detrás, las zonas para tocar de 24 × 24, que no aparezca scroll horizontal, que la consola no tenga errores —sobre todo bloqueos de la política de seguridad— y que ningún enlace interno lleve a una página que no existe.
+
+Dos detalles que le costaron encontrar: el fondo real se averigua preguntándole al navegador qué hay pintado en ese punto (`elementsFromPoint`) y no subiendo por el árbol, porque un rótulo puede ser hijo de una barra de color y dibujarse arriba de ella; y el navegador devuelve los `color-mix` como `color(srgb 1 0.96 0.95)`, con componentes de 0 a 1, que leídos como si fueran de 0 a 255 dan casi negro y acusan contrastes falsos. Donde hay un degradado o una foto detrás, el color no se puede deducir y ese texto no se mide: queda para el ojo humano.
 
 ## Industrias
 

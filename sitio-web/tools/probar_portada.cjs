@@ -58,7 +58,15 @@ const controlar = (q, ok) => { if (!ok) fallas.push(q); };
       const malos = await page.evaluate(() => {
         const lin = c => { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
         const lum = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
-        const rgb = s => { const m = s.match(/[\d.]+/g); return m ? m.slice(0, 3).map(Number).concat(m[3] === undefined ? 1 : +m[3]) : null; };
+        // rgb(), rgba() y también color(srgb 1 0.96 0.95), que es como el navegador
+        // devuelve un color-mix: ahí los componentes van de 0 a 1, no de 0 a 255.
+        const rgb = s => {
+          const m = s && s.match(/[\d.]+/g);
+          if (!m) return null;
+          const v = m.map(Number);
+          if (s.startsWith('color(')) return [v[0] * 255, v[1] * 255, v[2] * 255, v[3] === undefined ? 1 : v[3]];
+          return v.slice(0, 3).concat(v[3] === undefined ? 1 : v[3]);
+        };
         const sobre = (fr, de) => fr[3] >= 1 ? fr.slice(0, 3) : fr.slice(0, 3).map((c, i) => c * fr[3] + de[i] * (1 - fr[3]));
         function fondo(el) {
           let n = el, pila = [];
