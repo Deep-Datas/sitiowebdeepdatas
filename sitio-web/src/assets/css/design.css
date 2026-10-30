@@ -1572,6 +1572,9 @@ html:not(.motion) .phone-view:first-child {
   position: relative;
   z-index: 1;
   display: grid;
+  /* Mitad y mitad: la derecha necesita todo lo que tiene para que las cinco pastillas
+     entren en una fila, que en inglés miden 535 px. Angostarla las parte en dos renglones
+     y se pierde la idea de «uno al lado del otro». */
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   column-gap: clamp(22px, 3vw, 52px);
@@ -1587,9 +1590,12 @@ html:not(.motion) .phone-view:first-child {
   margin-bottom: clamp(14px, 2vh, 22px);
 }
 
+/* Un 50% más grande que el resto de los títulos del sitio: es la primera frase que se lee
+   y es la idea entera, así que manda ella */
 .vz-copy h1 {
-  margin-bottom: 0.66em;
-  font-size: clamp(2rem, 1.35rem + 2.1vw, 2.95rem);
+  margin-bottom: 0.52em;
+  font-size: clamp(3rem, 2.03rem + 3.15vw, 4.43rem);
+  letter-spacing: -0.035em;
 }
 
 /* La frase en bastardilla es la otra mitad de la idea: arranca en su propio renglón */
@@ -1815,20 +1821,24 @@ html:not(.motion) .phone-view:first-child {
   }
 
   /* La cadena entera ocupa la columna derecha —tablet, núcleo y fuentes, de arriba hacia
-     abajo— y el título ocupa la izquierda a lo alto de las dos filas. */
+     abajo— y el título ocupa la izquierda a lo alto de las dos filas.
+     Las dos columnas cierran abajo, no al medio: así los botones y la fila de fuentes
+     terminan en la misma línea sin depender del largo del título, que cambia con el
+     idioma. Es la única forma de que queden a la misma altura en los dos. */
   .vz-copy {
     grid-row: 1 / 3;
+    align-self: end;
   }
 
   .vz-net {
     grid-column: 2;
   }
 
-  /* El núcleo sube tres centímetros para acercarse a la respuesta. Va en el transform y no
-     en el margen: así no se lleva a las fuentes con él ni cambia el alto de la portada.
-     Las curvas lo siguen solas, porque design.js mide con getBoundingClientRect. */
-  .vz-mid {
-    transform: translateY(-3cm);
+  /* El núcleo y las fuentes suben juntos para pegarse a la respuesta y quedar a la altura
+     de los botones de la izquierda. Va en el margen y no en el transform: así la fila se
+     achica con ellos y no queda un hueco al pie de la portada. */
+  .vz-net {
+    margin-top: -3cm;
   }
 
   /* La pantalla es chica: la letra de adentro acompaña */
@@ -2200,7 +2210,7 @@ html.motion .is-live .vz-mic::after {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(12px, 2vh, 24px);
+  gap: clamp(12px, 1.8vh, 22px);
 }
 
 .vz-net[hidden] {
@@ -2278,7 +2288,7 @@ html.motion .is-live .vz-mic::after {
 /* El núcleo, entre las fuentes y la respuesta */
 .vz-mid {
   position: relative;
-  width: clamp(150px, 19vw, 206px);
+  width: clamp(140px, 17vw, 190px);
 }
 
 .vz-core {
@@ -2287,9 +2297,12 @@ html.motion .is-live .vz-mic::after {
   aspect-ratio: 1;
 }
 
+/* El rótulo se mete dentro de la caja del canvas, que abajo está vacía: así queda pegado a
+   la esfera y no flotando entre ella y el rótulo de las fuentes, que es como se leían los
+   dos como un bloque de texto gris */
 .vz-node {
   display: block;
-  margin-top: -2px;
+  margin-top: -18px;
   color: var(--fg-2);
   font-size: 0.8rem;
   text-align: center;
@@ -2320,6 +2333,12 @@ html.motion .is-live .vz-mic::after {
    renglones. Achicarlas un punto las devuelve a una sola fila, que es lo que cuenta la
    idea: cinco sistemas, uno al lado del otro, entrando a un mismo núcleo. */
 @media (min-width: 901px) and (max-width: 1150px) {
+  /* La columna es más angosta, la tablet más alta y queda menos lugar entre ella y los
+     botones: la cadena sube menos */
+  .vz-net {
+    margin-top: -1.8cm;
+  }
+
   .vz-srcs {
     gap: 6px;
   }
@@ -2370,10 +2389,13 @@ html.motion .is-live .vz-mic::after {
     height: 12px;
   }
 
-  /* Hay menos alto para repartir: el núcleo sube menos, si no se mete en la tablet */
+  /* Hay menos alto para repartir: la cadena sube menos, si no se mete en la tablet */
   .vz-mid {
     width: clamp(132px, 15vw, 176px);
-    transform: translateY(-1.4cm);
+  }
+
+  .vz-net {
+    margin-top: -1.5cm;
   }
 }
 
