@@ -3,11 +3,11 @@
 
 {% set use_cases = [
   ('chat-dots', 'Consultas a tus indicadores',
-   'Preguntá en lenguaje natural «¿cuánto le compro a mi proveedor según la demanda estimada?» o «¿qué cliente dejó de comprar?» y recibí el dato al instante, con la fuente de donde sale.'),
+   'Preguntale a Vera en lenguaje natural «¿cuánto le compro a mi proveedor según la demanda estimada?» o «¿qué cliente dejó de comprar?» y recibí el dato al instante, con la fuente de donde sale.'),
   ('whatsapp', 'Tus números en WhatsApp o Teams',
    'El equipo comercial consulta ventas, stock y objetivos desde el celular, en la misma aplicación que ya usa todos los días.'),
   ('inboxes', 'Pedidos automáticos',
-   'El agente lee los pedidos que llegan por WhatsApp o email en texto libre, los carga en tu sistema y avisa si falta algún dato.'),
+   'Vera lee los pedidos que llegan por WhatsApp o email en texto libre, los carga en tu sistema y avisa si falta algún dato.'),
   ('bell', 'Alertas con contexto',
    'Detecta desvíos en ventas, stock o cobranzas y te avisa explicando qué pasó y a quién afecta, antes de que el problema crezca.'),
   ('graph-up-arrow', 'Pronósticos y recomendaciones',
@@ -55,9 +55,9 @@
 <section class="page-hero ai-hero">
   <div class="container">
     <div>
-      <p class="eyebrow">IA para empresas</p>
-      <h1>Agentes de IA que trabajan con los datos de tu empresa</h1>
-      <p class="lead">Preguntale a tus datos como a un analista: ventas, stock, clientes y pedidos, respondidos al instante con información confiable.</p>
+      <p class="eyebrow">Vera · asistente de IA</p>
+      <h1>Vera, la asistente de IA que trabaja con los datos de tu empresa</h1>
+      <p class="lead">Le preguntás por WhatsApp o Teams como a una persona del equipo —ventas, stock, clientes, pedidos— y te responde al instante, diciendo de dónde sale cada número.</p>
       <div class="actions">
         <a class="btn btn-primary btn-lg" {{ booking_link('ia') }}>Evaluar un piloto con mis datos {{ icon('arrow-right') }}</a>
         <a class="text-link-quiet" href="{{ whatsapp(page.nav) }}" target="_blank" rel="noopener noreferrer">{{ icon('whatsapp') }} o escribinos por WhatsApp</a>
@@ -168,5 +168,5 @@
 </section>
 {% endblock %}
 
-{% block cta_title %}Probá un agente de IA <em>con tus datos.</em>{% endblock %}
+{% block cta_title %}Probá a Vera <em>con tus datos.</em>{% endblock %}
 {% block cta_text %}En una llamada te mostramos qué preguntas podría responder un agente en tu empresa.{% endblock %}

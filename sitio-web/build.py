@@ -47,8 +47,8 @@ PAGES = [
     },
     {
         'template': 'inteligencia-artificial.html', 'key': 'ia', 'path': '/inteligencia-artificial/', 'nav': 'ia',
-        'title': 'Agentes de IA con los datos de tu empresa | DeepDatas',
-        'description': 'Agentes de IA conectados a los datos de tu empresa: consultá tus indicadores, recibí tus números en WhatsApp o Teams, y sumá alertas y pronósticos.',
+        'title': 'Vera: asistente de IA con los datos de tu empresa',
+        'description': 'Vera es la asistente de IA conectada a los datos de tu empresa: consultá tus indicadores por WhatsApp o Teams, con la fuente de cada número.',
     },
     {
         'template': 'diagnostico.html', 'key': 'diagnostico', 'path': '/diagnostico/', 'nav': 'diagnostico',
@@ -116,8 +116,8 @@ PAGES_EN = [
     },
     {
         'template': 'en/inteligencia-artificial.html', 'key': 'ia', 'nav': 'ia',
-        'title': 'AI agents connected to your company data | DeepDatas',
-        'description': 'AI agents connected to your company data: ask about your KPIs, get your numbers on WhatsApp or Teams, and add alerts and forecasts.',
+        'title': 'Vera: the AI assistant for your company data',
+        'description': 'Vera is the AI assistant connected to your company data: ask about your KPIs on WhatsApp or Teams, with the source of every number.',
     },
     {
         'template': 'en/diagnostico.html', 'key': 'diagnostico', 'nav': 'diagnostico',

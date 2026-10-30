@@ -1607,18 +1607,18 @@ html:not(.motion) .phone-view:first-child {
      centrada, que es como se ve un aparato apoyado en una mesa */
   max-width: 544px;
   margin-inline: auto;
-  padding-bottom: 96px;
+  padding-bottom: 92px;
   perspective: 1900px;
   perspective-origin: 50% 44%;
 }
 
-/* El giro: el canto izquierdo se acerca y el derecho se va para atrás, como en la foto.
-   Poco, y con mucha distancia de cámara: adentro hay texto y botones de verdad, y pasarse
-   de ángulo los deja borrosos y más difíciles de tocar. */
+/* El giro: el canto derecho se acerca y el izquierdo se va para atrás, así la tablet
+   «mira» hacia el texto. Poco ángulo y con mucha distancia de cámara: adentro hay texto y
+   botones de verdad, y pasarse los deja borrosos y más difíciles de tocar. */
 .vz-dispositivo {
   position: relative;
   z-index: 2;
-  transform: rotateY(9deg) rotateX(1.5deg);
+  transform: rotateY(-9deg) rotateX(1.5deg);
   transform-origin: 50% 96%;
 }
 
@@ -1798,6 +1798,14 @@ html:not(.motion) .phone-view:first-child {
   /* Los dos botones entran en un renglón sin achicar la letra */
   .vz-copy .btn-lg {
     padding-inline: 19px;
+  }
+
+  /* La escena baja dos centímetros y se achica un 10%. Las dos cosas van en el transform:
+     el desplazamiento, para no mover al resto de la maqueta, y la escala, porque achicar
+     el ancho a secas haría que los textos de adentro se partan en más renglones y la
+     pantalla dejaría de ser apaisada. Así se achica todo junto, letras incluidas. */
+  .vz-escena {
+    transform: translateY(2cm) scale(0.9);
   }
 
   /* La pantalla es chica: la letra de adentro acompaña */
@@ -2402,6 +2410,69 @@ html.motion .is-live .vz-mic::after {
   .vz-wave {
     transition: none;
   }
+}
+
+/* ---------- Vera: la marca de la asistente (src/vera.html) ----------
+   Dos fuentes que convergen en un solo punto: muchos sistemas, una sola respuesta. Los
+   rayos y los nodos toman el color del texto donde estén; el punto de abajo es el naranja
+   de la marca. En chico los nodos se rellenan y el trazo engorda, si no se empasta. */
+.vera-marca {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.vera-rayo {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 6.5;
+  stroke-linecap: round;
+}
+
+.vera-nodo {
+  fill: var(--surface);
+  stroke: currentcolor;
+  stroke-width: 3.5;
+}
+
+.vera-punto {
+  fill: var(--accent-600);
+}
+
+.vera-marca-sm .vera-rayo {
+  stroke-width: 8.5;
+}
+
+.vera-marca-sm .vera-nodo {
+  fill: currentcolor;
+  stroke: none;
+}
+
+/* El avatar para los chats: recorte circular, todo en blanco sobre el naranja */
+.vera-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent-600);
+}
+
+.vera-avatar svg {
+  width: 62%;
+  height: 62%;
+}
+
+.vera-avatar .vera-rayo {
+  stroke: #fff;
+  stroke-width: 7.5;
+}
+
+.vera-avatar .vera-nodo,
+.vera-avatar .vera-punto {
+  fill: #fff;
+  stroke: none;
 }
 
 /* ---------- Cadena de cuatro pasos (inicio): Integrar, Curar, Modelar, Recomendar ----------

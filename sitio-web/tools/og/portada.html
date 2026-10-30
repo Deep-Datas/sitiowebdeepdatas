@@ -1,0 +1,134 @@
+<!doctype html>
+<!-- La imagen que se ve cuando alguien comparte el sitio (1200 x 630).
+     Se dibuja acá y se captura con tools/og/render.cjs; no es una captura del inicio.
+     ?tema=claro|oscuro y ?lang=es|en. -->
+<html lang="es"><head><meta charset="utf-8">
+<style>
+@font-face { font-family: "Inter"; src: url("/assets/fonts/inter-latin.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist"; src: url("/assets/fonts/geist-latin.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist Mono"; src: url("/assets/fonts/geist-mono-latin.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Instrument Serif"; src: url("/assets/fonts/instrument-serif-italic-latin.woff2") format("woff2"); font-style: italic; }
+
+html, body { margin: 0; }
+body {
+  width: 1200px; height: 630px; overflow: hidden; position: relative;
+  box-sizing: border-box; padding: 40px 72px;
+  display: flex; flex-direction: column;
+  font-family: "Inter", sans-serif;
+  background: var(--bg); color: var(--tinta);
+}
+body[data-tema="claro"] {
+  --bg: #fafaf8; --panel: #fff; --tinta: #0b1220; --suave: #4b5466; --tenue: #626b7f;
+  --filete: rgba(11, 18, 32, .1); --rayo: rgba(11, 18, 32, .022); --acento: #e4581c; --acento-tx: #b5420e;
+  --sombra: 0 24px 54px -30px rgba(11, 18, 32, .45);
+}
+body[data-tema="oscuro"] {
+  --bg: #07090e; --panel: #0f131c; --tinta: #f2f3f6; --suave: #b3bccb; --tenue: #8590a3;
+  --filete: rgba(255, 255, 255, .12); --rayo: rgba(255, 255, 255, .028); --acento: #ff7a45; --acento-tx: #ff9a6e;
+  --sombra: none;
+}
+
+/* El abanico de rayos del fondo, apenas insinuado */
+.rayos { position: absolute; inset: -40% -10% auto; height: 150%; pointer-events: none; }
+.rayos i {
+  position: absolute; left: 50%; top: 0; width: 86px; height: 100%;
+  background: var(--rayo); transform-origin: 50% 0;
+}
+.halo {
+  position: absolute; left: 50%; top: -220px; width: 900px; height: 520px; transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--acento) 16%, transparent), transparent 70%);
+  pointer-events: none;
+}
+
+.cabe { position: relative; display: flex; align-items: center; justify-content: space-between; }
+.marca { display: flex; align-items: center; gap: 12px; font-family: "Geist", sans-serif; font-size: 21px; font-weight: 650; letter-spacing: -.01em; }
+.marca img { width: 26px; height: auto; }
+.sitio { font-family: "Geist Mono", monospace; font-size: 15px; color: var(--tenue); }
+
+.centro { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 22px; }
+.ceja { margin: 0; font-family: "Geist Mono", monospace; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--tenue); }
+h1 { margin: 0; font-family: "Geist", sans-serif; font-size: 58px; font-weight: 650; letter-spacing: -.035em; line-height: 1.05; }
+h1 em { display: block; font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -.01em; color: var(--acento-tx); }
+
+.hilo { position: relative; display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 920px; }
+.fila { display: flex; align-items: center; gap: 16px; padding: 16px 26px; border-radius: 999px; background: var(--panel); border: 1px solid var(--filete); box-shadow: var(--sombra); text-align: left; }
+.quien { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; flex: none; font-family: "Geist Mono", monospace; font-size: 14px; font-weight: 700; }
+.yo { background: var(--filete); color: var(--suave); }
+.vera { background: var(--acento); }
+.vera svg { width: 22px; height: 22px; }
+.vera line { stroke: #fff; stroke-width: 7.5; stroke-linecap: round; }
+.vera circle { fill: #fff; }
+.dicho { font-size: 22px; font-weight: 500; }
+.resp { display: flex; flex-direction: column; gap: 3px; }
+.resp b { font-family: "Geist", sans-serif; font-size: 24px; font-weight: 650; letter-spacing: -.02em; }
+.resp small { font-size: 15px; color: var(--tenue); }
+.fuentes { display: flex; gap: 7px; margin-left: auto; flex: none; }
+.fuentes span { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--bg); border: 1px solid var(--filete); font-size: 13px; color: var(--suave); white-space: nowrap; }
+.fuentes i { width: 7px; height: 7px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<div class="rayos" id="rayos"></div>
+<div class="halo"></div>
+
+<div class="cabe">
+  <span class="marca"><img src="/assets/img/brand/logo-mark.png" alt=""> DeepDatas</span>
+  <span class="sitio">deepdatas.com</span>
+</div>
+
+<div class="centro">
+  <p class="ceja" id="ceja"></p>
+  <h1 id="titulo"></h1>
+
+  <div class="hilo">
+    <div class="fila">
+      <span class="quien yo">MG</span>
+      <span class="dicho" id="pregunta"></span>
+    </div>
+    <div class="fila">
+      <span class="quien vera"><svg viewBox="0 0 64 64" aria-hidden="true"><line x1="12" y1="13" x2="29.5" y2="44"></line><line x1="52" y1="13" x2="34.5" y2="44"></line><circle cx="12" cy="13" r="7"></circle><circle cx="52" cy="13" r="7"></circle><circle cx="32" cy="52" r="8.5"></circle></svg></span>
+      <span class="resp"><b id="numero"></b><small id="detalle"></small></span>
+      <span class="fuentes" id="fuentes"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var L = {
+    es: {
+      ceja: 'Vera · asistente de IA para distribuidoras, pymes y consumo masivo',
+      t1: 'Una pregunta. Todos tus sistemas.', t2: 'Una sola respuesta.',
+      q: '¿Cuánto le compro a mi proveedor según la demanda estimada?',
+      n: '820 bultos', d: '18 productos · cubre cuatro semanas',
+      f: [['#0b1220', 'ERP'], ['#0f8f7a', 'Planillas'], ['#e4581c', 'Correo']],
+    },
+    en: {
+      ceja: 'Vera · AI assistant for distributors, SMEs and consumer goods',
+      t1: 'One question. All your systems.', t2: 'One single answer.',
+      q: 'How much should I buy from my supplier for the forecast demand?',
+      n: '820 cases', d: '18 products · covers four weeks',
+      f: [['#0b1220', 'ERP'], ['#0f8f7a', 'Spreadsheets'], ['#e4581c', 'Email']],
+    },
+  };
+  var p = new URLSearchParams(location.search);
+  var T = L[p.get('lang') === 'en' ? 'en' : 'es'];
+  document.documentElement.lang = p.get('lang') === 'en' ? 'en' : 'es';
+  document.body.dataset.tema = p.get('tema') === 'oscuro' ? 'oscuro' : 'claro';
+
+  document.getElementById('ceja').textContent = T.ceja;
+  document.getElementById('titulo').innerHTML = T.t1.replace(/</g, '&lt;') + '<em>' + T.t2.replace(/</g, '&lt;') + '</em>';
+  document.getElementById('pregunta').textContent = T.q;
+  document.getElementById('numero').textContent = T.n;
+  document.getElementById('detalle').textContent = T.d;
+  document.getElementById('fuentes').innerHTML = T.f.map(function (f) {
+    return '<span><i style="background:' + f[0] + '"></i>' + f[1] + '</span>';
+  }).join('');
+
+  // Los rayos del fondo: un abanico desde arriba, como el cierre de las páginas
+  var r = document.getElementById('rayos'), h = '';
+  for (var i = -7; i <= 7; i++) h += '<i style="transform: translateX(-50%) rotate(' + (i * 7) + 'deg)"></i>';
+  r.innerHTML = h;
+})();
+</script>
+</body></html>
