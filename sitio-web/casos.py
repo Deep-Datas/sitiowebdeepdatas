@@ -22,7 +22,7 @@ CASES = [
         'short': 'Red de distribuidores',
         'publicado': True,
         'client': 'Empresa de consumo masivo líder en la comercialización de papas fritas',
-        'logo': None,                       # por ejemplo 'clientes/mccain.png' si el cliente lo autoriza
+        'logo': None,                       # por ejemplo 'clientes/romemi.svg' si el cliente lo autoriza
         'industry': 'Consumo masivo',
         'title': 'Una sola versión de las ventas para toda la red de distribuidores',
         'summary': 'Unificamos las ventas que cada distribuidor informaba en su propia planilla en un tablero que se actualiza solo.',
