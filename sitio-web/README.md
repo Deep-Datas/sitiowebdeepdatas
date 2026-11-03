@@ -188,6 +188,12 @@ Los casos están en `casos.py`. Cada uno tiene `'publicado': False` hasta que se
 
 Con al menos un caso publicado aparecen la página `/casos/`, el ítem «Casos» del menú y la sección de casos del inicio. `build.py` no deja publicar un caso que todavía tenga datos `[completar]`.
 
+### Logos de clientes
+
+La lista está en `src/logos.html` y las imágenes en `src/assets/img/clientes/`. Qué logos muestra cada industria se decide en `industrias.py`; la fila del inicio y la de `/ejemplos/` los muestran todos, y el pie que va debajo (`logos_caption`, en `i18n.py`) tiene que nombrar los rubros que de verdad están representados.
+
+**Un logo se publica solo con autorización del cliente**, igual que un testimonio: es su marca, no la nuestra. En noviembre de 2026 se quitaron los de Kellogg's y McCain y quedó solo Romemi; si alguno vuelve, que sea con el permiso en la mano. La página de una industria sin logos esconde sola la franja «Trabajamos con» (`{% if ind.logos %}`), así que sacar uno no deja un hueco.
+
 ## Diseño 2026: «luz sobre los datos»
 
 Las secciones claras (marfil) cuentan la historia del negocio y las «profundas» (azul noche, `section-deep`) muestran dónde viven los datos, con el naranja de la marca y una luz azul como fuentes de luz. Los estilos del rediseño están en `src/assets/css/design.css` (se carga después de `site.css`) y sus interacciones en `src/assets/js/design.js`:

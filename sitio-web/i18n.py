@@ -156,7 +156,7 @@ UI = {
         'testimonials_title': 'Lo que dicen nuestros clientes',
         'testimonial_video': 'Ver el video',
         'testimonial_translated': '',
-        'logos_caption': 'Consumo masivo · Distribución · Materiales eléctricos',
+        'logos_caption': 'Distribución · Materiales eléctricos',
         # Tableros de ejemplo
         'charts': {
             'see_data': 'Ver datos',
@@ -283,7 +283,7 @@ UI = {
         'testimonials_title': 'What our clients say',
         'testimonial_video': 'Watch the video',
         'testimonial_translated': 'Translated from Spanish',
-        'logos_caption': 'Consumer goods · Distribution · Electrical supplies',
+        'logos_caption': 'Distribution · Electrical supplies',
         'charts': {
             'see_data': 'View data',
             'chart_label': '{title}. Details are in the data table.',

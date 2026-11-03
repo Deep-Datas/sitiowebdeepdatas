@@ -54,7 +54,7 @@ LABELS = {
 # notas del blog, que se muestran solo en español)
 COMMON = {
     'consumo': {'icon': 'cart3', 'cases': ['distribuidores', 'cobertura'], 'example': 'cobertura',
-                'logos': ['kelloggs', 'mccain'],
+                'logos': [],
                 'posts': ['unificar-ventas-de-distribuidores', 'cobertura-y-venta-cruzada', 'kpis-comerciales']},
     'distribucion': {'icon': 'truck', 'cases': ['pronostico'], 'example': 'pronostico',
                      'logos': ['romemi'],
